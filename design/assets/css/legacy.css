@@ -1,35 +1,5 @@
 /* Блоки, ещё не переработанные. Каждый переезжает в blocks/<блок>.css по мере работы. */
 
-/* ===== REVIEWS ===== */
-.review-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
-.review-card{
-  background:#f4f6fa; border:1px solid #e6eaf1; border-radius:18px; padding:28px;
-}
-.review-card .stars{ color:#ffb020; font-size:15px; margin-bottom:14px; }
-.review-card p{ font-size:14.5px; color:var(--ink-soft); line-height:1.7; margin-bottom:22px; min-height:110px;}
-.review-who{ display:flex; align-items:center; gap:12px; }
-.review-avatar{
-  width:44px; height:44px; border-radius:50%;
-  background:var(--grad); color:#fff; font-weight:800; font-size:15px;
-  display:flex; align-items:center; justify-content:center; flex-shrink:0;
-}
-.review-who b{ display:block; font-size:14.5px; }
-.review-who span{ font-size:12.5px; color:var(--ink-soft); }
-
-.platform-grid{
-  display:grid; grid-template-columns:repeat(6,1fr); gap:16px; margin-bottom:32px;
-}
-.platform-card{
-  background:#fff; border:2.5px solid var(--blue-500); border-radius:16px;
-  padding:20px 14px; text-align:center; transition:.2s;
-}
-.platform-card:hover{ box-shadow:var(--shadow); border-color:var(--blue-600); transform:translateY(-4px); }
-.platform-card .p-logo{ height:34px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
-.platform-card .p-logo img{ max-height:34px; max-width:100%; width:auto; object-fit:contain; }
-.platform-card .p-stars{ color:#ffb020; font-size:14px; letter-spacing:1px; margin-bottom:6px; }
-.platform-card .p-score{ font-size:19px; font-weight:800; color:var(--ink); }
-.platform-card .p-score span{ font-size:12px; font-weight:600; color:var(--ink-soft); }
-
 /* ===== PROMO ===== */
 .promo-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
 .promo-card{
@@ -148,8 +118,6 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1080px){
-  .review-grid{ grid-template-columns:repeat(2,1fr);}
-  .platform-grid{ grid-template-columns:repeat(3,1fr); }
   .promo-grid{ grid-template-columns:repeat(2,1fr);}
   .contact-grid{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr 1fr; }
@@ -160,8 +128,6 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
   .faq-outer{ padding:clamp(28px,5vw,44px) 0; }
 
   /* ---- Grids to single/double column ---- */
-  .review-grid{ grid-template-columns:1fr; }
-  .platform-grid{ grid-template-columns:repeat(3,1fr); gap:10px; }
   .promo-grid{ grid-template-columns:1fr; }
   .faq-grid{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr 1fr; }
@@ -173,6 +139,5 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
 
 @media (max-width: 560px){
   .faq-section{ margin:0 10px; border-radius:18px; }
-  .platform-grid{ grid-template-columns:repeat(2,1fr); }
   .footer-grid{ grid-template-columns:1fr; }
 }
