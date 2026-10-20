@@ -1,20 +1,5 @@
 /* Блоки, ещё не переработанные. Каждый переезжает в blocks/<блок>.css по мере работы. */
 
-/* ===== PROMO ===== */
-.promo-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
-.promo-card{
-  border-radius:20px; position:relative; overflow:hidden;
-  box-shadow:var(--shadow); aspect-ratio:16/9;
-}
-.promo-card img{ width:100%; height:100%; object-fit:cover; display:block; }
-.promo-btn{
-  position:absolute; left:6.5%; bottom:16%;
-  background:#fff; color:var(--blue-700); font-weight:700;
-  box-shadow:0 6px 18px rgba(10,40,90,.22);
-}
-.promo-btn:hover{ background:#f2f6ff; transform:translateY(-2px); }
-.promo-btn-raised{ bottom:26%; }
-
 /* ===== FAQ ===== */
 .faq-outer{ padding:clamp(48px,6vw,80px) 0; }
 .faq-section{
@@ -118,7 +103,6 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1080px){
-  .promo-grid{ grid-template-columns:repeat(2,1fr);}
   .contact-grid{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr 1fr; }
 }
@@ -128,7 +112,6 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
   .faq-outer{ padding:clamp(28px,5vw,44px) 0; }
 
   /* ---- Grids to single/double column ---- */
-  .promo-grid{ grid-template-columns:1fr; }
   .faq-grid{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr 1fr; }
   .form-row{ grid-template-columns:1fr; }

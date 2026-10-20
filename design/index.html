@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="assets/css/blocks/doctors.css">
 <link rel="stylesheet" href="assets/css/blocks/pricing.css">
 <link rel="stylesheet" href="assets/css/blocks/reviews.css">
+<link rel="stylesheet" href="assets/css/blocks/promo.css">
 <link rel="stylesheet" href="assets/css/legacy.css">
 </head>
 <body>
@@ -48,6 +49,9 @@
   <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2.5"/><path d="m16 10.5 6-3.5v10l-6-3.5"/></symbol>
   <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20M6 15h4"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
+  <symbol id="i-id" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="11" r="2"/><path d="M5 16c.5-1.3 1.6-2 3-2s2.5.7 3 2M14 10h5M14 14h3"/></symbol>
   <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M8.5 14.5v-5l3.5 3.5 3.5-3.5v5"/></symbol>
 </svg>
@@ -891,7 +895,7 @@
 </section>
 
 <!-- ============ PROMO ============ -->
-<section id="promo" class="bg-soft">
+<section id="promo" class="promo bg-soft">
   <div class="wrap">
     <div class="section-head">
       <div>
@@ -901,20 +905,34 @@
       </div>
       <p>Следите за акциями клиники — периодически обновляем условия для новых и постоянных пациентов.</p>
     </div>
+
     <div class="promo-grid">
-      <div class="promo-card">
-        <img src="assets/img/promo-1.jpg" alt="Скидка на первичный приём — со скидкой 20%">
-        <a href="#booking" class="btn btn-sm promo-btn promo-btn-raised">Записаться</a>
-      </div>
-      <div class="promo-card">
-        <img src="assets/img/promo-2.jpg" alt="Психологическая диагностика в подарок">
-        <a href="#booking" class="btn btn-sm promo-btn">Записаться</a>
-      </div>
-      <div class="promo-card">
-        <img src="assets/img/promo-3.jpg" alt="Программа поддержки для студентов">
-        <a href="#booking" class="btn btn-sm promo-btn promo-btn-raised">Записаться</a>
-      </div>
+      <article class="promo-card">
+        <div class="promo-photo"><img src="assets/img/promo-1.jpg" alt="" width="900" height="506" loading="lazy"></div>
+        <span class="promo-badge big">−20%</span>
+        <h3><a class="promo-link" href="#booking">Скидка на первичный приём</a></h3>
+        <p>При записи через сайт первичная консультация психиатра или психотерапевта — со скидкой 20%.</p>
+        <span class="promo-cond"><svg class="i"><use href="#i-calendar"/></svg>Действует при онлайн-записи</span>
+        <a href="#booking" class="btn btn-white btn-sm">Записаться со скидкой</a>
+      </article>
+      <article class="promo-card">
+        <div class="promo-photo"><img src="assets/img/promo-2.jpg" alt="" width="900" height="506" loading="lazy"></div>
+        <span class="promo-badge"><svg class="i"><use href="#i-gift"/></svg>В подарок</span>
+        <h3><a class="promo-link" href="#booking">Психологическая диагностика</a></h3>
+        <p>При оформлении программы наблюдения от 3 месяцев — диагностика в подарок.</p>
+        <span class="promo-cond"><svg class="i"><use href="#i-calendar"/></svg>Программа от 3 месяцев</span>
+        <a href="#booking" class="btn btn-white btn-sm">Узнать подробнее</a>
+      </article>
+      <article class="promo-card">
+        <div class="promo-photo"><img src="assets/img/promo-3.jpg" alt="" width="900" height="506" loading="lazy"></div>
+        <span class="promo-badge"><svg class="i"><use href="#i-cap"/></svg>Для студентов</span>
+        <h3><a class="promo-link" href="#booking">Программа поддержки</a></h3>
+        <p>Специальная цена на консультации психолога для студентов очной формы обучения.</p>
+        <span class="promo-cond"><svg class="i"><use href="#i-id"/></svg>При предъявлении студенческого билета</span>
+        <a href="#booking" class="btn btn-white btn-sm">Записаться</a>
+      </article>
     </div>
+    <p class="promo-note">Подробные условия акций уточняйте у администратора.</p>
   </div>
 </section>
 
