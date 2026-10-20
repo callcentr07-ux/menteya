@@ -232,22 +232,18 @@ document.querySelectorAll('.gallery').forEach(function(g){
   });
 })();
 
-// FAQ accordion
+// Вопросы и ответы: открыт один ответ за раз, высоту анимирует CSS (grid-template-rows)
 (function(){
   var items = document.querySelectorAll('.faq-item');
+  function set(item, open){
+    item.classList.toggle('is-open', open);
+    item.querySelector('.faq-q').setAttribute('aria-expanded', String(open));
+  }
   items.forEach(function(item){
-    var btn = item.querySelector('.faq-q');
-    var answer = item.querySelector('.faq-a');
-    btn.addEventListener('click', function(){
-      var isOpen = item.classList.contains('open');
-      items.forEach(function(other){
-        other.classList.remove('open');
-        other.querySelector('.faq-a').style.maxHeight = null;
-      });
-      if(!isOpen){
-        item.classList.add('open');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-      }
+    item.querySelector('.faq-q').addEventListener('click', function(){
+      var open = !item.classList.contains('is-open');
+      items.forEach(function(other){ set(other, false); });
+      set(item, open);
     });
   });
 })();

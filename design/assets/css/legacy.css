@@ -1,47 +1,5 @@
 /* Блоки, ещё не переработанные. Каждый переезжает в blocks/<блок>.css по мере работы. */
 
-/* ===== FAQ ===== */
-.faq-outer{ padding:clamp(48px,6vw,80px) 0; }
-.faq-section{
-  position:relative; overflow:hidden;
-  margin:0 clamp(16px,4vw,48px);
-  padding:clamp(56px,6vw,78px) 0;
-  border-radius:34px;
-  background:#2158d8;
-}
-.faq-pattern{
-  position:absolute; inset:0; z-index:0; pointer-events:none;
-  background-image:url("../img/faq-pattern.jpg");
-  background-size:cover; background-position:center;
-}
-.faq-section .wrap{ position:relative; z-index:1; }
-.faq-head{ text-align:center; margin-bottom:46px; }
-.faq-head h2{
-  color:#fff; font-size:clamp(26px,3.2vw,40px); font-weight:800; line-height:1.22;
-  margin:0;
-}
-.faq-grid{
-  display:grid; grid-template-columns:1fr 1fr; gap:18px 24px; align-items:start;
-}
-.faq-item{
-  background:rgba(255,255,255,.95); border:1px solid rgba(255,255,255,.65);
-  border-radius:16px; overflow:hidden; box-shadow:0 10px 26px rgba(14,42,94,.14);
-}
-.faq-q{
-  width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px;
-  padding:20px 22px; background:none; text-align:left;
-  font-size:15.5px; font-weight:700; color:var(--blue-900);
-}
-.faq-toggle{
-  flex-shrink:0; width:28px; height:28px; border-radius:50%;
-  background:#eef3fd; color:var(--blue-600);
-  display:flex; align-items:center; justify-content:center;
-  font-size:18px; font-weight:700; transition:.25s;
-}
-.faq-item.open .faq-toggle{ transform:rotate(45deg); background:var(--blue-600); color:#fff; }
-.faq-a{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
-.faq-a p{ padding:0 22px 20px; font-size:14px; color:var(--ink-soft); line-height:1.7; }
-
 /* ===== CONTACT ===== */
 .contact-grid{ display:grid; grid-template-columns:.9fr 1.1fr; gap:0; border-radius:22px; overflow:hidden; box-shadow:var(--shadow-lg);}
 .contact-info{ color:#fff; padding:48px; position:relative; overflow:hidden;
@@ -107,12 +65,7 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
   .footer-grid{ grid-template-columns:1fr 1fr; }
 }
 @media (max-width: 860px){
-  /* ---- Plates & sections spacing ---- */
-  .faq-section{ margin:0 clamp(10px,3vw,20px); border-radius:24px; }
-  .faq-outer{ padding:clamp(28px,5vw,44px) 0; }
-
   /* ---- Grids to single/double column ---- */
-  .faq-grid{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr 1fr; }
   .form-row{ grid-template-columns:1fr; }
   .contact-grid{ grid-template-columns:1fr; }
@@ -121,6 +74,5 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
 }
 
 @media (max-width: 560px){
-  .faq-section{ margin:0 10px; border-radius:18px; }
   .footer-grid{ grid-template-columns:1fr; }
 }

@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="assets/css/blocks/pricing.css">
 <link rel="stylesheet" href="assets/css/blocks/reviews.css">
 <link rel="stylesheet" href="assets/css/blocks/promo.css">
+<link rel="stylesheet" href="assets/css/blocks/faq.css">
 <link rel="stylesheet" href="assets/css/legacy.css">
 </head>
 <body>
@@ -52,6 +53,7 @@
   <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
   <symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
   <symbol id="i-id" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="11" r="2"/><path d="M5 16c.5-1.3 1.6-2 3-2s2.5.7 3 2M14 10h5M14 14h3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M8.5 14.5v-5l3.5 3.5 3.5-3.5v5"/></symbol>
 </svg>
@@ -937,88 +939,64 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" class="faq-outer bg-soft">
+<section id="faq" class="faq">
   <div class="faq-section">
-  <div class="faq-pattern"></div>
-  <div class="wrap">
-    <div class="faq-head">
-      <h2>Часто задаваемые вопросы<br>о лечении в нашей клинике</h2>
-    </div>
-    <div class="faq-grid">
-      <div class="faq-item">
-        <button class="faq-q">
-          <span>Нужно ли направление, чтобы попасть на приём?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-a">
-          <p>Нет, направление не требуется. Записаться на консультацию можно напрямую — по телефону, через сайт или мессенджер, без предварительного визита к другому врачу.</p>
+    <div class="wrap faq-layout">
+      <div class="faq-side">
+        <div class="faq-intro">
+          <span class="section-tag">Вопросы и ответы</span>
+          <h2>Часто задаваемые вопросы о&nbsp;лечении в&nbsp;нашей клинике</h2>
+          <p>Собрали то, о чём чаще всего спрашивают перед первым визитом.</p>
+        </div>
+        <div class="faq-help">
+          <b>Не нашли ответ?</b>
+          <span>Напишите или позвоните — администратор ответит за 15 минут. Это бесплатно и анонимно.</span>
+          <div class="msg-row">
+            <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+            <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+          </div>
+          <a class="faq-phone" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>+7 (495) 000-00-00</a>
         </div>
       </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          <span>Ставите ли вы на учёт в психоневрологический диспансер?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-a">
-          <p>Нет. Клиника «Ментея» — частное медицинское учреждение, приём носит анонимный характер и не влечёт постановку на учёт в ПНД.</p>
+      <div class="faq-list">
+        <div class="faq-item is-open">
+          <h3><button class="faq-q" type="button" id="faq-q1" aria-controls="faq-a1" aria-expanded="true"><span>Нужно ли направление, чтобы попасть на приём?</span><span class="faq-toggle" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span></button></h3>
+          <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Нет, направление не требуется. Записаться на консультацию можно напрямую — по телефону, через сайт или мессенджер, без предварительного визита к другому врачу.</p></div></div>
         </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          <span>Можно ли пройти консультацию онлайн?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-a">
-          <p>Да, часть специалистов принимает в формате видеоконсультации. Формат приёма можно выбрать при записи — очно в клинике или онлайн.</p>
+        <div class="faq-item">
+          <h3><button class="faq-q" type="button" id="faq-q2" aria-controls="faq-a2" aria-expanded="false"><span>Ставите ли вы на учёт в психоневрологический диспансер?</span><span class="faq-toggle" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span></button></h3>
+          <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div><p>Нет. Клиника «Ментея» — частное медицинское учреждение, приём носит анонимный характер и не влечёт постановку на учёт в ПНД.</p></div></div>
         </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          <span>Как подготовиться к первому приёму?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-a">
-          <p>Специальной подготовки не требуется. Полезно взять с собой результаты предыдущих обследований и список принимаемых препаратов, если они есть — это ускорит консультацию.</p>
+        <div class="faq-item">
+          <h3><button class="faq-q" type="button" id="faq-q3" aria-controls="faq-a3" aria-expanded="false"><span>Сохраняется ли конфиденциальность обращения?</span><span class="faq-toggle" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span></button></h3>
+          <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div><p>Да. Мы гарантируем полную конфиденциальность: информация о факте обращения и деталях лечения не передаётся третьим лицам, работодателю или в госучреждения без вашего согласия.</p></div></div>
         </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          <span>Работаете ли вы с подростками?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-a">
-          <p>Да, в клинике принимают детские и подростковые специалисты. Приём несовершеннолетних проходит в присутствии одного из родителей или законного представителя.</p>
+        <div class="faq-item">
+          <h3><button class="faq-q" type="button" id="faq-q4" aria-controls="faq-a4" aria-expanded="false"><span>Можно ли пройти консультацию онлайн?</span><span class="faq-toggle" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span></button></h3>
+          <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4"><div><p>Да, часть специалистов принимает в формате видеоконсультации. Формат приёма можно выбрать при записи — очно в клинике или онлайн.</p></div></div>
         </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          <span>Как оплатить приём и можно ли получить чек?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-a">
-          <p>Принимаем оплату наличными и картой. По запросу выдаём чек и справку для налогового вычета за медицинские услуги.</p>
+        <div class="faq-item">
+          <h3><button class="faq-q" type="button" id="faq-q5" aria-controls="faq-a5" aria-expanded="false"><span>Как подготовиться к первому приёму?</span><span class="faq-toggle" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span></button></h3>
+          <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div><p>Специальной подготовки не требуется. Полезно взять с собой результаты предыдущих обследований и список принимаемых препаратов, если они есть — это ускорит консультацию.</p></div></div>
         </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          <span>Сохраняется ли конфиденциальность обращения?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-a">
-          <p>Да. Мы гарантируем полную конфиденциальность: информация о факте обращения и деталях лечения не передаётся третьим лицам, работодателю или в госучреждения без вашего согласия.</p>
+        <div class="faq-item">
+          <h3><button class="faq-q" type="button" id="faq-q6" aria-controls="faq-a6" aria-expanded="false"><span>Можно ли обратиться за помощью для близкого человека?</span><span class="faq-toggle" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span></button></h3>
+          <div class="faq-a" id="faq-a6" role="region" aria-labelledby="faq-q6"><div><p>Да. На первую консультацию можно прийти без пациента: врач расскажет, как поддержать близкого и как предложить ему помощь. Осмотр самого пациента проводится только с его согласия — кроме случаев, предусмотренных законом о психиатрической помощи.</p></div></div>
         </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          <span>Что делать, если срочно нужна помощь?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-a">
-          <p>При острых состояниях позвоните нам — по возможности подберём ближайшее свободное время для приёма. Работает линия экстренной поддержки, где помогут сориентироваться в ситуации.</p>
+        <div class="faq-item">
+          <h3><button class="faq-q" type="button" id="faq-q7" aria-controls="faq-a7" aria-expanded="false"><span>Работаете ли вы с подростками?</span><span class="faq-toggle" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span></button></h3>
+          <div class="faq-a" id="faq-a7" role="region" aria-labelledby="faq-q7"><div><p>Да, в клинике принимают детские и подростковые специалисты. Приём несовершеннолетних проходит в присутствии одного из родителей или законного представителя.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3><button class="faq-q" type="button" id="faq-q8" aria-controls="faq-a8" aria-expanded="false"><span>Как оплатить приём и можно ли получить чек?</span><span class="faq-toggle" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span></button></h3>
+          <div class="faq-a" id="faq-a8" role="region" aria-labelledby="faq-q8"><div><p>Принимаем оплату наличными и картой. По запросу выдаём чек и справку для налогового вычета за медицинские услуги.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3><button class="faq-q" type="button" id="faq-q9" aria-controls="faq-a9" aria-expanded="false"><span>Что делать, если срочно нужна помощь?</span><span class="faq-toggle" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span></button></h3>
+          <div class="faq-a" id="faq-a9" role="region" aria-labelledby="faq-q9"><div><p>При острых состояниях позвоните нам — по возможности подберём ближайшее свободное время для приёма. Работает линия экстренной поддержки, где помогут сориентироваться в ситуации. Если есть угроза жизни или здоровью — сразу звоните по единому номеру <a href="tel:112">112</a>.</p></div></div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 </section>
 

@@ -1,0 +1,76 @@
+/* ===== Вопросы и ответы ===== */
+.faq{ padding:clamp(20px, 4vw, 48px) 0; }
+.faq-section{
+  position:relative; overflow:hidden;
+  width:calc(100% - 2 * clamp(10px, 4vw, 48px)); max-width:1440px; margin-inline:auto;
+  padding:clamp(40px, 6vw, 80px) 0;
+  border-radius:var(--radius-xl); color:#fff;
+  background:#2158d8 url("../../img/faq-pattern.jpg") center / cover no-repeat;
+}
+.faq-layout{
+  display:grid; grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:clamp(32px, 5vw, 72px); align-items:start;
+}
+/* Левая колонка едет вместе с прокруткой, пока читаешь ответы */
+.faq-side{ position:sticky; top:calc(var(--bar-h-scrolled) + 24px); display:grid; gap:28px; }
+.faq-intro .section-tag{ color:#a6f3da; }
+.faq-intro h2{ font-size:clamp(28px, 3vw, 42px); font-weight:800; line-height:1.15; letter-spacing:-.015em; text-wrap:balance; }
+.faq-intro p{ margin-top:16px; max-width:40ch; font-size:16px; line-height:1.6; color:rgba(255,255,255,.85); }
+
+.faq-help{
+  padding:22px; border-radius:22px;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.28);
+  -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+}
+.faq-help b{ display:block; font-size:19px; font-weight:800; margin-bottom:6px; }
+.faq-help > span{ display:block; font-size:14.5px; line-height:1.55; color:rgba(255,255,255,.85); }
+.faq-help .msg-row{ margin-top:16px; }
+.faq-phone{ display:inline-flex; align-items:center; gap:8px; margin-top:14px; font-size:18px; font-weight:800; }
+.faq-phone .i{ width:18px; height:18px; color:#a6f3da; }
+@media (hover:hover) and (pointer:fine){ .faq-phone:hover{ color:#d9fff2; } }
+
+/* --- Аккордеон --- */
+.faq-list{ display:grid; gap:12px; }
+.faq-item{
+  background:rgba(255,255,255,.97); color:var(--ink); border-radius:18px;
+  box-shadow:0 14px 30px -20px rgba(6,24,74,.7);
+  transition:box-shadow .3s;
+}
+.faq-item.is-open{ box-shadow:0 22px 44px -22px rgba(6,24,74,.8); }
+.faq-q{
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:20px 22px; text-align:left;
+  font-size:16px; font-weight:700; line-height:1.4; color:var(--blue-900);
+}
+.faq-toggle{
+  width:34px; height:34px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg-soft2); color:var(--blue-600);
+  transition:transform .35s var(--ease-out), background-color .25s, color .25s;
+}
+.faq-toggle .i{ width:16px; height:16px; stroke-width:2.4; }
+.faq-item.is-open .faq-toggle{ transform:rotate(45deg); background:var(--blue-600); color:#fff; }
+@media (hover:hover) and (pointer:fine){
+  .faq-q:hover .faq-toggle{ background:var(--blue-600); color:#fff; }
+}
+/* Плавное раскрытие без расчёта высоты в JS */
+.faq-a{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .4s var(--ease-out); }
+.faq-item.is-open .faq-a{ grid-template-rows:1fr; }
+.faq-a > div{ overflow:hidden; }
+.faq-a p{ padding:0 22px 22px; font-size:15px; line-height:1.7; color:var(--ink-soft); max-width:62ch; }
+.faq-a p a{ color:var(--blue-600); font-weight:700; }
+
+/* ===== Адаптив ===== */
+@media (max-width:1023px){
+  .faq-layout{ grid-template-columns:1fr; }
+  /* Боковая колонка «растворяется»: заголовок — сверху, карточка связи — под вопросами */
+  .faq-side{ display:contents; }
+  .faq-intro{ order:1; }
+  .faq-list{ order:2; }
+  .faq-help{ order:3; }
+}
+@media (max-width:767px){
+  .faq-section{ border-radius:22px; }
+  .faq-q{ padding:18px; font-size:15.5px; }
+  .faq-a p{ padding:0 18px 20px; font-size:14.5px; }
+}
