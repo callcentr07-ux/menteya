@@ -58,7 +58,7 @@
 .nav-link{
   position:relative;
   display:inline-flex; align-items:center; gap:6px;
-  height:42px; padding:0 14px; border-radius:10px;
+  height:42px; padding:0 14px; border-radius:10px; white-space:nowrap;
   font-size:15px; font-weight:600; color:rgba(255,255,255,.9);
   transition:background-color .2s, color .2s;
 }
@@ -214,6 +214,9 @@
   .mainbar-inner{ gap:18px; }
   .nav-link{ padding:0 11px; }
   .head-phone span{ display:none; }
+}
+@media (min-width:1200px) and (max-width:1279px){
+  .mainbar .logo-text small{ display:none; }   /* меню целиком, но тесно — убираем подпись логотипа */
 }
 @media (max-width:1199px){
   .utility-info .u-muted{ display:none; }

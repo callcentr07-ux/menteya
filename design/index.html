@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="assets/css/blocks/promo.css">
 <link rel="stylesheet" href="assets/css/blocks/faq.css">
 <link rel="stylesheet" href="assets/css/blocks/booking.css">
-<link rel="stylesheet" href="assets/css/legacy.css">
+<link rel="stylesheet" href="assets/css/blocks/footer.css">
 </head>
 <body>
 
@@ -55,6 +55,7 @@
   <symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
   <symbol id="i-id" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="11" r="2"/><path d="M5 16c.5-1.3 1.6-2 3-2s2.5.7 3 2M14 10h5M14 14h3"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-vk" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M3.5 7h2.9c.1 3 1.4 4.6 2.6 4.9V7h2.7v2.7c1.2-.1 2.4-1.5 2.8-2.7h2.7c-.4 1.7-1.7 3-2.6 3.6.9.4 2.4 1.6 3 3.6h-3c-.4-1.3-1.5-2.3-2.9-2.4V14h-.3C6.6 14 3.6 11.3 3.5 7Z"/></symbol>
   <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M8.5 14.5v-5l3.5 3.5 3.5-3.5v5"/></symbol>
 </svg>
@@ -1113,51 +1114,79 @@
 </main>
 
 <!-- ============ FOOTER ============ -->
-<footer>
+<footer class="site-footer">
+  <div class="footer-warning">Имеются противопоказания. Необходима консультация специалиста</div>
   <div class="wrap">
     <div class="footer-grid">
-      <div class="footer-col">
-        <div class="footer-logo"><img src="assets/img/logo.png" alt="Логотип"><b>Клиника «Ментея»</b></div>
-        <p>Частная психиатрическая клиника в Москве. Помогаем взрослым и подросткам вернуть устойчивость и качество жизни.</p>
+      <div class="footer-brand">
+        <a href="#" class="logo" aria-label="Клиника «Ментея» — на главную">
+          <img src="assets/img/logo.png" alt="" width="46" height="46" loading="lazy">
+          <span class="logo-text">Ментея<small>клиника психиатрии и психотерапии</small></span>
+        </a>
+        <p>Частная клиника психиатрии и психотерапии в Москве. Помогаем взрослым, подросткам и пожилым вернуть устойчивость и качество жизни.</p>
         <div class="footer-social">
-          <a href="#" title="Telegram"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></a>
-          <a href="#" title="WhatsApp"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></a>
-          <a href="#" title="VK"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></a>
+          <a class="msg-tg" href="#contacts" aria-label="Telegram клиники" title="Telegram"><svg class="i"><use href="#i-tg"/></svg></a>
+          <a class="msg-max" href="#contacts" aria-label="MAX клиники" title="MAX"><svg class="i"><use href="#i-max"/></svg></a>
+          <a class="msg-vk" href="#contacts" aria-label="Клиника во ВКонтакте" title="ВКонтакте"><svg class="i"><use href="#i-vk"/></svg></a>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>Разделы</h4>
+      <nav class="footer-col" aria-label="Пациентам">
+        <p class="f-title">Пациентам</p>
         <ul>
           <li><a href="#services">Услуги</a></li>
-          <li><a href="#about">О клинике</a></li>
           <li><a href="#doctors">Врачи</a></li>
-          <li><a href="#pricing">Стоимость</a></li>
-          <li><a href="#reviews">Отзывы</a></li>
+          <li><a href="#pricing">Цены</a></li>
+          <li><a href="#promo">Акции</a></li>
+          <li><a href="#faq">Вопросы и ответы</a></li>
         </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Услуги</h4>
+      </nav>
+      <nav class="footer-col" aria-label="Направления">
+        <p class="f-title">Направления</p>
         <ul>
           <li><a href="#services">Психиатрия</a></li>
           <li><a href="#services">Психотерапия</a></li>
           <li><a href="#services">Психология</a></li>
-          <li><a href="#services">Помощь детям</a></li>
+          <li><a href="#services">Детям и подросткам</a></li>
+          <li><a href="#services">Пожилым</a></li>
           <li><a href="#services">Диагностика</a></li>
         </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Контакты</h4>
+      </nav>
+      <nav class="footer-col" aria-label="Клиника">
+        <p class="f-title">Клиника</p>
+        <ul>
+          <li><a href="#about">О клинике</a></li>
+          <li><a href="#licenses">Лицензии</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+          <li><a href="#contacts">Контакты</a></li>
+          <li><a href="#">Версия для слабовидящих</a></li>
+        </ul>
+      </nav>
+      <div class="footer-col footer-contacts">
+        <p class="f-title">Контакты</p>
+        <a class="f-phone" href="tel:+74950000000">+7 (495) 000-00-00</a>
+        <p>Ежедневно 9:00–21:00<br>Выезд врача — круглосуточно</p>
         <p>г. Москва, ул. Примерная, 1</p>
-        <p style="margin-top:10px;">+7 (495) 000-00-00</p>
-        <p style="margin-top:10px;">info@menteya.ru</p>
+        <a class="f-mail" href="mailto:info@menteya.ru">info@menteya.ru</a>
       </div>
     </div>
-    <p class="footer-disclaimer">Сайт носит информационный характер и не является публичной офертой. Перед применением любых методов лечения необходима консультация специалиста. ООО «Клиника Ментея», Лицензия на медицинскую деятельность № Л041-00000-77/00000000.</p>
+
+    <nav class="footer-docs" aria-label="Документы">
+      <a href="#">Правила оказания платных услуг</a>
+      <a href="#">Права и обязанности пациентов</a>
+      <a href="#">Контролирующие органы</a>
+      <a href="#">Политика конфиденциальности</a>
+      <a href="#">Согласие на обработку персональных данных</a>
+    </nav>
+    <div class="footer-legal">
+      <p>ООО «Клиника Ментея» · ИНН 0000000000 · ОГРН 0000000000000 · Лицензия на медицинскую деятельность № Л041-00000-77/00000000</p>
+      <p>Сайт носит информационный характер и не является публичной офертой.</p>
+    </div>
     <div class="footer-bottom">
-      <span>© 2026 Клиника «Ментея». Все права защищены.</span>
-      <span>Политика конфиденциальности · Согласие на обработку данных</span>
+      <span>© 2026 Клиника «Ментея»</span>
+      <a class="to-top" href="#">Наверх<svg class="i"><use href="#i-arrow"/></svg></a>
     </div>
   </div>
+  <div class="footer-mark" aria-hidden="true">Ментея</div>
 </footer>
 
 <nav class="bottombar" aria-label="Быстрая связь">

@@ -1,0 +1,85 @@
+/* ===== Подвал ===== */
+.site-footer{
+  position:relative; overflow:hidden;
+  margin-top:clamp(24px, 4vw, 48px);
+  color:rgba(255,255,255,.78);
+  background:
+    linear-gradient(rgba(9,26,66,.7), rgba(9,26,66,.88)),
+    url("../../img/footer-bg.jpg") center / cover no-repeat,
+    #0b1f4d;
+}
+
+/* Обязательное предупреждение для рекламы медуслуг (ст. 24 ФЗ «О рекламе») — заметной полосой */
+.footer-warning{
+  padding:14px 0; text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  font-size:12.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+  color:#a6f3da;
+}
+
+.footer-grid{
+  display:grid; grid-template-columns:minmax(0,1.5fr) repeat(3, minmax(0,1fr)) minmax(0,1.25fr);
+  gap:32px 40px; padding:56px 0 44px;
+}
+.footer-brand .logo{ color:#fff; }
+.footer-brand p{ margin-top:16px; max-width:34ch; font-size:14px; line-height:1.65; color:rgba(255,255,255,.7); }
+.footer-social{ display:flex; gap:8px; margin-top:20px; }
+.footer-social a{
+  width:42px; height:42px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:#fff;
+  transition:background .25s, border-color .25s, transform .16s var(--ease-out);
+}
+.footer-social a .i{ width:19px; height:19px; }
+.footer-social a:active{ transform:scale(.94); }
+.msg-vk{ --msg:#0077ff; --msg-grad:linear-gradient(135deg, #2787f5, #0059d6); }
+@media (hover:hover) and (pointer:fine){ .footer-social a:hover{ background:var(--msg-grad); border-color:transparent; } }
+
+.f-title{ margin-bottom:16px; font-size:12.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#fff; }
+.footer-col li + li{ margin-top:10px; }
+.footer-col a{ font-size:14.5px; color:rgba(255,255,255,.74); transition:color .2s; }
+@media (hover:hover) and (pointer:fine){ .footer-col a:hover{ color:#fff; text-decoration:underline; text-underline-offset:3px; } }
+.footer-contacts .f-phone{ display:inline-block; font-size:19px; font-weight:800; color:#fff; }
+.footer-contacts p:not(.f-title){ margin-top:10px; font-size:14px; line-height:1.6; color:rgba(255,255,255,.7); }
+.footer-contacts .f-mail{ display:inline-block; margin-top:10px; }
+
+/* Документы и реквизиты — по правилам оказания платных медуслуг (ПП РФ № 736) */
+.footer-docs{
+  display:flex; flex-wrap:wrap; gap:8px 22px; padding:20px 0;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.footer-docs a{ font-size:13px; color:rgba(255,255,255,.66); text-decoration:underline; text-decoration-color:rgba(255,255,255,.25); text-underline-offset:3px; }
+@media (hover:hover) and (pointer:fine){ .footer-docs a:hover{ color:#fff; text-decoration-color:#fff; } }
+.footer-legal{ padding-bottom:20px; font-size:12.5px; line-height:1.6; color:rgba(255,255,255,.5); }
+.footer-legal p + p{ margin-top:4px; }
+
+.footer-bottom{
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  padding:18px 0; border-top:1px solid rgba(255,255,255,.1);
+  font-size:13px; color:rgba(255,255,255,.58);
+}
+.to-top{ display:inline-flex; align-items:center; gap:8px; font-weight:700; color:#fff; }
+.to-top .i{ width:16px; height:16px; transform:rotate(-90deg); transition:transform .25s var(--ease-out); }
+@media (hover:hover) and (pointer:fine){ .to-top:hover .i{ transform:rotate(-90deg) translateX(3px); } }
+
+/* Крупное бледное название внизу — декоративное */
+.footer-mark{
+  font-size:clamp(84px, 18vw, 300px); font-weight:800; line-height:.78; letter-spacing:-.05em;
+  text-align:center; white-space:nowrap; margin-bottom:-.1em;
+  background:linear-gradient(180deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 85%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  -webkit-user-select:none; user-select:none; pointer-events:none;
+}
+
+/* ===== Адаптив ===== */
+@media (max-width:1199px){
+  .footer-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+  .footer-brand{ grid-column:1 / -1; }
+}
+@media (max-width:767px){
+  .footer-grid{ grid-template-columns:1fr 1fr; gap:28px 16px; padding:40px 0 32px; }
+  .footer-contacts{ grid-column:1 / -1; }
+  .footer-warning{ font-size:11.5px; letter-spacing:.06em; padding:12px 8px; }
+  .footer-docs{ flex-direction:column; gap:10px; }
+  .footer-bottom{ flex-direction:column-reverse; align-items:flex-start; }
+}
