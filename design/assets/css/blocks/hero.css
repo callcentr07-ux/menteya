@@ -67,7 +67,7 @@
 }
 .hero-visual img{
   width:100%; height:clamp(440px, 40vw, 580px);
-  object-fit:cover; object-position:74% 30%;
+  object-fit:cover; object-position:50% 30%;
 }
 .hero-badge{
   position:absolute; left:-28px; bottom:44px;
@@ -144,7 +144,7 @@
   .hero-cta .btn{ width:100%; }
   .hero-license{ font-size:12px; align-items:flex-start; }
   .hero-visual .frame{ border-radius:22px; border-width:4px; }
-  .hero-visual img{ height:280px; object-position:76% 20%; }
+  .hero-visual img{ height:300px; object-position:50% 22%; }
   .hero-badge{ left:12px; right:12px; bottom:12px; padding:10px 14px 10px 10px; border-radius:14px; }
   .hero-badge .ic{ width:38px; height:38px; }
   .feature-strip{ padding:14px 6px; border-radius:20px; row-gap:6px; }

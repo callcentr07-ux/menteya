@@ -31,7 +31,7 @@
 .u-msg .i{ width:15px; height:15px; }
 @media (hover:hover) and (pointer:fine){
   a.u-item:hover{ color:#fff; }
-  .u-msg:hover{ background:var(--msg); }
+  .u-msg:hover{ background:var(--msg-grad); }
 }
 
 /* --- Основная строка --- */
@@ -157,18 +157,19 @@
 .scrim.show{ opacity:1; visibility:visible; transition:opacity .25s; }
 
 /* --- Кнопки мессенджеров с подписью (меню, запись) --- */
-.msg-row{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:6px; }
+.msg-row{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; }
 .msg-btn{
-  display:flex; align-items:center; justify-content:center; gap:6px;
-  min-height:44px; padding:0 6px; border-radius:12px;
-  background:#fff; border:1px solid var(--line);
-  color:var(--ink); font-size:13.5px; font-weight:700;
-  transition:border-color .2s, box-shadow .2s, transform .16s var(--ease-out);
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  min-height:48px; padding:0 12px; border-radius:14px;
+  background:var(--msg-grad); color:#fff;
+  font-size:15px; font-weight:700;
+  box-shadow:0 10px 22px -10px var(--msg);
+  transition:transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
 }
-.msg-btn .i{ width:17px; height:17px; color:var(--msg); }
+.msg-btn .i{ width:19px; height:19px; }
 .msg-btn:active{ transform:scale(.97); }
 @media (hover:hover) and (pointer:fine){
-  .msg-btn:hover{ border-color:var(--msg); box-shadow:0 6px 16px rgba(14,42,94,.08); }
+  .msg-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 26px -10px var(--msg); }
 }
 
 /* --- Мобильное меню --- */

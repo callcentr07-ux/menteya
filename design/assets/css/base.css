@@ -173,9 +173,8 @@ section.has-plate{ padding:clamp(20px, 4vw, 48px) 0; }
 .collapse > div{ overflow:hidden; }
 
 /* ===== Мессенджеры (общие для шапки, меню, записи) ===== */
-.msg-tg{ --msg:#229ed9; }
-.msg-wa{ --msg:#25d366; }
-.msg-max{ --msg:#6a4cff; }
+.msg-tg{ --msg:#229ed9; --msg-grad:linear-gradient(135deg, #3cb4ec 0%, #1f8fd0 100%); }
+.msg-max{ --msg:#6a4cff; --msg-grad:linear-gradient(135deg, #4f7bff 0%, #8a3dff 100%); }
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
