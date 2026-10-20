@@ -1,0 +1,108 @@
+<!-- ============ CONTACT / BOOKING ============ -->
+<section id="contacts" class="booking bg-soft">
+  <div class="wrap">
+    <div class="booking-grid">
+      <div class="contact-panel">
+        <div>
+          <span class="section-tag">Контакты</span>
+          <h2>Свяжитесь с нами</h2>
+          <p>Ответим на вопросы, поможем подобрать специалиста и запишем на удобное время — очно или онлайн.</p>
+        </div>
+        <ul class="contact-list">
+          <li class="contact-line">
+            <span class="ic"><svg class="i"><use href="#i-pin"/></svg></span>
+            <div>
+              <b>Адрес клиники</b><span class="val">г. Москва, ул. Примерная, 1</span>
+              <div class="route-row">
+                <a class="route-btn" href="#contacts">Маршрут в Яндекс Картах<svg class="i"><use href="#i-arrow"/></svg></a>
+                <a class="route-btn" href="#contacts">2ГИС<svg class="i"><use href="#i-arrow"/></svg></a>
+              </div>
+            </div>
+          </li>
+          <li class="contact-line">
+            <span class="ic"><svg class="i"><use href="#i-phone"/></svg></span>
+            <div><b>Телефон</b><a class="val" href="tel:+74950000000">+7 (495) 000-00-00</a></div>
+          </li>
+          <li class="contact-line">
+            <span class="ic"><svg class="i"><use href="#i-mail"/></svg></span>
+            <div><b>Почта</b><a class="val" href="mailto:info@menteya.ru">info@menteya.ru</a></div>
+          </li>
+          <li class="contact-line">
+            <span class="ic"><svg class="i"><use href="#i-clock"/></svg></span>
+            <div><b>Режим работы</b><span class="val">Ежедневно 9:00–21:00</span><span class="sub">Выезд врача — круглосуточно</span></div>
+          </li>
+        </ul>
+        <div class="msg-row">
+          <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+          <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        </div>
+      </div>
+
+      <div class="booking-form" id="booking">
+        <form class="form" id="bookingForm" novalidate>
+          <div class="form-body">
+            <h3>Записаться на консультацию</h3>
+            <p class="lead-sm">Оставьте заявку — администратор свяжется с вами в течение 15 минут</p>
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-name">Имя <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-name" name="name" type="text" autocomplete="given-name" placeholder="Как к вам обращаться" required aria-describedby="f-name-err">
+                <span class="error" id="f-name-err">Напишите, как к вам обращаться</span>
+              </div>
+              <div class="field">
+                <label for="f-phone">Телефон <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="f-phone-err">
+                <span class="error" id="f-phone-err">Проверьте номер: после +7 нужно 10 цифр</span>
+              </div>
+              <fieldset class="field full">
+                <legend>Формат приёма</legend>
+                <div class="chips">
+                  <label class="chip"><input type="radio" name="format" value="clinic" checked><span><svg class="i"><use href="#i-pin"/></svg>В клинике</span></label>
+                  <label class="chip"><input type="radio" name="format" value="online"><span><svg class="i"><use href="#i-video"/></svg>Онлайн</span></label>
+                  <label class="chip"><input type="radio" name="format" value="home"><span><svg class="i"><use href="#i-home"/></svg>На дому</span></label>
+                </div>
+              </fieldset>
+              <div class="field full">
+                <label for="f-spec">Специалист</label>
+                <select class="input" id="f-spec" name="specialist">
+                  <option>Не знаю — помогите выбрать</option>
+                  <option>Психиатр</option>
+                  <option>Психотерапевт</option>
+                  <option>Психолог</option>
+                  <option>Детский специалист</option>
+                </select>
+              </div>
+              <fieldset class="field full">
+                <legend>Как с вами связаться?</legend>
+                <div class="chips">
+                  <label class="chip"><input type="radio" name="contact" value="call" checked><span><svg class="i"><use href="#i-phone"/></svg>Позвонить</span></label>
+                  <label class="chip"><input type="radio" name="contact" value="tg"><span><svg class="i"><use href="#i-tg"/></svg>Telegram</span></label>
+                  <label class="chip"><input type="radio" name="contact" value="max"><span><svg class="i"><use href="#i-max"/></svg>MAX</span></label>
+                </div>
+              </fieldset>
+              <div class="field full">
+                <label for="f-comment">Комментарий <span class="opt">— необязательно</span></label>
+                <textarea class="input" id="f-comment" name="comment" rows="3" placeholder="Можно не описывать проблему — расскажете врачу на приёме"></textarea>
+              </div>
+              <div class="field full">
+                <label class="consent">
+                  <input type="checkbox" name="consent" required aria-describedby="f-consent-err">
+                  <span>Даю <a href="#contacts">согласие на обработку персональных данных</a> и принимаю <a href="#contacts">политику конфиденциальности</a></span>
+                </label>
+                <span class="error" id="f-consent-err">Без согласия мы не сможем с вами связаться</span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Записаться на консультацию</button>
+            <p class="secure-note"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не передаются третьим лицам</p>
+          </div>
+          <div class="form-success" role="status" hidden>
+            <span class="ok" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
+            <b tabindex="-1">Заявка принята</b>
+            <p>Администратор свяжется с вами в течение 15 минут в рабочее время — ежедневно с 9:00 до 21:00.</p>
+            <button type="button" class="btn btn-outline form-again">Отправить ещё одну заявку</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

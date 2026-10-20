@@ -159,7 +159,7 @@ document.querySelectorAll('.gallery').forEach(function(g){
 // В WordPress это станет запросом к записям «Врачи» с таксономией «Специализация».
 (function(){
   var root = document.getElementById('doctors');
-  if(!root) return;
+  if(!root || !root.querySelector('.doc-filter')) return;   // на внутренних страницах карточки без фильтров
   var cards = Array.prototype.slice.call(root.querySelectorAll('.doc-card'));
   var filters = root.querySelectorAll('.doc-filter');
   var input = root.querySelector('.doc-search input');
@@ -297,6 +297,40 @@ document.querySelectorAll('.gallery').forEach(function(g){
     body.hidden = false;
     name.focus();
   });
+})();
+
+// Внутренние страницы: подсветка текущего раздела в липкой навигации
+(function(){
+  var nav = document.querySelector('.page-nav');
+  if(!nav || !('IntersectionObserver' in window)) return;
+  var list = nav.querySelector('ul');
+  var map = {};
+  nav.querySelectorAll('a[href^="#"]').forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    if(document.getElementById(id)) map[id] = a;
+  });
+  var ids = Object.keys(map);
+  var current = null;
+  function activate(id){
+    if(current === id) return;
+    current = id;
+    ids.forEach(function(k){
+      map[k].classList.toggle('is-active', k === id);
+      if(k === id) map[k].setAttribute('aria-current', 'true'); else map[k].removeAttribute('aria-current');
+    });
+    if(!id) return;
+    var a = map[id], lr = list.getBoundingClientRect(), ar = a.getBoundingClientRect();
+    list.scrollTo({ left:list.scrollLeft + (ar.left - lr.left) - (lr.width - ar.width) / 2, behavior:'smooth' });
+  }
+  // Текущий — последний раздел, чей верх поднялся выше линии на 35% высоты экрана; над первым разделом — никакой.
+  // Наблюдатель лишь будит пересчёт, когда раздел пересекает полосу 25–35% экрана.
+  function update(){
+    var line = innerHeight * .35, active = null;
+    ids.forEach(function(id){ if(document.getElementById(id).getBoundingClientRect().top <= line) active = id; });
+    activate(active);
+  }
+  var io = new IntersectionObserver(update, { rootMargin:'-25% 0px -65% 0px' });
+  ids.forEach(function(id){ io.observe(document.getElementById(id)); });
 })();
 
 // Вопросы и ответы: открыт один ответ за раз, высоту анимирует CSS (grid-template-rows)
