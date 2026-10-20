@@ -1,0 +1,113 @@
+/* ===== Услуги ===== */
+.services-grid{
+  display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px;
+}
+
+/* Карточка: вся кликабельна через растянутую ссылку заголовка, теги — поверх неё */
+.svc-card{
+  position:relative; isolation:isolate;
+  display:flex; flex-direction:column;
+  padding:28px 28px 24px;
+  background:#fff; border:1px solid var(--line); border-radius:22px;
+  transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out), border-color .3s;
+}
+/* Градиентная рамка при наведении */
+.svc-card::before{
+  content:""; position:absolute; inset:-1px; z-index:-1; border-radius:inherit; padding:1.5px;
+  background:var(--grad);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  opacity:0; transition:opacity .3s;
+}
+.svc-top{ display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:22px; }
+.svc-ic{
+  width:58px; height:58px; border-radius:16px;
+  background:var(--grad); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 22px -8px rgba(32,88,216,.55);
+}
+.svc-ic .i{ width:27px; height:27px; }
+.svc-arrow{
+  width:42px; height:42px; border-radius:50%;
+  border:1.5px solid var(--line); color:var(--blue-600);
+  display:flex; align-items:center; justify-content:center;
+  transition:background .3s, color .3s, border-color .3s, transform .35s var(--ease-out);
+}
+.svc-arrow .i{ width:18px; height:18px; transform:rotate(-45deg); }
+
+.svc-card h3{ font-size:20px; font-weight:800; line-height:1.25; color:var(--blue-900); margin-bottom:10px; }
+.svc-link::after{ content:""; position:absolute; inset:0; z-index:1; border-radius:inherit; }
+.svc-link:focus-visible{ box-shadow:none; }
+.svc-link:focus-visible::after{ box-shadow:var(--focus); }
+.svc-card p{ font-size:14.5px; line-height:1.65; color:var(--ink-soft); margin-bottom:20px; }
+
+.svc-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; }
+.svc-tags a{
+  position:relative; z-index:2;
+  display:inline-flex; align-items:center; min-height:32px; padding:0 12px;
+  border-radius:999px; background:var(--bg-soft2);
+  font-size:13px; font-weight:600; color:var(--blue-700);
+  transition:background .2s, color .2s;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .svc-card:hover{ transform:translateY(-6px); box-shadow:0 24px 50px -20px rgba(16,34,84,.28); border-color:transparent; }
+  .svc-card:hover::before{ opacity:1; }
+  .svc-card:hover .svc-arrow{ background:var(--grad); border-color:transparent; color:#fff; transform:rotate(45deg); }
+  .svc-tags a:hover{ background:var(--blue-600); color:#fff; }
+}
+.svc-card:active{ transform:scale(.99); }
+
+/* --- Призыв под карточками --- */
+.svc-cta{
+  position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:space-between; gap:24px 40px; flex-wrap:wrap;
+  margin-top:28px; padding:30px 36px;
+  border-radius:24px; color:#fff;
+  background:var(--grad-header);
+}
+.svc-cta::before{
+  content:""; position:absolute; inset:0; opacity:.35; pointer-events:none;
+  background:url("../../img/faq-pattern.jpg") center / cover no-repeat;
+  mix-blend-mode:screen;
+}
+.svc-cta > *{ position:relative; }
+.svc-cta-text{ display:flex; align-items:center; gap:18px; max-width:620px; }
+.svc-cta-ic{
+  width:56px; height:56px; border-radius:16px; flex-shrink:0;
+  background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25);
+  display:flex; align-items:center; justify-content:center;
+}
+.svc-cta-ic .i{ width:26px; height:26px; color:#bff3e2; }
+.svc-cta b{ display:block; font-size:20px; font-weight:800; line-height:1.3; margin-bottom:4px; }
+.svc-cta span{ font-size:14.5px; line-height:1.55; color:rgba(255,255,255,.82); }
+.svc-cta-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.svc-cta-actions .msg-row{ grid-template-columns:repeat(2, auto); }
+.svc-cta-actions .msg-btn{ padding:0 20px; box-shadow:0 10px 22px -10px rgba(0,0,0,.45); }
+
+/* ===== Адаптив ===== */
+@media (max-width:1199px){
+  .services-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+}
+@media (max-width:767px){
+  .services-grid{ grid-template-columns:1fr; gap:12px; }
+  /* Компактно: иконка, название и стрелка в одну строку */
+  .svc-card{
+    display:grid; grid-template-columns:auto minmax(0,1fr) auto; column-gap:14px; align-items:center;
+    padding:18px 18px 18px; border-radius:20px;
+  }
+  .svc-top{ display:contents; }
+  .svc-ic{ grid-column:1; grid-row:1; width:46px; height:46px; border-radius:13px; }
+  .svc-ic .i{ width:22px; height:22px; }
+  .svc-arrow{ grid-column:3; grid-row:1; width:36px; height:36px; }
+  .svc-card h3{ grid-column:2; grid-row:1; font-size:18px; margin:0; }
+  .svc-card p{ grid-column:1 / -1; margin:14px 0 14px; font-size:14.5px; }
+  .svc-tags{ grid-column:1 / -1; }
+  .svc-cta{ padding:24px 20px; border-radius:20px; }
+  .svc-cta-text{ align-items:flex-start; }
+  .svc-cta-ic{ width:48px; height:48px; }
+  .svc-cta b{ font-size:18px; }
+  .svc-cta-actions{ width:100%; flex-direction:column; align-items:stretch; }
+  .svc-cta-actions .btn{ width:100%; }
+  .svc-cta-actions .msg-row{ grid-template-columns:1fr 1fr; }
+}

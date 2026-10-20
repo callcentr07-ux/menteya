@@ -1,9 +1,6 @@
 /* ===== Первый экран ===== */
 .hero{
   position:relative;
-  background:
-    linear-gradient(180deg, rgba(244,248,255,.55) 0%, rgba(255,255,255,.8) 100%),
-    url("../../img/hero-bg.jpg") center / cover no-repeat;
   padding:clamp(36px, 5vw, 72px) 0 clamp(28px, 3vw, 40px);
 }
 .hero-grid{

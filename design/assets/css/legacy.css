@@ -1,31 +1,5 @@
 /* Блоки, ещё не переработанные. Каждый переезжает в blocks/<блок>.css по мере работы. */
 
-/* ===== SERVICES ===== */
-.services-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:24px;
-}
-.service-card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:32px 28px;
-  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-}
-.service-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow); border-color:transparent; }
-.service-card .ic{
-  width:56px; height:56px; border-radius:14px;
-  background:var(--grad);
-  display:flex; align-items:center; justify-content:center;
-  color:#fff; margin-bottom:20px;
-}
-.service-card h3{ font-size:19px; font-weight:800; margin-bottom:10px; color:var(--ink);}
-.service-card p{ font-size:14.5px; color:var(--ink-soft); line-height:1.6; margin-bottom:18px; }
-.service-card a{ font-size:14px; font-weight:700; color:var(--blue-600); display:inline-flex; align-items:center; gap:6px;}
-.service-card a svg{ transition:transform .15s; }
-.service-card a:hover svg{ transform:translateX(3px); }
-
 /* ===== ABOUT ===== */
 .about-grid{
   display:grid; grid-template-columns:.95fr 1.05fr; gap:64px; align-items:center;
@@ -350,7 +324,6 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
   .doctor-feature{ grid-column:1/-1; grid-row:auto; flex-direction:row; gap:28px; align-items:center;}
   .doctor-feature .photo{ width:260px; flex-shrink:0; margin-bottom:0;}
   .doctor-feature .photo img{ height:260px; }
-  .services-grid{ grid-template-columns:repeat(2,1fr); }
   .review-grid{ grid-template-columns:repeat(2,1fr);}
   .platform-grid{ grid-template-columns:repeat(3,1fr); }
   .promo-grid{ grid-template-columns:repeat(2,1fr);}
@@ -367,7 +340,6 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
   .faq-outer{ padding:clamp(28px,5vw,44px) 0; }
 
   /* ---- Grids to single/double column ---- */
-  .services-grid{ grid-template-columns:1fr; }
   .review-grid{ grid-template-columns:1fr; }
   .platform-grid{ grid-template-columns:repeat(3,1fr); gap:10px; }
   .promo-grid{ grid-template-columns:1fr; }
