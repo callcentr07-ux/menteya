@@ -5,15 +5,15 @@
   box-shadow:0 34px 80px -44px rgba(14,42,94,.6);
 }
 
-/* --- Панель контактов --- */
-.contact-panel{
-  position:relative; display:flex; flex-direction:column; gap:28px;
-  padding:44px; color:#fff;
+/* --- Панель контактов (и полоса контактов на внутренних страницах) --- */
+.contact-panel, .contact-band{
+  color:#fff;
   background:linear-gradient(rgba(9,26,66,.5), rgba(9,26,66,.72)), url("../../img/contact-bg.jpg") center / cover no-repeat;
 }
-.contact-panel .section-tag{ color:#a6f3da; }
-.contact-panel h2{ font-size:clamp(26px, 2.6vw, 36px); font-weight:800; line-height:1.15; letter-spacing:-.01em; }
-.contact-panel h2 + p{ margin-top:12px; max-width:40ch; font-size:15px; line-height:1.65; color:rgba(255,255,255,.82); }
+.contact-panel{ position:relative; display:flex; flex-direction:column; gap:28px; padding:44px; }
+.contact-panel .section-tag, .contact-band .section-tag{ color:#a6f3da; }
+.contact-panel h2, .contact-band h2{ font-size:clamp(26px, 2.6vw, 36px); font-weight:800; line-height:1.15; letter-spacing:-.01em; }
+.contact-panel h2 + p, .contact-band h2 + p{ margin-top:12px; max-width:40ch; font-size:15px; line-height:1.65; color:rgba(255,255,255,.82); }
 .contact-list{ display:grid; gap:20px; }
 .contact-line{ display:flex; align-items:flex-start; gap:14px; }
 .contact-line .ic{
@@ -35,6 +35,47 @@
 .route-btn .i{ width:14px; height:14px; transform:rotate(-45deg); }
 @media (hover:hover) and (pointer:fine){ .route-btn:hover{ background:rgba(255,255,255,.22); } }
 .contact-panel .msg-row{ margin-top:auto; }
+
+/* --- Запись на внутренних страницах: без формы — звонок, мессенджеры, адрес --- */
+.contact-band{
+  display:grid; grid-template-columns:minmax(0,1fr) 400px;
+  grid-template-areas:"head actions" "info info";
+  gap:30px 56px; padding:44px; border-radius:28px;
+  box-shadow:0 34px 80px -44px rgba(14,42,94,.6);
+}
+.cb-head{ grid-area:head; }
+.cb-actions{ grid-area:actions; align-self:center; display:flex; flex-direction:column; gap:12px; }
+.cb-info{
+  grid-area:info; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px 24px;
+  padding-top:28px; border-top:1px solid rgba(255,255,255,.14);
+}
+.cb-call{
+  display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:18px;
+  background:#fff; color:var(--blue-900);
+  box-shadow:0 18px 40px -18px rgba(3,12,40,.6);
+  transition:transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+}
+.cb-call .ic{
+  width:50px; height:50px; border-radius:14px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; background:var(--grad); color:#fff;
+}
+.cb-call .ic .i{ width:23px; height:23px; }
+.cb-call > span:last-child{ font-size:23px; font-weight:800; line-height:1.2; letter-spacing:.01em; white-space:nowrap; }
+.cb-call small{ display:block; font-size:13px; font-weight:700; letter-spacing:0; color:var(--ink-soft); }
+.cb-call:active{ transform:scale(.98); }
+.cb-form-link{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:40px;
+  font-size:14px; font-weight:700; color:rgba(255,255,255,.82); transition:color .2s;
+}
+.cb-form-link .i{ width:16px; height:16px; transition:transform .2s var(--ease-out); }
+@media (hover:hover) and (pointer:fine){
+  .cb-call:hover{ transform:translateY(-2px); box-shadow:0 24px 46px -18px rgba(3,12,40,.7); }
+  .cb-form-link:hover{ color:#fff; }
+  .cb-form-link:hover .i{ transform:translateX(3px); }
+}
+
+/* Ловушка для ботов в форме: человек её не видит и не заполняет */
+.hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 
 /* --- Форма --- */
 .booking-form{
@@ -108,15 +149,23 @@ select.input{
 @keyframes pop{ from{ transform:scale(.6); opacity:0; } 60%{ transform:scale(1.06); opacity:1; } }
 
 /* ===== Адаптив ===== */
+@media (max-width:1199px){
+  .contact-band{ grid-template-columns:minmax(0,1fr) 360px; gap:28px 40px; }
+}
 @media (max-width:1023px){
   .booking-grid{ grid-template-columns:1fr; }
   .booking-form{ order:-1; }   /* на телефоне и планшете сначала форма */
   .contact-panel .msg-row{ margin-top:0; }
+  .contact-band{ grid-template-columns:1fr; grid-template-areas:"head" "actions" "info"; }
+  .cb-info{ grid-template-columns:repeat(2, minmax(0,1fr)); }
 }
 @media (max-width:767px){
   .booking-grid{ border-radius:22px; }
   .booking-form{ padding:26px 20px; }
   .contact-panel{ padding:28px 20px; gap:22px; }
+  .contact-band{ padding:28px 20px; gap:24px; border-radius:22px; }
+  .cb-info{ grid-template-columns:1fr; padding-top:22px; }
+  .cb-call > span:last-child{ font-size:21px; }
   .form-grid{ grid-template-columns:1fr; gap:16px; }
   /* Три варианта — ровно в ряд */
   .chips{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:6px; }

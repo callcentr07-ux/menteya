@@ -392,6 +392,7 @@ document.querySelectorAll('.gallery').forEach(function(g){
   var consent = form.querySelector('[name="consent"]');
   var body = form.querySelector('.form-body');
   var success = form.querySelector('.form-success');
+  var openedAt = Date.now();
   var prevDigits = '';
 
   function format(d){
@@ -437,6 +438,10 @@ document.querySelectorAll('.gallery').forEach(function(g){
     var firstBad = null;
     checks.forEach(function(c){ if(!validate(c[0], c[1]) && !firstBad) firstBad = c[0]; });
     if(firstBad){ firstBad.focus(); return; }
+    // Защита от спама: бот заполнил скрытое поле или отправил форму быстрее чем за 3 секунды —
+    // показываем «принято», но не отправляем. В WordPress то же проверяет сервер, плюс невидимая Яндекс SmartCaptcha
+    var isBot = form.elements.website.value !== '' || Date.now() - openedAt < 3000;
+    if(!isBot){ /* здесь заявка уходит обработчику формы WordPress */ }
     body.hidden = true;
     success.hidden = false;
     success.querySelector('b').focus();

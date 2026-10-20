@@ -76,10 +76,37 @@
   .footer-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); }
   .footer-brand{ grid-column:1 / -1; }
 }
+/* Телефон: всё по центру; сверху бренд и контакты, ниже меню и направления-плашки */
 @media (max-width:767px){
-  .footer-grid{ grid-template-columns:1fr 1fr; gap:28px 16px; padding:40px 0 32px; }
-  .footer-contacts{ grid-column:1 / -1; }
+  .site-footer{ text-align:center; }
   .footer-warning{ font-size:11.5px; letter-spacing:.06em; padding:12px 8px; }
-  .footer-docs{ flex-direction:column; gap:10px; }
-  .footer-bottom{ flex-direction:column-reverse; align-items:flex-start; }
+  .footer-grid{ grid-template-columns:1fr 1fr; gap:32px 12px; padding:40px 0 28px; }
+  .footer-brand{ order:-2; display:flex; flex-direction:column; align-items:center; }
+  .footer-brand p{ margin-inline:auto; }
+  .footer-social{ justify-content:center; gap:10px; }
+  .footer-social a{ width:48px; height:48px; border-radius:14px; }
+  .footer-social a .i{ width:21px; height:21px; }
+
+  .footer-contacts{
+    order:-1; grid-column:1 / -1; padding:22px 18px; border-radius:20px;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  }
+  .footer-contacts .f-title{ margin-bottom:10px; }
+  .footer-contacts .f-phone{ font-size:24px; }
+
+  .f-title{ margin-bottom:12px; }
+  .footer-col li + li{ margin-top:2px; }
+  .footer-col a{ display:inline-block; padding:6px 0; }   /* крупнее цель для пальца */
+  .footer-dirs{ order:1; grid-column:1 / -1; }
+  .footer-dirs ul{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
+  .footer-dirs li + li{ margin-top:0; }
+  .footer-dirs a{ padding:8px 14px; border-radius:999px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); font-size:14px; }
+
+  .footer-docs{ justify-content:center; gap:10px 18px; }
+  .footer-bottom{ flex-direction:column-reverse; align-items:center; gap:14px; }
+  .footer-mark{
+    font-size:clamp(84px, 25vw, 150px); padding-bottom:28px;
+    background:linear-gradient(180deg, rgba(255,255,255,.3) 0%, rgba(255,255,255,.12) 100%);
+    -webkit-background-clip:text; background-clip:text;
+  }
 }

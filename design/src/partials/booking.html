@@ -91,6 +91,11 @@
                 </label>
                 <span class="error" id="f-consent-err">Без согласия мы не сможем с вами связаться</span>
               </div>
+              <!-- Ловушка для ботов: людям поле не видно. Заполнено — заявку не отправляем -->
+              <div class="hp" aria-hidden="true">
+                <label for="f-website">Сайт</label>
+                <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
             </div>
             <button type="submit" class="btn btn-primary btn-lg btn-block">Записаться на консультацию</button>
             <p class="secure-note"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не передаются третьим лицам</p>
