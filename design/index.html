@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12409e">
+<title>Психиатрическая клиника «Ментея» — консультации психиатра и психотерапевта</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/blocks/header.css">
+<link rel="stylesheet" href="assets/css/blocks/hero.css">
+<link rel="stylesheet" href="assets/css/legacy.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z"/></symbol>
+  <symbol id="i-psy" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 0 7 4.5V5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1v-.5A2.5 2.5 0 0 0 14.5 2h-5Z"/><path d="M12 8v8M8 12h8"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/></symbol>
+  <symbol id="i-kid" viewBox="0 0 24 24"><path d="M9 12h.01M15 12h.01M8 20v-4a4 4 0 0 1 8 0v4"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/></symbol>
+  <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M3 21l1.6-4.7A9 9 0 1 1 8 19.6L3 21Z"/><path d="M9 8.6c0 3.5 2.9 6.4 6.4 6.4l.9-1.6-2-1-1 .9a4.2 4.2 0 0 1-2.6-2.6l.9-1-1-2L9 8.6Z"/></symbol>
+  <symbol id="i-max" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="6"/><path d="M7.5 16V8.5l4.5 4.5 4.5-4.5V16"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main">Перейти к содержанию</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="utility">
+    <div class="wrap utility-inner">
+      <div class="utility-info">
+        <a class="u-item" href="#contacts"><svg class="i"><use href="#i-pin"/></svg>Симферополь, ул. Адалет, 2А <span class="u-muted">и ещё 3 филиала</span></a>
+        <span class="u-item"><svg class="i"><use href="#i-clock"/></svg>Ежедневно 9:00–21:00 <span class="u-muted">· выезд врача 24/7</span></span>
+      </div>
+      <div class="utility-actions">
+        <a class="u-item" href="#"><svg class="i"><use href="#i-eye"/></svg>Версия для слабовидящих</a>
+        <span class="u-sep" aria-hidden="true"></span>
+        <div class="u-msgs">
+          <a class="u-msg msg-tg" href="#contacts" aria-label="Написать в Telegram" title="Telegram"><svg class="i"><use href="#i-tg"/></svg></a>
+          <a class="u-msg msg-wa" href="#contacts" aria-label="Написать в WhatsApp" title="WhatsApp"><svg class="i"><use href="#i-wa"/></svg></a>
+          <a class="u-msg msg-max" href="#contacts" aria-label="Написать в MAX" title="MAX"><svg class="i"><use href="#i-max"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mainbar">
+    <div class="wrap mainbar-inner">
+      <a href="#" class="logo" aria-label="Клиника «Ментея» — на главную">
+        <img src="assets/img/logo.png" alt="" width="46" height="46">
+        <span class="logo-text">Ментея<small>клиника психиатрии и психотерапии</small></span>
+      </a>
+
+      <nav class="mainnav" aria-label="Основное меню">
+        <ul>
+          <li><button class="nav-link" type="button" aria-expanded="false" aria-controls="megaServices" data-menu="mega">Услуги<svg class="i caret"><use href="#i-chevron"/></svg></button></li>
+          <li><a class="nav-link" href="#doctors">Врачи</a></li>
+          <li><a class="nav-link" href="#pricing">Цены</a></li>
+          <li class="has-drop">
+            <button class="nav-link" type="button" aria-expanded="false" aria-controls="dropAbout" data-menu="drop">О клинике<svg class="i caret"><use href="#i-chevron"/></svg></button>
+            <ul class="dropdown" id="dropAbout">
+              <li><a href="#about">О нас</a></li>
+              <li><a href="#licenses">Лицензии</a></li>
+              <li><a href="#reviews">Отзывы</a></li>
+              <li><a href="#promo">Акции</a></li>
+              <li><a href="#faq">Вопросы и ответы</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link" href="#contacts">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <div class="mainbar-actions">
+        <button class="icon-btn search-btn" type="button" aria-label="Поиск по сайту"><svg class="i"><use href="#i-search"/></svg></button>
+        <a class="head-phone" href="tel:+79782247825"><b>+7 (978) 224-78-25</b><span>запись и консультация</span></a>
+        <a href="#booking" class="btn btn-white">Записаться</a>
+        <a class="icon-btn call-btn" href="tel:+79782247825" aria-label="Позвонить в клинику"><svg class="i"><use href="#i-phone"/></svg></a>
+        <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mega" id="megaServices">
+    <div class="wrap mega-inner">
+      <div class="mega-cols">
+        <div class="mega-col">
+          <a class="mega-title" href="#services"><span class="ic"><svg class="i"><use href="#i-psy"/></svg></span>Психиатрия</a>
+          <ul>
+            <li><a href="#services">Лечение депрессии</a></li>
+            <li><a href="#services">Лечение тревожности</a></li>
+            <li><a href="#services">Неврозы</a></li>
+            <li><a href="#services">Навязчивые состояния (ОКР)</a></li>
+            <li><a href="#services">Панические атаки</a></li>
+          </ul>
+        </div>
+        <div class="mega-col">
+          <a class="mega-title" href="#services"><span class="ic"><svg class="i"><use href="#i-chat"/></svg></span>Психотерапия</a>
+          <ul>
+            <li><a href="#services">Индивидуальная терапия</a></li>
+            <li><a href="#services">Семейная терапия</a></li>
+            <li><a href="#services">Когнитивно-поведенческая терапия</a></li>
+            <li><a href="#services">ПТСР и травма</a></li>
+          </ul>
+        </div>
+        <div class="mega-col">
+          <a class="mega-title" href="#services"><span class="ic"><svg class="i"><use href="#i-user"/></svg></span>Психология</a>
+          <ul>
+            <li><a href="#services">Консультация психолога</a></li>
+            <li><a href="#services">Клинический психолог</a></li>
+            <li><a href="#services">Психологическая диагностика</a></li>
+          </ul>
+        </div>
+        <div class="mega-col">
+          <a class="mega-title" href="#services"><span class="ic"><svg class="i"><use href="#i-kid"/></svg></span>Детям и подросткам</a>
+          <ul>
+            <li><a href="#services">Детский психиатр</a></li>
+            <li><a href="#services">Подростковый психолог</a></li>
+            <li><a href="#services">СДВГ</a></li>
+          </ul>
+        </div>
+        <div class="mega-col">
+          <a class="mega-title" href="#services"><span class="ic"><svg class="i"><use href="#i-clock"/></svg></span>Пожилым</a>
+          <ul>
+            <li><a href="#services">Психиатр для пожилых</a></li>
+            <li><a href="#services">Нарушения памяти</a></li>
+            <li><a href="#services">Поддержка семьи</a></li>
+          </ul>
+        </div>
+        <div class="mega-col">
+          <a class="mega-title" href="#services"><span class="ic"><svg class="i"><use href="#i-home"/></svg></span>Форматы помощи</a>
+          <ul>
+            <li><a href="#services">Приём в клинике</a></li>
+            <li><a href="#services">Онлайн-консультация</a></li>
+            <li><a href="#services">Вызов психиатра на дом</a></li>
+            <li><a href="#services">Стационар</a></li>
+          </ul>
+        </div>
+      </div>
+      <aside class="mega-help">
+        <b>Не знаете, к кому обратиться?</b>
+        <p>Администратор подберёт специалиста под ваш запрос. Это бесплатно и анонимно.</p>
+        <a class="phone" href="tel:+79782247825">+7 (978) 224-78-25</a>
+        <div class="msg-row">
+          <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+          <a class="msg-btn msg-wa" href="#contacts"><svg class="i"><use href="#i-wa"/></svg>WhatsApp</a>
+          <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</header>
+
+<div class="scrim" id="scrim" aria-hidden="true"></div>
+
+<div class="drawer" id="mobileMenu" aria-label="Меню сайта">
+  <ul class="drawer-nav">
+    <li>
+      <details>
+        <summary>Услуги<svg class="i"><use href="#i-chevron"/></svg></summary>
+        <div class="drawer-sub">
+          <a href="#services">Психиатрия</a>
+          <a href="#services">Психотерапия</a>
+          <a href="#services">Психология</a>
+          <a href="#services">Детям и подросткам</a>
+          <a href="#services">Пожилым</a>
+          <a href="#services">Вызов психиатра на дом</a>
+          <a href="#services">Стационар</a>
+          <a href="#services">Онлайн-консультация</a>
+        </div>
+      </details>
+    </li>
+    <li><a href="#doctors">Врачи</a></li>
+    <li><a href="#pricing">Цены</a></li>
+    <li>
+      <details>
+        <summary>О клинике<svg class="i"><use href="#i-chevron"/></svg></summary>
+        <div class="drawer-sub">
+          <a href="#about">О нас</a>
+          <a href="#licenses">Лицензии</a>
+          <a href="#reviews">Отзывы</a>
+          <a href="#promo">Акции</a>
+          <a href="#faq">Вопросы и ответы</a>
+        </div>
+      </details>
+    </li>
+    <li><a href="#contacts">Контакты</a></li>
+  </ul>
+  <div class="drawer-contact">
+    <a class="phone" href="tel:+79782247825">+7 (978) 224-78-25</a>
+    <p class="meta">Ежедневно 9:00–21:00, выезд врача 24/7<br>Симферополь, ул. Адалет, 2А и ещё 3 филиала</p>
+    <div class="msg-row">
+      <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+      <a class="msg-btn msg-wa" href="#contacts"><svg class="i"><use href="#i-wa"/></svg>WhatsApp</a>
+      <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+    </div>
+    <a href="#booking" class="btn btn-primary btn-lg btn-block">Записаться на консультацию</a>
+  </div>
+  <a class="drawer-a11y" href="#"><svg class="i"><use href="#i-eye"/></svg>Версия для слабовидящих</a>
+</div>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="live-dot" aria-hidden="true"></span>Работаем без выходных · онлайн и очно</span>
+      <h1>Профессиональная помощь в&nbsp;атмосфере <em>доверия</em></h1>
+      <p class="lead">Конфиденциальная психиатрическая и психотерапевтическая помощь взрослым и подросткам. Мягко разберёмся в состоянии, подберём лечение и будем рядом на всех этапах пути к устойчивости.</p>
+      <ul class="hero-facts">
+        <li><span class="tick"><svg class="i"><use href="#i-check"/></svg></span>Анонимно, без постановки на учёт</li>
+        <li><span class="tick"><svg class="i"><use href="#i-check"/></svg></span>В клинике, онлайн и с выездом на дом</li>
+        <li><span class="tick"><svg class="i"><use href="#i-check"/></svg></span>Взрослым, подросткам и пожилым</li>
+      </ul>
+      <div class="hero-cta">
+        <a href="#booking" class="btn btn-primary btn-lg">Записаться на консультацию</a>
+        <a href="#contacts" class="btn btn-outline btn-lg"><svg class="i"><use href="#i-tg"/></svg>Написать в Telegram</a>
+      </div>
+      <p class="hero-license"><svg class="i"><use href="#i-shield"/></svg>Лицензия на медицинскую деятельность № ЛО41-01177-91/00266668 от 13.05.2022</p>
+    </div>
+    <div class="hero-visual">
+      <div class="frame">
+        <img src="assets/img/hero-doctor.jpg" alt="Врач клиники «Ментея»" width="1000" height="428" fetchpriority="high">
+      </div>
+      <div class="hero-badge">
+        <span class="ic"><svg class="i"><use href="#i-chat"/></svg></span>
+        <div><b>Ответим за 15 минут</b><span>администратор на связи 9:00–21:00</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="feature-strip">
+      <div class="feature-item">
+        <div class="ic"><svg class="i"><use href="#i-lock"/></svg></div>
+        <div><b>Конфиденциально</b><span>Данные под защитой</span></div>
+      </div>
+      <div class="feature-item">
+        <div class="ic"><svg class="i"><use href="#i-users"/></svg></div>
+        <div><b>Врачи с опытом от 10 лет</b><span>Постоянное обучение</span></div>
+      </div>
+      <div class="feature-item">
+        <div class="ic"><svg class="i"><use href="#i-heart"/></svg></div>
+        <div><b>Бережный подход</b><span>Без осуждения и спешки</span></div>
+      </div>
+      <div class="feature-item">
+        <div class="ic"><svg class="i"><use href="#i-clock"/></svg></div>
+        <div><b>Помощь 24/7</b><span>Круглосуточная линия</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTRO ============ -->
+<section id="intro" class="bg-soft">
+  <div class="wrap intro-grid">
+    <div class="intro-media">
+      <div class="intro-photo-main"><img src="assets/img/intro-main.jpg" alt="Главный врач клиники «Ментея»"></div>
+      <div class="intro-photo-inset"><img src="assets/img/intro-inset.jpg" alt="Интерьер клиники «Ментея»"></div>
+      <div class="intro-badge">
+        <b>10+ лет</b>
+        <span>помогаем пациентам<br>в Симферополе</span>
+      </div>
+    </div>
+    <div class="intro-copy">
+      <span class="section-tag">Клиника «Ментея»</span>
+      <h2 style="font-size:clamp(26px,3vw,36px); font-weight:800; color:var(--blue-900); margin-bottom:18px; line-height:1.3;">Клиника психиатрии и психотерапии в&nbsp;Симферополе</h2>
+      <p>Клиника «Ментея» — это команда психиатров, психотерапевтов и клинических психологов, которая работает в Симферополе уже больше десяти лет. Мы убеждены: обращение за психиатрической помощью — это не признак слабости, а осознанный шаг к устойчивости и качеству жизни.</p>
+      <p>Каждый приём построен вокруг человека, а не диагноза: сначала мы внимательно разбираемся в ситуации, затем предлагаем понятный и обоснованный план — без лишних процедур и давления.</p>
+      <div class="intro-more" id="introMore">
+        <p>Мы совмещаем медикаментозную терапию с психотерапией, поддерживаем связь с пациентом между визитами и всегда объясняем логику назначений простым языком. В клинике принимают взрослые, подростковые и семейные специалисты, а часть консультаций можно пройти онлайн.</p>
+        <p>Конфиденциальность — один из базовых принципов работы клиники: приём носит анонимный характер и не влечёт постановку на учёт. Мы обновляем протоколы лечения в соответствии с современными международными рекомендациями и регулярно повышаем квалификацию врачей.</p>
+        <p>За годы работы клиника помогла тысячам пациентов вернуть контроль над своим состоянием — от тревожных расстройств и депрессии до сложных случаев, требующих длительного наблюдения.</p>
+      </div>
+      <button class="btn btn-outline btn-sm intro-toggle" id="introToggle">Читать далее ↓</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services" class="bg-soft has-plate">
+  <div class="plate">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Услуги</span>
+        <h2>Направления, по которым мы помогаем</h2>
+        <div class="underline"></div>
+      </div>
+      <p>От первичной диагностики до длительного сопровождения — подбираем формат, который подходит именно вам.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 0 7 4.5v.5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1v-.5A2.5 2.5 0 0 0 14.5 2h-5Z"/><path d="M12 8v8M8 12h8"/></svg></div>
+        <h3>Психиатрия</h3>
+        <p>Диагностика и лечение тревожных, депрессивных, психотических и других расстройств с медикаментозной поддержкой при необходимости.</p>
+        <a href="#pricing">Подробнее <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="service-card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></div>
+        <h3>Психотерапия</h3>
+        <p>Индивидуальная и семейная терапия: КПТ, схема-терапия, работа с травмой, кризисными состояниями и созависимостью.</p>
+        <a href="#pricing">Подробнее <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="service-card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/></svg></div>
+        <h3>Психология</h3>
+        <p>Консультации психолога по вопросам самооценки, отношений, стресса на работе и адаптации к переменам.</p>
+        <a href="#pricing">Подробнее <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="service-card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 12h.01M15 12h.01M8 20v-4a4 4 0 0 1 8 0v4"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg></div>
+        <h3>Помощь детям и подросткам</h3>
+        <p>Детская и подростковая психиатрия: адаптация в школе, тревожность, поведенческие трудности, помощь семье.</p>
+        <a href="#pricing">Подробнее <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="service-card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Помощь пожилым</h3>
+        <p>Диагностика возрастных изменений памяти и настроения, сопровождение семьи, при необходимости — выезд на дом.</p>
+        <a href="#pricing">Подробнее <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="service-card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Диагностика</h3>
+        <p>Патопсихологическое и нейропсихологическое обследование, тестирование, заключение для сборов и справок.</p>
+        <a href="#pricing">Подробнее <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="bg-soft">
+  <img class="about-watermark" src="assets/img/about-watermark.png" alt="">
+  <div class="wrap about-grid">
+    <div class="about-media">
+      <div class="about-slider" id="aboutSlider">
+        <div class="about-slide active"><img src="assets/img/intro-inset.jpg" alt="Ресепшн клиники «Ментея»"></div>
+        <div class="about-slide"><img src="assets/img/about-2.jpg" alt="Коридор клиники «Ментея»"></div>
+        <div class="about-slide"><img src="assets/img/about-3.jpg" alt="Кабинет врача клиники «Ментея»"></div>
+        <div class="about-slider-dots">
+          <button class="as-dot active" data-i="0" aria-label="Фото 1"></button>
+          <button class="as-dot" data-i="1" aria-label="Фото 2"></button>
+          <button class="as-dot" data-i="2" aria-label="Фото 3"></button>
+        </div>
+      </div>
+    </div>
+    <div class="about-copy">
+      <span class="section-tag">О клинике</span>
+      <h2 style="font-size:clamp(28px,3vw,38px); font-weight:800; color:var(--blue-900); margin-bottom:20px; line-height:1.25;">Клиника «Ментея» — там, где о вас заботятся по-настоящему</h2>
+      <p>Мы открыли клинику, чтобы обращение к психиатру перестало быть поводом для тревоги. Здесь нет очередей, осуждающих взглядов и казённых кабинетов — только внимательные специалисты и понятный план помощи.</p>
+      <p>Работаем по международным протоколам, совмещаем медикаментозную терапию и психотерапию, ведём пациентов на связи между визитами и всегда объясняем, что и зачем назначаем.</p>
+      <div class="stat-grid stat-grid-3">
+        <div class="stat-card"><b>12 400+</b><span>пациентов получили помощь</span></div>
+        <div class="stat-card"><b>96%</b><span>пациентов рекомендуют клинику</span></div>
+        <div class="stat-card"><b>24/7</b><span>линия экстренной поддержки</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LICENSES ============ -->
+<section id="licenses" class="bg-soft">
+  <div class="wrap license-grid">
+    <div>
+      <span class="section-tag">Лицензии и качество</span>
+      <h2 style="font-size:clamp(28px,3vw,38px); font-weight:800; color:var(--blue-900); line-height:1.25;">Работаем официально и полностью легально</h2>
+      <div class="license-list">
+        <div class="license-item">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5Z"/></svg></div>
+          <div><b>Лицензия Минздрава РФ</b><span>№ ЛО-82-01-002345 на медицинскую деятельность, включая психиатрию и психотерапию</span></div>
+        </div>
+        <div class="license-item">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
+          <div><b>Дипломы и сертификаты врачей</b><span>Все специалисты проходят регулярное повышение квалификации</span></div>
+        </div>
+        <div class="license-item">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <div><b>Врачебная тайна</b><span>Все данные пациентов защищены и не разглашаются третьим лицам</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="license-visual">
+      <h3>Аккредитованная клиника</h3>
+      <p>Мы придерживаемся стандартов доказательной медицины и этического кодекса психиатра, а качество услуг подтверждено регулярными проверками.</p>
+      <div class="num">№ ЛО-82-01-002345</div>
+      <div class="num-label">действующая лицензия на осуществление медицинской деятельности</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOCTORS ============ -->
+<section id="doctors" class="bg-soft has-plate">
+  <div class="plate">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Наши специалисты</span>
+        <h2>Врачи, которым можно доверять</h2>
+        <div class="underline"></div>
+      </div>
+      <p>Опытная команда психиатров, психотерапевтов и психологов подберёт формат помощи под ваш запрос.</p>
+    </div>
+
+    <div class="doctors-toprow">
+      <div class="doctor-tabs">
+        <button class="tab-btn active">Все специалисты</button>
+        <button class="tab-btn">Психиатры</button>
+        <button class="tab-btn">Психотерапевты</button>
+        <button class="tab-btn">Психологи</button>
+        <button class="tab-btn">Детские специалисты</button>
+      </div>
+      <div class="doctor-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Найти врача">
+      </div>
+    </div>
+
+    <div class="doctors-layout">
+      <div class="doctor-feature">
+        <div class="photo"><img src="assets/img/intro-main.jpg" alt="Соколова Анна Викторовна"></div>
+        <div class="role">Главный врач · психиатр</div>
+        <h3>Соколова Анна Викторовна</h3>
+        <div class="meta">Кандидат медицинских наук · 18 лет опыта</div>
+        <div class="rating-row"><span class="stars">★★★★★</span> 4,9 <span class="muted">· 86 отзывов</span></div>
+        <div class="slot-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Ближайший приём: сегодня, 16:30
+        </div>
+        <a href="#booking" class="btn btn-primary btn-block" style="margin-bottom:12px;">Записаться на приём</a>
+        <a href="#" class="btn-link" style="text-align:center;">Подробнее о враче</a>
+      </div>
+
+      <div class="doctor-card">
+        <div class="photo"><img src="assets/img/doctor-orlov.jpg" alt="Орлов Михаил Андреевич"></div>
+        <div class="info">
+          <h4>Орлов Михаил Андреевич</h4>
+          <div class="role">Психиатр · психотерапевт</div>
+          <div class="exp">14 лет опыта</div>
+          <div class="dc-rating"><span class="stars">★★★★★</span><b>4.8</b><span class="muted">· 62 отзыва</span></div>
+          <span class="slot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Приём завтра</span>
+        </div>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="doctor-card">
+        <div class="photo"><img src="assets/img/doctor-volkova.jpg" alt="Волкова Елена Сергеевна"></div>
+        <div class="info">
+          <h4>Волкова Елена Сергеевна</h4>
+          <div class="role">Клинический психолог</div>
+          <div class="exp">11 лет опыта</div>
+          <div class="dc-rating"><span class="stars">★★★★★</span><b>4.9</b><span class="muted">· 54 отзыва</span></div>
+          <span class="slot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Онлайн и в клинике</span>
+        </div>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="doctor-card">
+        <div class="photo"><img src="assets/img/doctor-lebedev.jpg" alt="Лебедев Игорь Павлович"></div>
+        <div class="info">
+          <h4>Лебедев Игорь Павлович</h4>
+          <div class="role">Детский психиатр</div>
+          <div class="exp">16 лет опыта</div>
+          <div class="dc-rating"><span class="stars">★★★★★</span><b>5.0</b><span class="muted">· 71 отзыв</span></div>
+          <span class="slot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Приём 27 августа</span>
+        </div>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="doctor-card">
+        <div class="photo"><img src="assets/img/doctor-belov.jpg" alt="Белов Сергей Николаевич"></div>
+        <div class="info">
+          <h4>Белов Сергей Николаевич</h4>
+          <div class="role">Психотерапевт</div>
+          <div class="exp">9 лет опыта</div>
+          <div class="dc-rating"><span class="stars">★★★★★</span><b>4.7</b><span class="muted">· 38 отзывов</span></div>
+          <span class="slot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Есть время сегодня</span>
+        </div>
+        <div class="arrow">→</div>
+      </div>
+    </div>
+
+    <div class="doctors-showall">
+      <a href="#" class="btn btn-outline">Показать всех специалистов →</a>
+      <p>Поможем подобрать врача под ваш запрос — просто напишите нам</p>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" class="bg-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Стоимость</span>
+        <h2>Цены на услуги</h2>
+        <div class="underline"></div>
+      </div>
+      <span class="year-badge">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Актуально на 2026 год
+      </span>
+    </div>
+
+    <div class="pricing-shell">
+      <div class="pricing-body">
+        <div class="price-nav">
+          <div class="price-nav-item active">Первичный приём <span>→</span></div>
+          <div class="price-nav-item">Психиатрия <span>→</span></div>
+          <div class="price-nav-item">Психотерапия <span>→</span></div>
+          <div class="price-nav-item">Психология <span>→</span></div>
+          <div class="price-nav-item">Помощь детям <span>→</span></div>
+          <div class="price-nav-item">Помощь пожилым <span>→</span></div>
+          <div class="price-nav-item">Диагностика <span>→</span></div>
+        </div>
+        <div class="price-list">
+          <div class="price-row">
+            <div><div class="name">Первичная консультация психиатра</div><div class="dur">60 минут</div></div>
+            <div class="right"><div class="cost">от 3 500 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          </div>
+          <div class="price-row">
+            <div><div class="name">Повторная консультация психиатра</div><div class="dur">45 минут</div></div>
+            <div class="right"><div class="cost">2 800 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          </div>
+          <div class="price-row">
+            <div><div class="name">Консультация психотерапевта</div><div class="dur">60 минут</div></div>
+            <div class="right"><div class="cost">от 3 200 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          </div>
+          <div class="price-row">
+            <div><div class="name">Онлайн-консультация специалиста</div><div class="dur">60 минут</div></div>
+            <div class="right"><div class="cost">2 500 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          </div>
+          <div class="price-row">
+            <div><div class="name">Психологическая диагностика</div><div class="dur">до 90 минут</div></div>
+            <div class="right"><div class="cost">от 4 000 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          </div>
+          <div class="price-row">
+            <div><div class="name">Семейная консультация</div><div class="dur">до 90 минут</div></div>
+            <div class="right"><div class="cost">4 500 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          </div>
+          <div class="price-row">
+            <div><div class="name">Выезд врача на дом</div><div class="dur">60 минут</div></div>
+            <div class="right"><div class="cost">от 6 000 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          </div>
+          <div class="price-row">
+            <div><div class="name">Врачебный консилиум</div><div class="dur">до 120 минут</div></div>
+            <div class="right"><div class="cost">от 12 000 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="price-note">
+        <p>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Точная стоимость определяется специалистом после консультации
+        </p>
+        <a href="#booking" class="btn btn-primary">Записаться на консультацию</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section id="reviews" class="bg-soft has-plate">
+  <div class="plate">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Отзывы</span>
+        <h2>Что говорят наши пациенты</h2>
+        <div class="underline"></div>
+      </div>
+      <p>Публикуем отзывы только с согласия пациентов. Имена сокращены в целях конфиденциальности.</p>
+    </div>
+
+    <div class="platform-grid">
+      <div class="platform-card">
+        <div class="p-logo"><img src="assets/img/platform-prodoctorov.png" alt="ПроДокторов"></div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-score">4.9 <span>/ 5</span></div>
+      </div>
+      <div class="platform-card">
+        <div class="p-logo"><img src="assets/img/platform-napopravku.png" alt="НаПоправку"></div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-score">4.8 <span>/ 5</span></div>
+      </div>
+      <div class="platform-card">
+        <div class="p-logo"><img src="assets/img/platform-yandex.png" alt="Яндекс"></div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-score">4.5 <span>/ 5</span></div>
+      </div>
+      <div class="platform-card">
+        <div class="p-logo"><img src="assets/img/platform-google.png" alt="Google"></div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-score">4.7 <span>/ 5</span></div>
+      </div>
+      <div class="platform-card">
+        <div class="p-logo"><img src="assets/img/platform-yell.png" alt="Yell.ru"></div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-score">5.0 <span>/ 5</span></div>
+      </div>
+      <div class="platform-card">
+        <div class="p-logo"><img src="assets/img/platform-2gis.png" alt="2ГИС"></div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-score">5.0 <span>/ 5</span></div>
+      </div>
+    </div>
+
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>«Долго откладывала визит к психиатру — казалось, что это страшно. В клинике всё оказалось совсем иначе: спокойно, по-человечески, без спешки. Через месяц лечения стало заметно легче».</p>
+        <div class="review-who">
+          <div class="review-avatar">М.</div>
+          <div><b>Марина, 34 года</b><span>Приём у А. В. Соколовой</span></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>«Сына направили к детскому психиатру после сложностей в школе. Игорь Павлович нашёл подход буквально с первой встречи, ребёнок сам стал проситься на приём».</p>
+        <div class="review-who">
+          <div class="review-avatar">Д.</div>
+          <div><b>Дмитрий, 41 год</b><span>Приём у И. П. Лебедева</span></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>«Онлайн-консультация прошла даже удобнее, чем очный приём в других местах. Врач подробно объяснил схему терапии и был на связи между визитами».</p>
+        <div class="review-who">
+          <div class="review-avatar">Е.</div>
+          <div><b>Елена, 29 лет</b><span>Онлайн-приём</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<!-- ============ PROMO ============ -->
+<section id="promo" class="bg-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Акции</span>
+        <h2>Специальные предложения</h2>
+        <div class="underline"></div>
+      </div>
+      <p>Следите за акциями клиники — периодически обновляем условия для новых и постоянных пациентов.</p>
+    </div>
+    <div class="promo-grid">
+      <div class="promo-card">
+        <img src="assets/img/promo-1.jpg" alt="Скидка на первичный приём — со скидкой 20%">
+        <a href="#booking" class="btn btn-sm promo-btn promo-btn-raised">Записаться</a>
+      </div>
+      <div class="promo-card">
+        <img src="assets/img/promo-2.jpg" alt="Психологическая диагностика в подарок">
+        <a href="#booking" class="btn btn-sm promo-btn">Записаться</a>
+      </div>
+      <div class="promo-card">
+        <img src="assets/img/promo-3.jpg" alt="Программа поддержки для студентов">
+        <a href="#booking" class="btn btn-sm promo-btn promo-btn-raised">Записаться</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="faq-outer bg-soft">
+  <div class="faq-section">
+  <div class="faq-pattern"></div>
+  <div class="wrap">
+    <div class="faq-head">
+      <h2>Часто задаваемые вопросы<br>о лечении в нашей клинике</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Нужно ли направление, чтобы попасть на приём?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Нет, направление не требуется. Записаться на консультацию можно напрямую — по телефону, через сайт или мессенджер, без предварительного визита к другому врачу.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Ставите ли вы на учёт в психоневрологический диспансер?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Нет. Клиника «Ментея» — частное медицинское учреждение, приём носит анонимный характер и не влечёт постановку на учёт в ПНД.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Можно ли пройти консультацию онлайн?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Да, часть специалистов принимает в формате видеоконсультации. Формат приёма можно выбрать при записи — очно в клинике или онлайн.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Как подготовиться к первому приёму?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Специальной подготовки не требуется. Полезно взять с собой результаты предыдущих обследований и список принимаемых препаратов, если они есть — это ускорит консультацию.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Работаете ли вы с подростками?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Да, в клинике принимают детские и подростковые специалисты. Приём несовершеннолетних проходит в присутствии одного из родителей или законного представителя.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Как оплатить приём и можно ли получить чек?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Принимаем оплату наличными и картой. По запросу выдаём чек и справку для налогового вычета за медицинские услуги.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Сохраняется ли конфиденциальность обращения?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Да. Мы гарантируем полную конфиденциальность: информация о факте обращения и деталях лечения не передаётся третьим лицам, работодателю или в госучреждения без вашего согласия.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Что делать, если срочно нужна помощь?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a">
+          <p>При острых состояниях позвоните нам — по возможности подберём ближайшее свободное время для приёма. Работает линия экстренной поддержки, где помогут сориентироваться в ситуации.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT / BOOKING ============ -->
+<section id="contacts" class="bg-soft">
+  <div class="wrap">
+    <div class="contact-grid" id="booking">
+      <div class="contact-info">
+        <h2>Свяжитесь с нами</h2>
+        <p>Ответим на вопросы, поможем подобрать специалиста и запишем на удобное время — очно или онлайн.</p>
+        <div class="contact-line">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><b>Адрес клиники</b><span>г. Симферополь, ул. Киевская, 10</span></div>
+        </div>
+        <div class="contact-line">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></div>
+          <div><b>Телефон</b><span>+7 (978) 000-00-00</span></div>
+        </div>
+        <div class="contact-line">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></div>
+          <div><b>Email</b><span>info@doverie-clinic.ru</span></div>
+        </div>
+        <div class="contact-line">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div><b>Режим работы</b><span>Ежедневно, 8:00–22:00 · экстренная линия 24/7</span></div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3>Записаться на консультацию</h3>
+        <p>Оставьте заявку — администратор свяжется с вами в течение 15 минут</p>
+        <form onsubmit="event.preventDefault(); alert('Заявка отправлена (демо-форма)');">
+          <div class="form-row">
+            <div class="field"><label>Имя</label><input type="text" placeholder="Как к вам обращаться" required></div>
+            <div class="field"><label>Телефон</label><input type="tel" placeholder="+7 (___) ___-__-__" required></div>
+          </div>
+          <div class="form-row">
+            <div class="field full"><label>Специалист</label>
+              <select>
+                <option>Не имеет значения</option>
+                <option>Психиатр</option>
+                <option>Психотерапевт</option>
+                <option>Психолог</option>
+                <option>Детский специалист</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field full"><label>Комментарий</label><textarea placeholder="Коротко опишите, чем можем помочь (необязательно)"></textarea></div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Отправить заявку</button>
+          <p class="consent">Отправляя форму, вы соглашаетесь с политикой обработки персональных данных. Все обращения конфиденциальны.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo"><img src="assets/img/logo.png" alt="Логотип"><b>Клиника «Ментея»</b></div>
+        <p>Частная психиатрическая клиника в Симферополе. Помогаем взрослым и подросткам вернуть устойчивость и качество жизни.</p>
+        <div class="footer-social">
+          <a href="#" title="Telegram"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></a>
+          <a href="#" title="WhatsApp"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></a>
+          <a href="#" title="VK"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Разделы</h4>
+        <ul>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#about">О клинике</a></li>
+          <li><a href="#doctors">Врачи</a></li>
+          <li><a href="#pricing">Стоимость</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Услуги</h4>
+        <ul>
+          <li><a href="#services">Психиатрия</a></li>
+          <li><a href="#services">Психотерапия</a></li>
+          <li><a href="#services">Психология</a></li>
+          <li><a href="#services">Помощь детям</a></li>
+          <li><a href="#services">Диагностика</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <p>г. Симферополь, ул. Киевская, 10</p>
+        <p style="margin-top:10px;">+7 (978) 000-00-00</p>
+        <p style="margin-top:10px;">info@doverie-clinic.ru</p>
+      </div>
+    </div>
+    <p class="footer-disclaimer">Сайт носит информационный характер и не является публичной офертой. Перед применением любых методов лечения необходима консультация специалиста. ООО «Клиника Ментея», Лицензия Минздрава РФ № ЛО-82-01-002345.</p>
+    <div class="footer-bottom">
+      <span>© 2026 Клиника «Ментея». Все права защищены.</span>
+      <span>Политика конфиденциальности · Согласие на обработку данных</span>
+    </div>
+  </div>
+</footer>
+
+<nav class="bottombar" aria-label="Быстрая связь">
+  <a class="bb-btn" href="tel:+79782247825"><svg class="i"><use href="#i-phone"/></svg>Позвонить</a>
+  <a class="bb-btn" href="#contacts"><svg class="i"><use href="#i-chat"/></svg>Написать</a>
+  <a class="bb-btn bb-primary" href="#booking"><svg class="i"><use href="#i-calendar"/></svg>Записаться</a>
+</nav>
+
+<script src="assets/js/menteya.js" defer></script>
+
+</body>
+</html>

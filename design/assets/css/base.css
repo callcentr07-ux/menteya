@@ -1,0 +1,130 @@
+/* Ментея — общие стили: токены, база, сетка, кнопки, иконки. В WordPress токены переедут в theme.json. */
+
+:root{
+  --blue-950:#0b2466;
+  --blue-900:#0e2a5e;
+  --blue-800:#123a86;
+  --blue-700:#1746b3;
+  --blue-600:#2058d6;
+  --blue-500:#2f74e8;
+  --teal-400:#2fd6a5;
+  --teal-500:#1ec293;
+  --teal-700:#0b7d5e;            /* бирюза для мелкого текста на белом: контраст 5:1 */
+  --teal-50:#e6f9f2;
+  --grad: linear-gradient(120deg,#2158d8 0%, #2f8fe0 55%, #29d1a6 100%);
+  --grad-soft: linear-gradient(120deg, rgba(33,88,216,.08), rgba(41,209,166,.08));
+  --grad-header: linear-gradient(90deg,#12409e 0%, #1b57c9 45%, #1f7fd6 100%);
+  --bg-soft:#f4f8ff;
+  --bg-soft2:#eef4ff;
+  --ink:#101b33;
+  --ink-soft:#4a5670;
+  --line:#e2e8f5;
+  --white:#ffffff;
+
+  --radius-sm:10px;
+  --radius:16px;
+  --radius-lg:24px;
+  --radius-xl:32px;
+  --shadow: 0 12px 30px rgba(16,34,84,.08);
+  --shadow-lg: 0 24px 60px rgba(16,34,84,.14);
+
+  --container:1320px;
+  --gutter:clamp(16px, 4vw, 40px);
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --focus:0 0 0 3px #fff, 0 0 0 5px var(--blue-500);
+
+  --utility-h:38px;
+  --bar-h:76px;
+  --bar-h-scrolled:64px;
+  --bottombar-h:68px;
+}
+@media (max-width:767px){
+  :root{ --bar-h:60px; --bar-h-scrolled:60px; }
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:calc(var(--bar-h-scrolled) + 16px);
+  -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:transparent;
+}
+body{
+  font-family:'Manrope', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  color:var(--ink);
+  background:var(--white);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+body.no-scroll{ overflow:hidden; }
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+ul{ list-style:none; }
+button{ font:inherit; color:inherit; background:none; cursor:pointer; border:none; }
+input, textarea, select{ font:inherit; font-size:16px; }
+button, a, [role="button"], summary{ touch-action:manipulation; }
+button, .btn, summary{ -webkit-user-select:none; user-select:none; }
+:focus-visible{ outline:none; box-shadow:var(--focus); border-radius:8px; }
+
+.skip-link{
+  position:absolute; left:16px; top:-100px; z-index:1000;
+  background:#fff; color:var(--blue-800); font-weight:700;
+  padding:12px 18px; border-radius:12px; box-shadow:var(--shadow-lg);
+}
+.skip-link:focus{ top:12px; }
+.visually-hidden{
+  position:absolute; width:1px; height:1px; overflow:hidden;
+  clip:rect(0 0 0 0); white-space:nowrap;
+}
+
+/* Сетка: контент не шире 1320 px */
+.wrap{
+  width:100%;
+  max-width:calc(var(--container) + var(--gutter) * 2);
+  margin-inline:auto;
+  padding-inline:var(--gutter);
+}
+
+/* Иконки из спрайта: <svg class="i"><use href="#i-phone"/></svg> */
+.i{ width:20px; height:20px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.i-fill{ fill:currentColor; stroke:none; }
+
+/* ===== Кнопки ===== */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  min-height:48px; padding:0 24px;
+  border-radius:12px;
+  font-weight:700; font-size:15px; line-height:1.2;
+  white-space:nowrap;
+  transition:transform .16s var(--ease-out), box-shadow .2s var(--ease-out), background-color .2s, border-color .2s, color .2s;
+}
+.btn:active{ transform:scale(.97); }
+.btn .i{ width:18px; height:18px; }
+.btn-primary{
+  background:var(--grad); color:#fff;
+  box-shadow:0 10px 24px rgba(32,88,216,.28);
+}
+.btn-white{ background:#fff; color:var(--blue-800); box-shadow:0 6px 16px rgba(6,24,74,.18); }
+.btn-outline{ background:#fff; color:var(--blue-700); border:1.5px solid var(--line); }
+.btn-ghost{ background:rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.4); }
+.btn-lg{ min-height:56px; padding:0 30px; font-size:16px; border-radius:14px; }
+.btn-sm{ min-height:40px; padding:0 16px; font-size:14px; border-radius:10px; }
+.btn-block{ width:100%; }
+.btn-link{ color:var(--blue-600); font-weight:700; display:inline-block; }
+
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 30px rgba(32,88,216,.36); }
+  .btn-white:hover{ transform:translateY(-1px); box-shadow:0 10px 22px rgba(6,24,74,.24); }
+  .btn-outline:hover{ border-color:var(--blue-500); color:var(--blue-600); }
+  .btn-ghost:hover{ background:rgba(255,255,255,.24); }
+}
+
+/* ===== Мессенджеры (общие для шапки, меню, записи) ===== */
+.msg-tg{ --msg:#229ed9; }
+.msg-wa{ --msg:#25d366; }
+.msg-max{ --msg:#6a4cff; }
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
+}

@@ -1,0 +1,155 @@
+/* ===== Первый экран ===== */
+.hero{
+  position:relative;
+  background:
+    linear-gradient(180deg, rgba(244,248,255,.55) 0%, rgba(255,255,255,.8) 100%),
+    url("../../img/hero-bg.jpg") center / cover no-repeat;
+  padding:clamp(36px, 5vw, 72px) 0 clamp(28px, 3vw, 40px);
+}
+.hero-grid{
+  display:grid; grid-template-columns:1.05fr .95fr;
+  gap:clamp(32px, 5vw, 80px); align-items:center;
+}
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  background:rgba(255,255,255,.75);
+  border:1px solid rgba(32,88,216,.12);
+  color:var(--blue-700);
+  font-weight:700; font-size:13.5px;
+  padding:8px 16px 8px 12px; border-radius:100px;
+  margin-bottom:22px;
+}
+/* «Живая» точка: клиника работает сейчас */
+.live-dot{ position:relative; width:10px; height:10px; border-radius:50%; background:var(--teal-500); flex-shrink:0; }
+.live-dot::after{
+  content:""; position:absolute; inset:0; border-radius:50%;
+  background:var(--teal-500); animation:live 2.4s var(--ease-out) infinite;
+}
+@keyframes live{ 0%{ transform:scale(1); opacity:.55; } 70%,100%{ transform:scale(2.6); opacity:0; } }
+
+.hero h1{
+  font-size:clamp(34px, 4.1vw, 58px);
+  line-height:1.08; font-weight:800; letter-spacing:-.02em;
+  color:var(--blue-900);
+  max-width:14em;
+  margin-bottom:22px;
+}
+.hero h1 em{
+  font-style:normal;
+  background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero .lead{
+  font-size:clamp(16px, 1.25vw, 18.5px); line-height:1.65;
+  color:var(--ink-soft); max-width:34em; margin-bottom:24px;
+}
+.hero-facts{ display:grid; gap:10px; margin-bottom:32px; }
+.hero-facts li{ display:flex; align-items:center; gap:12px; font-size:15.5px; font-weight:600; color:var(--ink); }
+.hero-facts .tick{
+  width:26px; height:26px; border-radius:50%; flex-shrink:0;
+  background:var(--teal-50); color:var(--teal-700);
+  display:flex; align-items:center; justify-content:center;
+}
+.hero-facts .tick .i{ width:15px; height:15px; stroke-width:2.6; }
+.hero-cta{ display:flex; flex-wrap:wrap; gap:12px; }
+.hero-cta .btn-outline .i{ color:#229ed9; }
+.hero-license{
+  display:flex; align-items:center; gap:8px; margin-top:20px;
+  font-size:13px; color:var(--ink-soft);
+}
+.hero-license .i{ width:16px; height:16px; color:var(--teal-700); }
+
+.hero-visual{ position:relative; }
+.hero-visual .frame{
+  border-radius:28px; overflow:hidden;
+  box-shadow:var(--shadow-lg);
+  border:6px solid rgba(255,255,255,.7);
+}
+.hero-visual img{
+  width:100%; height:clamp(440px, 40vw, 580px);
+  object-fit:cover; object-position:74% 30%;
+}
+.hero-badge{
+  position:absolute; left:-28px; bottom:44px;
+  display:flex; align-items:center; gap:12px;
+  background:#fff; border-radius:18px; padding:14px 20px 14px 14px;
+  box-shadow:0 18px 40px rgba(14,42,94,.16);
+}
+.hero-badge .ic{
+  width:44px; height:44px; border-radius:12px; flex-shrink:0;
+  background:var(--grad); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+}
+.hero-badge b{ display:block; font-size:15px; color:var(--ink); }
+.hero-badge span{ font-size:12.5px; color:var(--ink-soft); }
+
+/* Полоса преимуществ — карточка на стекле */
+.feature-strip{
+  display:grid; grid-template-columns:repeat(4, minmax(0,1fr));
+  margin-top:clamp(32px, 4vw, 56px);
+  background:rgba(255,255,255,.82);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:24px;
+  box-shadow:0 16px 40px rgba(14,42,94,.08);
+  padding:22px 8px;
+}
+.feature-item{ display:flex; align-items:center; gap:14px; padding:4px 22px; }
+.feature-item + .feature-item{ border-left:1px solid var(--line); }
+.feature-item .ic{
+  width:50px; height:50px; border-radius:14px; flex-shrink:0;
+  background:var(--bg-soft2); color:var(--blue-600);
+  display:flex; align-items:center; justify-content:center;
+}
+.feature-item .ic .i{ width:24px; height:24px; }
+.feature-item b{ display:block; font-size:15px; font-weight:700; color:var(--ink); line-height:1.3; -webkit-hyphens:auto; hyphens:auto; }
+.feature-item span{ font-size:13px; color:var(--ink-soft); }
+
+/* Один согласованный выход при загрузке — без анимаций на каждом блоке */
+@keyframes rise{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
+/* Заголовок и фото — самые крупные элементы экрана (по ним Google меряет скорость, LCP): двигаем, но не прячем */
+@keyframes nudge{ from{ transform:translateY(10px); } to{ transform:none; } }
+@keyframes settle{ from{ transform:scale(.975); } to{ transform:none; } }
+.hero-copy > *{ animation:rise .7s var(--ease-out) both; }
+.hero-copy > h1{ animation-name:nudge; }
+.hero-copy > :nth-child(2){ animation-delay:.06s; }
+.hero-copy > :nth-child(3){ animation-delay:.12s; }
+.hero-copy > :nth-child(4){ animation-delay:.18s; }
+.hero-copy > :nth-child(5){ animation-delay:.24s; }
+.hero-copy > :nth-child(6){ animation-delay:.3s; }
+.hero-visual .frame{ animation:settle .9s var(--ease-out) .1s both; }
+.hero-badge{ animation:rise .6s var(--ease-out) .55s both; }
+.feature-strip{ animation:rise .7s var(--ease-out) .35s both; }
+
+/* ===== Адаптив ===== */
+@media (max-width:1199px){
+  .hero-cta .btn{ flex:1 1 auto; }
+  .feature-strip{ grid-template-columns:repeat(2, minmax(0,1fr)); row-gap:18px; }
+  .feature-item:nth-child(3){ border-left:none; }
+}
+@media (max-width:1023px){
+  .hero-grid{ grid-template-columns:1fr; }
+  .hero h1{ max-width:16em; }
+  .hero-visual img{ height:clamp(300px, 46vw, 420px); }
+  .hero-badge{ left:20px; bottom:20px; }
+}
+@media (max-width:767px){
+  .hero{ padding-top:24px; }
+  .eyebrow{ font-size:12.5px; margin-bottom:16px; }
+  .hero h1{ font-size:clamp(30px, 8.6vw, 38px); margin-bottom:16px; }
+  .hero .lead{ margin-bottom:20px; }
+  .hero-facts{ margin-bottom:24px; }
+  .hero-facts li{ font-size:15px; }
+  .hero-cta{ flex-direction:column; }
+  .hero-cta .btn{ width:100%; }
+  .hero-license{ font-size:12px; align-items:flex-start; }
+  .hero-visual .frame{ border-radius:22px; border-width:4px; }
+  .hero-visual img{ height:280px; object-position:76% 20%; }
+  .hero-badge{ left:12px; right:12px; bottom:12px; padding:10px 14px 10px 10px; border-radius:14px; }
+  .hero-badge .ic{ width:38px; height:38px; }
+  .feature-strip{ padding:14px 6px; border-radius:20px; row-gap:6px; }
+  .feature-item{ flex-direction:column; align-items:flex-start; gap:10px; padding:10px 14px; }
+  .feature-item .ic{ width:42px; height:42px; border-radius:12px; }
+  .feature-item b{ font-size:14px; }
+  .feature-item span{ font-size:12.5px; }
+}
