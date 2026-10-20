@@ -232,6 +232,73 @@ document.querySelectorAll('.gallery').forEach(function(g){
   });
 })();
 
+// Форма записи: маска телефона, проверка полей, «Заявка принята».
+// В прототипе заявка никуда не отправляется — в WordPress сюда подключится обработчик формы.
+(function(){
+  var form = document.getElementById('bookingForm');
+  if(!form) return;
+  var phone = form.querySelector('#f-phone');
+  var name = form.querySelector('#f-name');
+  var consent = form.querySelector('[name="consent"]');
+  var body = form.querySelector('.form-body');
+  var success = form.querySelector('.form-success');
+  var prevDigits = '';
+
+  function format(d){
+    var r = d.slice(1, 11), out = '+7';
+    if(r.length) out += ' (' + r.slice(0, 3);
+    if(r.length >= 3) out += ')';
+    if(r.length > 3) out += ' ' + r.slice(3, 6);
+    if(r.length > 6) out += '-' + r.slice(6, 8);
+    if(r.length > 8) out += '-' + r.slice(8, 10);
+    return out;
+  }
+  phone.addEventListener('input', function(e){
+    var d = phone.value.replace(/\D/g, '');
+    if(!d){ phone.value = ''; prevDigits = ''; return; }
+    if(d[0] === '8') d = '7' + d.slice(1);
+    else if(d[0] !== '7') d = '7' + d;
+    // Стёрли скобку или дефис — цифр не убавилось: убираем последнюю цифру, иначе «застрянет»
+    if(e.inputType === 'deleteContentBackward' && d === prevDigits) d = d.slice(0, -1);
+    prevDigits = d.slice(0, 11);
+    phone.value = d.length > 1 ? format(prevDigits) : '';
+  });
+
+  var checks = [
+    [name, function(){ return name.value.trim().length > 0; }],
+    [phone, function(){ return phone.value.replace(/\D/g, '').length === 11; }],
+    [consent, function(){ return consent.checked; }]
+  ];
+  function validate(el, test){
+    var ok = test();
+    el.closest('.field').classList.toggle('is-invalid', !ok);
+    el.setAttribute('aria-invalid', String(!ok));
+    return ok;
+  }
+  checks.forEach(function(c){
+    var ev = c[0].type === 'checkbox' ? 'change' : 'input';
+    c[0].addEventListener(ev, function(){
+      if(c[0].closest('.field').classList.contains('is-invalid')) validate(c[0], c[1]);
+    });
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var firstBad = null;
+    checks.forEach(function(c){ if(!validate(c[0], c[1]) && !firstBad) firstBad = c[0]; });
+    if(firstBad){ firstBad.focus(); return; }
+    body.hidden = true;
+    success.hidden = false;
+    success.querySelector('b').focus();
+  });
+  form.querySelector('.form-again').addEventListener('click', function(){
+    form.reset(); prevDigits = '';
+    success.hidden = true;
+    body.hidden = false;
+    name.focus();
+  });
+})();
+
 // Вопросы и ответы: открыт один ответ за раз, высоту анимирует CSS (grid-template-rows)
 (function(){
   var items = document.querySelectorAll('.faq-item');

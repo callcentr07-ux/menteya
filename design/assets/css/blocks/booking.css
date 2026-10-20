@@ -1,0 +1,128 @@
+/* ===== Запись и контакты ===== */
+.booking-grid{
+  display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  border-radius:28px; overflow:hidden; background:#fff;
+  box-shadow:0 34px 80px -44px rgba(14,42,94,.6);
+}
+
+/* --- Панель контактов --- */
+.contact-panel{
+  position:relative; display:flex; flex-direction:column; gap:28px;
+  padding:44px; color:#fff;
+  background:linear-gradient(rgba(9,26,66,.5), rgba(9,26,66,.72)), url("../../img/contact-bg.jpg") center / cover no-repeat;
+}
+.contact-panel .section-tag{ color:#a6f3da; }
+.contact-panel h2{ font-size:clamp(26px, 2.6vw, 36px); font-weight:800; line-height:1.15; letter-spacing:-.01em; }
+.contact-panel h2 + p{ margin-top:12px; max-width:40ch; font-size:15px; line-height:1.65; color:rgba(255,255,255,.82); }
+.contact-list{ display:grid; gap:20px; }
+.contact-line{ display:flex; align-items:flex-start; gap:14px; }
+.contact-line .ic{
+  width:44px; height:44px; border-radius:12px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
+}
+.contact-line .ic .i{ width:20px; height:20px; color:#a6f3da; }
+.contact-line b{ display:block; font-size:12.5px; font-weight:600; color:rgba(255,255,255,.66); margin-bottom:3px; }
+.contact-line .val{ display:block; font-size:16.5px; font-weight:700; color:#fff; }
+.contact-line .sub{ display:block; margin-top:2px; font-size:13.5px; color:rgba(255,255,255,.72); }
+@media (hover:hover) and (pointer:fine){ a.val:hover{ color:#c9f7e8; } }
+.route-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.route-btn{
+  display:inline-flex; align-items:center; gap:6px; min-height:34px; padding:0 12px; border-radius:10px;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
+  font-size:13px; font-weight:700; color:#fff; transition:background-color .2s;
+}
+.route-btn .i{ width:14px; height:14px; transform:rotate(-45deg); }
+@media (hover:hover) and (pointer:fine){ .route-btn:hover{ background:rgba(255,255,255,.22); } }
+.contact-panel .msg-row{ margin-top:auto; }
+
+/* --- Форма --- */
+.booking-form{
+  display:flex; flex-direction:column; justify-content:center;   /* «Заявка принята» — по центру карточки */
+  padding:44px; scroll-margin-top:calc(var(--bar-h-scrolled) + 16px);
+}
+.booking-form h3{ font-size:clamp(22px, 2vw, 26px); font-weight:800; line-height:1.2; color:var(--blue-900); }
+.booking-form .lead-sm{ margin-top:6px; font-size:14.5px; color:var(--ink-soft); }
+.form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px 16px; margin:24px 0 22px; }
+fieldset{ border:0; padding:0; margin:0; min-width:0; }
+.field{ display:flex; flex-direction:column; gap:8px; min-width:0; }
+.field.full{ grid-column:1 / -1; }
+.field > label, .field legend{ font-size:13.5px; font-weight:700; color:var(--ink); padding:0; }
+.field legend{ margin-bottom:8px; }
+.req{ color:#e5484d; }
+.opt{ font-weight:500; color:var(--ink-soft); }
+.input{
+  width:100%; min-height:50px; padding:0 14px;
+  background:#fff; border:1.5px solid var(--line); border-radius:12px;
+  color:var(--ink); outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+.input::placeholder{ color:#8a94ab; }
+.input:focus{ border-color:var(--blue-500); box-shadow:0 0 0 4px rgba(47,116,232,.12); }
+textarea.input{ min-height:96px; padding:12px 14px; resize:vertical; line-height:1.5; }
+select.input{
+  appearance:none; -webkit-appearance:none; padding-right:42px; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232058d6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 14px center;
+}
+.error{ display:none; font-size:12.5px; font-weight:600; color:#d6343a; }
+.field.is-invalid .error{ display:block; }
+.field.is-invalid .input{ border-color:#e5484d; box-shadow:0 0 0 4px rgba(229,72,77,.1); }
+
+/* Выбор кнопками (радиокнопки в виде плашек) */
+.chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{ position:relative; }
+.chip input{ position:absolute; inset:0; opacity:0; margin:0; cursor:pointer; }
+.chip span{
+  display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0 15px;
+  border-radius:12px; border:1.5px solid var(--line); background:#fff;
+  font-size:14px; font-weight:700; color:var(--ink-soft);
+  transition:border-color .2s, background-color .2s, color .2s;
+  -webkit-user-select:none; user-select:none;
+}
+.chip span .i{ width:16px; height:16px; }
+.chip input:checked + span{ border-color:var(--blue-500); background:var(--bg-soft2); color:var(--blue-700); }
+.chip input:focus-visible + span{ box-shadow:var(--focus); }
+@media (hover:hover) and (pointer:fine){ .chip:hover span{ border-color:var(--blue-500); } }
+
+/* Согласие на обработку данных — отдельной галочкой (152-ФЗ) */
+.consent{ display:flex; align-items:flex-start; gap:10px; font-size:13px; line-height:1.5; color:var(--ink-soft); cursor:pointer; }
+.consent input{ width:20px; height:20px; margin:1px 0 0; flex-shrink:0; accent-color:var(--blue-600); cursor:pointer; }
+.consent a{ color:var(--blue-600); font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+.field.is-invalid .consent{ color:#b4232a; }
+
+.secure-note{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:12px; font-size:12.5px; color:var(--ink-soft); }
+.secure-note .i{ width:15px; height:15px; color:var(--teal-700); }
+
+/* --- Заявка принята --- */
+.form-success{ text-align:center; padding:40px 8px; }
+.form-success .ok{
+  width:72px; height:72px; margin:0 auto 18px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--grad); color:#fff; box-shadow:0 16px 34px -14px rgba(32,88,216,.7);
+  animation:pop .5s var(--ease-out) both;
+}
+.form-success .ok .i{ width:34px; height:34px; stroke-width:2.6; }
+.form-success b{ display:block; font-size:24px; font-weight:800; color:var(--blue-900); outline:none; }
+.form-success p{ margin:10px auto 22px; max-width:36ch; font-size:15px; line-height:1.6; color:var(--ink-soft); }
+@keyframes pop{ from{ transform:scale(.6); opacity:0; } 60%{ transform:scale(1.06); opacity:1; } }
+
+/* ===== Адаптив ===== */
+@media (max-width:1023px){
+  .booking-grid{ grid-template-columns:1fr; }
+  .booking-form{ order:-1; }   /* на телефоне и планшете сначала форма */
+  .contact-panel .msg-row{ margin-top:0; }
+}
+@media (max-width:767px){
+  .booking-grid{ border-radius:22px; }
+  .booking-form{ padding:26px 20px; }
+  .contact-panel{ padding:28px 20px; gap:22px; }
+  .form-grid{ grid-template-columns:1fr; gap:16px; }
+  /* Три варианта — ровно в ряд */
+  .chips{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:6px; }
+  .chip span{ width:100%; justify-content:center; gap:5px; padding:0 6px; font-size:13.5px; white-space:nowrap; }
+  .chip span .i{ width:15px; height:15px; }
+}
+@media (max-width:420px){
+  .chip span .i{ display:none; }   /* на узких телефонах подпись важнее иконки */
+}

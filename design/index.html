@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="assets/css/blocks/reviews.css">
 <link rel="stylesheet" href="assets/css/blocks/promo.css">
 <link rel="stylesheet" href="assets/css/blocks/faq.css">
+<link rel="stylesheet" href="assets/css/blocks/booking.css">
 <link rel="stylesheet" href="assets/css/legacy.css">
 </head>
 <body>
@@ -1001,53 +1002,108 @@
 </section>
 
 <!-- ============ CONTACT / BOOKING ============ -->
-<section id="contacts" class="bg-soft">
+<section id="contacts" class="booking bg-soft">
   <div class="wrap">
-    <div class="contact-grid" id="booking">
-      <div class="contact-info">
-        <h2>Свяжитесь с нами</h2>
-        <p>Ответим на вопросы, поможем подобрать специалиста и запишем на удобное время — очно или онлайн.</p>
-        <div class="contact-line">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          <div><b>Адрес клиники</b><span>г. Москва, ул. Примерная, 1</span></div>
+    <div class="booking-grid">
+      <div class="contact-panel">
+        <div>
+          <span class="section-tag">Контакты</span>
+          <h2>Свяжитесь с нами</h2>
+          <p>Ответим на вопросы, поможем подобрать специалиста и запишем на удобное время — очно или онлайн.</p>
         </div>
-        <div class="contact-line">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></div>
-          <div><b>Телефон</b><span>+7 (495) 000-00-00</span></div>
-        </div>
-        <div class="contact-line">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></div>
-          <div><b>Email</b><span>info@menteya.ru</span></div>
-        </div>
-        <div class="contact-line">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-          <div><b>Режим работы</b><span>Ежедневно, 8:00–22:00 · экстренная линия 24/7</span></div>
+        <ul class="contact-list">
+          <li class="contact-line">
+            <span class="ic"><svg class="i"><use href="#i-pin"/></svg></span>
+            <div>
+              <b>Адрес клиники</b><span class="val">г. Москва, ул. Примерная, 1</span>
+              <div class="route-row">
+                <a class="route-btn" href="#contacts">Маршрут в Яндекс Картах<svg class="i"><use href="#i-arrow"/></svg></a>
+                <a class="route-btn" href="#contacts">2ГИС<svg class="i"><use href="#i-arrow"/></svg></a>
+              </div>
+            </div>
+          </li>
+          <li class="contact-line">
+            <span class="ic"><svg class="i"><use href="#i-phone"/></svg></span>
+            <div><b>Телефон</b><a class="val" href="tel:+74950000000">+7 (495) 000-00-00</a></div>
+          </li>
+          <li class="contact-line">
+            <span class="ic"><svg class="i"><use href="#i-mail"/></svg></span>
+            <div><b>Почта</b><a class="val" href="mailto:info@menteya.ru">info@menteya.ru</a></div>
+          </li>
+          <li class="contact-line">
+            <span class="ic"><svg class="i"><use href="#i-clock"/></svg></span>
+            <div><b>Режим работы</b><span class="val">Ежедневно 9:00–21:00</span><span class="sub">Выезд врача — круглосуточно</span></div>
+          </li>
+        </ul>
+        <div class="msg-row">
+          <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+          <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
         </div>
       </div>
-      <div class="contact-form">
-        <h3>Записаться на консультацию</h3>
-        <p>Оставьте заявку — администратор свяжется с вами в течение 15 минут</p>
-        <form onsubmit="event.preventDefault(); alert('Заявка отправлена (демо-форма)');">
-          <div class="form-row">
-            <div class="field"><label>Имя</label><input type="text" placeholder="Как к вам обращаться" required></div>
-            <div class="field"><label>Телефон</label><input type="tel" placeholder="+7 (___) ___-__-__" required></div>
-          </div>
-          <div class="form-row">
-            <div class="field full"><label>Специалист</label>
-              <select>
-                <option>Не имеет значения</option>
-                <option>Психиатр</option>
-                <option>Психотерапевт</option>
-                <option>Психолог</option>
-                <option>Детский специалист</option>
-              </select>
+
+      <div class="booking-form" id="booking">
+        <form class="form" id="bookingForm" novalidate>
+          <div class="form-body">
+            <h3>Записаться на консультацию</h3>
+            <p class="lead-sm">Оставьте заявку — администратор свяжется с вами в течение 15 минут</p>
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-name">Имя <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-name" name="name" type="text" autocomplete="given-name" placeholder="Как к вам обращаться" required aria-describedby="f-name-err">
+                <span class="error" id="f-name-err">Напишите, как к вам обращаться</span>
+              </div>
+              <div class="field">
+                <label for="f-phone">Телефон <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="f-phone-err">
+                <span class="error" id="f-phone-err">Проверьте номер: после +7 нужно 10 цифр</span>
+              </div>
+              <fieldset class="field full">
+                <legend>Формат приёма</legend>
+                <div class="chips">
+                  <label class="chip"><input type="radio" name="format" value="clinic" checked><span><svg class="i"><use href="#i-pin"/></svg>В клинике</span></label>
+                  <label class="chip"><input type="radio" name="format" value="online"><span><svg class="i"><use href="#i-video"/></svg>Онлайн</span></label>
+                  <label class="chip"><input type="radio" name="format" value="home"><span><svg class="i"><use href="#i-home"/></svg>На дому</span></label>
+                </div>
+              </fieldset>
+              <div class="field full">
+                <label for="f-spec">Специалист</label>
+                <select class="input" id="f-spec" name="specialist">
+                  <option>Не знаю — помогите выбрать</option>
+                  <option>Психиатр</option>
+                  <option>Психотерапевт</option>
+                  <option>Психолог</option>
+                  <option>Детский специалист</option>
+                </select>
+              </div>
+              <fieldset class="field full">
+                <legend>Как с вами связаться?</legend>
+                <div class="chips">
+                  <label class="chip"><input type="radio" name="contact" value="call" checked><span><svg class="i"><use href="#i-phone"/></svg>Позвонить</span></label>
+                  <label class="chip"><input type="radio" name="contact" value="tg"><span><svg class="i"><use href="#i-tg"/></svg>Telegram</span></label>
+                  <label class="chip"><input type="radio" name="contact" value="max"><span><svg class="i"><use href="#i-max"/></svg>MAX</span></label>
+                </div>
+              </fieldset>
+              <div class="field full">
+                <label for="f-comment">Комментарий <span class="opt">— необязательно</span></label>
+                <textarea class="input" id="f-comment" name="comment" rows="3" placeholder="Можно не описывать проблему — расскажете врачу на приёме"></textarea>
+              </div>
+              <div class="field full">
+                <label class="consent">
+                  <input type="checkbox" name="consent" required aria-describedby="f-consent-err">
+                  <span>Даю <a href="#contacts">согласие на обработку персональных данных</a> и принимаю <a href="#contacts">политику конфиденциальности</a></span>
+                </label>
+                <span class="error" id="f-consent-err">Без согласия мы не сможем с вами связаться</span>
+              </div>
             </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Записаться на консультацию</button>
+            <p class="secure-note"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не передаются третьим лицам</p>
           </div>
-          <div class="form-row">
-            <div class="field full"><label>Комментарий</label><textarea placeholder="Коротко опишите, чем можем помочь (необязательно)"></textarea></div>
+          <div class="form-success" role="status" hidden>
+            <span class="ok" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
+            <b tabindex="-1">Заявка принята</b>
+            <p>Администратор свяжется с вами в течение 15 минут в рабочее время — ежедневно с 9:00 до 21:00.</p>
+            <button type="button" class="btn btn-outline form-again">Отправить ещё одну заявку</button>
           </div>
-          <button type="submit" class="btn btn-primary btn-block">Отправить заявку</button>
-          <p class="consent">Отправляя форму, вы соглашаетесь с политикой обработки персональных данных. Все обращения конфиденциальны.</p>
         </form>
       </div>
     </div>

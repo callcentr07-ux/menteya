@@ -1,35 +1,5 @@
 /* Блоки, ещё не переработанные. Каждый переезжает в blocks/<блок>.css по мере работы. */
 
-/* ===== CONTACT ===== */
-.contact-grid{ display:grid; grid-template-columns:.9fr 1.1fr; gap:0; border-radius:22px; overflow:hidden; box-shadow:var(--shadow-lg);}
-.contact-info{ color:#fff; padding:48px; position:relative; overflow:hidden;
-  background:linear-gradient(rgba(9,26,66,.66), rgba(9,26,66,.78)), url("../img/contact-bg.jpg");
-  background-size:cover; background-position:center; }
-.contact-info::before{ content:""; display:none; }
-.contact-info h2{ font-size:28px; font-weight:800; margin-bottom:14px; position:relative;}
-.contact-info > p{ font-size:14.5px; opacity:.82; line-height:1.7; margin-bottom:32px; max-width:380px; position:relative;}
-.contact-line{ display:flex; gap:16px; align-items:flex-start; margin-bottom:22px; position:relative;}
-.contact-line .ic{
-  width:42px; height:42px; border-radius:12px; background:rgba(255,255,255,.1);
-  display:flex; align-items:center; justify-content:center; flex-shrink:0;
-}
-.contact-line b{ display:block; font-size:14.5px; margin-bottom:2px;}
-.contact-line span{ font-size:13.5px; opacity:.78; }
-.contact-form{ background:#fff; padding:48px; }
-.contact-form h3{ font-size:20px; font-weight:800; margin-bottom:6px; }
-.contact-form > p{ font-size:14px; color:var(--ink-soft); margin-bottom:26px;}
-.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-.field{ display:flex; flex-direction:column; gap:8px; }
-.field.full{ grid-column:1/-1; }
-.field label{ font-size:13px; font-weight:700; color:var(--ink); }
-.field input, .field textarea, .field select{
-  border:1.5px solid var(--line); border-radius:10px; padding:13px 14px;
-  font-size:14.5px; font-family:inherit; outline:none; color:var(--ink);
-}
-.field input:focus, .field textarea:focus, .field select:focus{ border-color:var(--blue-500); }
-.field textarea{ resize:vertical; min-height:90px; }
-.consent{ font-size:12px; color:var(--ink-soft); margin-top:14px; line-height:1.5;}
-
 /* ===== FOOTER ===== */
 footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.82); padding:64px 0 0;
   background-image:linear-gradient(rgba(9,26,66,.72), rgba(9,26,66,.82)), url("../img/footer-bg.jpg");
@@ -61,15 +31,11 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1080px){
-  .contact-grid{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr 1fr; }
 }
 @media (max-width: 860px){
   /* ---- Grids to single/double column ---- */
   .footer-grid{ grid-template-columns:1fr 1fr; }
-  .form-row{ grid-template-columns:1fr; }
-  .contact-grid{ grid-template-columns:1fr; }
-  .contact-info{ padding:32px 24px; }
 
 }
 
