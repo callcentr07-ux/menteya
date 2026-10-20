@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="assets/css/blocks/about.css">
 <link rel="stylesheet" href="assets/css/blocks/licenses.css">
 <link rel="stylesheet" href="assets/css/blocks/doctors.css">
+<link rel="stylesheet" href="assets/css/blocks/pricing.css">
 <link rel="stylesheet" href="assets/css/legacy.css">
 </head>
 <body>
@@ -44,6 +45,8 @@
   <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.5 2.9 5.9 6.6 1-4.8 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5-4.8-4.6 6.6-1Z"/></symbol>
   <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2.5"/><path d="m16 10.5 6-3.5v10l-6-3.5"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20M6 15h4"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
   <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M8.5 14.5v-5l3.5 3.5 3.5-3.5v5"/></symbol>
 </svg>
@@ -621,7 +624,7 @@
 </section>
 
 <!-- ============ PRICING ============ -->
-<section id="pricing" class="bg-soft">
+<section id="pricing" class="pricing bg-soft">
   <div class="wrap">
     <div class="section-head">
       <div>
@@ -629,65 +632,180 @@
         <h2>Цены на услуги</h2>
         <div class="underline"></div>
       </div>
-      <span class="year-badge">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        Актуально на 2026 год
-      </span>
+      <span class="price-date"><svg class="i"><use href="#i-calendar"/></svg>Цены актуальны на октябрь 2026</span>
     </div>
 
     <div class="pricing-shell">
       <div class="pricing-body">
-        <div class="price-nav">
-          <div class="price-nav-item active">Первичный приём <span>→</span></div>
-          <div class="price-nav-item">Психиатрия <span>→</span></div>
-          <div class="price-nav-item">Психотерапия <span>→</span></div>
-          <div class="price-nav-item">Психология <span>→</span></div>
-          <div class="price-nav-item">Помощь детям <span>→</span></div>
-          <div class="price-nav-item">Помощь пожилым <span>→</span></div>
-          <div class="price-nav-item">Диагностика <span>→</span></div>
+        <div class="price-nav" role="tablist" aria-label="Категории услуг">
+          <button class="price-tab" type="button" role="tab" id="pt-primary" aria-controls="pp-primary" aria-selected="true" tabindex="0">Первичный приём<span class="count">5</span></button>
+          <button class="price-tab" type="button" role="tab" id="pt-psychiatry" aria-controls="pp-psychiatry" aria-selected="false" tabindex="-1">Психиатрия<span class="count">4</span></button>
+          <button class="price-tab" type="button" role="tab" id="pt-psychotherapy" aria-controls="pp-psychotherapy" aria-selected="false" tabindex="-1">Психотерапия<span class="count">2</span></button>
+          <button class="price-tab" type="button" role="tab" id="pt-psychology" aria-controls="pp-psychology" aria-selected="false" tabindex="-1">Психология<span class="count">2</span></button>
+          <button class="price-tab" type="button" role="tab" id="pt-kids" aria-controls="pp-kids" aria-selected="false" tabindex="-1">Помощь детям<span class="count">2</span></button>
+          <button class="price-tab" type="button" role="tab" id="pt-elderly" aria-controls="pp-elderly" aria-selected="false" tabindex="-1">Помощь пожилым<span class="count">2</span></button>
+          <button class="price-tab" type="button" role="tab" id="pt-diagnostics" aria-controls="pp-diagnostics" aria-selected="false" tabindex="-1">Диагностика<span class="count">2</span></button>
         </div>
-        <div class="price-list">
-          <div class="price-row">
-            <div><div class="name">Первичная консультация психиатра</div><div class="dur">60 минут</div></div>
-            <div class="right"><div class="cost">от 3 500 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+        <div class="price-panels">
+          <div class="price-list" role="tabpanel" id="pp-primary" aria-labelledby="pt-primary" tabindex="0">
+            <div class="price-row" style="--i:0">
+              <div class="pr-main">
+                <div class="pr-name">Первичная консультация психиатра<span class="pr-badge">Популярно</span></div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt">В клинике</span><span class="pr-fmt">Онлайн</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>3 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:1">
+              <div class="pr-main">
+                <div class="pr-name">Первичная консультация психотерапевта</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt">В клинике</span><span class="pr-fmt">Онлайн</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>3 200&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:2">
+              <div class="pr-main">
+                <div class="pr-name">Первичная консультация психолога</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>50 минут</span><span class="pr-fmt">В клинике</span><span class="pr-fmt">Онлайн</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>2 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:3">
+              <div class="pr-main">
+                <div class="pr-name">Первичная консультация детского психиатра</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt">В клинике</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>3 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:4">
+              <div class="pr-main">
+                <div class="pr-name">Онлайн-консультация специалиста</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt">Онлайн</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost">2 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
           </div>
-          <div class="price-row">
-            <div><div class="name">Повторная консультация психиатра</div><div class="dur">45 минут</div></div>
-            <div class="right"><div class="cost">2 800 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          <div class="price-list" role="tabpanel" id="pp-psychiatry" aria-labelledby="pt-psychiatry" tabindex="0" hidden>
+            <div class="price-row" style="--i:0">
+              <div class="pr-main">
+                <div class="pr-name">Первичная консультация психиатра<span class="pr-badge">Популярно</span></div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt">В клинике</span><span class="pr-fmt">Онлайн</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>3 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:1">
+              <div class="pr-main">
+                <div class="pr-name">Повторная консультация психиатра</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>45 минут</span><span class="pr-fmt">В клинике</span><span class="pr-fmt">Онлайн</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost">2 800&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:2">
+              <div class="pr-main">
+                <div class="pr-name">Выезд психиатра на дом</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt home">На дому</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>6 000&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:3">
+              <div class="pr-main">
+                <div class="pr-name">Врачебный консилиум</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>до 120 минут</span><span class="pr-fmt">В клинике</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>12 000&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
           </div>
-          <div class="price-row">
-            <div><div class="name">Консультация психотерапевта</div><div class="dur">60 минут</div></div>
-            <div class="right"><div class="cost">от 3 200 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          <div class="price-list" role="tabpanel" id="pp-psychotherapy" aria-labelledby="pt-psychotherapy" tabindex="0" hidden>
+            <div class="price-row" style="--i:0">
+              <div class="pr-main">
+                <div class="pr-name">Консультация психотерапевта</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt">В клинике</span><span class="pr-fmt">Онлайн</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>3 200&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:1">
+              <div class="pr-main">
+                <div class="pr-name">Семейная консультация</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>до 90 минут</span><span class="pr-fmt">В клинике</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost">4 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
           </div>
-          <div class="price-row">
-            <div><div class="name">Онлайн-консультация специалиста</div><div class="dur">60 минут</div></div>
-            <div class="right"><div class="cost">2 500 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          <div class="price-list" role="tabpanel" id="pp-psychology" aria-labelledby="pt-psychology" tabindex="0" hidden>
+            <div class="price-row" style="--i:0">
+              <div class="pr-main">
+                <div class="pr-name">Консультация психолога</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>50 минут</span><span class="pr-fmt">В клинике</span><span class="pr-fmt">Онлайн</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>2 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:1">
+              <div class="pr-main">
+                <div class="pr-name">Психологическая диагностика</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>до 90 минут</span><span class="pr-fmt">В клинике</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>4 000&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
           </div>
-          <div class="price-row">
-            <div><div class="name">Психологическая диагностика</div><div class="dur">до 90 минут</div></div>
-            <div class="right"><div class="cost">от 4 000 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          <div class="price-list" role="tabpanel" id="pp-kids" aria-labelledby="pt-kids" tabindex="0" hidden>
+            <div class="price-row" style="--i:0">
+              <div class="pr-main">
+                <div class="pr-name">Консультация детского психиатра</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt">В клинике</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>3 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:1">
+              <div class="pr-main">
+                <div class="pr-name">Консультация детского психолога</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>50 минут</span><span class="pr-fmt">В клинике</span><span class="pr-fmt">Онлайн</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>2 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
           </div>
-          <div class="price-row">
-            <div><div class="name">Семейная консультация</div><div class="dur">до 90 минут</div></div>
-            <div class="right"><div class="cost">4 500 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          <div class="price-list" role="tabpanel" id="pp-elderly" aria-labelledby="pt-elderly" tabindex="0" hidden>
+            <div class="price-row" style="--i:0">
+              <div class="pr-main">
+                <div class="pr-name">Консультация психиатра для пожилых</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt">В клинике</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>3 500&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:1">
+              <div class="pr-main">
+                <div class="pr-name">Выезд врача на дом</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>60 минут</span><span class="pr-fmt home">На дому</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>6 000&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
           </div>
-          <div class="price-row">
-            <div><div class="name">Выезд врача на дом</div><div class="dur">60 минут</div></div>
-            <div class="right"><div class="cost">от 6 000 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
-          </div>
-          <div class="price-row">
-            <div><div class="name">Врачебный консилиум</div><div class="dur">до 120 минут</div></div>
-            <div class="right"><div class="cost">от 12 000 ₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+          <div class="price-list" role="tabpanel" id="pp-diagnostics" aria-labelledby="pt-diagnostics" tabindex="0" hidden>
+            <div class="price-row" style="--i:0">
+              <div class="pr-main">
+                <div class="pr-name">Психологическая диагностика</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>до 90 минут</span><span class="pr-fmt">В клинике</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>4 000&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
+            <div class="price-row" style="--i:1">
+              <div class="pr-main">
+                <div class="pr-name">Нейропсихологическое обследование</div>
+                <div class="pr-meta"><span class="pr-dur"><svg class="i"><use href="#i-clock"/></svg>до 120 минут</span><span class="pr-fmt">В клинике</span></div>
+              </div>
+              <div class="pr-side"><div class="pr-cost"><small>от</small>5 000&nbsp;₽</div><a href="#booking" class="btn btn-outline btn-sm">Записаться</a></div>
+            </div>
           </div>
         </div>
       </div>
       <div class="price-note">
-        <p>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-          Точная стоимость определяется специалистом после консультации
-        </p>
+        <p><svg class="i"><use href="#i-info"/></svg><span><b>Точная стоимость лечения</b> определяется специалистом после консультации.</span></p>
         <a href="#booking" class="btn btn-primary">Записаться на консультацию</a>
       </div>
+    </div>
+
+    <div class="price-perks">
+      <div class="price-perk"><span class="ic"><svg class="i"><use href="#i-card"/></svg></span><div><b>Оплата картой и наличными</b><span>Кассовый чек после каждого приёма</span></div></div>
+      <div class="price-perk"><span class="ic"><svg class="i"><use href="#i-doc"/></svg></span><div><b>Справка для налогового вычета</b><span>Можно вернуть 13% стоимости лечения</span></div></div>
+      <div class="price-perk"><span class="ic"><svg class="i"><use href="#i-lock"/></svg></span><div><b>Анонимно</b><span>Без постановки на учёт и передачи данных</span></div></div>
     </div>
   </div>
 </section>

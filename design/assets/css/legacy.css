@@ -1,44 +1,5 @@
 /* Блоки, ещё не переработанные. Каждый переезжает в blocks/<блок>.css по мере работы. */
 
-/* ===== PRICING ===== */
-.pricing-shell{
-  background:#fff; border-radius:22px; border:1px solid var(--line);
-  box-shadow:var(--shadow); overflow:hidden;
-}
-.pricing-head{
-  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
-  padding:28px 32px; border-bottom:1px solid var(--line);
-}
-.year-badge{
-  display:inline-flex; align-items:center; gap:8px;
-  background:var(--bg-soft2); color:var(--blue-700); font-weight:700; font-size:13.5px;
-  padding:10px 16px; border-radius:10px;
-}
-.pricing-body{ display:grid; grid-template-columns:260px 1fr; }
-.price-nav{ border-right:1px solid var(--line); padding:24px; }
-.price-nav-item{
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding:13px 16px; border-radius:12px; font-weight:700; font-size:14.5px;
-  color:var(--ink-soft); margin-bottom:6px;
-}
-.price-nav-item.active{ background:var(--grad); color:#fff; }
-.price-nav-item:not(.active):hover{ background:var(--bg-soft2); color:var(--blue-700); }
-.price-list{ padding:8px 32px; }
-.price-row{
-  display:flex; justify-content:space-between; align-items:center; gap:20px;
-  padding:22px 0; border-bottom:1px solid var(--line);
-}
-.price-row:last-child{ border-bottom:none; }
-.price-row .name{ font-weight:700; font-size:15.5px; margin-bottom:4px; }
-.price-row .dur{ font-size:13px; color:var(--ink-soft); }
-.price-row .right{ display:flex; align-items:center; gap:20px; flex-shrink:0; }
-.price-row .cost{ font-weight:800; font-size:17px; color:var(--blue-700); white-space:nowrap; }
-.price-note{
-  display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
-  padding:22px 32px; background:var(--bg-soft2);
-}
-.price-note p{ font-size:13.5px; color:var(--ink-soft); display:flex; align-items:center; gap:8px;}
-
 /* ===== REVIEWS ===== */
 .review-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
 .review-card{
@@ -192,9 +153,6 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
   .promo-grid{ grid-template-columns:repeat(2,1fr);}
   .contact-grid{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr 1fr; }
-  .pricing-body{ grid-template-columns:1fr; }
-  .price-nav{ border-right:none; border-bottom:1px solid var(--line); display:flex; gap:8px; overflow-x:auto; padding:16px;}
-  .price-nav-item{ white-space:nowrap; margin-bottom:0;}
 }
 @media (max-width: 860px){
   /* ---- Plates & sections spacing ---- */
@@ -208,19 +166,9 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
   .faq-grid{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr 1fr; }
   .form-row{ grid-template-columns:1fr; }
-  .pricing-body{ grid-template-columns:1fr; }
   .contact-grid{ grid-template-columns:1fr; }
   .contact-info{ padding:32px 24px; }
 
-  /* ---- Pricing: stack row (price + button below name) ---- */
-  .pricing-body{ grid-template-columns:1fr; }
-  .price-nav{ border-right:none; border-bottom:1px solid var(--line); display:flex; gap:8px; overflow-x:auto; padding:16px;}
-  .price-nav-item{ white-space:nowrap; margin-bottom:0;}
-  .price-body-inner{ padding:8px 20px !important; }
-  .price-list{ padding:8px 20px; }
-  .price-row{ flex-direction:column; align-items:flex-start; gap:12px; padding:18px 0; }
-  .price-row .right{ width:100%; justify-content:space-between; gap:12px; }
-  .price-note{ flex-direction:column; align-items:flex-start; padding:18px 20px; }
 }
 
 @media (max-width: 560px){

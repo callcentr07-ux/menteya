@@ -196,6 +196,42 @@ document.querySelectorAll('.gallery').forEach(function(g){
   empty.querySelector('button').addEventListener('click', function(){ input.value = ''; setRole('all'); });
 })();
 
+// Цены: вкладки категорий (ARIA tabs) — клик, стрелки, Home/End
+(function(){
+  var list = document.querySelector('#pricing [role="tablist"]');
+  if(!list) return;
+  var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+
+  function select(tab, focus){
+    tabs.forEach(function(t){
+      var on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      panel.hidden = !on;
+      if(on){
+        panel.classList.remove('is-entering');
+        void panel.offsetWidth;            // перезапуск анимации строк
+        panel.classList.add('is-entering');
+      }
+    });
+    if(focus) tab.focus();
+    tab.scrollIntoView({ block:'nearest', inline:'nearest' });
+  }
+
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ select(t); }); });
+  list.addEventListener('keydown', function(e){
+    var i = tabs.indexOf(document.activeElement);
+    if(i < 0) return;
+    var next = null;
+    if(e.key === 'ArrowDown' || e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+    if(e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+    if(e.key === 'Home') next = tabs[0];
+    if(e.key === 'End') next = tabs[tabs.length - 1];
+    if(next){ e.preventDefault(); select(next, true); }
+  });
+})();
+
 // FAQ accordion
 (function(){
   var items = document.querySelectorAll('.faq-item');
