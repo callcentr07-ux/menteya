@@ -20,17 +20,12 @@
       </div>
     </div>
     <div class="page-hero-side">
-      <div class="doctor-mini">
-        <img src="assets/img/intro-main.jpg" alt="" width="700" height="700">
-        <div>
-          <span class="label">Ведёт приём</span>
-          <b>Соколова Анна Викторовна</b>
-          <span>Главный врач, психиатр · стаж 18 лет</span>
-        </div>
-        <div class="row">
-          <span class="doc-price"><small>Первичный приём</small>3 500 ₽</span>
-          <a href="vrach.html" class="btn btn-outline btn-sm">О враче</a>
-        </div>
+      <!-- Картинка первого экрана. В WordPress — «Изображение записи» страницы: меняется в боковой панели редактора
+           и сама обрезается по рамке (лучше от 1000×900 px, главное — в центре кадра) -->
+      <div class="page-hero-photo"><img src="assets/img/about-3.jpg" alt="Кабинет для консультаций в клинике «Ментея»" width="900" height="506" fetchpriority="high"></div>
+      <div class="hero-badge">
+        <span class="ic"><svg class="i"><use href="#i-shield"/></svg></span>
+        <div><b>Материал проверен врачом</b><span>обновлено 20 октября 2026</span></div>
       </div>
     </div>
   </div>
@@ -54,16 +49,34 @@
 <div class="bg-soft">
   <div class="wrap article-layout">
     <article class="article">
-      <div class="reviewed">
-        <img src="assets/img/intro-main.jpg" alt="" width="700" height="700" loading="lazy">
-        <span class="who">Материал проверила <b>Соколова&nbsp;А.&nbsp;В.</b>,<br>главный врач, психиатр, к.&nbsp;м.&nbsp;н.</span>
-        <span class="date"><svg class="i"><use href="#i-calendar"/></svg>Обновлено 20 октября 2026</span>
+      <!-- E-E-A-T: кто написал, кто проверил, даты, источники. В WordPress — поля страницы, врачи выбираются из списка -->
+      <div class="eeat">
+        <div class="eeat-people">
+          <a class="eeat-person" href="vrach.html">
+            <img src="assets/img/doctor-orlov.jpg" alt="" width="700" height="700" loading="lazy">
+            <span><small>Автор</small><b>Орлов Михаил Андреевич</b><em>психиатр-психотерапевт, стаж 14 лет</em></span>
+          </a>
+          <a class="eeat-person" href="vrach.html">
+            <img src="assets/img/intro-main.jpg" alt="" width="700" height="700" loading="lazy">
+            <span><small>Проверила</small><b>Соколова Анна Викторовна</b><em>главный врач, психиатр, к.&nbsp;м.&nbsp;н., стаж 18 лет</em></span>
+          </a>
+        </div>
+        <div class="eeat-meta">
+          <span><svg class="i"><use href="#i-calendar"/></svg>Опубликовано <time datetime="2025-03-12">12 марта 2025</time></span>
+          <span><svg class="i"><use href="#i-check"/></svg>Обновлено <time datetime="2026-10-20">20 октября 2026</time></span>
+          <a href="#sources"><svg class="i"><use href="#i-doc"/></svg>Источники: 5</a>
+          <button class="read-more eeat-policy" type="button" aria-expanded="false" aria-controls="policyNote" data-label-open="Как мы готовим материалы">Как мы готовим материалы<svg class="i"><use href="#i-chevron"/></svg></button>
+        </div>
+        <div class="collapse" id="policyNote">
+          <div><p>Статьи пишут практикующие врачи клиники. Каждый материал проверяет главный врач: сверяет с действующими клиническими рекомендациями Минздрава России и международными руководствами. Мы пересматриваем статьи не реже раза в год и при выходе новых рекомендаций. Нашли неточность — напишите на <a href="mailto:info@menteya.ru">info@menteya.ru</a>.</p></div>
+        </div>
       </div>
 
       <section id="what">
         <h2>Что такое депрессия</h2>
         <p>Депрессия — расстройство, при котором подавленное настроение, потеря интереса и упадок сил держатся неделями и мешают жить. Это не слабость характера и не «лень»: депрессия связана с изменениями в работе нервной системы, и с ней работают врачи.</p>
         <p>Чем раньше начато лечение, тем проще вернуть привычный ритм жизни. Первый шаг — консультация, на которой врач разберётся в ситуации и предложит понятный план.</p>
+        <p class="icd-codes"><span>Код по МКБ-10:</span><span class="code"><b>F32</b>депрессивный эпизод</span><span class="code"><b>F33</b>рекуррентное депрессивное расстройство</span></p>
       </section>
 
       <section id="symptoms">
@@ -132,6 +145,14 @@
           <li><svg class="i"><use href="#i-home"/></svg>На дому</li>
           <li><svg class="i"><use href="#i-bed"/></svg><a href="stacionar.html">В стационаре</a></li>
         </ul>
+        <figure class="doctor-quote">
+          <span class="label">Комментарий врача</span>
+          <blockquote><p>Депрессия — не слабость и не черта характера, а состояние, которое хорошо поддаётся лечению. Чем раньше человек приходит к врачу, тем быстрее удаётся подобрать терапию и вернуться к привычной жизни.</p></blockquote>
+          <figcaption>
+            <img src="assets/img/intro-main.jpg" alt="" width="700" height="700" loading="lazy">
+            <span><a href="vrach.html">Соколова Анна Викторовна</a>главный врач, психиатр, к.&nbsp;м.&nbsp;н.</span>
+          </figcaption>
+        </figure>
       </section>
 
       <section id="d-prices" class="pricing">
@@ -149,6 +170,18 @@
             <a href="ceny.html" class="btn btn-outline">Все цены</a>
           </div>
         </div>
+      </section>
+
+      <section id="sources">
+        <h2>Источники</h2>
+        <ol class="source-list">
+          <li>Клинические рекомендации «Депрессивный эпизод, рекуррентное депрессивное расстройство». Минздрав России. <a href="https://cr.minzdrav.gov.ru/" target="_blank" rel="noopener">cr.minzdrav.gov.ru</a></li>
+          <li>Международная классификация болезней 10-го пересмотра (МКБ-10): F32 «Депрессивный эпизод», F33 «Рекуррентное депрессивное расстройство».</li>
+          <li>Всемирная организация здравоохранения. Депрессивное расстройство (депрессия): информационный бюллетень. <a href="https://www.who.int/ru/news-room/fact-sheets/detail/depression" target="_blank" rel="noopener">who.int</a></li>
+          <li>NICE guideline NG222. Depression in adults: treatment and management, 2022. <a href="https://www.nice.org.uk/guidance/ng222" target="_blank" rel="noopener">nice.org.uk</a></li>
+          <li>American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, 5th Edition, Text Revision (DSM-5-TR), 2022.</li>
+        </ol>
+        <p class="disclaimer"><svg class="i"><use href="#i-info"/></svg><span>Материал носит справочный характер и не заменяет консультацию врача. Диагноз ставит и лечение назначает только специалист.</span></p>
       </section>
     </article>
 
@@ -264,3 +297,83 @@
 </section>
 
 <!-- @include booking.html -->
+
+<!-- Микроразметка E-E-A-T: кто написал и проверил, даты, заболевание с кодом МКБ.
+     В WordPress её соберёт тема из полей страницы и карточек врачей. Домен и адреса — заглушки. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalWebPage",
+      "@id": "https://menteya.ru/lechenie-depressii/#page",
+      "url": "https://menteya.ru/lechenie-depressii/",
+      "name": "Лечение депрессии в Москве",
+      "inLanguage": "ru-RU",
+      "datePublished": "2025-03-12",
+      "dateModified": "2026-10-20",
+      "lastReviewed": "2026-10-20",
+      "author": { "@id": "https://menteya.ru/vrachi/orlov/#person" },
+      "reviewedBy": { "@id": "https://menteya.ru/vrachi/sokolova/#person" },
+      "publisher": { "@id": "https://menteya.ru/#clinic" },
+      "specialty": "https://schema.org/Psychiatric",
+      "medicalAudience": "https://schema.org/Patient",
+      "about": {
+        "@type": "MedicalCondition",
+        "name": "Депрессия",
+        "code": [
+          { "@type": "MedicalCode", "code": "F32", "codingSystem": "ICD-10" },
+          { "@type": "MedicalCode", "code": "F33", "codingSystem": "ICD-10" }
+        ]
+      },
+      "breadcrumb": { "@id": "https://menteya.ru/lechenie-depressii/#breadcrumb" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://menteya.ru/vrachi/orlov/#person",
+      "name": "Орлов Михаил Андреевич",
+      "jobTitle": "Психиатр-психотерапевт",
+      "url": "https://menteya.ru/vrachi/orlov/",
+      "worksFor": { "@id": "https://menteya.ru/#clinic" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://menteya.ru/vrachi/sokolova/#person",
+      "name": "Соколова Анна Викторовна",
+      "jobTitle": "Главный врач, психиатр",
+      "honorificSuffix": "кандидат медицинских наук",
+      "url": "https://menteya.ru/vrachi/sokolova/",
+      "worksFor": { "@id": "https://menteya.ru/#clinic" }
+    },
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://menteya.ru/#clinic",
+      "name": "Клиника «Ментея»",
+      "url": "https://menteya.ru/",
+      "telephone": "+7-495-000-00-00",
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "address": { "@type": "PostalAddress", "addressCountry": "RU", "addressLocality": "Москва", "streetAddress": "ул. Примерная, 1" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://menteya.ru/lechenie-depressii/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://menteya.ru/" },
+        { "@type": "ListItem", "position": 2, "name": "Психиатрия", "item": "https://menteya.ru/psihiatriya/" },
+        { "@type": "ListItem", "position": 3, "name": "Лечение депрессии" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://menteya.ru/lechenie-depressii/#faq",
+      "mainEntity": [
+        { "@type": "Question", "name": "Как понять, что это депрессия, а не плохое настроение?", "acceptedAnswer": { "@type": "Answer", "text": "Плохое настроение проходит за несколько дней. При депрессии подавленность, апатия и упадок сил держатся две недели и дольше и мешают обычной жизни. Точно разобраться поможет врач." } },
+        { "@type": "Question", "name": "Сколько длится лечение?", "acceptedAnswer": { "@type": "Answer", "text": "Индивидуально — зависит от тяжести состояния и выбранного метода. Врач обсудит план и примерные сроки на первом приёме и будет корректировать их по самочувствию." } },
+        { "@type": "Question", "name": "Вызывают ли антидепрессанты привыкание?", "acceptedAnswer": { "@type": "Answer", "text": "Антидепрессанты не вызывают зависимости, как, например, некоторые успокоительные. Но отменять их нужно постепенно и только вместе с врачом." } },
+        { "@type": "Question", "name": "Можно ли лечиться без таблеток?", "acceptedAnswer": { "@type": "Answer", "text": "При лёгкой депрессии часто достаточно психотерапии. При более тяжёлой её обычно сочетают с лекарствами. Решение принимается вместе с врачом." } },
+        { "@type": "Question", "name": "Что делать, если близкий не хочет идти к врачу?", "acceptedAnswer": { "@type": "Answer", "text": "Прийти на консультацию самому: врач подскажет, как поговорить с близким и поддержать его. Если есть угроза жизни — сразу звоните по номеру 112." } }
+      ]
+    }
+  ]
+}
+</script>

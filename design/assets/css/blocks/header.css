@@ -105,9 +105,12 @@
 .dropdown a{ display:block; padding:10px 14px; border-radius:10px; font-size:14.5px; font-weight:600; color:var(--ink-soft); }
 @media (hover:hover) and (pointer:fine){ .dropdown a:hover{ background:var(--bg-soft2); color:var(--blue-700); } }
 
-/* --- Мега-меню «Услуги» --- */
+/* --- Мега-меню «Услуги»: рубрики слева, страницы рубрики справа, поиск по всем --- */
 .mega{
   position:absolute; left:0; right:0; top:100%;
+  max-height:calc(100vh - var(--bar-h) - var(--utility-h));
+  max-height:calc(100dvh - var(--bar-h) - var(--utility-h));
+  overflow-y:auto; overscroll-behavior:contain;
   background:#fff; color:var(--ink);
   border-radius:0 0 28px 28px;
   box-shadow:0 30px 60px rgba(10,30,80,.18);
@@ -115,37 +118,105 @@
   transition:opacity .2s, transform .28s var(--ease-out), visibility 0s .28s;
 }
 .mega.open{ opacity:1; visibility:visible; transform:none; transition:opacity .2s, transform .28s var(--ease-out); }
-.mega-inner{
-  display:grid; grid-template-columns:repeat(3, minmax(0,1fr)) 320px;
-  gap:32px 40px; padding-top:32px; padding-bottom:36px;
+.mega-inner{ padding-top:22px; padding-bottom:30px; }
+
+.mega-top{
+  display:flex; align-items:center; gap:16px 28px;
+  padding-bottom:20px; margin-bottom:22px; border-bottom:1px solid var(--line);
 }
-.mega-cols{ grid-column:1 / 4; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:30px 40px; }
-.mega-title{
-  display:flex; align-items:center; gap:10px;
-  font-size:16px; font-weight:800; color:var(--blue-900); margin-bottom:12px;
+.mega-search{ position:relative; flex:0 0 min(440px, 42%); }
+.mega-search .i{ position:absolute; left:15px; top:50%; width:19px; height:19px; transform:translateY(-50%); color:var(--blue-600); pointer-events:none; }
+.mega-search input{
+  width:100%; height:48px; padding:0 16px 0 46px;
+  border:1.5px solid var(--line); border-radius:14px; background:var(--bg-soft); color:var(--ink);
+  transition:border-color .2s, background-color .2s, box-shadow .2s;
 }
-.mega-title .ic{
-  width:34px; height:34px; border-radius:10px; background:var(--bg-soft2); color:var(--blue-600);
+.mega-search input::placeholder{ color:#7b87a1; }
+.mega-search input:focus{ outline:none; border-color:var(--blue-500); background:#fff; box-shadow:0 0 0 4px rgba(47,116,232,.14); }
+.mega-popular{ display:flex; align-items:center; gap:8px; min-width:0; overflow:hidden; white-space:nowrap; font-size:13.5px; color:var(--ink-soft); }
+.mega-popular span{ margin-right:2px; }
+.mega-popular a{
+  padding:7px 13px; border-radius:999px; background:var(--bg-soft2);
+  font-weight:700; color:var(--blue-700); transition:background-color .2s, color .2s;
+}
+
+/* Рубрики: список слева, страницы выбранной рубрики — в панели справа.
+   Высота постоянная, поэтому при переключении рубрик меню не прыгает. */
+.mega-cats{ --rail:296px; position:relative; min-height:470px; }
+.mega-cat-link, .mega-direct{
+  display:flex; align-items:center; gap:12px;
+  width:var(--rail); min-height:50px; padding:7px 12px 7px 8px; border-radius:14px;
+  font-size:15px; font-weight:700; line-height:1.25; text-align:left; color:var(--ink);
+  transition:background-color .2s, color .2s;
+}
+.mega-cat-link .ic, .mega-direct .ic{
+  width:36px; height:36px; border-radius:11px; flex-shrink:0;
   display:flex; align-items:center; justify-content:center;
+  background:var(--bg-soft2); color:var(--blue-600);
+  transition:background-color .2s, color .2s;
 }
-.mega-title .ic .i{ width:18px; height:18px; }
-.mega-col li a{
-  display:block; padding:5px 0 5px 44px;
-  font-size:14.5px; font-weight:500; color:var(--ink-soft);
-  transition:color .15s, transform .2s var(--ease-out);
+.mega-cat-link .ic .i, .mega-direct .ic .i{ width:19px; height:19px; }
+.mega-cat-link .t{ flex:1; min-width:0; }
+.mega-cat-link .n{ padding:3px 9px; border-radius:999px; background:var(--bg-soft); font-size:12px; font-weight:800; color:var(--ink-soft); }
+.mega-cat-link .chev{ width:16px; height:16px; color:var(--blue-500); transform:rotate(-90deg); opacity:0; transition:opacity .2s; }
+.mega-cat.is-active > .mega-cat-link{ background:var(--bg-soft2); color:var(--blue-800); }
+.mega-cat.is-active > .mega-cat-link .ic{ background:var(--grad); color:#fff; }
+.mega-cat.is-active > .mega-cat-link .n{ background:#fff; color:var(--blue-700); }
+.mega-cat.is-active > .mega-cat-link .chev{ opacity:1; }
+.mega-extra{ width:var(--rail); margin-top:10px; padding-top:10px; border-top:1px solid var(--line); }
+.mega-direct{ font-weight:600; color:var(--ink-soft); }
+.mega-direct > .i{ width:16px; height:16px; margin-left:auto; color:var(--blue-500); }
+
+.mega-panel{
+  display:none; position:absolute; top:0; bottom:0; left:calc(var(--rail) + 28px); right:0;
+  overflow-y:auto; padding-left:32px; border-left:1px solid var(--line);
 }
+.mega-cat.is-active > .mega-panel{ display:block; animation:mega-in .3s var(--ease-out); }
+@keyframes mega-in{ from{ opacity:0; transform:translateX(8px); } }
+.mega-panel-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:8px 24px; margin-bottom:16px; }
+.mega-panel-head b{ display:block; font-size:19px; font-weight:800; line-height:1.25; color:var(--blue-900); }
+.mega-panel-head span{ display:block; margin-top:3px; font-size:13.5px; color:var(--ink-soft); }
+.mega-more{ display:inline-flex; align-items:center; gap:6px; flex-shrink:0; font-size:14px; font-weight:700; color:var(--blue-600); white-space:nowrap; }
+.mega-more .i{ width:16px; height:16px; transition:transform .2s var(--ease-out); }
+.mega-list{ columns:4; column-gap:24px; }
+.mega-list.cols-3{ columns:3; }
+.mega-list li{ break-inside:avoid; }
+.mega-list a{
+  display:block; padding:7px 10px; border-radius:9px;
+  font-size:14.5px; font-weight:500; line-height:1.35; color:var(--ink-soft);
+  transition:background-color .15s, color .15s;
+}
+.mega-groups{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:20px 28px; }
+.mega-groups .mega-list{ columns:1; }
+.mega-group-t{ display:block; padding:0 10px 4px; font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-700); }
 @media (hover:hover) and (pointer:fine){
-  .mega-title:hover{ color:var(--blue-600); }
-  .mega-col li a:hover{ color:var(--blue-600); transform:translateX(3px); }
+  .mega-popular a:hover{ background:var(--grad); color:#fff; }
+  .mega-cat-link:hover, .mega-direct:hover{ background:var(--bg-soft); }
+  .mega-cat.is-active > .mega-cat-link:hover{ background:var(--bg-soft2); }
+  .mega-more:hover .i{ transform:translateX(3px); }
+  .mega-list a:hover{ background:var(--bg-soft); color:var(--blue-700); }
 }
+
+/* Поиск: рубрики прячем, совпадения из всех рубрик показываем подряд */
+.mega.is-searching .mega-cat-link, .mega.is-searching .mega-extra, .mega.is-searching .mega-panel-head span{ display:none; }
+.mega.is-searching .mega-cats{ min-height:0; }
+.mega.is-searching .mega-panel{ display:block; position:static; padding:0; border:0; overflow:visible; animation:none; }
+.mega.is-searching .mega-cat:not([hidden]) ~ .mega-cat:not([hidden]) .mega-panel{ margin-top:18px; padding-top:18px; border-top:1px solid var(--line); }
+.mega-empty{ padding:26px 28px; border-radius:20px; background:var(--bg-soft); }
+.mega-empty b{ display:block; margin-bottom:6px; font-size:17px; color:var(--blue-900); }
+.mega-empty p{ font-size:14.5px; line-height:1.6; color:var(--ink-soft); }
+
+/* Помощь с выбором — полосой внизу меню, чтобы списку досталась вся ширина */
 .mega-help{
-  background:linear-gradient(160deg,#eef4ff,#f2fbf8);
-  border-radius:22px; padding:26px;
-  display:flex; flex-direction:column; gap:12px; align-self:start;
+  display:flex; align-items:center; gap:16px 28px; margin-top:22px; padding:16px 18px 16px 24px;
+  border-radius:20px; background:linear-gradient(120deg,#eef4ff,#f0faf6);
 }
-.mega-help b{ font-size:18px; font-weight:800; color:var(--blue-900); line-height:1.3; }
-.mega-help p{ font-size:14px; color:var(--ink-soft); line-height:1.6; }
-.mega-help .phone{ font-size:20px; font-weight:800; color:var(--blue-700); }
+.mega-help-text{ flex:1; min-width:0; }
+.mega-help b{ display:block; font-size:16px; font-weight:800; line-height:1.3; color:var(--blue-900); }
+.mega-help p{ margin-top:2px; font-size:13.5px; line-height:1.5; color:var(--ink-soft); }
+.mega-help .phone{ font-size:20px; font-weight:800; color:var(--blue-700); white-space:nowrap; }
+.mega-help .msg-row{ flex:0 0 300px; }
+.mega-help .msg-btn{ min-height:44px; }
 
 /* --- Затемнение под меню --- */
 .scrim{
@@ -183,20 +254,50 @@
 }
 .drawer.open{ opacity:1; visibility:visible; transform:none; transition:opacity .2s, transform .28s var(--ease-out); }
 .drawer-nav > li{ border-bottom:1px solid var(--line); }
-.drawer-nav > li > a, .drawer-nav summary{
+.drawer-nav > li > a, .drawer-nav > li > details > summary{
   display:flex; align-items:center; justify-content:space-between;
   min-height:56px; font-size:17px; font-weight:700; color:var(--blue-900);
-  list-style:none; cursor:pointer;
 }
+.drawer-nav summary{ list-style:none; cursor:pointer; }
 .drawer-nav summary::-webkit-details-marker{ display:none; }
-.drawer-nav summary .i{ color:var(--blue-600); transition:transform .25s var(--ease-out); }
-.drawer-nav details[open] summary .i{ transform:rotate(180deg); }
+.drawer-nav > li > details > summary .i{ color:var(--blue-600); transition:transform .25s var(--ease-out); }
+.drawer-nav > li > details[open] > summary .i{ transform:rotate(180deg); }
 .drawer-sub{ padding:0 0 12px; display:grid; gap:2px; }
 .drawer-sub a{
   display:flex; align-items:center; min-height:44px; padding:0 14px;
   border-radius:10px; font-size:15.5px; font-weight:600; color:var(--ink-soft);
 }
-.drawer-sub a:active{ background:var(--bg-soft2); }
+.drawer-sub a:active, .drawer-cat summary:active{ background:var(--bg-soft2); }
+
+/* Каталог услуг в мобильном меню: поиск и рубрики, которые раскрываются */
+.drawer-search{ position:relative; display:block; margin:2px 0 8px; }
+.drawer-search .i{ position:absolute; left:14px; top:50%; width:19px; height:19px; transform:translateY(-50%); color:var(--blue-600); pointer-events:none; }
+.drawer-search input{
+  width:100%; height:50px; padding:0 14px 0 44px;
+  border:1.5px solid var(--line); border-radius:14px; background:var(--bg-soft); color:var(--ink);
+}
+.drawer-search input:focus{ outline:none; border-color:var(--blue-500); background:#fff; box-shadow:0 0 0 4px rgba(47,116,232,.14); }
+.drawer-cat summary, .drawer-sub .drawer-direct{
+  display:flex; align-items:center; gap:12px; min-height:52px; padding:0 6px; border-radius:12px;
+  font-size:15.5px; font-weight:700; color:var(--ink);
+}
+.drawer-cat .ic, .drawer-direct .ic{
+  width:34px; height:34px; border-radius:10px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg-soft2); color:var(--blue-600); transition:background-color .2s, color .2s;
+}
+.drawer-cat .ic .i, .drawer-direct .ic .i{ width:18px; height:18px; }
+.drawer-cat .t{ flex:1; min-width:0; }
+.drawer-cat .n{ padding:2px 8px; border-radius:999px; background:var(--bg-soft); font-size:12px; font-weight:800; color:var(--ink-soft); }
+.drawer-cat .chev{ width:18px; height:18px; color:var(--blue-600); transition:transform .25s var(--ease-out); }
+.drawer-cat[open] .chev{ transform:rotate(180deg); }
+.drawer-cat[open] .ic{ background:var(--grad); color:#fff; }
+.drawer-direct > .i{ width:16px; height:16px; margin-left:auto; color:var(--blue-500); }
+.drawer-cat-list{ display:grid; gap:2px; padding:2px 0 10px 52px; }
+.drawer-sub .drawer-cat-list a{ min-height:42px; padding:0 12px; font-size:15px; font-weight:500; }
+.drawer-sub .drawer-cat-list .drawer-cat-all{ font-weight:700; color:var(--blue-600); }
+.drawer-services.is-searching .drawer-cat-all, .drawer-services.is-searching .drawer-cat .n{ display:none; }
+.drawer-empty{ padding:12px 6px; font-size:14.5px; line-height:1.6; color:var(--ink-soft); }
 .drawer-contact{
   margin-top:20px; padding:20px; border-radius:20px;
   background:linear-gradient(160deg,#eef4ff,#f2fbf8);
@@ -217,6 +318,15 @@
 }
 @media (min-width:1200px) and (max-width:1279px){
   .mainbar .logo-text small{ display:none; }   /* меню целиком, но тесно — убираем подпись логотипа */
+  .mega-cats{ --rail:262px; }   /* узкий ноутбук: рубрики поуже, колонкам списка — больше места */
+  .mega-panel{ padding-left:24px; }
+  .mega-list{ column-gap:14px; }
+}
+@media (max-height:820px){
+  /* невысокий экран ноутбука: всё плотнее, длинный список при нужде листается внутри панели */
+  .mega-cats{ min-height:410px; }
+  .mega-top{ padding-bottom:16px; margin-bottom:16px; }
+  .mega-list a{ padding-block:5px; }
 }
 @media (max-width:1199px){
   .utility-info .u-muted{ display:none; }

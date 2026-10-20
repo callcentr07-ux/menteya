@@ -12,7 +12,7 @@
 .page-hero .hero-cta{ margin-top:26px; }
 .page-hero-side{ position:relative; }
 .page-hero-photo{ border-radius:28px; overflow:hidden; box-shadow:var(--shadow-lg); border:6px solid rgba(255,255,255,.7); }
-.page-hero-photo img{ width:100%; aspect-ratio:4 / 3.6; object-fit:cover; }
+.page-hero-photo img{ width:100%; aspect-ratio:4 / 3.6; object-fit:cover; object-position:50% 35%; }   /* чуть выше центра: лица и головы в кадре */
 .page-hero-side .hero-badge{ left:-24px; bottom:28px; }
 
 /* Хлебные крошки */
@@ -69,17 +69,76 @@ html:has(.page-nav){ scroll-padding-top:calc(var(--bar-h-scrolled) + 76px); }
 }
 .article-side{ position:sticky; top:calc(var(--bar-h-scrolled) + 84px); display:grid; gap:16px; }
 
-/* Проверено врачом */
-.reviewed{
-  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
-  padding:14px 18px; border-radius:16px; background:#fff; border:1px solid var(--line);
+/* --- E-E-A-T: кто написал, кто проверил, даты, источники --- */
+.eeat{
+  padding:18px 20px; border-radius:20px; background:#fff; border:1px solid var(--line);
   margin-bottom:clamp(28px, 4vw, 40px);
 }
-.reviewed img{ width:44px; height:44px; border-radius:50%; object-fit:cover; object-position:50% 25%; }
-.reviewed .who{ flex:1 1 0; min-width:0; font-size:14px; line-height:1.45; color:var(--ink-soft); }
-.reviewed .who b{ color:var(--ink); }
-.reviewed .date{ margin-left:auto; display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft); }
-.reviewed .date .i{ width:15px; height:15px; color:var(--teal-700); }
+.eeat-people{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px 24px; }
+.eeat-person{ display:flex; align-items:center; gap:12px; min-width:0; }
+.eeat-person img{ width:50px; height:50px; border-radius:50%; flex-shrink:0; object-fit:cover; object-position:50% 22%; }
+.eeat-person small{ display:block; font-size:11.5px; font-weight:800; letter-spacing:.07em; text-transform:uppercase; color:var(--teal-700); }
+.eeat-person b{ display:block; margin-top:1px; font-size:15px; font-weight:800; line-height:1.3; color:var(--blue-900); }
+.eeat-person em{ display:block; font-style:normal; font-size:13px; line-height:1.4; color:var(--ink-soft); }
+.eeat-meta{
+  display:flex; flex-wrap:wrap; align-items:center; gap:6px 20px;
+  margin-top:14px; padding-top:12px; border-top:1px solid var(--line);
+  font-size:13.5px; color:var(--ink-soft);
+}
+.eeat-meta > span, .eeat-meta > a{ display:inline-flex; align-items:center; gap:7px; }
+.eeat-meta .i{ width:16px; height:16px; color:var(--teal-700); }
+.eeat-meta a{ font-weight:700; color:var(--blue-600); }
+.eeat .eeat-policy{ min-height:32px; margin-left:auto; font-size:13.5px; }
+.eeat .eeat-policy .i{ width:16px; height:16px; color:currentColor; }
+.eeat .collapse p{ margin-top:12px; max-width:none; font-size:14px; line-height:1.65; color:var(--ink-soft); }
+.eeat .collapse a{ font-weight:700; color:var(--blue-600); }
+@media (hover:hover) and (pointer:fine){ a.eeat-person:hover b{ color:var(--blue-600); } }
+
+/* «Информацию проверил врач» — строка в первом экране */
+.hero-reviewed{ display:flex; align-items:center; gap:10px; margin-top:20px; font-size:13.5px; line-height:1.45; color:var(--ink-soft); }
+.hero-reviewed img{
+  width:36px; height:36px; border-radius:50%; flex-shrink:0; object-fit:cover; object-position:50% 22%;
+  border:2px solid #fff; box-shadow:0 4px 12px rgba(14,42,94,.16);
+}
+.hero-reviewed a{ font-weight:700; color:var(--blue-700); }
+
+/* Код заболевания по МКБ */
+.article .icd-codes{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; max-width:none; margin-top:18px; font-size:13.5px; line-height:1.4; }
+.icd-codes .code{ display:inline-flex; align-items:center; gap:8px; padding:5px 12px 5px 5px; border-radius:999px; background:#fff; border:1px solid var(--line); color:var(--ink); }
+.icd-codes b{ padding:3px 8px; border-radius:999px; background:var(--bg-soft2); font-size:12.5px; font-weight:800; letter-spacing:.03em; color:var(--blue-700); }
+
+/* Комментарий врача — опыт практика своими словами */
+.doctor-quote{
+  position:relative; margin-top:28px; padding:22px 24px 20px; border-radius:22px;
+  background:linear-gradient(135deg, #eef4ff, #f0faf6); border:1px solid #dce7fb;
+}
+.doctor-quote::before{
+  content:"“"; position:absolute; right:20px; top:2px;
+  font-size:88px; font-weight:800; line-height:1; color:rgba(33,88,216,.14);
+}
+.doctor-quote .label{ font-size:12px; font-weight:800; letter-spacing:.07em; text-transform:uppercase; color:var(--teal-700); }
+.doctor-quote blockquote p{ margin-top:8px; max-width:none; font-size:17px; line-height:1.65; color:var(--ink); }
+.doctor-quote figcaption{ display:flex; align-items:center; gap:12px; margin-top:16px; }
+.doctor-quote figcaption img{ width:46px; height:46px; border-radius:50%; flex-shrink:0; object-fit:cover; object-position:50% 22%; }
+.doctor-quote figcaption span{ font-size:13px; line-height:1.45; color:var(--ink-soft); }
+.doctor-quote figcaption a{ display:block; font-size:14.5px; font-weight:800; color:var(--blue-900); }
+
+/* Источники и дисклеймер */
+.sources-title{ margin-top:24px; font-size:17px; font-weight:800; color:var(--blue-900); }
+.source-list{ display:grid; gap:10px; margin-top:14px; counter-reset:src; }
+.source-list li{ position:relative; padding-left:36px; font-size:14.5px; line-height:1.6; color:var(--ink-soft); counter-increment:src; }
+.source-list li::before{
+  content:counter(src); position:absolute; left:0; top:1px; width:24px; height:24px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg-soft2); font-size:12px; font-weight:800; color:var(--blue-700);
+}
+.source-list a{ color:var(--blue-600); text-decoration:underline; text-decoration-color:rgba(32,88,214,.3); text-underline-offset:3px; }
+.disclaimer{
+  display:flex; align-items:flex-start; gap:10px; margin-top:22px; padding:14px 16px; border-radius:14px;
+  background:var(--bg-soft2); font-size:13.5px; line-height:1.55; color:var(--ink-soft);
+}
+.disclaimer .i{ width:18px; height:18px; flex-shrink:0; margin-top:1px; color:var(--blue-600); }
+.article .disclaimer, .seo-text .disclaimer{ max-width:none; font-size:13.5px; line-height:1.55; }
 
 /* Карточки с галочками (симптомы и т. п.) */
 .check-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; margin-top:20px; }
@@ -149,19 +208,6 @@ a.tile{ transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out)
 .side-card .phone{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:14px; font-size:16px; font-weight:800; color:var(--blue-800); }
 .side-card .phone .i{ width:17px; height:17px; }
 
-/* «Ведёт приём»: мини-карточка врача */
-.doctor-mini{
-  display:grid; grid-template-columns:72px minmax(0,1fr); gap:14px; align-items:center;
-  padding:16px; border-radius:22px; background:#fff; border:1px solid var(--line);
-  box-shadow:0 24px 50px -32px rgba(14,42,94,.45);
-}
-.doctor-mini img{ width:72px; height:72px; border-radius:18px; object-fit:cover; object-position:50% 22%; }
-.doctor-mini .label{ font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--teal-700); }
-.doctor-mini b{ display:block; font-size:16px; font-weight:800; color:var(--blue-900); line-height:1.3; margin-top:2px; }
-.doctor-mini span{ display:block; font-size:13px; color:var(--ink-soft); margin-top:2px; }
-.doctor-mini .row{ grid-column:1 / -1; display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:12px; border-top:1px solid var(--line); }
-.doctor-mini .row .doc-price{ font-size:15px; }
-
 /* --- Сетка заболеваний (страница направления) --- */
 .disease-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; }
 .disease-card{
@@ -187,7 +233,8 @@ a.tile{ transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out)
 
 /* Текст «Подробнее» с раскрытием */
 .seo-text p{ font-size:16px; line-height:1.75; color:var(--ink-soft); max-width:75ch; }
-.seo-text p + p{ margin-top:14px; }
+.seo-text p + p, .seo-text .collapse > div > p:first-child{ margin-top:14px; }
+.seo-text .eeat, .seo-text .disclaimer, .seo-text .source-list{ max-width:820px; }   /* по ширине текста, а не всего контейнера */
 
 /* ===== Адаптив ===== */
 @media (max-width:1199px){
@@ -210,12 +257,11 @@ a.tile{ transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out)
   .doc-grid .doc-card{ flex:0 0 min(78%, 320px); scroll-snap-align:start; }
   .check-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); }   /* статья снова во всю ширину */
 }
-/* Планшет: карточки во всю ширину раскладываем в строку, чтобы не было пустых полей */
+/* Планшет: карточка записи во всю ширину — текст слева, кнопки справа, чтобы не было пустых полей */
 @media (min-width:600px) and (max-width:1023px){
+  .page-hero-photo img{ aspect-ratio:16 / 9; }   /* картинка во всю ширину — пониже, чтобы не занимала весь экран */
   .side-card{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:28px; align-items:center; }
   .side-card .sc-actions .btn{ margin-top:0; }
-  .doctor-mini{ grid-template-columns:72px minmax(0,1fr) auto; }
-  .doctor-mini .row{ grid-column:auto; gap:18px; padding:0 0 0 20px; border-top:0; border-left:1px solid var(--line); }
 }
 @media (max-width:767px){
   .page-hero h1{ font-size:clamp(28px, 8vw, 36px); }
@@ -223,7 +269,12 @@ a.tile{ transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out)
   .page-hero .hero-cta .btn{ width:100%; }
   .page-hero-photo img{ aspect-ratio:4 / 3; }
   .fact-chips li{ font-size:13px; min-height:34px; padding:0 11px; }
-  .reviewed .date{ margin-left:0; width:100%; padding-left:58px; }   /* дата под текстом, а не под фото */
+  .eeat{ padding:16px; }
+  .eeat-people{ grid-template-columns:1fr; }
+  .eeat .eeat-policy{ margin-left:0; }
+  .hero-reviewed{ align-items:flex-start; }
+  .doctor-quote{ padding:20px 18px 18px; }
+  .doctor-quote blockquote p{ font-size:16px; }
   .steps, .article .steps, .tile-grid, .disease-grid, .check-grid{ grid-template-columns:1fr; }
   .check-card .cols-2{ columns:1; }
   .article p{ font-size:16px; }

@@ -48,10 +48,16 @@
     if(canHover){
       [t, panel].forEach(function(el){
         el.addEventListener('mouseenter', function(){ openMenu(t); });
-        el.addEventListener('mouseleave', function(){ closeTimer = setTimeout(closeMenu, 180); });
+        el.addEventListener('mouseleave', function(){
+          closeTimer = setTimeout(function(){
+            // человек печатает в поиске меню — не закрываем из-под курсора
+            if(document.activeElement && document.activeElement.matches('input') && panel.contains(document.activeElement)) return;
+            closeMenu();
+          }, 180);
+        });
       });
     }
-    panel.addEventListener('click', function(e){ if(e.target.closest('a')) closeMenu(); });
+    panel.addEventListener('click', function(e){ if(e.target.closest('a') && !e.defaultPrevented) closeMenu(); });
   });
 
   function setDrawer(open){
@@ -77,6 +83,150 @@
   });
   window.matchMedia('(min-width: 1200px)').addEventListener('change', function(m){
     if(m.matches) setDrawer(false); else closeMenu();
+  });
+})();
+
+// Поиск по каталогу услуг: «лечение панических атак» найдёт «Панические атаки», «тревога» — «Тревожность»
+var catalogSearch = (function(){
+  var STOP = ['лечение', 'лечения', 'помощь', 'при', 'в', 'во', 'на', 'и', 'с', 'у', 'к', 'о', 'для', 'от', 'по', 'москве', 'москва', 'клиника', 'клинике'];
+  function words(q){
+    return q.toLowerCase().replace(/ё/g, 'е').split(/[^a-zа-я0-9]+/).filter(function(w){
+      return w && STOP.indexOf(w) < 0;
+    }).map(function(w){
+      // грубо отрезаем окончание: «депрессии» → «депресси», «тревога» → «трево»
+      return w.length >= 7 ? w.slice(0, -2) : w.length >= 5 ? w.slice(0, -1) : w;
+    });
+  }
+  function match(el, ws){
+    var hay = (el.textContent + ' ' + (el.dataset.k || '')).toLowerCase().replace(/ё/g, 'е');
+    return ws.every(function(w){ return hay.indexOf(w) > -1; });
+  }
+  return { words:words, match:match };
+})();
+
+// Мега-меню «Услуги»: рубрика слева показывает свои страницы справа, поиск — по всем рубрикам
+(function(){
+  var mega = document.getElementById('megaServices');
+  if(!mega) return;
+  var cats = mega.querySelectorAll('.mega-cat');
+  var input = mega.querySelector('.mega-search input');
+  var empty = mega.querySelector('.mega-empty');
+  var status = mega.querySelector('[data-search-status]');
+  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var timer = null;
+
+  function activate(cat){
+    cats.forEach(function(c){ c.classList.toggle('is-active', c === cat); });
+  }
+  cats.forEach(function(cat){
+    var link = cat.querySelector('.mega-cat-link');
+    link.addEventListener('focus', function(){ activate(cat); });
+    if(canHover){
+      // короткая задержка: ведёте мышь наискосок к списку — рубрика по пути не переключается
+      link.addEventListener('mouseenter', function(){
+        clearTimeout(timer);
+        timer = setTimeout(function(){ activate(cat); }, 90);
+      });
+      link.addEventListener('mouseleave', function(){ clearTimeout(timer); });
+    } else {
+      // касание: первое показывает страницы рубрики, второе открывает саму рубрику
+      link.addEventListener('click', function(e){
+        if(!cat.classList.contains('is-active')){ e.preventDefault(); activate(cat); }
+      });
+    }
+  });
+
+  input.addEventListener('input', function(){
+    var ws = catalogSearch.words(input.value);
+    var found = 0;
+    mega.classList.toggle('is-searching', ws.length > 0);
+    mega.querySelectorAll('.mega-list li').forEach(function(li){
+      var ok = !ws.length || catalogSearch.match(li, ws);
+      li.hidden = !ok;
+      if(ok && ws.length) found++;
+    });
+    mega.querySelectorAll('.mega-cat, .mega-group').forEach(function(g){
+      g.hidden = ws.length > 0 && !g.querySelector('li:not([hidden])');
+    });
+    empty.hidden = !ws.length || found > 0;
+    empty.querySelector('span').textContent = input.value.trim();
+    status.textContent = ws.length ? 'Найдено: ' + found : '';
+  });
+
+  // Кнопка-лупа в шапке открывает каталог и ставит курсор в поиск
+  var searchBtn = document.querySelector('.search-btn');
+  var trigger = document.querySelector('[aria-controls="megaServices"]');
+  if(searchBtn && trigger){
+    searchBtn.addEventListener('click', function(){
+      if(trigger.getAttribute('aria-expanded') !== 'true') trigger.click();
+      input.focus();
+    });
+  }
+})();
+
+// Мобильное меню: каталог услуг собираем из мега-меню, чтобы список страниц был в одном месте
+(function(){
+  var mega = document.getElementById('megaServices');
+  var box = document.querySelector('[data-services]');
+  if(!mega || !box) return;
+
+  var search = document.createElement('label');
+  search.className = 'drawer-search';
+  search.innerHTML = '<svg class="i"><use href="#i-search"/></svg><input type="search" placeholder="Найти заболевание или услугу" aria-label="Поиск по услугам" autocomplete="off" enterkeyhint="search">';
+  box.append(search);
+
+  mega.querySelectorAll('.mega-cat').forEach(function(cat){
+    var link = cat.querySelector('.mega-cat-link');
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    var list = document.createElement('div');
+    details.className = 'drawer-cat';
+    list.className = 'drawer-cat-list';
+    ['.ic', '.t', '.n', '.chev'].forEach(function(sel){ summary.append(link.querySelector(sel).cloneNode(true)); });
+    if(link.hasAttribute('href')){
+      var all = document.createElement('a');
+      all.className = 'drawer-cat-all';
+      all.href = link.getAttribute('href');
+      all.textContent = 'Всё о направлении';
+      list.append(all);
+    }
+    cat.querySelectorAll('.mega-list li').forEach(function(li){
+      var a = li.querySelector('a').cloneNode(true);
+      if(li.dataset.k) a.dataset.k = li.dataset.k;
+      list.append(a);
+    });
+    details.append(summary, list);
+    box.append(details);
+  });
+  mega.querySelectorAll('.mega-direct').forEach(function(a){
+    var copy = a.cloneNode(true);
+    copy.className = 'drawer-direct';
+    box.append(copy);
+  });
+  var empty = document.createElement('p');
+  empty.className = 'drawer-empty';
+  empty.hidden = true;
+  empty.textContent = 'Ничего не нашли. Позвоните или напишите — администратор подскажет, к какому врачу обратиться.';
+  box.append(empty);
+
+  var input = search.querySelector('input');
+  input.addEventListener('input', function(){
+    var ws = catalogSearch.words(input.value);
+    var found = 0;
+    box.classList.toggle('is-searching', ws.length > 0);
+    box.querySelectorAll('.drawer-cat').forEach(function(d){
+      var n = 0;
+      d.querySelectorAll('.drawer-cat-list a:not(.drawer-cat-all)').forEach(function(a){
+        var ok = !ws.length || catalogSearch.match(a, ws);
+        a.hidden = !ok;
+        if(ok) n++;
+      });
+      d.hidden = ws.length > 0 && !n;
+      d.open = ws.length > 0 && n > 0;   // при поиске рубрики с совпадениями раскрыты
+      if(ws.length) found += n;
+    });
+    box.querySelectorAll('.drawer-direct').forEach(function(a){ a.hidden = ws.length > 0; });
+    empty.hidden = !ws.length || found > 0;
   });
 })();
 

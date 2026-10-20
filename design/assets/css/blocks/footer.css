@@ -62,11 +62,11 @@
 .to-top .i{ width:16px; height:16px; transform:rotate(-90deg); transition:transform .25s var(--ease-out); }
 @media (hover:hover) and (pointer:fine){ .to-top:hover .i{ transform:rotate(-90deg) translateX(3px); } }
 
-/* Крупное бледное название внизу — декоративное */
+/* Крупное бледное название внизу — декоративное, целиком в кадре */
 .footer-mark{
-  font-size:clamp(84px, 18vw, 300px); font-weight:800; line-height:.78; letter-spacing:-.05em;
-  text-align:center; white-space:nowrap; margin-bottom:-.1em;
-  background:linear-gradient(180deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 85%);
+  font-size:clamp(84px, 18vw, 300px); font-weight:800; line-height:.9; letter-spacing:-.05em;
+  text-align:center; white-space:nowrap; padding-bottom:clamp(16px, 2.6vw, 40px);
+  background:linear-gradient(180deg, rgba(255,255,255,.24) 0%, rgba(255,255,255,.09) 100%);
   -webkit-background-clip:text; background-clip:text; color:transparent;
   -webkit-user-select:none; user-select:none; pointer-events:none;
 }

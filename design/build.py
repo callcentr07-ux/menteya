@@ -16,11 +16,14 @@ SRC = ROOT / "src"
 INCLUDE = re.compile(r"<!-- @include ([\w.-]+) -->")
 META = re.compile(r"<!-- (title|description): (.*?) -->\n")
 DASH = re.compile(r"(?<=\S) — ")
+SCRIPT = re.compile(r"(<script\b.*?</script>)", re.S)
 
 
 def typo(text):
-    # Неразрывный пробел перед тире: тире не окажется в начале строки
-    return DASH.sub("&nbsp;— ", text)
+    # Неразрывный пробел перед тире: тире не окажется в начале строки.
+    # Скрипты (микроразметку JSON-LD) не трогаем — там &nbsp; попал бы в данные как есть
+    return "".join(part if part.startswith("<script") else DASH.sub("&nbsp;— ", part)
+                   for part in SCRIPT.split(text))
 
 
 def expand(text, depth=0):

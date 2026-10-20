@@ -18,8 +18,14 @@
         <a href="#booking" class="btn btn-primary btn-lg">Записаться к психиатру</a>
         <a href="#contacts" class="btn btn-outline btn-lg"><svg class="i"><use href="#i-tg"/></svg>Написать в Telegram</a>
       </div>
+      <p class="hero-reviewed">
+        <img src="assets/img/intro-main.jpg" alt="" width="700" height="700">
+        <span>Информацию проверила <a href="vrach.html">Соколова&nbsp;А.&nbsp;В.</a>, главный врач, психиатр, к.&nbsp;м.&nbsp;н. · обновлено <time datetime="2026-10-20">20&nbsp;октября&nbsp;2026</time></span>
+      </p>
     </div>
     <div class="page-hero-side">
+      <!-- Картинка первого экрана. В WordPress — «Изображение записи» страницы: меняется в боковой панели редактора
+           и сама обрезается по рамке (лучше от 1000×900 px, главное — в центре кадра) -->
       <div class="page-hero-photo"><img src="assets/img/doctor-orlov.jpg" alt="Психиатр клиники «Ментея» на приёме" width="700" height="700" fetchpriority="high"></div>
       <div class="hero-badge">
         <span class="ic"><svg class="i"><use href="#i-clock"/></svg></span>
@@ -220,15 +226,43 @@
         <div class="underline"></div>
       </div>
     </div>
+    <!-- E-E-A-T: кто написал, кто проверил, даты. В WordPress — поля страницы, врачи выбираются из списка -->
+    <div class="eeat">
+      <div class="eeat-people">
+        <a class="eeat-person" href="vrach.html">
+          <img src="assets/img/doctor-orlov.jpg" alt="" width="700" height="700" loading="lazy">
+          <span><small>Автор</small><b>Орлов Михаил Андреевич</b><em>психиатр-психотерапевт, стаж 14 лет</em></span>
+        </a>
+        <a class="eeat-person" href="vrach.html">
+          <img src="assets/img/intro-main.jpg" alt="" width="700" height="700" loading="lazy">
+          <span><small>Проверила</small><b>Соколова Анна Викторовна</b><em>главный врач, психиатр, к.&nbsp;м.&nbsp;н., стаж 18 лет</em></span>
+        </a>
+      </div>
+      <div class="eeat-meta">
+        <span><svg class="i"><use href="#i-calendar"/></svg>Опубликовано <time datetime="2025-03-12">12 марта 2025</time></span>
+        <span><svg class="i"><use href="#i-check"/></svg>Обновлено <time datetime="2026-10-20">20 октября 2026</time></span>
+        <button class="read-more eeat-policy" type="button" aria-expanded="false" aria-controls="policyNote" data-label-open="Как мы готовим материалы">Как мы готовим материалы<svg class="i"><use href="#i-chevron"/></svg></button>
+      </div>
+      <div class="collapse" id="policyNote">
+        <div><p>Тексты пишут практикующие врачи клиники. Каждый материал проверяет главный врач: сверяет с действующими клиническими рекомендациями Минздрава России и международными руководствами. Мы пересматриваем страницы не реже раза в год и при выходе новых рекомендаций. Нашли неточность — напишите на <a href="mailto:info@menteya.ru">info@menteya.ru</a>.</p></div>
+      </div>
+    </div>
     <p>Психиатр — врач, который диагностирует и лечит расстройства настроения, тревоги, сна, мышления и поведения. В отличие от психолога, психиатр ставит диагноз и при необходимости назначает лекарства; часто лечение совмещают с психотерапией.</p>
     <p>Приём в клинике «Ментея» анонимный и не влечёт постановку на учёт. Врач подробно объясняет, что происходит, какие есть варианты лечения и чего ожидать, — решения принимаются вместе с пациентом.</p>
     <div class="collapse" id="dirMore">
       <div>
         <p>Мы работаем со взрослыми, подростками и пожилыми пациентами: в клинике, онлайн и с выездом на дом. Если состояние требует круглосуточного наблюдения, поможем с госпитализацией в стационар.</p>
         <p>Между визитами врач остаётся на связи: можно задать вопрос о самочувствии или о назначениях, не дожидаясь следующего приёма.</p>
+        <h3 class="sources-title">Источники</h3>
+        <ol class="source-list">
+          <li>Закон РФ от 02.07.1992 № 3185-1 «О психиатрической помощи и гарантиях прав граждан при её оказании».</li>
+          <li>Приказ Минздрава России от 17.05.2012 № 566н «Об утверждении Порядка оказания медицинской помощи при психических расстройствах и расстройствах поведения».</li>
+          <li>Международная классификация болезней 10-го пересмотра (МКБ-10), класс V «Психические расстройства и расстройства поведения» (F00–F99).</li>
+        </ol>
       </div>
     </div>
     <button class="read-more" type="button" aria-expanded="false" aria-controls="dirMore" data-label-open="Свернуть">Читать далее<svg class="i"><use href="#i-chevron"/></svg></button>
+    <p class="disclaimer"><svg class="i"><use href="#i-info"/></svg><span>Информация носит справочный характер и не заменяет консультацию врача. Диагноз ставит и лечение назначает только специалист.</span></p>
   </div>
 </section>
 
@@ -273,3 +307,74 @@
 </section>
 
 <!-- @include booking.html -->
+
+<!-- Микроразметка E-E-A-T: кто написал и проверил, даты, специальность.
+     В WordPress её соберёт тема из полей страницы и карточек врачей. Домен и адреса — заглушки. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalWebPage",
+      "@id": "https://menteya.ru/psihiatriya/#page",
+      "url": "https://menteya.ru/psihiatriya/",
+      "name": "Психиатр в Москве — консультация и лечение",
+      "inLanguage": "ru-RU",
+      "datePublished": "2025-03-12",
+      "dateModified": "2026-10-20",
+      "lastReviewed": "2026-10-20",
+      "author": { "@id": "https://menteya.ru/vrachi/orlov/#person" },
+      "reviewedBy": { "@id": "https://menteya.ru/vrachi/sokolova/#person" },
+      "publisher": { "@id": "https://menteya.ru/#clinic" },
+      "specialty": "https://schema.org/Psychiatric",
+      "medicalAudience": "https://schema.org/Patient",
+      "breadcrumb": { "@id": "https://menteya.ru/psihiatriya/#breadcrumb" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://menteya.ru/vrachi/orlov/#person",
+      "name": "Орлов Михаил Андреевич",
+      "jobTitle": "Психиатр-психотерапевт",
+      "url": "https://menteya.ru/vrachi/orlov/",
+      "worksFor": { "@id": "https://menteya.ru/#clinic" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://menteya.ru/vrachi/sokolova/#person",
+      "name": "Соколова Анна Викторовна",
+      "jobTitle": "Главный врач, психиатр",
+      "honorificSuffix": "кандидат медицинских наук",
+      "url": "https://menteya.ru/vrachi/sokolova/",
+      "worksFor": { "@id": "https://menteya.ru/#clinic" }
+    },
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://menteya.ru/#clinic",
+      "name": "Клиника «Ментея»",
+      "url": "https://menteya.ru/",
+      "telephone": "+7-495-000-00-00",
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "address": { "@type": "PostalAddress", "addressCountry": "RU", "addressLocality": "Москва", "streetAddress": "ул. Примерная, 1" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://menteya.ru/psihiatriya/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://menteya.ru/" },
+        { "@type": "ListItem", "position": 2, "name": "Услуги", "item": "https://menteya.ru/uslugi/" },
+        { "@type": "ListItem", "position": 3, "name": "Психиатрия" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://menteya.ru/psihiatriya/#faq",
+      "mainEntity": [
+        { "@type": "Question", "name": "Чем психиатр отличается от психолога и психотерапевта?", "acceptedAnswer": { "@type": "Answer", "text": "Психиатр — врач: ставит диагноз и может назначить лекарства. Психотерапевт — тоже врач, который лечит в основном разговорными методами. Психолог не врач: он помогает разобраться в переживаниях и отношениях, но не ставит диагнозы и не назначает лечение." } },
+        { "@type": "Question", "name": "Поставят ли меня на учёт после приёма?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. Клиника частная, приём анонимный и не влечёт постановку на учёт в психоневрологическом диспансере." } },
+        { "@type": "Question", "name": "Обязательно ли будут назначены таблетки?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. Лекарства назначают, только когда они действительно нужны, и всегда объясняют зачем. Многим помогает психотерапия или их сочетание." } },
+        { "@type": "Question", "name": "Можно ли прийти на приём онлайн?", "acceptedAnswer": { "@type": "Answer", "text": "Да, часть консультаций проходит по видеосвязи. Формат можно выбрать при записи." } }
+      ]
+    }
+  ]
+}
+</script>
