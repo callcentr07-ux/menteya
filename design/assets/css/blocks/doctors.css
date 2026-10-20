@@ -1,0 +1,174 @@
+/* ===== Врачи ===== */
+
+/* --- Фильтры и поиск --- */
+.doctors-toprow{
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
+  gap:16px 24px; margin-bottom:28px;
+}
+.doc-filters{ display:flex; flex-wrap:wrap; gap:8px; }
+.doc-filter{
+  display:inline-flex; align-items:center; gap:8px;
+  min-height:42px; padding:0 8px 0 16px; border-radius:999px;
+  background:#fff; border:1.5px solid var(--line);
+  font-size:14px; font-weight:700; color:var(--ink-soft); white-space:nowrap;
+  transition:background-color .2s, color .2s, border-color .2s, transform .16s var(--ease-out);
+}
+.doc-filter .count{
+  min-width:24px; height:24px; padding:0 7px; border-radius:999px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:var(--bg-soft2); color:var(--blue-700); font-size:12px; font-weight:800;
+}
+.doc-filter[aria-pressed="true"]{ background:var(--grad); border-color:transparent; color:#fff; }
+.doc-filter[aria-pressed="true"] .count{ background:rgba(255,255,255,.22); color:#fff; }
+.doc-filter:active{ transform:scale(.96); }
+@media (hover:hover) and (pointer:fine){
+  .doc-filter:not([aria-pressed="true"]):hover{ border-color:var(--blue-500); color:var(--blue-700); }
+}
+
+.doc-search{ position:relative; width:min(100%, 300px); }
+.doc-search .i{ position:absolute; left:14px; top:50%; transform:translateY(-50%); width:18px; height:18px; color:var(--ink-soft); pointer-events:none; }
+.doc-search input{
+  width:100%; min-height:46px; padding:0 14px 0 42px;
+  background:#fff; border:1.5px solid var(--line); border-radius:12px;
+  color:var(--ink); outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+.doc-search input::placeholder{ color:#8a94ab; }
+.doc-search input:focus{ border-color:var(--blue-500); box-shadow:0 0 0 4px rgba(47,116,232,.12); }
+
+/* --- Раскладка «плиткой»: главный врач на две строки, остальные рядом --- */
+.doctors-layout{
+  display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.05fr) minmax(0,1.05fr);
+  grid-auto-flow:dense; gap:20px;
+}
+
+/* --- Карточка врача --- */
+.doc-card{
+  position:relative; isolation:isolate;
+  display:grid; grid-template-columns:40% minmax(0,1fr);
+  background:#fff; border:1px solid var(--line); border-radius:22px; overflow:hidden;
+  transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out), border-color .3s;
+  /* backwards, а не both: иначе финальный кадр анимации перебьёт подъём при наведении */
+  animation:doc-in .45s var(--ease-out) backwards;
+}
+@keyframes doc-in{ from{ opacity:0; transform:translateY(10px) scale(.985); } }
+.doc-photo{ position:relative; overflow:hidden; background:var(--bg-soft2); min-height:100%; }
+.doc-photo img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:50% 22%;
+  transition:transform .7s var(--ease-out);
+}
+.doc-info{ display:flex; flex-direction:column; gap:8px; min-width:0; padding:20px 20px 18px; }
+.doc-role{ font-size:12.5px; font-weight:700; color:var(--teal-700); }
+.doc-name{ font-size:17px; font-weight:800; line-height:1.25; color:var(--blue-900); }
+.doc-link::after{ content:""; position:absolute; inset:0; z-index:1; }
+.doc-link:focus-visible{ box-shadow:none; }
+.doc-link:focus-visible::after{ box-shadow:var(--focus); border-radius:22px; }
+.doc-meta{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px; font-size:13px; color:var(--ink-soft); }
+.doc-rating{ display:inline-flex; align-items:center; gap:4px; font-weight:800; color:var(--ink); }
+.doc-rating .i{ width:14px; height:14px; color:#ffb020; }
+.doc-rating em{ font-style:normal; font-weight:500; color:var(--ink-soft); margin-left:2px; }
+.doc-formats{ display:flex; flex-wrap:wrap; gap:6px; }
+.doc-formats li{
+  display:inline-flex; align-items:center; gap:5px; min-height:26px; padding:0 9px;
+  border-radius:8px; background:var(--teal-50); color:var(--teal-700);
+  font-size:12px; font-weight:700;
+}
+.doc-formats .i{ width:13px; height:13px; }
+.doc-bottom{
+  margin-top:auto; padding-top:8px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+}
+.doc-price{ font-size:15.5px; font-weight:800; color:var(--blue-800); white-space:nowrap; }
+.doc-price small{ display:block; font-size:11.5px; font-weight:600; color:var(--ink-soft); }
+.doc-book, .doc-more{ position:relative; z-index:2; }
+
+@media (hover:hover) and (pointer:fine){
+  .doc-card:hover{ transform:translateY(-5px); box-shadow:0 26px 50px -24px rgba(16,34,84,.35); border-color:transparent; }
+  .doc-card:hover .doc-photo img{ transform:scale(1.05); }
+  .doc-book:hover{ background:var(--grad); color:#fff; border-color:transparent; }
+}
+
+/* --- Главный врач --- */
+.doc-feature{
+  grid-row:span 2; grid-template-columns:1fr; grid-template-rows:auto 1fr;
+  background:linear-gradient(165deg, #eef4ff 0%, #f7fbff 55%, #eefaf5 100%);
+  border-color:transparent;
+}
+.doc-feature .doc-photo{ margin:18px 18px 0; border-radius:18px; aspect-ratio:1 / 1; min-height:0; }
+.doc-feature .doc-info{ padding:20px 24px 24px; gap:10px; }
+.doc-feature .doc-name{ font-size:22px; }
+.doc-badge{
+  position:absolute; left:12px; top:12px; z-index:2;
+  display:inline-flex; align-items:center; gap:6px; padding:7px 12px; border-radius:999px;
+  background:rgba(255,255,255,.9); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  font-size:12.5px; font-weight:800; color:var(--blue-800);
+}
+.doc-badge .i{ width:14px; height:14px; color:var(--teal-700); }
+.doc-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+.doc-tags li{
+  display:inline-flex; align-items:center; min-height:28px; padding:0 11px; border-radius:999px;
+  background:#fff; border:1px solid var(--line);
+  font-size:12.5px; font-weight:600; color:var(--blue-700);
+}
+.doc-feature .doc-bottom{ flex-direction:column; align-items:stretch; gap:12px; }
+.doc-feature .doc-price{ font-size:20px; }
+.doc-more{ align-self:center; font-size:14.5px; font-weight:700; color:var(--blue-600); }
+@media (hover:hover) and (pointer:fine){ .doc-more:hover{ color:var(--blue-800); } }
+
+/* --- Пусто и низ блока --- */
+.doctors-empty{
+  grid-column:1 / -1; padding:40px 24px; text-align:center;
+  border:1.5px dashed var(--line); border-radius:22px; color:var(--ink-soft);
+}
+.doctors-empty b{ display:block; font-size:17px; color:var(--blue-900); margin-bottom:6px; }
+.doctors-empty .btn{ margin-top:16px; }
+.doctors-footer{ display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:32px; text-align:center; }
+.doctors-footer p{ font-size:14px; color:var(--ink-soft); }
+.doctors-footer p a{ font-weight:700; color:var(--blue-600); }
+
+/* ===== Адаптив ===== */
+@media (max-width:1199px){
+  .doctors-layout{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .doc-feature{ grid-column:1 / -1; grid-row:auto; grid-template-columns:300px minmax(0,1fr); grid-template-rows:auto; }
+  .doc-feature .doc-photo{ margin:18px 0 18px 18px; aspect-ratio:auto; min-height:320px; }
+  .doc-feature .doc-info{ justify-content:center; padding:24px 28px; }
+  .doc-feature .doc-bottom{ flex-direction:row; align-items:center; flex-wrap:wrap; }
+  .doc-feature .doc-bottom .btn{ flex:1 1 220px; }
+}
+@media (max-width:1023px){
+  .doc-card:not(.doc-feature){ grid-template-columns:1fr; grid-template-rows:auto 1fr; }
+  .doc-card:not(.doc-feature) .doc-photo{ aspect-ratio:4 / 3.2; min-height:0; }
+}
+@media (max-width:767px){
+  /* Сетка, а не flex-wrap: в многострочном flex ряд фильтров растягивался под содержимое (820px) и раздвигал страницу */
+  .doctors-toprow{ display:grid; grid-template-columns:minmax(0,1fr); margin-bottom:18px; gap:12px; }
+  .doc-filters, .doctors-layout{
+    margin-inline:calc(var(--gutter) * -1); padding-inline:var(--gutter);
+    scroll-padding-inline:var(--gutter); scrollbar-width:none; overscroll-behavior-x:contain;
+  }
+  .doc-filters::-webkit-scrollbar, .doctors-layout::-webkit-scrollbar{ display:none; }
+  .doc-filters{ flex-wrap:nowrap; overflow-x:auto; padding-bottom:2px; }
+  .doc-filter{ flex-shrink:0; }
+  .doc-search{ width:100%; }
+
+  /* Лента со свайпом: следующая карточка выглядывает справа */
+  .doctors-layout{
+    display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding-top:4px; padding-bottom:16px;
+  }
+  .doc-card, .doc-feature{
+    flex:0 0 min(82%, 320px); scroll-snap-align:start;
+    grid-template-columns:1fr; grid-template-rows:auto 1fr;
+  }
+  .doc-card .doc-photo, .doc-feature .doc-photo{ margin:0; border-radius:0; aspect-ratio:4 / 3.4; min-height:0; }
+  .doc-feature .doc-info, .doc-info{ padding:18px; justify-content:flex-start; gap:8px; }
+  /* Главный врач в ленте — той же высоты, что остальные: без тем и второй ссылки, цена и кнопка в строку */
+  .doc-feature .doc-name{ font-size:17px; }
+  .doc-feature .doc-tags, .doc-feature .doc-more{ display:none; }
+  .doc-feature .doc-bottom{ flex-direction:row; align-items:center; gap:10px; }
+  .doc-feature .doc-price{ font-size:15.5px; }
+  .doc-feature .doc-bottom .doc-book{ width:auto; flex:none; min-height:40px; padding:0 16px; font-size:14px; border-radius:10px; }
+  .doctors-empty{ flex:0 0 100%; }
+  .doctors-footer{ margin-top:12px; }
+}

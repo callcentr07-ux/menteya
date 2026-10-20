@@ -155,6 +155,47 @@ document.querySelectorAll('.gallery').forEach(function(g){
   nums.forEach(function(el){ io.observe(el); });
 })();
 
+// Врачи: фильтр по специализации + поиск по имени. Счётчики считаются по карточкам.
+// В WordPress это станет запросом к записям «Врачи» с таксономией «Специализация».
+(function(){
+  var root = document.getElementById('doctors');
+  if(!root) return;
+  var cards = Array.prototype.slice.call(root.querySelectorAll('.doc-card'));
+  var filters = root.querySelectorAll('.doc-filter');
+  var input = root.querySelector('.doc-search input');
+  var empty = root.querySelector('.doctors-empty');
+  var layout = root.querySelector('.doctors-layout');
+  var role = 'all';
+
+  function hasRole(card, r){ return r === 'all' || card.dataset.roles.split(' ').indexOf(r) !== -1; }
+
+  filters.forEach(function(f){
+    var r = f.dataset.filter;
+    f.querySelector('.count').textContent = cards.filter(function(c){ return hasRole(c, r); }).length;
+  });
+
+  function apply(){
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    cards.forEach(function(c){
+      var ok = hasRole(c, role) && (!q || c.dataset.search.toLowerCase().indexOf(q) !== -1);
+      c.hidden = !ok;
+      if(ok) shown++;
+    });
+    empty.hidden = shown > 0;
+    layout.scrollLeft = 0;
+  }
+  function setRole(r){
+    role = r;
+    filters.forEach(function(f){ f.setAttribute('aria-pressed', String(f.dataset.filter === r)); });
+    apply();
+  }
+
+  filters.forEach(function(f){ f.addEventListener('click', function(){ setRole(f.dataset.filter); }); });
+  input.addEventListener('input', apply);
+  empty.querySelector('button').addEventListener('click', function(){ input.value = ''; setRole('all'); });
+})();
+
 // FAQ accordion
 (function(){
   var items = document.querySelectorAll('.faq-item');

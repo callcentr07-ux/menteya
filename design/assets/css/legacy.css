@@ -1,74 +1,5 @@
 /* Блоки, ещё не переработанные. Каждый переезжает в blocks/<блок>.css по мере работы. */
 
-/* ===== DOCTORS ===== */
-.doctor-tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
-.tab-btn{
-  padding:10px 20px; border-radius:100px; font-weight:700; font-size:14px;
-  border:1.5px solid var(--line); background:#fff; color:var(--ink-soft);
-}
-.tab-btn.active{ background:var(--grad); color:#fff; border-color:transparent; }
-.doctor-search{
-  display:flex; align-items:center; gap:10px;
-  border:1.5px solid var(--line); border-radius:12px;
-  padding:12px 16px; background:#fff; max-width:260px; margin-left:auto;
-}
-.doctor-search input{ border:none; outline:none; font-size:14px; width:100%; font-family:inherit;}
-.doctors-toprow{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:36px;}
-
-.doctors-layout{
-  display:grid; grid-template-columns:0.9fr 1.05fr 1.05fr; gap:24px;
-}
-.doctor-feature{
-  grid-column:1 / 2; grid-row:1 / 3;
-  background:linear-gradient(160deg,#eef4ff, #f7fbff);
-  border-radius:22px;
-  padding:32px;
-  display:flex; flex-direction:column;
-  position:relative; overflow:hidden;
-}
-.doctor-feature .photo{ border-radius:18px; overflow:hidden; margin-bottom:20px; }
-.doctor-feature .photo img{ width:100%; aspect-ratio:1/1; height:auto; object-fit:cover; display:block; }
-.doctor-feature .role{ color:var(--blue-600); font-weight:700; font-size:14px; margin-bottom:6px;}
-.doctor-feature h3{ font-size:22px; font-weight:800; margin-bottom:8px; color:var(--ink);}
-.doctor-feature .meta{ font-size:14px; color:var(--ink-soft); margin-bottom:14px;}
-.rating-row{ display:flex; align-items:center; gap:8px; margin-bottom:16px; font-size:14px; font-weight:700;}
-.rating-row .stars{ color:#ffb020; }
-.rating-row span.muted{ color:var(--ink-soft); font-weight:500; }
-.slot-pill{
-  display:inline-flex; align-items:center; gap:8px;
-  background:#e6f9f2; color:var(--teal-500); font-weight:700; font-size:13px;
-  padding:9px 14px; border-radius:10px; margin-bottom:16px; width:fit-content;
-}
-.doctor-card{
-  background:#fff; border:1px solid var(--line); border-radius:18px;
-  padding:0; display:flex; gap:0; overflow:hidden; align-items:stretch;
-  transition:.2s;
-}
-.doctor-card:hover{ box-shadow:var(--shadow); border-color:transparent; transform:translateY(-3px); }
-.doctor-card .photo{
-  flex:0 0 42%; align-self:stretch; overflow:hidden;
-}
-.doctor-card .photo img{ width:100%; height:100%; object-fit:cover; display:block; }
-.doctor-card .info{ flex:1; min-width:0; padding:20px 14px 20px 22px; display:flex; flex-direction:column; justify-content:center; }
-.doctor-card h4{ font-size:15px; font-weight:800; margin-bottom:5px; line-height:1.25; }
-.doctor-card .role{ color:var(--blue-600); font-weight:700; font-size:13px; margin-bottom:4px;}
-.doctor-card .exp{ font-size:12.5px; color:var(--ink-soft); margin-bottom:8px;}
-.doctor-card .dc-rating{ display:flex; align-items:center; gap:5px; font-size:12.5px; font-weight:700; margin-bottom:10px; white-space:nowrap; }
-.doctor-card .dc-rating .stars{ color:#ffb020; letter-spacing:.5px; }
-.doctor-card .dc-rating .muted{ color:var(--ink-soft); font-weight:500; }
-.doctor-card .slot{
-  display:inline-flex; align-items:center; gap:6px; align-self:flex-start;
-  background:#e6f9f2; color:var(--teal-500); font-weight:700; font-size:12px;
-  padding:6px 10px; border-radius:8px;
-}
-.doctor-card .arrow{
-  width:34px; height:34px; border-radius:50%; border:1.5px solid var(--line);
-  display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--blue-600);
-  align-self:flex-end; margin:0 18px 18px 0;
-}
-.doctors-showall{ text-align:center; margin-top:36px; }
-.doctors-showall p{ font-size:13.5px; color:var(--ink-soft); margin-top:14px;}
-
 /* ===== PRICING ===== */
 .pricing-shell{
   background:#fff; border-radius:22px; border:1px solid var(--line);
@@ -256,10 +187,6 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1080px){
-  .doctors-layout{ grid-template-columns:1fr 1fr; }
-  .doctor-feature{ grid-column:1/-1; grid-row:auto; flex-direction:row; gap:28px; align-items:center;}
-  .doctor-feature .photo{ width:260px; flex-shrink:0; margin-bottom:0;}
-  .doctor-feature .photo img{ height:260px; }
   .review-grid{ grid-template-columns:repeat(2,1fr);}
   .platform-grid{ grid-template-columns:repeat(3,1fr); }
   .promo-grid{ grid-template-columns:repeat(2,1fr);}
@@ -294,22 +221,10 @@ footer{ position:relative; background:var(--blue-900); color:rgba(255,255,255,.8
   .price-row{ flex-direction:column; align-items:flex-start; gap:12px; padding:18px 0; }
   .price-row .right{ width:100%; justify-content:space-between; gap:12px; }
   .price-note{ flex-direction:column; align-items:flex-start; padding:18px 20px; }
-
-  /* ---- Doctors ---- */
-  .doctors-layout{ grid-template-columns:1fr; gap:16px; }
-  .doctor-feature{ grid-column:auto; grid-row:auto; flex-direction:column; }
-  .doctor-feature .photo{ width:100%; margin-bottom:20px; }
-  .doctor-card{ flex-direction:row; }
-  .doctor-card .photo{ flex:0 0 40%; align-self:stretch; }
-  .doctor-card .info{ padding:16px 14px; }
 }
 
 @media (max-width: 560px){
   .faq-section{ margin:0 10px; border-radius:18px; }
   .platform-grid{ grid-template-columns:repeat(2,1fr); }
   .footer-grid{ grid-template-columns:1fr; }
-  .doctor-card{ flex-direction:column; }
-  .doctor-card .photo{ flex:none; width:100%; height:230px; align-self:stretch; }
-  .doctor-card .info{ padding:18px 20px; }
-  .doctor-card .arrow{ display:none; }
 }

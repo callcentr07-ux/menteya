@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="assets/css/blocks/services.css">
 <link rel="stylesheet" href="assets/css/blocks/about.css">
 <link rel="stylesheet" href="assets/css/blocks/licenses.css">
+<link rel="stylesheet" href="assets/css/blocks/doctors.css">
 <link rel="stylesheet" href="assets/css/legacy.css">
 </head>
 <body>
@@ -41,6 +42,8 @@
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/></symbol>
   <symbol id="i-badge" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="m9.5 9 1.7 1.7 3.3-3.4"/><path d="M8.2 13.8 7 22l5-3 5 3-1.2-8.2"/></symbol>
   <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.5 2.9 5.9 6.6 1-4.8 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5-4.8-4.6 6.6-1Z"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2.5"/><path d="m16 10.5 6-3.5v10l-6-3.5"/></symbol>
   <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M8.5 14.5v-5l3.5 3.5 3.5-3.5v5"/></symbol>
 </svg>
@@ -483,7 +486,7 @@
 </section>
 
 <!-- ============ DOCTORS ============ -->
-<section id="doctors" class="bg-soft has-plate">
+<section id="doctors" class="doctors bg-soft has-plate">
   <div class="plate">
   <div class="wrap">
     <div class="section-head">
@@ -496,86 +499,122 @@
     </div>
 
     <div class="doctors-toprow">
-      <div class="doctor-tabs">
-        <button class="tab-btn active">Все специалисты</button>
-        <button class="tab-btn">Психиатры</button>
-        <button class="tab-btn">Психотерапевты</button>
-        <button class="tab-btn">Психологи</button>
-        <button class="tab-btn">Детские специалисты</button>
+      <div class="doc-filters" role="group" aria-label="Специализация">
+        <button class="doc-filter" type="button" data-filter="all" aria-pressed="true">Все<span class="count">5</span></button>
+        <button class="doc-filter" type="button" data-filter="psychiatrist" aria-pressed="false">Психиатры<span class="count">3</span></button>
+        <button class="doc-filter" type="button" data-filter="psychotherapist" aria-pressed="false">Психотерапевты<span class="count">2</span></button>
+        <button class="doc-filter" type="button" data-filter="psychologist" aria-pressed="false">Психологи<span class="count">1</span></button>
+        <button class="doc-filter" type="button" data-filter="kids" aria-pressed="false">Детские специалисты<span class="count">1</span></button>
       </div>
-      <div class="doctor-search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" placeholder="Найти врача">
-      </div>
+      <label class="doc-search">
+        <span class="visually-hidden">Найти врача по имени</span>
+        <svg class="i"><use href="#i-search"/></svg>
+        <input type="search" placeholder="Найти врача" autocomplete="off" enterkeyhint="search">
+      </label>
     </div>
 
     <div class="doctors-layout">
-      <div class="doctor-feature">
-        <div class="photo"><img src="assets/img/intro-main.jpg" alt="Соколова Анна Викторовна"></div>
-        <div class="role">Главный врач · психиатр</div>
-        <h3>Соколова Анна Викторовна</h3>
-        <div class="meta">Кандидат медицинских наук · 18 лет опыта</div>
-        <div class="rating-row"><span class="stars">★★★★★</span> 4,9 <span class="muted">· 86 отзывов</span></div>
-        <div class="slot-pill">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          Ближайший приём: сегодня, 16:30
+      <article class="doc-card doc-feature" data-roles="psychiatrist" data-search="Соколова Анна Викторовна главный врач психиатр">
+        <div class="doc-photo">
+          <img src="assets/img/intro-main.jpg" alt="Соколова Анна Викторовна, главный врач, психиатр" width="700" height="700" loading="lazy">
+          <span class="doc-badge"><svg class="i"><use href="#i-badge"/></svg>Главный врач</span>
         </div>
-        <a href="#booking" class="btn btn-primary btn-block" style="margin-bottom:12px;">Записаться на приём</a>
-        <a href="#" class="btn-link" style="text-align:center;">Подробнее о враче</a>
-      </div>
+        <div class="doc-info">
+          <span class="doc-role">Психиатр · кандидат медицинских наук</span>
+          <h3 class="doc-name"><a class="doc-link" href="#doctors">Соколова Анна Викторовна</a></h3>
+          <div class="doc-meta"><span>Стаж 18 лет</span><span class="doc-rating"><svg class="i i-fill"><use href="#i-star"/></svg>4,9<em>86 отзывов</em></span></div>
+          <ul class="doc-tags" aria-label="С чем помогает">
+            <li>Депрессия</li><li>Тревожные расстройства</li><li>Биполярное расстройство</li>
+          </ul>
+          <ul class="doc-formats" aria-label="Формат приёма">
+            <li><svg class="i"><use href="#i-pin"/></svg>В клинике</li>
+            <li><svg class="i"><use href="#i-video"/></svg>Онлайн</li>
+          </ul>
+          <div class="doc-bottom">
+            <span class="doc-price"><small><span class="hide-sm">Первичный приём</span><span class="show-sm">Приём</span></small>3 500 ₽</span>
+            <a href="#booking" class="btn btn-primary btn-block doc-book"><span>Записаться<span class="hide-sm"> на&nbsp;приём</span></span></a>
+            <a href="#doctors" class="doc-more">Подробнее о враче</a>
+          </div>
+        </div>
+      </article>
 
-      <div class="doctor-card">
-        <div class="photo"><img src="assets/img/doctor-orlov.jpg" alt="Орлов Михаил Андреевич"></div>
-        <div class="info">
-          <h4>Орлов Михаил Андреевич</h4>
-          <div class="role">Психиатр · психотерапевт</div>
-          <div class="exp">14 лет опыта</div>
-          <div class="dc-rating"><span class="stars">★★★★★</span><b>4.8</b><span class="muted">· 62 отзыва</span></div>
-          <span class="slot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Приём завтра</span>
+      <article class="doc-card" data-roles="psychiatrist psychotherapist" data-search="Орлов Михаил Андреевич психиатр психотерапевт">
+        <div class="doc-photo"><img src="assets/img/doctor-orlov.jpg" alt="Орлов Михаил Андреевич, психиатр-психотерапевт" width="700" height="700" loading="lazy"></div>
+        <div class="doc-info">
+          <span class="doc-role">Психиатр · психотерапевт</span>
+          <h3 class="doc-name"><a class="doc-link" href="#doctors">Орлов Михаил Андреевич</a></h3>
+          <div class="doc-meta"><span>Стаж 14 лет</span><span class="doc-rating"><svg class="i i-fill"><use href="#i-star"/></svg>4,8<em>62 отзыва</em></span></div>
+          <ul class="doc-formats" aria-label="Формат приёма">
+            <li><svg class="i"><use href="#i-pin"/></svg>В клинике</li>
+            <li><svg class="i"><use href="#i-video"/></svg>Онлайн</li>
+          </ul>
+          <div class="doc-bottom">
+            <span class="doc-price"><small>Приём</small>от 3 500 ₽</span>
+            <a href="#booking" class="btn btn-outline btn-sm doc-book">Записаться</a>
+          </div>
         </div>
-        <div class="arrow">→</div>
-      </div>
+      </article>
 
-      <div class="doctor-card">
-        <div class="photo"><img src="assets/img/doctor-volkova.jpg" alt="Волкова Елена Сергеевна"></div>
-        <div class="info">
-          <h4>Волкова Елена Сергеевна</h4>
-          <div class="role">Клинический психолог</div>
-          <div class="exp">11 лет опыта</div>
-          <div class="dc-rating"><span class="stars">★★★★★</span><b>4.9</b><span class="muted">· 54 отзыва</span></div>
-          <span class="slot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Онлайн и в клинике</span>
+      <article class="doc-card" data-roles="psychologist" data-search="Волкова Елена Сергеевна клинический психолог">
+        <div class="doc-photo"><img src="assets/img/doctor-volkova.jpg" alt="Волкова Елена Сергеевна, клинический психолог" width="700" height="700" loading="lazy"></div>
+        <div class="doc-info">
+          <span class="doc-role">Клинический психолог</span>
+          <h3 class="doc-name"><a class="doc-link" href="#doctors">Волкова Елена Сергеевна</a></h3>
+          <div class="doc-meta"><span>Стаж 11 лет</span><span class="doc-rating"><svg class="i i-fill"><use href="#i-star"/></svg>4,9<em>54 отзыва</em></span></div>
+          <ul class="doc-formats" aria-label="Формат приёма">
+            <li><svg class="i"><use href="#i-pin"/></svg>В клинике</li>
+            <li><svg class="i"><use href="#i-video"/></svg>Онлайн</li>
+          </ul>
+          <div class="doc-bottom">
+            <span class="doc-price"><small>Приём</small>от 2 500 ₽</span>
+            <a href="#booking" class="btn btn-outline btn-sm doc-book">Записаться</a>
+          </div>
         </div>
-        <div class="arrow">→</div>
-      </div>
+      </article>
 
-      <div class="doctor-card">
-        <div class="photo"><img src="assets/img/doctor-lebedev.jpg" alt="Лебедев Игорь Павлович"></div>
-        <div class="info">
-          <h4>Лебедев Игорь Павлович</h4>
-          <div class="role">Детский психиатр</div>
-          <div class="exp">16 лет опыта</div>
-          <div class="dc-rating"><span class="stars">★★★★★</span><b>5.0</b><span class="muted">· 71 отзыв</span></div>
-          <span class="slot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Приём 27 августа</span>
+      <article class="doc-card" data-roles="psychiatrist kids" data-search="Лебедев Игорь Павлович детский психиатр">
+        <div class="doc-photo"><img src="assets/img/doctor-lebedev.jpg" alt="Лебедев Игорь Павлович, детский психиатр" width="700" height="700" loading="lazy"></div>
+        <div class="doc-info">
+          <span class="doc-role">Детский психиатр</span>
+          <h3 class="doc-name"><a class="doc-link" href="#doctors">Лебедев Игорь Павлович</a></h3>
+          <div class="doc-meta"><span>Стаж 16 лет</span><span class="doc-rating"><svg class="i i-fill"><use href="#i-star"/></svg>5,0<em>71 отзыв</em></span></div>
+          <ul class="doc-formats" aria-label="Формат приёма">
+            <li><svg class="i"><use href="#i-pin"/></svg>В клинике</li>
+          </ul>
+          <div class="doc-bottom">
+            <span class="doc-price"><small>Приём</small>от 3 500 ₽</span>
+            <a href="#booking" class="btn btn-outline btn-sm doc-book">Записаться</a>
+          </div>
         </div>
-        <div class="arrow">→</div>
-      </div>
+      </article>
 
-      <div class="doctor-card">
-        <div class="photo"><img src="assets/img/doctor-belov.jpg" alt="Белов Сергей Николаевич"></div>
-        <div class="info">
-          <h4>Белов Сергей Николаевич</h4>
-          <div class="role">Психотерапевт</div>
-          <div class="exp">9 лет опыта</div>
-          <div class="dc-rating"><span class="stars">★★★★★</span><b>4.7</b><span class="muted">· 38 отзывов</span></div>
-          <span class="slot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Есть время сегодня</span>
+      <article class="doc-card" data-roles="psychotherapist" data-search="Белов Сергей Николаевич психотерапевт">
+        <div class="doc-photo"><img src="assets/img/doctor-belov.jpg" alt="Белов Сергей Николаевич, психотерапевт" width="700" height="700" loading="lazy"></div>
+        <div class="doc-info">
+          <span class="doc-role">Психотерапевт</span>
+          <h3 class="doc-name"><a class="doc-link" href="#doctors">Белов Сергей Николаевич</a></h3>
+          <div class="doc-meta"><span>Стаж 9 лет</span><span class="doc-rating"><svg class="i i-fill"><use href="#i-star"/></svg>4,7<em>38 отзывов</em></span></div>
+          <ul class="doc-formats" aria-label="Формат приёма">
+            <li><svg class="i"><use href="#i-pin"/></svg>В клинике</li>
+            <li><svg class="i"><use href="#i-video"/></svg>Онлайн</li>
+          </ul>
+          <div class="doc-bottom">
+            <span class="doc-price"><small>Приём</small>от 3 200 ₽</span>
+            <a href="#booking" class="btn btn-outline btn-sm doc-book">Записаться</a>
+          </div>
         </div>
-        <div class="arrow">→</div>
+      </article>
+
+      <div class="doctors-empty" hidden>
+        <b>Никого не нашли</b>
+        Попробуйте другое имя или специализацию — или напишите нам, подберём врача.
+        <br><button class="btn btn-outline btn-sm" type="button">Показать всех</button>
       </div>
     </div>
 
-    <div class="doctors-showall">
-      <a href="#" class="btn btn-outline">Показать всех специалистов →</a>
-      <p>Поможем подобрать врача под ваш запрос — просто напишите нам</p>
+    <div class="doctors-footer">
+      <a href="#doctors" class="btn btn-outline">Все специалисты<svg class="i"><use href="#i-arrow"/></svg></a>
+      <p>Не знаете, к кому записаться? <a href="#booking">Поможем подобрать врача</a></p>
     </div>
   </div>
   </div>
