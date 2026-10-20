@@ -1,0 +1,110 @@
+/* ===== О клинике ===== */
+.about{ position:relative; overflow:hidden; }
+.about-watermark{
+  position:absolute; right:-40px; bottom:-60px; width:300px; height:auto;
+  z-index:0; pointer-events:none; opacity:.6;
+}
+.about .wrap{ position:relative; z-index:1; }
+.about-grid{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(40px, 6vw, 88px); align-items:center;
+}
+
+/* --- Галерея: большое фото + миниатюры с полосой автосмены --- */
+.gallery{ --gallery-delay:6s; }
+.gallery-stage{
+  position:relative; overflow:hidden;
+  aspect-ratio:4 / 3.1; border-radius:26px;
+  box-shadow:var(--shadow-lg); background:var(--bg-soft2);
+  touch-action:pan-y;
+}
+.gallery-slide{
+  position:absolute; inset:0;
+  opacity:0; transform:scale(1.05);
+  transition:opacity .9s var(--ease-out), transform 1.6s var(--ease-out);
+}
+.gallery-slide.is-active{ opacity:1; transform:none; }
+.gallery-slide img{ width:100%; height:100%; object-fit:cover; }
+.gallery-caption{
+  position:absolute; left:16px; bottom:16px; z-index:2;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:9px 14px; border-radius:12px;
+  background:rgba(255,255,255,.82); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  font-size:14px; font-weight:700; color:var(--blue-900);
+}
+.gallery-caption .i{ width:16px; height:16px; color:var(--teal-700); }
+.gallery-nav{ position:absolute; right:16px; bottom:16px; z-index:2; display:flex; gap:8px; }
+.gallery-btn{
+  width:42px; height:42px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.82); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  color:var(--blue-800);
+  transition:background .2s, transform .16s var(--ease-out);
+}
+.gallery-btn .i{ width:18px; height:18px; }
+.gallery-btn.prev .i{ transform:scaleX(-1); }
+.gallery-btn:active{ transform:scale(.92); }
+@media (hover:hover) and (pointer:fine){ .gallery-btn:hover{ background:#fff; } }
+
+.gallery-thumbs{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; margin-top:14px; }
+.gallery-thumb{
+  position:relative; text-align:left;
+  display:flex; flex-direction:column; gap:8px;
+  opacity:.6; transition:opacity .25s;
+}
+.gallery-thumb.is-active, .gallery-thumb:focus-visible{ opacity:1; }
+@media (hover:hover) and (pointer:fine){ .gallery-thumb:hover{ opacity:1; } }
+.thumb-img{ position:relative; display:block; border-radius:12px; overflow:hidden; }
+.thumb-img img{ width:100%; aspect-ratio:16/9.5; object-fit:cover; }
+.thumb-label{ font-size:13px; font-weight:700; color:var(--blue-900); padding-left:2px; }
+/* Полоса прогресса: её окончание (animationend) переключает кадр — пауза при наведении бесплатна */
+.gallery-thumb .bar{
+  position:absolute; left:8px; right:8px; bottom:8px; height:3px; border-radius:3px;
+  background:rgba(255,255,255,.5); overflow:hidden; opacity:0; transition:opacity .25s;
+}
+.gallery-thumb .bar::after{
+  content:""; position:absolute; inset:0; background:#fff;
+  transform:scaleX(0); transform-origin:left;
+}
+.gallery-thumb.is-active .bar{ opacity:1; }
+.gallery.is-playing .gallery-thumb.is-active .bar::after{ animation:gallery-progress var(--gallery-delay) linear forwards; }
+.gallery:focus-within .bar::after, .gallery.is-offscreen .bar::after{ animation-play-state:paused; }
+@media (hover:hover) and (pointer:fine){ .gallery:hover .bar::after{ animation-play-state:paused; } }
+@keyframes gallery-progress{ to{ transform:scaleX(1); } }
+
+/* --- Текст и цифры --- */
+.about-copy .h2{ margin-bottom:20px; }
+.about-copy p{ color:var(--ink-soft); font-size:16.5px; line-height:1.75; max-width:58ch; }
+.about-copy p + p{ margin-top:16px; }
+.stat-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; margin-top:32px; }
+.stat-card{
+  background:#fff; border:1px solid var(--line); border-radius:18px;
+  padding:20px 20px 18px;
+  box-shadow:0 10px 26px -18px rgba(14,42,94,.35);
+}
+.stat-card b{
+  display:block; margin-bottom:6px;
+  font-size:clamp(26px, 2.4vw, 34px); font-weight:800; line-height:1.05; letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums; white-space:nowrap;
+  background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.stat-card span{ display:block; font-size:13.5px; line-height:1.45; color:var(--ink-soft); }
+
+/* ===== Адаптив ===== */
+@media (max-width:1023px){
+  .about-grid{ grid-template-columns:1fr; }
+  .about-media{ max-width:640px; width:100%; margin-inline:auto; }
+}
+@media (max-width:767px){
+  .about-watermark{ width:200px; right:-50px; bottom:-40px; }
+  .gallery-stage{ aspect-ratio:4/3.4; border-radius:20px; }
+  .gallery-caption{ left:12px; bottom:12px; font-size:13px; padding:8px 12px; }
+  .gallery-nav{ display:none; }
+  .gallery-thumbs{ gap:8px; margin-top:10px; }
+  .thumb-img{ border-radius:10px; }
+  .thumb-label{ font-size:12px; }
+  .about-copy p{ font-size:16px; line-height:1.7; }
+  .stat-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; margin-top:24px; }
+  .stat-grid .stat-card:last-child{ grid-column:1 / -1; }
+  .stat-card{ padding:16px; border-radius:16px; }
+}

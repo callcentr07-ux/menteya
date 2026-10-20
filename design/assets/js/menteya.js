@@ -80,21 +80,79 @@
   });
 })();
 
-// About photo slider
-(function(){
-  var slides = document.querySelectorAll('#aboutSlider .about-slide');
-  var dots = document.querySelectorAll('#aboutSlider .as-dot');
-  if(!slides.length) return;
+// Галерея «О клинике»: миниатюры, стрелки, свайп. Автосмену ведёт CSS-полоса прогресса:
+// её animationend переключает кадр, поэтому пауза при наведении и вне экрана работает сама.
+document.querySelectorAll('.gallery').forEach(function(g){
+  var slides = g.querySelectorAll('.gallery-slide');
+  var thumbs = g.querySelectorAll('.gallery-thumb');
+  var caption = g.querySelector('.gallery-caption span');
   var current = 0;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   function show(i){
-    slides.forEach(function(s,idx){ s.classList.toggle('active', idx===i); });
-    dots.forEach(function(d,idx){ d.classList.toggle('active', idx===i); });
-    current = i;
+    current = (i + slides.length) % slides.length;
+    slides.forEach(function(s, k){ s.classList.toggle('is-active', k === current); });
+    thumbs.forEach(function(t, k){
+      t.classList.toggle('is-active', k === current);
+      if(k === current) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current');
+    });
+    caption.textContent = thumbs[current].dataset.caption;
   }
-  dots.forEach(function(d){
-    d.addEventListener('click', function(){ show(parseInt(d.dataset.i,10)); });
+
+  thumbs.forEach(function(t, k){
+    t.addEventListener('click', function(){ show(k); });
+    t.querySelector('.bar').addEventListener('animationend', function(){ show(current + 1); });
   });
-  setInterval(function(){ show((current+1) % slides.length); }, 5000);
+  g.querySelector('.gallery-btn.prev').addEventListener('click', function(){ show(current - 1); });
+  g.querySelector('.gallery-btn.next').addEventListener('click', function(){ show(current + 1); });
+
+  var stage = g.querySelector('.gallery-stage');
+  var startX = null;
+  stage.addEventListener('pointerdown', function(e){ startX = e.clientX; });
+  stage.addEventListener('pointerup', function(e){
+    if(startX === null) return;
+    var dx = e.clientX - startX;
+    startX = null;
+    if(Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1));
+  });
+  stage.addEventListener('pointercancel', function(){ startX = null; });
+
+  if(reduce) return;
+  g.classList.add('is-playing');
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      g.classList.toggle('is-offscreen', !entries[0].isIntersecting);
+    }).observe(g);
+  }
+});
+
+// Досчёт цифр «12 400+», «96%» — один раз, когда карточки появились на экране
+(function(){
+  var nums = document.querySelectorAll('[data-count]');
+  if(!nums.length || !('IntersectionObserver' in window)) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var fmt = new Intl.NumberFormat('ru-RU');
+  function run(el){
+    var target = +el.dataset.count;
+    var suffix = el.dataset.suffix || '';
+    var t0 = null;
+    function frame(t){
+      if(t0 === null) t0 = t;
+      var p = Math.min((t - t0) / 1400, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt.format(Math.round(target * eased)) + suffix;
+      if(p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      io.unobserve(e.target);
+      run(e.target);
+    });
+  }, { threshold:.6 });
+  nums.forEach(function(el){ io.observe(el); });
 })();
 
 // FAQ accordion
