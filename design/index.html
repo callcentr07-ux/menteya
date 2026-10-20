@@ -4,12 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#12409e">
+<script>document.documentElement.classList.add('js')</script>
 <title>Психиатрическая клиника «Ментея» — консультации психиатра и психотерапевта</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/blocks/header.css">
 <link rel="stylesheet" href="assets/css/blocks/hero.css">
+<link rel="stylesheet" href="assets/css/blocks/intro.css">
 <link rel="stylesheet" href="assets/css/legacy.css">
 </head>
 <body>
@@ -268,11 +270,11 @@
 </section>
 
 <!-- ============ INTRO ============ -->
-<section id="intro" class="bg-soft">
+<section id="intro" class="intro bg-soft">
   <div class="wrap intro-grid">
-    <div class="intro-media">
-      <div class="intro-photo-main"><img src="assets/img/intro-main.jpg" alt="Главный врач клиники «Ментея»"></div>
-      <div class="intro-photo-inset"><img src="assets/img/intro-inset.jpg" alt="Интерьер клиники «Ментея»"></div>
+    <div class="intro-media" data-reveal>
+      <figure class="intro-photo-main"><img src="assets/img/intro-main.jpg" alt="Главный врач клиники «Ментея» Анна Викторовна Соколова" width="700" height="700" loading="lazy"></figure>
+      <figure class="intro-photo-inset" data-reveal="right"><img src="assets/img/intro-inset.jpg" alt="Холл и стойка администратора клиники «Ментея»" width="900" height="506" loading="lazy"></figure>
       <div class="intro-badge">
         <b>10+ лет</b>
         <span>помогаем пациентам<br>в Симферополе</span>
@@ -280,15 +282,21 @@
     </div>
     <div class="intro-copy">
       <span class="section-tag">Клиника «Ментея»</span>
-      <h2 style="font-size:clamp(26px,3vw,36px); font-weight:800; color:var(--blue-900); margin-bottom:18px; line-height:1.3;">Клиника психиатрии и психотерапии в&nbsp;Симферополе</h2>
-      <p>Клиника «Ментея» — это команда психиатров, психотерапевтов и клинических психологов, которая работает в Симферополе уже больше десяти лет. Мы убеждены: обращение за психиатрической помощью — это не признак слабости, а осознанный шаг к устойчивости и качеству жизни.</p>
+      <h2 class="h2">Клиника психиатрии и психотерапии в&nbsp;Симферополе</h2>
+      <p>Клиника «Ментея» — это команда психиатров, психотерапевтов и клинических психологов, которая работает в Симферополе уже больше десяти лет.</p>
       <p>Каждый приём построен вокруг человека, а не диагноза: сначала мы внимательно разбираемся в ситуации, затем предлагаем понятный и обоснованный план — без лишних процедур и давления.</p>
-      <div class="intro-more" id="introMore">
-        <p>Мы совмещаем медикаментозную терапию с психотерапией, поддерживаем связь с пациентом между визитами и всегда объясняем логику назначений простым языком. В клинике принимают взрослые, подростковые и семейные специалисты, а часть консультаций можно пройти онлайн.</p>
-        <p>Конфиденциальность — один из базовых принципов работы клиники: приём носит анонимный характер и не влечёт постановку на учёт. Мы обновляем протоколы лечения в соответствии с современными международными рекомендациями и регулярно повышаем квалификацию врачей.</p>
-        <p>За годы работы клиника помогла тысячам пациентов вернуть контроль над своим состоянием — от тревожных расстройств и депрессии до сложных случаев, требующих длительного наблюдения.</p>
+      <div class="collapse intro-more" id="introMore">
+        <div>
+          <p>Мы совмещаем медикаментозную терапию с психотерапией, поддерживаем связь с пациентом между визитами и всегда объясняем логику назначений простым языком. В клинике принимают взрослые, подростковые и семейные специалисты, а часть консультаций можно пройти онлайн.</p>
+          <p>Конфиденциальность — один из базовых принципов работы клиники: приём носит анонимный характер и не влечёт постановку на учёт. Мы обновляем протоколы лечения в соответствии с современными международными рекомендациями и регулярно повышаем квалификацию врачей.</p>
+          <p>За годы работы клиника помогла тысячам пациентов вернуть контроль над своим состоянием — от тревожных расстройств и депрессии до сложных случаев, требующих длительного наблюдения.</p>
+        </div>
       </div>
-      <button class="btn btn-outline btn-sm intro-toggle" id="introToggle">Читать далее ↓</button>
+      <button class="read-more" type="button" aria-expanded="false" aria-controls="introMore" data-label-open="Свернуть">Читать далее<svg class="i"><use href="#i-chevron"/></svg></button>
+      <figure class="intro-quote">
+        <blockquote><p>Обращение за психиатрической помощью — не признак слабости, а осознанный шаг к устойчивости и качеству жизни.</p></blockquote>
+        <figcaption><b>Анна Викторовна Соколова</b> — главный врач, психиатр, кандидат медицинских наук</figcaption>
+      </figure>
     </div>
   </div>
 </section>

@@ -117,15 +117,32 @@
   });
 })();
 
-// Intro "read more" toggle
-(function(){
-  var btn = document.getElementById('introToggle');
-  var box = document.getElementById('introMore');
-  if(!btn || !box) return;
-  var open = false;
+// «Читать далее»: любая кнопка .read-more раскрывает свой .collapse
+document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
+  var box = document.getElementById(btn.getAttribute('aria-controls'));
+  var label = btn.firstChild;
+  var closedText = label.textContent;
   btn.addEventListener('click', function(){
-    open = !open;
-    box.style.maxHeight = open ? box.scrollHeight + 'px' : null;
-    btn.textContent = open ? 'Свернуть ↑' : 'Читать далее ↓';
+    var open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', String(open));
+    box.classList.toggle('open', open);
+    label.textContent = open ? btn.dataset.labelOpen : closedText;
   });
+});
+
+// Появление фото-композиций при прокрутке (один раз)
+(function(){
+  var items = document.querySelectorAll('[data-reveal]');
+  if(!('IntersectionObserver' in window)){
+    items.forEach(function(el){ el.classList.add('is-in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('is-in');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin:'0px 0px -12% 0px' });
+  items.forEach(function(el){ io.observe(el); });
 })();
