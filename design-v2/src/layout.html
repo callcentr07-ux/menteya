@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f3f0ea">
+<script>document.documentElement.classList.add('js')</script>
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<link rel="canonical" href="{{url}}">
+<!-- Превью ссылки в Telegram, ВК и поисковиках. В WordPress эти теги выводит SEO-плагин; домен — заглушка -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Клиника «Ментея»">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:url" content="{{url}}">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Шрифты пока с Google Fonts; перед запуском — файлами на сайте (без запросов к чужим серверам) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..700&family=Unbounded:wght@500..700&display=swap" rel="stylesheet">
+<!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
+<link rel="stylesheet" href="assets/css/menteya.min.css">
+</head>
+<body>
+
+<!-- @include sprite.html -->
+
+<!-- @include header.html -->
+
+<main id="main">
+
+{{content}}
+
+</main>
+
+<!-- @include footer.html -->
+
+<!-- @include bottombar.html -->
+
+<!-- @include booking-modal.html -->
+
+<!-- @include cookie.html -->
+
+<script src="assets/js/menteya.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!-- ============ ЗАПИСЬ И КОНТАКТЫ ============ -->
+<section class="sec" id="contacts" aria-labelledby="contacts-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <h2 class="h2" id="contacts-title">Запишитесь на&nbsp;консультацию</h2>
+        <p>Оставьте заявку&nbsp;— администратор перезвонит за&nbsp;15&nbsp;минут, подберёт врача и&nbsp;удобное время.</p>
+      </div>
+    </div>
+    <div class="bento contact-grid">
+      <div class="tile booking-tile" id="booking" data-reveal style="--i:0">
+        <form class="form" id="bookingForm" novalidate>
+          <div class="form-body">
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-name">Имя <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-name" name="name" type="text" autocomplete="given-name" placeholder="Как к вам обращаться" required aria-describedby="f-name-err">
+                <span class="error" id="f-name-err">Напишите, как к вам обращаться</span>
+              </div>
+              <div class="field">
+                <label for="f-phone">Телефон <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="f-phone-err">
+                <span class="error" id="f-phone-err">Проверьте номер: после +7 нужно 10 цифр</span>
+              </div>
+              <!-- Согласие — отдельной галочкой и отдельным документом (152-ФЗ); политика — ссылкой ниже -->
+              <div class="field full">
+                <label class="consent">
+                  <input type="checkbox" name="consent" required aria-describedby="f-consent-err">
+                  <span>Даю <a href="#contacts">согласие на&nbsp;обработку персональных данных</a></span>
+                </label>
+                <span class="error" id="f-consent-err">Без согласия мы не&nbsp;сможем с&nbsp;вами связаться</span>
+              </div>
+              <!-- Ловушка для ботов: людям поле не видно. Заполнено — заявку не отправляем -->
+              <div class="hp" aria-hidden="true">
+                <label for="f-website">Сайт</label>
+                <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Записаться на&nbsp;консультацию</button>
+            <p class="secure-note"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не&nbsp;передаются третьим лицам</p>
+            <p class="policy-note">Как мы храним данные&nbsp;— в&nbsp;<a href="#contacts">политике конфиденциальности</a></p>
+            <ol class="form-next" aria-label="Что будет после заявки">
+              <li><b>Перезвоним за&nbsp;15&nbsp;минут</b><span class="muted">в&nbsp;рабочее время, с&nbsp;9:00 до&nbsp;21:00</span></li>
+              <li><b>Подберём врача</b><span class="muted">и&nbsp;удобное время приёма</span></li>
+              <li><b>Напомним о&nbsp;приёме</b><span class="muted">накануне визита</span></li>
+            </ol>
+          </div>
+          <div class="form-success" role="status" hidden>
+            <span class="ok" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
+            <b tabindex="-1">Заявка принята</b>
+            <p>Администратор перезвонит в&nbsp;течение 15&nbsp;минут в&nbsp;рабочее время&nbsp;— ежедневно с&nbsp;9:00 до&nbsp;21:00.</p>
+            <button type="button" class="btn btn-ghost form-again">Отправить ещё одну заявку</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="tile contact-addr" data-reveal style="--i:1">
+        <span class="ic"><svg class="i"><use href="#i-pin"/></svg></span>
+        <span class="t-label">Адрес</span>
+        <p class="contact-big">Москва, ул.&nbsp;Примерная,&nbsp;1</p>
+        <div class="route-row">
+          <a class="btn btn-ghost btn-sm" href="#contacts"><svg class="i"><use href="#i-route"/></svg>Яндекс Карты</a>
+          <a class="btn btn-ghost btn-sm" href="#contacts">2ГИС</a>
+        </div>
+      </div>
+      <div class="tile tile-mint contact-hours" data-open data-reveal style="--i:2">
+        <span class="status"><span class="dot" aria-hidden="true"></span><span data-open-title>Ежедневно 9:00–21:00</span></span>
+        <p class="contact-big">9:00–21:00</p>
+        <p class="t-note">Ежедневно. Выезд врача на&nbsp;дом&nbsp;— круглосуточно</p>
+      </div>
+      <div class="tile contact-phone" data-reveal style="--i:3">
+        <span class="ic"><svg class="i"><use href="#i-phone"/></svg></span>
+        <span class="t-label">Телефон и&nbsp;почта</span>
+        <a class="contact-big" href="tel:+74950000000">+7 495 000-00-00</a>
+        <a class="go" href="mailto:info@menteya.ru">info@menteya.ru</a>
+      </div>
+      <div class="tile tile-lav contact-msg" data-reveal style="--i:4">
+        <span class="ic"><svg class="i"><use href="#i-chat"/></svg></span>
+        <span class="t-label">Мессенджеры</span>
+        <p class="contact-big">Ответим анонимно</p>
+        <div class="msg-row">
+          <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+          <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
