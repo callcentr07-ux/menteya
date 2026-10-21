@@ -6,7 +6,7 @@
   --peach:#ffe2d6; --mint:#dcf5e8; --sky:#e2ecff;
   --green:#15803d; --amber:#b45309; --dark:#1d1a42; --dark-2:#2b2766;
   --r:28px; --r-sm:18px; --gap:12px; --pad:clamp(20px, 1.9vw, 32px);
-  --gut:16px; --maxw:1680px; --header-h:76px;
+  --gut:clamp(16px, 5.5vw, 104px); --maxw:1680px; --header-h:76px;   /* поля по бокам — место для спиралей ДНК */
   --ease:cubic-bezier(.22, 1, .36, 1);
   --font-d:"Unbounded", system-ui, sans-serif; --font-t:"Onest", system-ui, sans-serif;
 }
@@ -30,6 +30,8 @@ input, textarea, select{ font-size:max(16px, 1rem); }   /* меньше 16px —
 .i{ width:20px; height:20px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .i-fill{ fill:currentColor; stroke:none; }
 .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+/* Спирали ДНК по краям страницы: холст под содержимым, рисует скрипт */
+.helix-bg{ position:fixed; inset:0; z-index:-1; width:100%; height:100%; pointer-events:none; }
 .skip-link{ position:absolute; left:12px; top:-60px; z-index:200; padding:12px 18px; border-radius:999px; background:var(--ink); color:#fff; font-weight:600; transition:top .2s; }
 .skip-link:focus{ top:12px; }
 

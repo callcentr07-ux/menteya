@@ -669,6 +669,181 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   }, { passive:true });
 })();
 
+// Спирали ДНК по краям страницы — из тех же объёмных сфер, что в логотипе.
+// Медленно вращаются, «вкручиваются» при прокрутке и едут чуть медленнее страницы; по нитям бегут импульсы.
+// Один холст под содержимым. На телефоне рисуем только при прокрутке (бережём батарею),
+// при «уменьшить движение» — неподвижная картинка.
+(function(){
+  var wrap = document.querySelector('.wrap');
+  var canvas = document.createElement('canvas');
+  if(!wrap || !canvas.getContext) return;
+  canvas.className = 'helix-bg';
+  canvas.setAttribute('aria-hidden', 'true');
+  document.body.prepend(canvas);
+  var ctx = canvas.getContext('2d');
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var STEP = 28;      // расстояние между парами, px
+  var TWIST = .38;    // поворот спирали на одну пару
+  var PAR = .55;      // спираль едет на 55% скорости страницы — ощущение глубины
+  var W = 0, H = 0, dpr = 1, mobile = false, scale = 1, sides = [];
+  var mouse = { x:-999, y:-999 };
+  var last = 0, lastScroll = -1, dirty = true;
+
+  // Сферы рисуем заранее: блик, тело и мягкое свечение — как у знака в логотипе
+  function sphere(hi, mid, deep, glow){
+    var c = document.createElement('canvas');
+    c.width = c.height = 64;
+    var g = c.getContext('2d');
+    var halo = g.createRadialGradient(32, 32, 10, 32, 32, 32);
+    halo.addColorStop(0, glow);
+    halo.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = halo;
+    g.fillRect(0, 0, 64, 64);
+    var body = g.createRadialGradient(27, 26, 1, 32, 32, 15);
+    body.addColorStop(0, hi);
+    body.addColorStop(.45, mid);
+    body.addColorStop(1, deep);
+    g.fillStyle = body;
+    g.beginPath();
+    g.arc(32, 32, 14, 0, Math.PI * 2);
+    g.fill();
+    return c;
+  }
+  var SPHERES = [
+    sphere('#ffffff', '#d4ccff', '#5b4be0', 'rgba(124,108,255,.38)'),   // фиолетовая — основная
+    sphere('#ffffff', '#ffd9cb', '#ef8a6a', 'rgba(255,160,130,.32)'),   // персиковая
+    sphere('#ffffff', '#cdf3df', '#36a372', 'rgba(80,190,140,.30)')     // мятная
+  ];
+  var BASES = ['91,75,224', '239,138,106', '54,163,114'];   // цвета перемычек — «пар оснований»
+
+  function layout(){
+    var r = canvas.getBoundingClientRect();
+    W = r.width; H = r.height;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    var box = wrap.getBoundingClientRect();
+    var edge = box.left + parseFloat(getComputedStyle(wrap).paddingLeft);   // где начинается содержимое
+    mobile = W < 700;
+    // на широких экранах поля шире — спираль крупнее; на телефоне — тонкая цепочка в узком поле у края, не заходит на текст
+    scale = mobile ? .5 : Math.max(.85, Math.min(edge / 80, 1.3));
+    STEP = Math.round((mobile ? 36 : 28) * scale);
+    var amp = mobile ? Math.max(3, edge * .32) : Math.max(13, Math.min(edge * .3, 38));
+    var cx = edge / 2;
+    sides = [
+      { x:cx, amp:amp, phase:0, dir:1, pulses:[] },
+      { x:W - cx, amp:amp, phase:2.1, dir:-1, pulses:[] }
+    ];
+    sides.forEach(function(s){
+      for(var k = 0; k < 2; k++) s.pulses.push({ p:-1e9, strand:k, speed:1.6 + Math.random() * 1.2 });
+    });
+    dirty = true;
+  }
+
+  function ease(v){ v = Math.max(0, Math.min(1, v)); return v * v * (3 - 2 * v); }
+
+  function draw(t, dt){
+    var sy = still.matches ? 0 : window.scrollY;
+    var shift = sy * PAR;
+    var from = Math.floor(shift / STEP) - 2, to = Math.ceil((shift + H) / STEP) + 2;
+    var fadeEdge = mobile ? 90 : 150;
+    var base = mobile ? .8 : 1;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    sides.forEach(function(s){
+      var spin = s.phase + (still.matches ? 0 : t * .00022 * s.dir) + sy * .0035 * s.dir;
+      // импульсы: бегут вниз по нитям; ушёл за экран — стартует снова сверху
+      s.pulses.forEach(function(pl){
+        if(!still.matches && !mobile) pl.p += dt * pl.speed;
+        if(pl.p > to + 4 || pl.p < from - 40) { pl.p = from - 2 - Math.random() * 18; pl.strand = Math.random() < .5 ? 0 : 1; }
+      });
+      function point(i, strand){
+        var a = i * TWIST + spin, sin = Math.sin(a);
+        return { x:s.x + (strand ? -1 : 1) * s.amp * sin, y:i * STEP - shift, z:(strand ? -1 : 1) * Math.cos(a) };
+      }
+      var back = [], front = [];
+      for(var i = from; i <= to; i++){
+        for(var strand = 0; strand < 2; strand++){
+          var a = point(i, strand), b = point(i + 1, strand);
+          var f = ease(a.y / fadeEdge) * ease((H - a.y) / fadeEdge) * base;
+          if(f <= 0) continue;
+          // нить: плавная кривая между соседними сферами
+          var seg = { kind:'seg', i:i, strand:strand, f:f, z:(a.z + b.z) / 2 };
+          (seg.z < 0 ? back : front).push(seg);
+          // сфера: впереди крупнее и ярче, сзади меньше и бледнее; импульс и курсор её подсвечивают
+          var boost = 0;
+          s.pulses.forEach(function(pl){ if(pl.strand === strand){ var d = i - pl.p; boost += Math.exp(-d * d / 3); } });
+          var dm = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+          var near = dm < 110 ? 1 - dm / 110 : 0;
+          var node = { kind:'node', x:a.x, y:a.y, z:a.z, f:f, boost:Math.min(boost, 1), near:near, color:((i * 7 + strand * 3) % 9 + 9) % 9 };
+          (a.z < 0 ? back : front).push(node);
+        }
+      }
+      function paint(list){
+        list.forEach(function(o){
+          if(o.kind === 'seg'){
+            ctx.beginPath();
+            for(var u = 0; u <= 4; u++){
+              var p = point(o.i + u / 4, o.strand);
+              u ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y);
+            }
+            var dz = (o.z + 1) / 2;   // нить спереди толще и ярче, сзади тоньше и бледнее
+            ctx.strokeStyle = 'rgba(91,75,224,' + (o.f * (.14 + .36 * dz)).toFixed(3) + ')';
+            ctx.lineWidth = mobile ? .6 + .6 * dz : 1.1 + 1.3 * dz;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+          } else {
+            var depth = (o.z + 1) / 2;
+            var rad = (3.2 + 2.8 * depth) * scale;
+            rad *= 1 + .7 * o.boost + .45 * o.near;
+            ctx.globalAlpha = Math.min(1, o.f * (.32 + .6 * depth + .45 * o.boost + .3 * o.near));
+            var img = SPHERES[o.color < 1 ? 1 : o.color < 2 ? 2 : 0];
+            ctx.drawImage(img, o.x - rad * 2.3, o.y - rad * 2.3, rad * 4.6, rad * 4.6);
+            ctx.globalAlpha = 1;
+          }
+        });
+      }
+      paint(back);
+      // перемычки между нитями — «пары оснований», с небольшим разрывом посередине
+      for(var j = from; j <= to; j++){
+        var A = point(j, 0), B = point(j, 1);
+        var fr = ease(A.y / fadeEdge) * ease((H - A.y) / fadeEdge) * base;
+        if(fr <= 0 || Math.abs(A.x - B.x) < 4) continue;
+        var mx = (A.x + B.x) / 2, gap = (B.x - A.x) * .08;
+        ctx.lineWidth = mobile ? .8 : 2;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = 'rgba(' + BASES[j % 3] + ',' + (fr * .34).toFixed(3) + ')';
+        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(mx - gap, A.y); ctx.stroke();
+        ctx.strokeStyle = 'rgba(' + BASES[(j + 1) % 3] + ',' + (fr * .34).toFixed(3) + ')';
+        ctx.beginPath(); ctx.moveTo(mx + gap, B.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+      }
+      paint(front);
+    });
+  }
+
+  function tick(t){
+    requestAnimationFrame(tick);
+    if(document.hidden) return;
+    var sy = window.scrollY, moved = sy !== lastScroll;
+    var idle = !mobile && !still.matches;   // на компьютере спираль живёт и без прокрутки
+    if(!dirty && !moved && !(idle && t - last > 33)) return;
+    if(still.matches && !dirty) return;
+    var dt = last ? Math.min((t - last) / 1000, .1) : 0;
+    last = t; lastScroll = sy; dirty = false;
+    draw(t, dt);
+  }
+
+  layout();
+  window.addEventListener('resize', layout);
+  still.addEventListener('change', function(){ dirty = true; });
+  if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+    document.addEventListener('pointermove', function(e){ mouse.x = e.clientX; mouse.y = e.clientY; }, { passive:true });
+    document.addEventListener('pointerleave', function(){ mouse.x = mouse.y = -999; });
+  }
+  requestAnimationFrame(tick);
+})();
+
 // Появление фото-композиций при прокрутке (один раз)
 (function(){
   var items = document.querySelectorAll('[data-reveal]');
