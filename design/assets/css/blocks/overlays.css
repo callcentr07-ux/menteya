@@ -56,26 +56,27 @@ html.modal-open{ overflow:hidden; }   /* страница под окном не
 .modal .form-success{ padding:28px 0 6px; }
 @media (hover:hover) and (pointer:fine){ .modal-close:hover{ background:var(--line); } }
 
-/* --- Плашка cookie: в углу, не мешает читать; на телефоне — над нижней панелью --- */
+/* --- Плашка cookie: компактная, в углу — не закрывает кнопки первого экрана; на телефоне — над нижней панелью --- */
 .cookie{
-  position:fixed; left:20px; bottom:20px; z-index:93;
-  width:min(380px, calc(100% - 40px)); padding:18px 18px 16px; border-radius:20px;
-  background:#fff; border:1px solid var(--line); box-shadow:0 24px 60px -20px rgba(9,26,66,.45);
+  position:fixed; left:16px; bottom:16px; z-index:93;
+  width:min(336px, calc(100% - 32px)); padding:12px; border-radius:16px;
+  background:#fff; border:1px solid var(--line); box-shadow:0 18px 44px -18px rgba(9,26,66,.42);
   animation:cookie-in .45s var(--ease-out) .8s both;
 }
 .cookie.is-hiding{ animation:cookie-out .2s ease-in forwards; }
 @keyframes cookie-in{ from{ opacity:0; transform:translateY(16px); } }
 @keyframes cookie-out{ to{ opacity:0; transform:translateY(12px); } }
-.cookie-head{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.cookie-text{ display:flex; align-items:center; gap:10px; font-size:13px; line-height:1.45; color:var(--ink-soft); }
 .cookie-ic{
-  width:36px; height:36px; border-radius:11px; flex-shrink:0;
+  width:30px; height:30px; border-radius:9px; flex-shrink:0;
   display:flex; align-items:center; justify-content:center; background:var(--bg-soft2); color:var(--blue-600);
 }
-.cookie-ic .i{ width:19px; height:19px; }
-.cookie b{ font-size:15.5px; font-weight:800; color:var(--blue-900); }
-.cookie p{ font-size:13.5px; line-height:1.55; color:var(--ink-soft); }
-.cookie p a{ font-weight:700; color:var(--blue-600); text-decoration:underline; text-underline-offset:2px; }
-.cookie-actions{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+.cookie-ic .i{ width:17px; height:17px; }
+.cookie-text b{ font-weight:800; color:var(--blue-900); }
+.cookie-text a{ font-weight:700; color:var(--blue-600); text-decoration:underline; text-underline-offset:2px; }
+.cookie-actions{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+.cookie .btn{ min-height:36px; padding:0 12px; font-size:13.5px; }
+.cookie .btn-primary{ box-shadow:0 6px 14px rgba(32,88,216,.24); }
 
 @media (max-width:767px){
   /* Окно записи — шторкой снизу, как в приложениях */
@@ -87,9 +88,6 @@ html.modal-open{ overflow:hidden; }   /* страница под окном не
   @keyframes sheet-out{ to{ transform:translateY(100%); } }
   .modal h2{ font-size:21px; }
 
-  .cookie{ left:10px; right:10px; width:auto; bottom:calc(var(--bottombar-h) + 10px + env(safe-area-inset-bottom, 0px)); padding:14px 14px 12px; }
-  .cookie-head{ margin-bottom:6px; }
-  .cookie-ic{ width:32px; height:32px; }
-  .cookie p{ font-size:13px; line-height:1.5; }
-  .cookie-actions{ margin-top:12px; }
+  .cookie{ left:10px; right:10px; width:auto; bottom:calc(var(--bottombar-h) + 10px + env(safe-area-inset-bottom, 0px)); }
+  .cookie .btn{ min-height:40px; }   /* под палец */
 }
