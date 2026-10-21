@@ -35,14 +35,18 @@
   <symbol id="i-cookie" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01M16 15.5v.01M12 12v.01M11 17v.01M7 14v.01"/></symbol>
   <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M8.5 14.5v-5l3.5 3.5 3.5-3.5v5"/></symbol>
-  <!-- Знак «Ментеи» — «Рассвет»: солнце встаёт над спокойной водой (новый день, надежда, восстановление).
-       Солнце — тёплый градиент, линии воды — цветом текста вокруг (currentColor) -->
+  <!-- Знак «Ментеи» — монограмма: буква «М» в двойном кольце, внутри тёмное стекло.
+       Кольцо сверху светится рассветом, снизу — мятой: новый день и спокойствие. Буква — антиквой Cormorant Garamond, как слово «МЕНТЕЯ» рядом -->
   <defs>
-    <linearGradient id="dawnG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd7b0"/><stop offset="1" stop-color="#f2a877"/></linearGradient>
+    <radialGradient id="mk-orb" cx=".36" cy=".3" r=".85"><stop offset="0" stop-color="#3b8c84"/><stop offset=".45" stop-color="#17434a"/><stop offset="1" stop-color="#0a1d22"/></radialGradient>
+    <linearGradient id="mk-ring" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd9b5"/><stop offset=".5" stop-color="#e9c9a6"/><stop offset="1" stop-color="#7fd6b9"/></linearGradient>
+    <linearGradient id="mk-letter" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6ea"/><stop offset="1" stop-color="#cfeee2"/></linearGradient>
   </defs>
-  <symbol id="g-mark" viewBox="0 0 48 48">
-    <path d="M11 27a13 13 0 0 1 26 0Z" fill="url(#dawnG)"/>
-    <path d="M6 31.5h36M11.5 37h25M17.5 42.5h13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <symbol id="g-mark" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="28" fill="url(#mk-orb)" opacity=".55"/>
+    <circle cx="32" cy="32" r="28" fill="none" stroke="url(#mk-ring)" stroke-width="1.6"/>
+    <circle cx="32" cy="32" r="24.2" fill="none" stroke="url(#mk-ring)" stroke-width=".7" opacity=".6"/>
+    <text x="32" y="43.2" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-weight="600" font-size="31" fill="url(#mk-letter)">М</text>
   </symbol>
   <symbol id="i-vk" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M3.5 7h2.9c.1 3 1.4 4.6 2.6 4.9V7h2.7v2.7c1.2-.1 2.4-1.5 2.8-2.7h2.7c-.4 1.7-1.7 3-2.6 3.6.9.4 2.4 1.6 3 3.6h-3c-.4-1.3-1.5-2.3-2.9-2.4V14h-.3C6.6 14 3.6 11.3 3.5 7Z"/></symbol>
 </svg>

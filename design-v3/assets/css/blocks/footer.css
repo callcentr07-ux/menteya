@@ -1,4 +1,4 @@
-/* ===== Подвал в стилистике первого экрана: «ночная вода», неподвижный свет со стеклянной линзой справа, знак «Рассвет»,
+/* ===== Подвал в стилистике первого экрана: «ночная вода», неподвижный свет со стеклянной линзой справа, логотип-монограмма,
    контакты тёмным стеклом поверх линзы; ниже — предупреждение, реквизиты в рамке, документы ===== */
 .site-footer{ position:relative; isolation:isolate; overflow:clip; padding:var(--sec) 0 28px; background:var(--bg-2); color:var(--text); }
 
@@ -13,12 +13,12 @@
 .ft-cols{ grid-area:cols; }
 .ft-contacts{ grid-area:contacts; }
 
-/* Знак «Рассвет»: солнце над водой (линии — мятой), слово антиквой капсом с разрядкой, подпись моноширинным */
-.ft-logo{ display:inline-flex; align-items:center; gap:16px; color:var(--accent); }
-.ft-logo-mark{ width:56px; height:56px; flex-shrink:0; }
-.ft-logo-t{ display:grid; gap:8px; }
-.ft-logo-word{ font:600 1.75rem/1 var(--mark); letter-spacing:.16em; text-transform:uppercase; color:var(--text); }
-.ft-logo-sub{ font:500 .75rem/1.2 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--text-3); }
+/* Логотип, как в шапке, крупнее: монограмма в кольце, слово антиквой с разрядкой, под ним — «психиатрическая клиника» */
+.ft-logo{ display:inline-flex; align-items:center; gap:18px; color:var(--text); }
+.ft-logo-mark{ width:72px; height:72px; flex-shrink:0; }
+.ft-logo-t{ display:grid; gap:10px; }
+.ft-logo-word{ font:600 2rem/1 var(--mark); letter-spacing:.2em; text-transform:uppercase; }
+.ft-logo-sub{ font:500 1rem/1.2 var(--font); color:var(--text-2); }
 .ft-about{ max-width:40ch; margin-top:28px; color:var(--text-2); text-wrap:pretty; }
 .ft-social{ display:flex; gap:8px; margin-top:24px; }
 .ft-social a{ display:grid; place-items:center; width:48px; height:48px; border-radius:50%; box-shadow:inset 0 0 0 1px var(--line-2); transition:background-color .2s ease, color .2s ease, box-shadow .2s ease; }
@@ -32,7 +32,7 @@
 
 /* Контакты — тёмное стекло (.glass-dk), справа у края, как карточка выезда на первом экране */
 .ft-contacts{ justify-self:end; width:min(100%, 380px); padding:24px 26px; }
-.ft-contacts .label{ display:flex; margin-bottom:14px; color:var(--text-2); }   /* стекло над светлой линзой: метка светлее обычной ради контраста */
+.ft-contacts .label{ display:flex; width:fit-content; margin-bottom:14px; }
 .ft-phone{ display:inline-block; font:500 1.5rem/1.2 var(--font); letter-spacing:-0.02em; white-space:nowrap; font-variant-numeric:tabular-nums; }
 .ft-open{ display:flex; align-items:center; gap:10px; margin-top:10px; font-size:.9375rem; font-weight:500; }
 html:not(.js) .ft-open{ display:none; }   /* без скриптов строка повторила бы часы работы */
@@ -49,7 +49,7 @@ html:not(.js) .ft-open{ display:none; }   /* без скриптов строк�
 .ft-legal{ padding-top:28px; }
 .ft-req{ display:grid; grid-template-columns:minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.7fr); gap:1px; overflow:hidden; border:1px solid var(--line); border-radius:var(--r-sm); background:var(--line); }
 .ft-req > div{ padding:16px 20px 18px; background:var(--bg-2); }
-.ft-req dt{ font:500 .75rem/1.35 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); }
+.ft-req dt{ font:500 .8125rem/1.35 var(--font); color:var(--text-3); }
 .ft-req dd{ margin:8px 0 0; font-weight:500; font-variant-numeric:tabular-nums; }
 .ft-docs{ display:flex; flex-wrap:wrap; gap:2px 28px; margin-top:20px; }
 .ft-docs a{ padding:6px 0; font-size:.9375rem; color:var(--text-2); text-decoration:underline; text-decoration-color:var(--line-2); text-underline-offset:4px; transition:color .2s ease, text-decoration-color .2s ease; }
@@ -86,12 +86,12 @@ html:not(.js) .ft-motion{ display:none; }   /* без скриптов выкл�
 @media (max-width:699px){
   .site-footer{ padding-top:80px; padding-bottom:calc(92px + env(safe-area-inset-bottom, 0px)); }   /* снизу — место под док быстрой связи */
   /* Линза справа от знака, на треть за краем экрана, как линзы разделов. Высота слоя 300px — меньше скрипт не рисует;
-     центр линзы (48% высоты слоя) — на уровне знака: 80px отступа + 24px половины знака − 144px */
-  .ft-silk{ top:-40px; right:auto; width:calc(100% + 64px); height:300px; }
-  .ft-logo-mark{ width:48px; height:48px; }
-  .ft-logo{ gap:12px; }
+     центр линзы (48% высоты слоя) — на уровне знака: 80px отступа + 28px половины знака − 144px */
+  .ft-silk{ top:-36px; right:auto; width:calc(100% + 64px); height:300px; }
+  .ft-logo-mark{ width:56px; height:56px; }
+  .ft-logo{ gap:14px; }
   .ft-logo-word{ font-size:1.5rem; }
-  .ft-logo-sub{ font-size:.6875rem; }
+  .ft-logo-sub{ font-size:.875rem; }
   .ft-about{ margin-top:56px; }   /* текст начинается под линзой */
   .ft-social{ margin-top:20px; }
   .ft-top{ gap:32px; }

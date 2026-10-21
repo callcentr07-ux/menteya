@@ -1,4 +1,4 @@
-/* ===== Первый экран: живой фон — текущий «шёлк» света и стеклянная линза (WebGL), текст слева, выезд на дом — стеклом справа ===== */
+/* ===== Первый экран: живой фон — текущий «шёлк» света и стеклянный мозг (WebGL), текст слева, выезд на дом — стеклом справа ===== */
 .hero{ position:relative; isolation:isolate; display:flex; flex-direction:column; min-height:max(640px, 100svh); padding:var(--header-h) 0 32px; overflow:clip; background:var(--night); color:var(--fog); }
 
 /* Фон. Пока скрипт не запустился (или нет WebGL) — неподвижный градиент тех же цветов */
@@ -10,7 +10,6 @@
 
 .hero-in{ position:relative; flex:1; display:flex; align-items:center; padding-block:clamp(32px, 6vh, 72px) clamp(96px, 14vh, 150px); }
 .hero-copy{ max-width:700px; }
-.hero .label{ color:#b9c6c0; }
 .hero-h1{ margin-top:20px; font:500 clamp(2.5rem, 5.1vw, 5rem)/1 var(--font); letter-spacing:-0.035em; text-wrap:balance; }
 .hero-lead{ max-width:40ch; margin-top:22px; font-size:clamp(1.0625rem, .5vw + .9rem, 1.25rem); line-height:1.5; color:#d3ddd8; text-wrap:pretty; }
 .hero .btn-row{ margin-top:32px; }
@@ -23,9 +22,8 @@
 .hero-price{ margin-top:14px; font-size:.9375rem; color:#b9c6c0; }
 .hero-price b{ font-weight:500; color:var(--fog); }
 
-/* Выезд на дом — тёмное стекло в правом нижнем углу, поверх линзы */
+/* Выезд на дом — тёмное стекло в правом нижнем углу, поверх мозга */
 .hero-side{ position:absolute; right:var(--gut); bottom:clamp(28px, 6vh, 56px); display:flex; flex-direction:column; gap:8px; width:340px; padding:24px 26px; transition:transform .3s var(--ease), background-color .25s ease; }
-.hero-side .label{ color:#b9c6c0; }
 .hero-side-t{ margin-top:6px; font:500 1.3125rem/1.2 var(--font); letter-spacing:-0.015em; }
 .hero-side .muted{ color:#c9d4cf; }
 .hero-status{ display:inline-flex; align-items:center; gap:10px; margin-top:2px; font-size:.9375rem; font-weight:500; }
@@ -48,10 +46,10 @@
 
 /* Планшет: карточка выезда уходит под текст */
 @media (max-width:1099px){
-  .hero-in{ flex-direction:column; align-items:flex-start; justify-content:center; gap:32px; padding-block:min(40vw, 340px) 88px; }   /* сверху — место для линзы */
+  .hero-in{ flex-direction:column; align-items:flex-start; justify-content:center; gap:32px; padding-block:min(40vw, 340px) 88px; }   /* сверху — место для мозга */
   .hero-side{ position:static; width:min(100%, 420px); }
 }
-/* Телефон: линза над текстом, кнопки во всю ширину */
+/* Телефон: мозг над текстом, кнопки во всю ширину */
 @media (max-width:699px){
   .hero{ min-height:0; padding-top:var(--header-h); }
   .hero-in{ padding-block:min(54vw, 300px) 28px; gap:20px; }

@@ -20,7 +20,7 @@
 .svc-map{ --ar:.9; --s:66cqi; --R:calc(var(--s) * .36); --edge:clamp(16px, 3.6cqi, 28px); grid-area:map; position:relative; display:flex; flex-direction:column; container-type:inline-size; }
 .svc-card{ position:relative; isolation:isolate; flex:1; min-height:calc(var(--ar) * 100cqi); overflow:hidden; border:1px solid var(--line); border-radius:var(--r); background:var(--bg-2); }   /* шар светится в «ночной воде», как на первом экране */
 .svc-card::before{ content:""; position:absolute; left:50%; top:50%; width:calc(var(--R) * 2.9); aspect-ratio:1; translate:-50% -50%; border:1px solid var(--line); border-radius:50%; }   /* орбита: карта, а не просто картинка */
-.svc-card-label{ position:absolute; left:var(--edge); top:var(--edge); z-index:1; color:var(--text-2); }   /* метка может лечь на ореол шара — светлее обычной ради 4,5:1 */
+.svc-card-label{ position:absolute; left:var(--edge); top:var(--edge); z-index:1; }
 /* Линза — тот же компонент, что у краёв страницы, но стоит в центре карточки, над её фоном */
 .svc-lens{ z-index:0; left:calc(50% - var(--s) / 2); top:calc(50% - var(--s) / 2); width:var(--s); translate:none; }
 .svc-lens canvas{ -webkit-mask-image:radial-gradient(circle closest-side, #000 70%, transparent); mask-image:radial-gradient(circle closest-side, #000 70%, transparent); }   /* ореол уже, чем у краевых линз: шар — содержимое карточки, а не «планета» */
@@ -108,9 +108,9 @@
   .svc-calls a::after, .svc-calls li::after{ display:none; }
   .svc-call-t{ white-space:normal; }
   .svc-call-t br{ display:none; }
-  .svc-call-n{ display:grid; place-items:center; width:28px; height:28px; flex-shrink:0; border-radius:50%; background:var(--accent); color:var(--on-light); font:600 .8125rem/1 var(--mono); }
+  .svc-call-n{ display:grid; place-items:center; width:28px; height:28px; flex-shrink:0; border-radius:50%; background:var(--accent); color:var(--on-light); font:600 .8125rem/1 var(--font); font-variant-numeric:tabular-nums; }
   .svc-call-go{ display:block; margin-left:auto; color:var(--accent); }
-  .svc-calls .is-l::before, .svc-calls .is-r::before{ left:calc(50cqi + var(--R) * var(--x)); top:calc(var(--ar) * 50cqi - var(--R) * var(--y)); display:grid; place-items:center; width:22px; height:22px; margin:-11px; content:attr(data-n); color:var(--on-light); font:600 11px/1 var(--mono); }
+  .svc-calls .is-l::before, .svc-calls .is-r::before{ left:calc(50cqi + var(--R) * var(--x)); top:calc(var(--ar) * 50cqi - var(--R) * var(--y)); display:grid; place-items:center; width:22px; height:22px; margin:-11px; content:attr(data-n); color:var(--on-light); font:600 11px/1 var(--font); }
   .svc-help .btn-row{ display:grid; grid-template-columns:1fr 1fr; }
   .svc-help .btn-cta{ grid-column:1 / -1; }
   .svc-help .btn-cta .t{ flex:1; justify-content:center; }

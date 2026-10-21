@@ -678,22 +678,24 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   }, { passive:true });
 })();
 
-// Свет: «шёлк» — медленно текущий свет в глубине воды — и стеклянные линзы, сквозь которые он преломляется (WebGL).
-// Один шейдер на три случая:
-//  • первый экран — живой фон с большой линзой (.scene-gl);
-//  • линзы у краёв разделов — отдельные шары на прозрачном фоне (.lens canvas, стили — sections.css);
-//  • неподвижный фон разделов и подвала — кадр рисуется один раз и кладётся картинкой в --silk ([data-silk]).
-// Камера стоит, к прокрутке ничего не привязано. Не больше 30 кадров в секунду, рисуется только то, что у экрана.
+// Свет: «шёлк» — медленно текущий свет в глубине воды — и стекло, сквозь которое он преломляется (WebGL).
+// Два шейдера на общей основе (шум, шёлк, затемнение под текстом):
+//  • мозг — первый экран (.scene-gl): живой фон и стеклянный мозг справа от текста. Форма — поле расстояний из эллипсоидов
+//    (полушария, височные доли, мозжечок, ствол), извилины — изогнутый гироид; по бороздам бегут волны мятного света;
+//  • линза — шары у краёв разделов (.lens canvas, стили — sections.css) и неподвижный фон разделов и подвала:
+//    кадр рисуется один раз и кладётся картинкой в --silk ([data-silk]).
+// Камера стоит, к прокрутке ничего не привязано. Не больше 30 кадров в секунду, рисуется только то, что у экрана;
+// если видеокарта не успевает, первый экран сам переходит на меньшее разрешение.
 // «Уменьшить движение» в системе или кнопка в подвале — неподвижный кадр. Без WebGL остаются CSS-градиенты
 (function(){
   if(!window.WebGLRenderingContext) return;
-  var FS = [
+  var BASE = [
     '#ifdef GL_FRAGMENT_PRECISION_HIGH',
     'precision highp float;',
     '#else',
     'precision mediump float;',
     '#endif',
-    // uMode: 0 — фон во весь холст, 1 — шар на прозрачном фоне; uShade: 0 — ровно, 1 — темнее слева (текст), 2 — темнее под линзой
+    // uMode: 0 — фон во весь холст, 1 — шар на прозрачном фоне; uShade: 0 — ровно, 1 — темнее слева (текст), 2 — темнее под линзой или мозгом
     'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim;',
     'float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }',
     'float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f);',
@@ -712,6 +714,12 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '  float ridge = pow(1. - abs(fract(f * 6. + q.x * 2.) - .5) * 2., 12.);',
     '  return col + vec3(.5, .84, .73) * ridge * .1;',
     '}',
+    // там, где текст, фон темнее
+    'float shadeAt(vec2 p){ return uShade < .5 ? 0. : uShade < 1.5 ? smoothstep(.2, -.8, p.x - uLens.x + .45) : smoothstep(uLens.y - uLens.z, uLens.y - uLens.z - .45, p.y); }'
+  ];
+
+  // Линза: шар со шёлком внутри
+  var LENS = BASE.concat([
     'void main(){',
     '  vec2 p = (gl_FragCoord.xy - .5 * uRes) / uRes.y;',
     '  float t = uTime * .065;',
@@ -731,15 +739,108 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '    return;',
     '  }',
     '  vec3 col = silk(p + uSeed, t) * uDim;',
-    '  float shade = uShade < .5 ? 0. : uShade < 1.5 ? smoothstep(.2, -.8, p.x - uLens.x + .45) : smoothstep(uLens.y - uLens.z, uLens.y - uLens.z - .45, p.y);',
-    '  col *= 1. - .5 * shade;',   // там, где текст, темнее
+    '  col *= 1. - .5 * shadeAt(p);',
     '  col *= 1. - .22 * dot(p * vec2(.55, 1.), p * vec2(.55, 1.));',
     '  col += vec3(.5, .84, .73) * glow * .12;',   // свечение вокруг линзы
     '  col = mix(col, inner, edge);',
     '  col += (hash(gl_FragCoord.xy + fract(uTime)) - .5) * .022;',   // зерно, чтобы не было полос в градиенте
     '  gl_FragColor = vec4(col, 1.);',
     '}'
-  ].join('\n');
+  ]).join('\n');
+
+  // Мозг: uLens — центр (xy) и масштаб (z: ширина мозга ≈ 2,5·z) в долях высоты холста. Единица модели — длина мозга;
+  // x — поперёк, y — вверх, z — ко лбу. Камера смотрит сверху-сбоку: лоб слева, видны макушка, щель между полушариями и висок
+  var BRAIN = BASE.concat([
+    'float sdEll(vec3 p, vec3 r){ float k0 = length(p / r), k1 = length(p / (r * r)); return k0 * (k0 - 1.) / k1; }',
+    'float smin(float a, float b, float k){ float h = clamp(.5 + .5 * (b - a) / k, 0., 1.); return mix(b, a, h) - k * h * (1. - h); }',
+    'float smax(float a, float b, float k){ return -smin(-a, -b, k); }',
+    'float gyroid(vec3 w){ return dot(sin(w), cos(w.yzx)); }',
+    // извилины: гироид, дважды изогнутый синусами, плюс мелкая октава — борозды ветвятся; вдоль оси «лоб — затылок» вытянуты
+    'float gyri(vec3 p){',
+    '  vec3 w = p * vec3(42., 40., 27.);',
+    '  w += 1.9 * sin(w.yzx * .2 + vec3(1.3, 4.1, 2.7));',
+    '  w += .9 * sin(w.zxy * .45 + vec3(5.2, .7, 3.3));',
+    '  return gyroid(w) + .32 * gyroid(w * 1.93 + 2.1);',
+    '}',
+    // расстояния до частей: x — большие полушария, y — мозжечок, z — ствол с мостом
+    'vec3 parts(vec3 p){',
+    '  vec3 q = vec3(abs(p.x), p.y, p.z);',
+    '  vec3 h = q - vec3(0., .06, -.01);',
+    '  h.x *= 1. + .22 * smoothstep(0., .5, p.z) + .12 * smoothstep(.1, .5, -p.z);',   // уже ко лбу и к затылку
+    '  float c = sdEll(h, vec3(.4, .31, .5));',
+    '  c = smax(c, -.15 - p.y, .08);',   // плоское основание лобной и затылочной долей
+    '  c = smin(c, sdEll(q - vec3(.26, -.13, .03), vec3(.145, .13, .27)), .035);',   // височная доля; складка над ней — сильвиева борозда
+    '  c = smax(c, .008 - q.x, .035);',   // плоская внутренняя сторона полушарий: между ними продольная щель
+    '  float cb = sdEll(q - vec3(.11, -.21, -.27), vec3(.16, .1, .12));',
+    '  vec3 a = vec3(0., -.12, -.05), ba = vec3(0., -.34, -.08);',
+    '  float hh = clamp(dot(p - a, ba) / dot(ba, ba), 0., 1.);',
+    '  float bs = smin(length(p - a - ba * hh) - mix(.068, .045, hh), sdEll(p - vec3(0., -.22, -.04), vec3(.085, .075, .07)), .04);',
+    '  return vec3(c, cb, bs);',
+    '}',
+    'float map(vec3 p){',
+    '  vec3 d = parts(p);',
+    '  if(d.x < .05){ float u = clamp(abs(gyri(p)) / 1.25, 0., 1.); d.x += .013 - .017 * (1. - (1. - u) * (1. - u)); }',   // борозда вдавлена, извилина скруглена
+    '  if(d.y < .03) d.y += .003 * sin(p.y * 110. + 10. * length(p.xz - vec2(0., -.27)));',   // листки мозжечка
+    '  return min(min(d.x, d.y), d.z);',
+    '}',
+    // цвет точки поверхности: шёлк сквозь стекло, объём от света сверху слева, светящиеся борозды, кромка, блики
+    'vec3 brain(vec3 pos, vec3 rdc, mat3 rot, vec2 p){',
+    '  const vec2 e = vec2(.0015, -.0015);',
+    '  vec3 n = normalize(e.xyy * map(pos + e.xyy) + e.yyx * map(pos + e.yyx) + e.yxy * map(pos + e.yxy) + e.xxx * map(pos + e.xxx));',
+    '  vec3 nc = rot * n, d = parts(pos);',
+    '  float g = gyri(pos);',
+    '  float sul = exp(-g * g * 10.) * step(d.x, min(d.y, d.z) + .01);',   // 1 — дно борозды, только на коре
+    '  float ndv = clamp(-dot(nc, rdc), 0., 1.), fres = pow(1. - ndv, 2.5);',
+    '  vec3 L = normalize(vec3(-.55, .75, .55)), rf = reflect(rdc, nc);',
+    '  float dif = clamp(dot(nc, L) * .6 + .4, 0., 1.);',
+    '  float spec = pow(clamp(dot(rf, L), 0., 1.), 30.);',
+    '  float warm = pow(clamp(dot(rf, normalize(vec3(.7, -.5, .5))), 0., 1.), 5.);',
+    '  vec3 c = silk(p * .8 + uSeed + nc.xy * .25 + vec2(.3, -.2), uTime * .075) * 1.35 + vec3(.03, .07, .07);',
+    '  c += vec3(.08, .22, .2) * pow(ndv, 3.) * (.75 + .25 * sin(uTime * .6));',   // свет в толще стекла медленно «дышит»
+    '  c *= (.62 + .55 * dif) * (1. - .3 * sul);',
+    '  float wave = pow(.5 + .5 * sin(dot(pos, vec3(.5, .8, 2.4)) * 6. - uTime * 1.2), 10.);',   // волны света бегут по бороздам
+    '  c += vec3(.5, .84, .73) * sul * (.18 + .9 * wave);',
+    '  c = mix(c, vec3(.86, .97, .93), fres * .55);',   // светлая кромка стекла
+    '  c += spec * .4 * (1. - .8 * sul);',
+    '  c += vec3(.95, .74, .55) * warm * .3;',   // тёплый рефлекс снизу справа
+    '  return c;',
+    '}',
+    'void main(){',
+    '  vec2 p = (gl_FragCoord.xy - .5 * uRes) / uRes.y;',
+    '  vec3 col = silk(p + uSeed, uTime * .065) * uDim;',
+    '  col *= 1. - .5 * shadeAt(p);',
+    '  col *= 1. - .22 * dot(p * vec2(.55, 1.), p * vec2(.55, 1.));',
+    // мозг медленно покачивается и чуть всплывает; поворот модели в камеру — сначала вокруг вертикали, потом наклон
+    '  float yaw = -1.13 + .21 * sin(uTime * .16), pitch = .34 + .05 * sin(uTime * .11 + 1.);',
+    '  float cy = cos(yaw), sy = sin(yaw), cp = cos(pitch), sp = sin(pitch);',
+    '  mat3 rot = mat3(1., 0., 0., 0., cp, sp, 0., -sp, cp) * mat3(cy, 0., -sy, 0., 1., 0., sy, 0., cy);',
+    '  float k = .4 / uLens.z;',
+    '  vec2 m = (p - uLens.xy) * k;',
+    '  m.y += .012 * sin(uTime * .35);',
+    '  vec3 rdc = normalize(vec3(m, -3.5));',
+    '  vec3 ro = vec3(0., 0., 3.5) * rot, rd = rdc * rot;',   // луч — в пространство модели (v * M — обратный поворот)
+    '  vec3 oc = ro - vec3(0., -.06, -.02);',
+    '  float b = dot(oc, rd), disc = b * b - dot(oc, oc) + .36;',   // сфера-оболочка радиусом .6: мимо неё луч не шагает
+    '  if(disc > 0.){',
+    '    float sq = sqrt(disc), t = -b - sq, t1 = -b + sq;',
+    '    float px = 1.4 * k / uRes.y, dm = 1e3, tm = t, hit = 0.;',
+    '    for(int i = 0; i < 110; i++){',
+    '      float d = map(ro + rd * t);',
+    '      if(d < dm){ dm = d; tm = t; }',
+    '      if(d < .0005){ hit = 1.; break; }',
+    '      t += d * .5;',
+    '      if(t > t1) break;',
+    '    }',
+    '    vec3 pos = ro + rd * (hit > .5 ? t : tm);',
+    '    float cover = (hit > .5 ? 1. : 1. - smoothstep(0., px, dm)) * smoothstep(-.47, -.27, pos.y);',   // мягкий край; ствол книзу растворяется в воде
+    '    col += vec3(.5, .84, .73) * exp(-dm * dm / .0025) * (1. - cover) * .18 * smoothstep(-.5, -.25, pos.y);',   // ореол
+    '    if(cover > 0.) col = mix(col, brain(pos, rdc, rot, p), cover);',
+    '  }',
+    '  col += (hash(gl_FragCoord.xy + fract(uTime)) - .5) * .022;',
+    '  gl_FragColor = vec4(col, 1.);',
+    '}'
+  ]).join('\n');
+
   var VS = 'attribute vec2 a; void main(){ gl_Position = vec4(a, 0., 1.); }';
   var root = document.documentElement;
   var still = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -747,11 +848,11 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   var start = performance.now() - 40000;   // не с нулевого кадра — узор уже «раскручен»
 
   // Программа на холсте; null — если WebGL нет или шейдер не собрался
-  function renderer(canvas, alpha){
+  function renderer(canvas, alpha, src){
     var gl = canvas.getContext('webgl', { alpha:alpha, premultipliedAlpha:true, antialias:false, depth:false, stencil:false, preserveDrawingBuffer:false, powerPreference:'low-power' });
     if(!gl) return null;
-    function shader(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; }
-    var vs = shader(gl.VERTEX_SHADER, VS), fs = shader(gl.FRAGMENT_SHADER, FS);
+    function shader(type, s){ var o = gl.createShader(type); gl.shaderSource(o, s); gl.compileShader(o); return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null; }
+    var vs = shader(gl.VERTEX_SHADER, VS), fs = shader(gl.FRAGMENT_SHADER, src);
     if(!vs || !fs) return null;
     var prog = gl.createProgram();
     gl.attachShader(prog, vs); gl.attachShader(prog, fs);
@@ -780,7 +881,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   }
   function now(){ return (performance.now() - start) / 1000; }
 
-  var live = [];   // что течёт: { r, el, visible, resize }
+  var live = [];   // что течёт: { r, el, visible, resize, slow }
   function watch(item, margin){
     live.push(item);
     if(!('IntersectionObserver' in window)){ item.visible = true; return; }
@@ -790,29 +891,35 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     }, { rootMargin:margin || '0px' }).observe(item.el);
   }
 
-  // 1. Первый экран: линза справа от текста; на планшете и телефоне — над текстом, в отступе .hero-in (hero.css)
+  // 1. Первый экран: мозг справа от текста; на планшете и телефоне — над текстом, в отступе .hero-in (hero.css)
   var heroCanvas = document.querySelector('.scene-gl');
-  var hr = heroCanvas && renderer(heroCanvas, false);
+  var hr = heroCanvas && renderer(heroCanvas, false, BRAIN);
   if(hr){
-    hr.set('uMode', 0); hr.set('uSeed', 0, 0);
+    var heroQ = 1;   // доля разрешения: уменьшается, если кадры не успевают
+    hr.set('uSeed', 0, 0);
     var heroResize = function(){
       var W = heroCanvas.clientWidth, H = heroCanvas.clientHeight, phone = W < 700, narrow = W < 1100;
-      var q = phone ? .5 : Math.min(window.devicePixelRatio || 1, 2) * .6;   // фон мягкий — полное разрешение не нужно
+      var q = (phone ? .6 : Math.min(Math.max((window.devicePixelRatio || 1) * .6, .75), 1.2)) * heroQ;   // фон мягкий — полное разрешение не нужно
       hr.size(W * q, H * q);
       hr.set('uShade', narrow ? 2 : 1);
       if(narrow){
         var head = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 72;
         var space = phone ? Math.min(W * .54, 300) : Math.min(W * .4, 340);
-        hr.set('uLens', phone ? 0 : W * .16 / H, .5 - (head + space / 2) / H, space * .42 / H);
+        hr.set('uLens', phone ? 0 : W * .16 / H, .5 - (head + space / 2) / H, space * .38 / H);   // мозг — во всю ширину отступа над текстом
       } else {
-        hr.set('uLens', Math.min(W / H * .5 - .36, .5), .04, .3);
+        var R = Math.min(.27, .169 * W / H);   // узкий компьютер — мозг меньше, чтобы не заходить на текст
+        hr.set('uLens', Math.min(W / H * .5 - .04 - 1.25 * R, .5), .06, R);   // правый край мозга — в 4% высоты от края экрана
       }
       hr.draw(now());
     };
     heroResize();
     heroCanvas.classList.add('is-on');
     heroCanvas.addEventListener('webglcontextlost', function(e){ e.preventDefault(); heroCanvas.classList.remove('is-on'); });   // остаётся CSS-градиент
-    watch({ r:hr, el:heroCanvas, visible:true, resize:heroResize });
+    watch({ r:hr, el:heroCanvas, visible:true, resize:heroResize, slow:function(){
+      if(heroQ <= .5) return;
+      heroQ = Math.max(.5, heroQ * .75);
+      heroResize();
+    } });
   }
 
   // 2. Линзы у краёв разделов: контекст WebGL создаём, только когда линза подъехала к экрану
@@ -830,7 +937,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     };
     item.wake = function(){
       if(item.r) return;
-      item.r = renderer(c, true);
+      item.r = renderer(c, true, LENS);
       if(!item.r){ item.wake = null; return; }
       item.r.set('uMode', 1); item.r.set('uShade', 0);
       item.r.set('uSeed', seed * 3.7, seed * 1.9);
@@ -845,7 +952,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   var flats = Array.prototype.slice.call(document.querySelectorAll('[data-silk]'));
   if(flats.length) setTimeout(function(){
     var off = document.createElement('canvas');
-    var fr = renderer(off, false);
+    var fr = renderer(off, false, LENS);
     if(!fr) return;
     fr.set('uMode', 0); fr.set('uShade', 0); fr.set('uDim', .8);
     (function next(i){
@@ -867,11 +974,18 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     })(0);
   }, 700);
 
-  // Общий цикл: рисуем только видимое и не чаще 30 раз в секунду
-  var last = 0;
+  // Общий цикл: рисуем только видимое и не чаще 30 раз в секунду.
+  // Кадры раз за разом дольше 60 мс — видеокарта не справляется: первый экран рисуется в меньшем разрешении
+  var last = 0, lag = 0;
   function loop(t){
     requestAnimationFrame(loop);
-    if(document.hidden || calm() || t - last < 33) return;
+    if(document.hidden || calm()){ last = 0; return; }
+    if(t - last < 33) return;
+    if(last){
+      var gap = t - last;
+      if(gap > 60 && gap < 250) lag++; else if(lag) lag--;   // паузы дольше четверти секунды — не видеокарта, а фоновая вкладка или занятый поток
+      if(lag > 40){ lag = 0; live.forEach(function(it){ if(it.visible && it.slow) it.slow(); }); }
+    }
     last = t;
     var s = now();
     live.forEach(function(it){ if(it.visible && it.r) it.r.draw(s); });

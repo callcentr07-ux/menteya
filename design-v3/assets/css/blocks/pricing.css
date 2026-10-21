@@ -27,7 +27,7 @@
 .cmp-h .ic{ width:40px; height:40px; border-radius:12px; }
 .cmp-h .ic .i{ width:20px; height:20px; }
 .cmp-name{ font:500 clamp(1.25rem, 1.6vw, 1.5rem)/1.15 var(--font); letter-spacing:-0.02em; text-wrap:balance; }
-.cmp-h .label{ font-size:.72rem; }
+.cmp-h .label{ min-height:28px; padding:0 11px 0 10px; font-size:.8125rem; }
 .cmp .is-main .label{ color:var(--accent); }
 
 /* Ответы — капсулы: светлая обводка в обычных колонках, светлая заливка в рекомендуемой. В одну строку — капсула в две строки выглядит поломкой */
@@ -73,7 +73,7 @@
    На ПК — столбик в левой трети, на планшете и телефоне — лента, которую листают пальцем */
 .pr-tabs{ display:grid; gap:6px; margin-top:24px; }
 .pr-tab{ display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:52px; padding:0 20px; border-radius:999px; box-shadow:inset 0 0 0 1px var(--line-2); font-weight:500; text-align:left; white-space:nowrap; touch-action:manipulation; transition:background-color .2s ease, color .2s ease, box-shadow .2s ease; }
-.pr-tab .count{ font:500 .78rem/1 var(--mono); letter-spacing:.04em; color:var(--text-3); }
+.pr-tab .count{ font:500 .8125rem/1 var(--font); font-variant-numeric:tabular-nums; color:var(--text-3); }
 .pr-tab[aria-selected="true"]{ background:var(--text); box-shadow:none; color:var(--on-light); }
 .pr-tab[aria-selected="true"] .count{ color:var(--on-light); }
 .pr-help{ max-width:34ch; margin-top:24px; }
@@ -84,11 +84,11 @@
 
 /* Доска прайса: карточка с тонкой обводкой, строки через линию 1px, колонки «услуга — длительность — цена — запись» */
 .pr-board{ --cols:minmax(0, 1fr) 6.5rem 8rem 7.5rem; padding:4px clamp(18px, 2vw, 28px) 6px; border-radius:var(--r); background:var(--surface); box-shadow:inset 0 0 0 1px var(--line); }
-.pr-cols{ display:grid; grid-template-columns:var(--cols); gap:16px; padding:18px 0 14px; font:500 .72rem/1.2 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); }
+.pr-cols{ display:grid; grid-template-columns:var(--cols); gap:16px; padding:18px 0 14px; font:500 .8125rem/1.2 var(--font); color:var(--text-3); }
 .pr-cols span:nth-child(3){ text-align:right; }
 .price-row{ display:grid; grid-template-columns:var(--cols); grid-template-areas:"name time cost btn" "fmt time cost btn"; align-items:center; gap:10px 16px; padding:18px 0; border-top:1px solid var(--line); }
 .pr-name{ grid-area:name; font:500 1.125rem/1.3 var(--font); letter-spacing:-0.01em; text-wrap:pretty; }
-.pr-badge{ display:inline-flex; align-items:center; min-height:22px; margin-left:10px; padding:0 8px; border-radius:999px; background:color-mix(in srgb, var(--accent) 16%, transparent); color:var(--accent); font:500 .68rem/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; vertical-align:3px; }
+.pr-badge{ display:inline-flex; align-items:center; min-height:22px; margin-left:10px; padding:0 8px; border-radius:999px; background:color-mix(in srgb, var(--accent) 16%, transparent); color:var(--accent); font:500 .75rem/1 var(--font); vertical-align:2px; }
 .pr-fmt{ grid-area:fmt; display:flex; flex-wrap:wrap; gap:6px; }
 .pr-fmt .pill{ min-height:28px; padding:0 10px; font-size:.8125rem; }
 .pr-fmt .i{ width:14px; height:14px; color:var(--accent); }
