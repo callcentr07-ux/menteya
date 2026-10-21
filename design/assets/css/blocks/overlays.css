@@ -56,9 +56,9 @@ html.modal-open{ overflow:hidden; }   /* страница под окном не
 .modal .form-success{ padding:28px 0 6px; }
 @media (hover:hover) and (pointer:fine){ .modal-close:hover{ background:var(--line); } }
 
-/* --- Плашка cookie: компактная, в углу — не закрывает кнопки первого экрана; на телефоне — над нижней панелью --- */
+/* --- Плашка cookie: компактная, в правом углу — слева на первом экране кнопки записи; на телефоне — над нижней панелью --- */
 .cookie{
-  position:fixed; left:16px; bottom:16px; z-index:93;
+  position:fixed; right:16px; bottom:16px; z-index:93;
   width:min(336px, calc(100% - 32px)); padding:12px; border-radius:16px;
   background:#fff; border:1px solid var(--line); box-shadow:0 18px 44px -18px rgba(9,26,66,.42);
   animation:cookie-in .45s var(--ease-out) .8s both;
