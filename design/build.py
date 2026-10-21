@@ -24,7 +24,7 @@ SCRIPT = re.compile(r"(<script\b.*?</script>)", re.S)
 CSS_FILES = ["base.css", "blocks/header.css", "blocks/hero.css", "blocks/services.css",
              "blocks/about.css", "blocks/licenses.css", "blocks/doctors.css", "blocks/pricing.css",
              "blocks/reviews.css", "blocks/promo.css", "blocks/faq.css", "blocks/booking.css",
-             "blocks/footer.css", "blocks/page.css"]
+             "blocks/footer.css", "blocks/page.css", "blocks/overlays.css"]
 COMMENT = re.compile(r"/\*.*?\*/", re.S)
 STRING = re.compile(r"""("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')""")
 

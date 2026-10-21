@@ -405,14 +405,13 @@ document.querySelectorAll('.gallery').forEach(function(g){
   });
 })();
 
-// Форма записи: маска телефона, проверка полей, «Заявка принята».
+// Форма записи: маска телефона, проверка полей, защита от спама, «Заявка принята».
+// Одна логика для формы на главной и во всплывающем окне.
 // В прототипе заявка никуда не отправляется — в WordPress сюда подключится обработчик формы.
-(function(){
-  var form = document.getElementById('bookingForm');
-  if(!form) return;
-  var phone = form.querySelector('#f-phone');
-  var name = form.querySelector('#f-name');
-  var consent = form.querySelector('[name="consent"]');
+function setupBookingForm(form){
+  var phone = form.elements.phone;
+  var name = form.elements.name;
+  var consent = form.elements.consent;
   var body = form.querySelector('.form-body');
   var success = form.querySelector('.form-success');
   var openedAt = Date.now();
@@ -469,11 +468,106 @@ document.querySelectorAll('.gallery').forEach(function(g){
     success.hidden = false;
     success.querySelector('b').focus();
   });
-  form.querySelector('.form-again').addEventListener('click', function(){
-    form.reset(); prevDigits = '';
+
+  function reset(){
+    form.reset();
+    prevDigits = '';
+    openedAt = Date.now();
+    checks.forEach(function(c){
+      c[0].closest('.field').classList.remove('is-invalid');
+      c[0].removeAttribute('aria-invalid');
+    });
     success.hidden = true;
     body.hidden = false;
-    name.focus();
+  }
+  var again = form.querySelector('.form-again');
+  if(again) again.addEventListener('click', function(){ reset(); name.focus(); });
+  return { reset:reset };
+}
+(function(){
+  var form = document.getElementById('bookingForm');
+  if(form) setupBookingForm(form);
+})();
+
+// Запись во всплывающем окне: любая кнопка «Записаться» (ссылка #booking) открывает окно с формой.
+// В окне видно, что выбрали: услугу из прайса или врача из карточки.
+(function(){
+  var modal = document.getElementById('bookingModal');
+  if(!modal || typeof modal.showModal !== 'function') return;   // старый браузер — ссылка просто ведёт к блоку записи
+  var form = modal.querySelector('form');
+  var context = modal.querySelector('.modal-context');
+  var booking = setupBookingForm(form);
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var trigger = null;
+
+  function contextOf(link){
+    var row = link.closest('.price-row');
+    if(row) return 'Услуга: ' + row.querySelector('.pr-name').firstChild.textContent.trim();
+    var card = link.closest('.doc-card');
+    if(card) return 'Врач: ' + card.querySelector('.doc-name').textContent.trim();
+    var doctor = document.querySelector('.doctor-hero h1');   // страница врача: кнопки в первом экране и боковой карточке
+    if(doctor && link.closest('.doctor-hero, .article-side')) return 'Врач: ' + doctor.textContent.trim();
+    return '';
+  }
+  function open(link){
+    trigger = link;
+    booking.reset();
+    var text = contextOf(link);
+    context.hidden = !text;
+    context.querySelector('span').textContent = text;
+    form.elements.service.value = text;
+    modal.showModal();
+    document.documentElement.classList.add('modal-open');
+  }
+  function close(){
+    if(!modal.open || modal.classList.contains('is-closing')) return;
+    modal.classList.add('is-closing');
+    setTimeout(function(){
+      modal.classList.remove('is-closing');
+      modal.close();
+    }, reduce.matches ? 0 : 200);
+  }
+
+  document.addEventListener('click', function(e){
+    var link = e.target.closest('a[href="#booking"]');
+    if(!link) return;
+    e.preventDefault();
+    open(link);
+  });
+  modal.addEventListener('close', function(){
+    document.documentElement.classList.remove('modal-open');
+    if(trigger && document.contains(trigger)) trigger.focus({ preventScroll:true });
+  });
+  modal.addEventListener('cancel', function(e){ e.preventDefault(); close(); });   // Esc — тоже с анимацией
+  modal.addEventListener('click', function(e){ if(e.target === modal) close(); });  // клик по затемнению
+  modal.querySelector('.modal-close').addEventListener('click', close);
+  modal.querySelector('.modal-done').addEventListener('click', close);
+})();
+
+// Согласие на cookie (152-ФЗ): статистика подключается только после «Принять»; выбор помним в браузере
+(function(){
+  var banner = document.getElementById('cookieBanner');
+  if(!banner) return;
+  var KEY = 'menteya-cookie';
+  function read(){ try { return localStorage.getItem(KEY); } catch(e){ return null; } }
+  function save(choice){ try { localStorage.setItem(KEY, choice + '|' + new Date().toISOString().slice(0, 10)); } catch(e){} }
+  function loadAnalytics(){ /* здесь подключается Яндекс Метрика — только после согласия */ }
+
+  var saved = read();
+  if(saved && saved.indexOf('accept') === 0) loadAnalytics();
+  if(!saved) banner.hidden = false;
+
+  banner.addEventListener('click', function(e){
+    var button = e.target.closest('[data-cookie]');
+    if(!button) return;
+    save(button.dataset.cookie);
+    if(button.dataset.cookie === 'accept') loadAnalytics();
+    banner.classList.add('is-hiding');
+    setTimeout(function(){ banner.hidden = true; banner.classList.remove('is-hiding'); }, 200);
+  });
+  // «Настройки cookie» в подвале — показать выбор снова (согласие можно отозвать)
+  document.querySelectorAll('[data-cookie-settings]').forEach(function(link){
+    link.addEventListener('click', function(e){ e.preventDefault(); banner.hidden = false; });
   });
 })();
 

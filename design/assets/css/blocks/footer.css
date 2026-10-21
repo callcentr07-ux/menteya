@@ -45,12 +45,12 @@
 
 /* Документы и реквизиты — по правилам оказания платных медуслуг (ПП РФ № 736) */
 .footer-docs{
-  display:flex; flex-wrap:wrap; gap:8px 22px; padding:20px 0;
+  display:flex; flex-wrap:wrap; justify-content:center; gap:8px 22px; padding:20px 0;
   border-top:1px solid rgba(255,255,255,.1);
 }
 .footer-docs a{ font-size:13px; color:rgba(255,255,255,.66); text-decoration:underline; text-decoration-color:rgba(255,255,255,.25); text-underline-offset:3px; }
 @media (hover:hover) and (pointer:fine){ .footer-docs a:hover{ color:#fff; text-decoration-color:#fff; } }
-.footer-legal{ padding-bottom:20px; font-size:12.5px; line-height:1.6; color:rgba(255,255,255,.5); }
+.footer-legal{ padding-bottom:20px; text-align:center; font-size:12.5px; line-height:1.6; color:rgba(255,255,255,.5); }
 .footer-legal p + p{ margin-top:4px; }
 
 .footer-bottom{

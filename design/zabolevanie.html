@@ -64,6 +64,7 @@
   <symbol id="i-bed" viewBox="0 0 24 24"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
   <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-cookie" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01M16 15.5v.01M12 12v.01M11 17v.01M7 14v.01"/></symbol>
   <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M8.5 14.5v-5l3.5 3.5 3.5-3.5v5"/></symbol>
 </svg>
@@ -891,6 +892,7 @@
       <a href="#">Контролирующие органы</a>
       <a href="#">Политика конфиденциальности</a>
       <a href="#">Согласие на обработку персональных данных</a>
+      <a href="#" data-cookie-settings>Настройки cookie</a>
     </nav>
     <div class="footer-legal">
       <p>ООО «Клиника Ментея» · ИНН 0000000000 · ОГРН 0000000000000 · Лицензия на медицинскую деятельность № Л041-00000-77/00000000</p>
@@ -909,6 +911,80 @@
   <a class="bb-btn" href="#contacts"><svg class="i"><use href="#i-chat"/></svg>Написать</a>
   <a class="bb-btn bb-primary" href="#booking"><svg class="i"><use href="#i-calendar"/></svg>Записаться</a>
 </nav>
+
+<!-- ============ ЗАПИСЬ&nbsp;— ВСПЛЫВАЮЩЕЕ ОКНО ============ -->
+<!-- Открывается любой кнопкой «Записаться» (ссылка #booking). Без скриптов ссылка просто ведёт к блоку записи.
+     На телефоне окно выезжает снизу шторкой. -->
+<dialog class="modal" id="bookingModal" aria-labelledby="bm-title">
+  <div class="modal-card" tabindex="-1" autofocus>
+    <button class="modal-close" type="button" aria-label="Закрыть окно записи"><svg class="i"><use href="#i-plus"/></svg></button>
+    <form class="form" id="bookingModalForm" novalidate>
+      <div class="form-body">
+        <span class="modal-ic" aria-hidden="true"><svg class="i"><use href="#i-calendar"/></svg></span>
+        <h2 id="bm-title">Запись на консультацию</h2>
+        <p class="lead-sm">Оставьте телефон&nbsp;— администратор перезвонит в течение 15 минут, подберёт врача и удобное время.</p>
+        <p class="modal-context" hidden><svg class="i"><use href="#i-check"/></svg><span></span></p>
+        <input type="hidden" name="service">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="m-name">Имя <span class="req" aria-hidden="true">*</span></label>
+            <input class="input" id="m-name" name="name" type="text" autocomplete="given-name" placeholder="Как к вам обращаться" required aria-describedby="m-name-err">
+            <span class="error" id="m-name-err">Напишите, как к вам обращаться</span>
+          </div>
+          <div class="field full">
+            <label for="m-phone">Телефон <span class="req" aria-hidden="true">*</span></label>
+            <input class="input" id="m-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="m-phone-err">
+            <span class="error" id="m-phone-err">Проверьте номер: после +7 нужно 10 цифр</span>
+          </div>
+          <!-- Согласие&nbsp;— отдельной галочкой и отдельным документом (152-ФЗ); политика&nbsp;— ссылкой ниже -->
+          <div class="field full">
+            <label class="consent">
+              <input type="checkbox" name="consent" required aria-describedby="m-consent-err">
+              <span>Даю <a href="#contacts">согласие на обработку персональных данных</a></span>
+            </label>
+            <span class="error" id="m-consent-err">Без согласия мы не сможем с вами связаться</span>
+          </div>
+          <div class="hp" aria-hidden="true">
+            <label for="m-website">Сайт</label>
+            <input id="m-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Записаться</button>
+        <p class="secure-note"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не передаются третьим лицам</p>
+        <p class="policy-note">Как мы храним данные&nbsp;— в <a href="#contacts">политике конфиденциальности</a></p>
+        <div class="modal-alt">
+          <span>Удобнее написать или позвонить?</span>
+          <div class="msg-row">
+            <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+            <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+          </div>
+          <a class="modal-phone" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>+7 (495) 000-00-00</a>
+        </div>
+      </div>
+      <div class="form-success" role="status" hidden>
+        <span class="ok" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
+        <b tabindex="-1">Заявка принята</b>
+        <p>Администратор перезвонит в течение 15 минут в рабочее время&nbsp;— ежедневно с 9:00 до 21:00.</p>
+        <button type="button" class="btn btn-outline modal-done">Готово</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- ============ СОГЛАСИЕ НА COOKIE ============ -->
+<!-- 152-ФЗ: счётчики (Яндекс Метрика) подключаются только после «Принять». Выбор хранится в браузере;
+     изменить его можно ссылкой «Настройки cookie» в подвале. Без скриптов плашка не показывается&nbsp;— и счётчиков нет. -->
+<section class="cookie" id="cookieBanner" aria-label="Согласие на использование cookie" hidden>
+  <div class="cookie-head">
+    <span class="cookie-ic" aria-hidden="true"><svg class="i"><use href="#i-cookie"/></svg></span>
+    <b>Мы используем cookie</b>
+  </div>
+  <p>Они нужны, чтобы сайт работал, а с вашего согласия&nbsp;— для статистики посещений (Яндекс Метрика). Подробнее&nbsp;— в <a href="#">политике обработки cookie</a>.</p>
+  <div class="cookie-actions">
+    <button class="btn btn-primary btn-sm" type="button" data-cookie="accept">Принять</button>
+    <button class="btn btn-outline btn-sm" type="button" data-cookie="decline">Отклонить</button>
+  </div>
+</section>
 
 <script src="assets/js/menteya.js" defer></script>
 
