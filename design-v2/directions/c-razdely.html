@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ru" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ментея — вариант В «Разделы»</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#06525c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/base.css">
+<style>
+/* Вариант В: одна форма на весь сайт — вкладка папки. Разделы клиники лежат стопкой папок,
+   передняя открыта: в ней первый шаг и запись. Один цвет — глубокий бирюзовый на бумаге */
+:root{
+  --bg:#f7f9f8; --surface:#ebf0ee; --ink:#06525c; --muted:#2f737d; --accent:#06525c; --accent-ink:#f7f9f8;
+  --field:#06525c; --on-field:#f7f9f8; --on-field-dim:#b9d3d1;
+  --font-display:"Onest", system-ui, sans-serif; --font-text:"Onest", system-ui, sans-serif;
+  --step-small:clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --step-body:clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead:clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --m:clamp(16px, 2.2vw, 32px);
+  --tab-h:40px;
+}
+html{ -webkit-tap-highlight-color:transparent; }
+body{ min-height:100svh; display:flex; flex-direction:column; background:var(--field); color:var(--on-field); }
+::selection{ background:var(--on-field); color:var(--field); }
+:focus-visible{ outline-color:var(--on-field); }
+a{ text-decoration:none; }
+.u{ text-decoration:underline; text-decoration-color:transparent; text-underline-offset:.22em; text-decoration-thickness:.07em; transition:text-decoration-color var(--t-hover) ease; }
+@media (hover:hover) and (pointer:fine){ .u:hover{ text-decoration-color:currentColor; } }
+
+.c-hero{ flex:1 0 auto; display:flex; flex-direction:column; overflow:hidden; }
+.c-top{ display:flex; justify-content:space-between; align-items:center; padding:20px var(--m) 0; font-size:var(--step-small); }
+.c-top .r{ font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+/* Имя крупно и по центру — один центрированный момент на странице */
+.c-head{ text-align:center; padding:clamp(20px, 5svh, 56px) var(--m) 0; }
+.c-title{ display:flex; flex-direction:column; align-items:center; }
+.c-name{ font-size:clamp(5.5rem, min(15vw, 22svh), 14.5rem); font-weight:600; line-height:.92; letter-spacing:-0.035em; }
+.c-kind{ margin-top:clamp(10px, 2svh, 20px); font-size:var(--step-lead); font-weight:500; line-height:1.2; letter-spacing:-0.01em; }
+.c-lead{ max-width:46ch; margin:10px auto 0; font-size:var(--step-body); line-height:1.5; }
+
+/* Стопка папок: каждая следующая ниже на шаг, у каждой своя вкладка и свой цвет */
+.c-stack{ position:relative; flex:1 0 auto; min-height:max(300px, 44svh); margin-top:clamp(28px, 5svh, 56px); --off:clamp(44px, 7svh, 64px); }
+.c-folder{ position:absolute; left:7%; right:7%; top:calc(var(--tab-h) + var(--k) * var(--off)); bottom:0; display:block; background:var(--c); color:var(--t); }
+.c-tab{ position:absolute; bottom:100%; left:var(--x); height:var(--tab-h); display:flex; align-items:center; padding:0 30px; background:var(--c); color:var(--t); font-size:1.125rem; font-weight:500; white-space:nowrap; clip-path:polygon(16px 0, calc(100% - 16px) 0, 100% 100%, 0 100%); transition:transform var(--t-ui) var(--ease-out); }
+a.c-folder:focus-visible{ outline-offset:-4px; }
+@media (hover:hover) and (pointer:fine){ a.c-folder:hover .c-tab{ transform:translateY(-5px); } }
+
+.c-body{ display:flex; flex-wrap:wrap; align-items:flex-start; gap:16px 32px; padding:28px 32px; }
+.c-body p{ flex:1 1 300px; max-width:52ch; min-width:0; font-size:var(--step-body); line-height:1.5; color:var(--ink); }
+@media (min-width:1100px){ .c-body{ flex-wrap:nowrap; } }
+.c-btn{ display:inline-flex; align-items:center; justify-content:center; min-height:54px; padding:0 34px; background:var(--accent); color:var(--accent-ink); font-size:1.0625rem; font-weight:500; clip-path:polygon(12px 0, calc(100% - 12px) 0, 100% 100%, 0 100%); touch-action:manipulation; -webkit-user-select:none; user-select:none; transition:transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; }
+.c-btn:active{ transform:scale(.97); }
+@media (hover:hover) and (pointer:fine){ .c-btn:hover{ background:#0a6672; } }
+/* Врачи на приёме: снимки в форме вкладки — та же форма, что у папок и кнопки */
+.c-docs{ margin-left:auto; display:flex; gap:14px; }
+.c-docs li{ display:flex; flex-direction:column; align-items:center; gap:8px; font-size:var(--step-small); color:var(--muted); }
+.c-docs img{ width:76px; height:92px; object-fit:cover; object-position:50% 20%; clip-path:polygon(10px 0, calc(100% - 10px) 0, 100% 100%, 0 100%); }
+
+/* Телефон: папки во всю ширину, вкладки ниже и вразбежку */
+@media (max-width:767px){
+  :root{ --tab-h:34px; }
+  .c-name{ font-size:17vw; }
+  .c-lead{ font-size:1rem; }
+  .c-stack{ min-height:52svh; --off:52px; }
+  .c-folder{ left:0; right:0; }
+  .c-tab{ font-size:0.9375rem; padding:0 22px; clip-path:polygon(12px 0, calc(100% - 12px) 0, 100% 100%, 0 100%); }
+  .c-folder[style*="--k:1"] .c-tab{ left:50%; transform:translateX(-50%); }
+  .c-folder[style*="--k:2"] .c-tab, .c-folder[style*="--k:4"] .c-tab{ left:auto; right:16px; }
+  .c-folder[style*="--k:3"] .c-tab{ left:16px; }
+  .c-body{ padding:22px 16px; }
+  .c-btn{ width:100%; }
+  .c-docs{ display:none; }
+}
+
+/* Движение: папки выезжают снизу по очереди, как стопка, которую положили на стол */
+@media (prefers-reduced-motion:no-preference){
+  .js .c-folder{ animation:c-up .9s var(--ease-out) both; animation-delay:calc(var(--k) * 90ms + 350ms); }
+}
+@keyframes c-up{ from{ transform:translateY(70px); } }
+</style>
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+<header class="c-top" data-rise style="--i:0">
+  <a class="u" href="#uslugi">Услуги</a>
+  <a class="r u" href="tel:+74950000000">+7 495 000-00-00</a>
+</header>
+
+<main class="c-hero">
+  <div class="c-head">
+    <h1 class="c-title">
+      <span class="c-name" data-rise style="--i:1">Ментея</span>
+      <span class="c-kind" data-rise style="--i:2">Психиатрическая клиника в&nbsp;Москве</span>
+    </h1>
+    <p class="c-lead" data-rise style="--i:3">Анонимно, без постановки на&nbsp;учёт. Взрослым, подросткам, детям и&nbsp;пожилым — в&nbsp;клинике и&nbsp;на&nbsp;дому.</p>
+  </div>
+
+  <div class="c-stack">
+    <a class="c-folder" href="#napravleniya" style="--k:0; --c:#0d6470; --t:#f7f9f8; --x:4%"><span class="c-tab">Направления</span></a>
+    <a class="c-folder" href="#vrachi" style="--k:1; --c:#2f737d; --t:#f7f9f8; --x:24%"><span class="c-tab">Врачи</span></a>
+    <a class="c-folder" href="#ceny" style="--k:2; --c:#a9cbc9; --t:#06525c; --x:44%"><span class="c-tab">Цены</span></a>
+    <a class="c-folder" href="#voprosy" style="--k:3; --c:#d3e4e1; --t:#06525c; --x:64%"><span class="c-tab">Вопросы</span></a>
+    <section class="c-folder c-front" id="priem" aria-labelledby="c-front-title" style="--k:4; --c:#f7f9f8; --t:#06525c; --x:6%">
+      <h2 class="c-tab" id="c-front-title">Первый приём</h2>
+      <div class="c-body">
+        <a class="c-btn" href="#booking">Записаться</a>
+        <p>Консультация психиатра — 60&nbsp;минут, от&nbsp;3&nbsp;500&nbsp;₽. Перезвоним за&nbsp;15&nbsp;минут, ежедневно с&nbsp;9:00 до&nbsp;21:00.</p>
+        <ul class="c-docs" aria-label="Врачи, которые ведут первый приём">
+          <li><img src="../assets/img/intro-main.jpg" width="700" height="700" alt=""><span>Соколова</span></li>
+          <li><img src="../assets/img/doctor-belov.jpg" width="700" height="700" alt=""><span>Белов</span></li>
+          <li><img src="../assets/img/doctor-volkova.jpg" width="700" height="700" alt=""><span>Волкова</span></li>
+          <li><img src="../assets/img/doctor-orlov.jpg" width="700" height="700" alt=""><span>Орлов</span></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+</body>
+</html>

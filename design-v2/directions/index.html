@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ментея — три направления первого экрана</title>
+<meta name="robots" content="noindex">
+<style>
+/* Служебная страница выбора: нейтральная, чтобы не спорить с вариантами */
+*, *::before, *::after{ box-sizing:border-box; }
+body{ margin:0; padding:clamp(20px, 4vw, 56px); background:#f1f1ef; color:#1b1b1a; font:16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+h1{ margin:0; font-size:clamp(1.6rem, 3vw, 2.4rem); line-height:1.15; letter-spacing:-0.01em; }
+.intro{ max-width:70ch; margin:12px 0 0; color:#4a4a47; }
+.list{ display:grid; gap:clamp(40px, 6vw, 72px); margin-top:clamp(32px, 5vw, 56px); padding:0; list-style:none; }
+.item{ display:grid; grid-template-columns:minmax(0, 1.9fr) minmax(0, 1fr); gap:24px 40px; align-items:start; }
+.item img{ display:block; width:100%; height:auto; background:#ddd; }
+.item h2{ margin:0; font-size:1.5rem; line-height:1.2; }
+.item p{ margin:10px 0 0; max-width:48ch; }
+.item dl{ margin:16px 0 0; display:grid; grid-template-columns:auto 1fr; gap:6px 14px; }
+.item dt{ color:#4a4a47; }
+.item dd{ margin:0; }
+.open{ display:inline-flex; align-items:center; min-height:46px; margin-top:20px; padding:0 22px; background:#1b1b1a; color:#fff; text-decoration:none; font-weight:600; }
+.open:active{ transform:scale(.97); }
+@media (max-width:860px){ .item{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<h1>Ментея: три направления первого экрана</h1>
+<p class="intro">Тексты те же, что на&nbsp;первом сайте, оформление новое. На&nbsp;каждой картинке слева&nbsp;— компьютер, справа&nbsp;— телефон. Откройте вариант, чтобы посмотреть вживую и&nbsp;сузить окно.</p>
+<ol class="list">
+  <li class="item">
+    <a href="a-dva-snimka.html"><img src="previews/a-dva-snimka.jpg" width="1976" height="980" alt="Вариант А на компьютере и телефоне"></a>
+    <div>
+      <h2>А. «Два снимка»</h2>
+      <p>Снимки как отпечатки на&nbsp;стене галереи: врач, к&nbsp;которому придёте, и&nbsp;кабинет, где пройдёт первая беседа. Тихо, по-журнальному, много воздуха.</p>
+      <dl><dt>Шрифт</dt><dd>EB Garamond</dd><dt>Цвета</dt><dd>розово-серая стена, чёрно-коричневый текст, зелёная кнопка</dd><dt>Фото</dt><dd>чёрно-белые</dd></dl>
+      <a class="open" href="a-dva-snimka.html">Открыть вариант А</a>
+    </div>
+  </li>
+  <li class="item">
+    <a href="b-kabinet.html"><img src="previews/b-kabinet.jpg" width="1976" height="980" alt="Вариант Б на компьютере и телефоне"></a>
+    <div>
+      <h2>Б. «Кабинет»</h2>
+      <p>Половина экрана&nbsp;— кабинет клиники. Он не&nbsp;двигается, пока вы читаете вторую половину, и&nbsp;свет в&nbsp;нём медленно меняется. На&nbsp;снимке&nbsp;— «Сейчас открыто» по&nbsp;московскому времени.</p>
+      <dl><dt>Шрифт</dt><dd>Literata</dd><dt>Цвета</dt><dd>шалфей штор и&nbsp;стен клиники, сине-чёрный текст</dd><dt>Фото</dt><dd>цветные, сменяются раз в&nbsp;6 секунд</dd></dl>
+      <a class="open" href="b-kabinet.html">Открыть вариант Б</a>
+    </div>
+  </li>
+  <li class="item">
+    <a href="c-razdely.html"><img src="previews/c-razdely.jpg" width="1976" height="980" alt="Вариант В на компьютере и телефоне"></a>
+    <div>
+      <h2>В. «Разделы»</h2>
+      <p>Одна форма на&nbsp;весь сайт&nbsp;— вкладка папки. Разделы лежат стопкой, передняя папка открыта: первый приём, цена и&nbsp;врачи. Самый смелый и&nbsp;узнаваемый вариант.</p>
+      <dl><dt>Шрифт</dt><dd>Onest</dd><dt>Цвета</dt><dd>глубокий бирюзовый на&nbsp;бумаге</dd><dt>Фото</dt><dd>врачи в&nbsp;форме вкладки</dd></dl>
+      <a class="open" href="c-razdely.html">Открыть вариант В</a>
+    </div>
+  </li>
+</ol>
+</body>
+</html>

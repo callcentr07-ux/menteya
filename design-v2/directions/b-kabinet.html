@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ru" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ментея — вариант Б «Кабинет»</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#b9c2b0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/base.css">
+<style>
+/* Вариант Б: половина экрана — кабинет клиники, она не двигается; другая половина — спокойная колонка текста.
+   Цвета взяты из интерьера: шалфей штор и стен, сине-чёрные чернила */
+:root{
+  --bg:#b9c2b0; --surface:#c6cdbd; --ink:#050f16; --muted:#3d4636; --accent:#050f16; --accent-ink:#b9c2b0;
+  --font-display:"Literata", Georgia, serif; --font-text:"Literata", Georgia, serif;
+  --step-small:clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --step-body:clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-head:clamp(2.5rem, 3.6vw, 3.5rem);
+  --gap:12px;
+}
+html{ -webkit-tap-highlight-color:transparent; }
+body{ font-optical-sizing:auto; }
+a{ text-decoration:none; }
+.u{ text-decoration:underline; text-decoration-color:transparent; text-underline-offset:.22em; text-decoration-thickness:.06em; transition:text-decoration-color var(--t-hover) ease; }
+@media (hover:hover) and (pointer:fine){ .u:hover{ text-decoration-color:currentColor; } }
+
+/* Сцена: слева колонка, справа неподвижный снимок */
+.b-stage{ display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); column-gap:var(--gap); padding:var(--gap); }
+.b-photo{ grid-column:2; grid-row:1; align-self:start; position:sticky; top:var(--gap); height:calc(100svh - 2 * var(--gap)); overflow:hidden; background:#9aa293; }
+.b-photo img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.6s ease; }
+.b-photo img.is-on{ opacity:1; }
+.b-photo img:first-child{ opacity:1; }
+.js .b-photo img:first-child:not(.is-on){ opacity:0; }
+@media (prefers-reduced-motion:no-preference){ .b-photo img.is-on{ animation:b-drift 14s var(--ease-out) both; } }
+@keyframes b-drift{ from{ transform:scale(1.06); } }
+.b-hours{ position:absolute; left:0; right:0; bottom:0; max-width:none; min-height:56px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:0 20px; background:var(--bg); font-size:var(--step-small); }
+.b-hours b{ font-weight:500; }
+.b-tel{ display:none; font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+/* Лист как карточка меню: всё по центру */
+.b-col{ grid-column:1; grid-row:1; min-width:0; }
+.b-top{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; padding:28px clamp(24px, 4vw, 64px) 0; font-size:var(--step-small); }
+.b-top .l{ justify-self:start; } .b-top .r{ justify-self:end; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.b-word{ font-size:clamp(2.25rem, 4vw, 4rem); font-weight:400; letter-spacing:-0.02em; line-height:1; }
+.b-copy{ min-height:calc(100svh - 2 * var(--gap) - 92px); display:flex; flex-direction:column; align-items:center; text-align:center; padding:calc(34svh - 110px) clamp(24px, 4vw, 64px) 0; }
+.b-title{ max-width:18ch; font-size:var(--step-head); font-weight:300; line-height:1.06; letter-spacing:-0.02em; }
+.b-lead{ max-width:40ch; margin-top:22px; font-size:var(--step-body); line-height:1.55; }
+.b-btn{ display:inline-flex; align-items:center; justify-content:center; min-height:54px; margin-top:30px; padding:0 30px; background:var(--accent); color:var(--accent-ink); font-size:1.0625rem; font-weight:500; touch-action:manipulation; -webkit-user-select:none; user-select:none; transition:transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; }
+.b-btn:active{ transform:scale(.97); }
+@media (hover:hover) and (pointer:fine){ .b-btn:hover{ background:#1c2a33; } }
+.b-price{ margin-top:16px; font-size:var(--step-small); color:var(--muted); }
+
+/* Первый раздел колонки: одно слово во всю ширину и строки-полосы, которые раскрываются */
+.b-list{ container-type:inline-size; padding:18svh clamp(24px, 4vw, 64px) 120px; }
+.b-giant{ font-size:27cqw; font-weight:300; line-height:.8; letter-spacing:-0.04em; margin-left:-0.04em; }
+.b-rows{ margin-top:28px; display:grid; gap:6px; }
+.b-row{ background:var(--surface); }
+.b-row summary{ min-height:56px; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 18px; font-size:1rem; font-weight:500; cursor:pointer; list-style:none; touch-action:manipulation; }
+.b-row summary::-webkit-details-marker{ display:none; }
+.b-row summary span{ font-size:1.375rem; font-weight:300; line-height:1; transition:transform var(--t-ui) var(--ease-out); }
+.b-row[open] summary span{ transform:rotate(45deg); }
+.b-row ul{ padding:2px 18px 20px; display:grid; gap:14px; }
+.b-row li{ display:flex; justify-content:space-between; gap:20px; font-size:1rem; line-height:1.4; }
+.b-row li b{ font-weight:400; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.b-row summary:focus-visible{ outline-offset:-2px; }
+.js .b-row[data-reveal]{ transition-delay:calc(var(--i, 0) * 70ms); }
+
+/* Телефон: снимок сверху и остаётся на месте, лист наезжает на него */
+@media (max-width:899px){
+  .b-stage{ display:block; padding:0; }
+  .b-photo{ position:sticky; top:12px; z-index:0; height:42svh; margin:12px; }
+  .b-col{ position:relative; z-index:1; background:var(--bg); }
+  .b-top{ grid-template-columns:1fr; justify-items:center; padding:20px 20px 0; }
+  .b-top .l, .b-top .r, .b-addr{ display:none; }
+  .b-tel{ display:inline; }
+  .b-word{ font-size:13vw; }
+  .b-copy{ min-height:0; padding:28px 20px 64px; }
+  .b-title{ font-size:9vw; }
+  .b-lead{ margin-top:16px; }
+  .b-btn{ width:100%; margin-top:22px; }
+  .b-list{ padding:96px 16px 96px; }
+}
+
+/* Движение: свет в кабинете меняется — снимки медленно сменяют друг друга; текст поднимается по очереди */
+@media (prefers-reduced-motion:reduce){ .b-photo img{ transition:none; } }
+</style>
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+<div class="b-stage">
+  <div class="b-photo">
+    <img src="../assets/img/about-3.jpg" width="900" height="506" alt="Кабинет первой консультации: два кресла у окна" class="is-on" fetchpriority="high">
+    <img src="../assets/img/intro-inset.jpg" width="900" height="506" alt="Стойка администратора и зона ожидания" loading="lazy">
+    <img src="../assets/img/about-2.jpg" width="900" height="506" alt="Коридор клиники с кабинетами врачей" loading="lazy">
+    <p class="b-hours"><b data-open>Ежедневно 9:00–21:00</b><span class="b-addr">Москва, ул.&nbsp;Примерная,&nbsp;1</span><a class="b-tel u" href="tel:+74950000000">+7 495 000-00-00</a></p>
+  </div>
+
+  <div class="b-col">
+    <header class="b-top" data-rise style="--i:0">
+      <a class="l u" href="#uslugi">Услуги</a>
+      <a class="b-word" href="#">Ментея</a>
+      <a class="r u" href="tel:+74950000000">+7 495 000-00-00</a>
+    </header>
+    <main>
+      <section class="b-copy" aria-labelledby="b-title">
+        <h1 class="b-title" id="b-title" data-rise style="--i:1">Психиатрическая клиника в&nbsp;Москве</h1>
+        <p class="b-lead" data-rise style="--i:2">Анонимно, без постановки на&nbsp;учёт. Взрослым, подросткам, детям и&nbsp;пожилым — в&nbsp;клинике и&nbsp;на&nbsp;дому.</p>
+        <a class="b-btn" href="#booking" data-rise style="--i:3">Записаться на&nbsp;приём</a>
+        <p class="b-price" data-rise style="--i:4">Первичная консультация психиатра — 60&nbsp;минут, от&nbsp;3&nbsp;500&nbsp;₽</p>
+      </section>
+
+  <section class="b-list" id="uslugi" aria-labelledby="b-list-title">
+    <h2 class="b-giant" id="b-list-title" data-reveal>Услуги</h2>
+    <div class="b-rows">
+      <details class="b-row" open data-reveal style="--i:0">
+        <summary>Психиатрия<span aria-hidden="true">+</span></summary>
+        <ul>
+          <li>Первичная консультация психиатра<b>от 3&nbsp;500&nbsp;₽</b></li>
+          <li>Повторная консультация психиатра<b>2&nbsp;800&nbsp;₽</b></li>
+          <li>Выезд психиатра на&nbsp;дом<b>от 6&nbsp;000&nbsp;₽</b></li>
+          <li>Врачебный консилиум<b>от 12&nbsp;000&nbsp;₽</b></li>
+        </ul>
+      </details>
+      <details class="b-row" data-reveal style="--i:1">
+        <summary>Психотерапия<span aria-hidden="true">+</span></summary>
+        <ul>
+          <li>Первичная консультация психотерапевта<b>от 3&nbsp;200&nbsp;₽</b></li>
+          <li>Сеанс психотерапии<b>3&nbsp;000&nbsp;₽</b></li>
+          <li>Семейная консультация<b>4&nbsp;500&nbsp;₽</b></li>
+        </ul>
+      </details>
+      <details class="b-row" data-reveal style="--i:2">
+        <summary>Психолог<span aria-hidden="true">+</span></summary>
+        <ul>
+          <li>Консультация психолога<b>от 2&nbsp;500&nbsp;₽</b></li>
+          <li>Психологическая диагностика<b>от 4&nbsp;000&nbsp;₽</b></li>
+          <li>Нейропсихологическое обследование<b>от 5&nbsp;000&nbsp;₽</b></li>
+        </ul>
+      </details>
+      <details class="b-row" data-reveal style="--i:3">
+        <summary>Детям и&nbsp;подросткам<span aria-hidden="true">+</span></summary>
+        <ul>
+          <li>Консультация детского психиатра<b>от 3&nbsp;500&nbsp;₽</b></li>
+          <li>Консультация детского психолога<b>от 2&nbsp;500&nbsp;₽</b></li>
+        </ul>
+      </details>
+      <details class="b-row" data-reveal style="--i:4">
+        <summary>Пожилым<span aria-hidden="true">+</span></summary>
+        <ul>
+          <li>Консультация психиатра для&nbsp;пожилых<b>от 3&nbsp;500&nbsp;₽</b></li>
+          <li>Выезд психиатра на&nbsp;дом<b>от 6&nbsp;000&nbsp;₽</b></li>
+        </ul>
+      </details>
+      <details class="b-row" data-reveal style="--i:5">
+        <summary>Онлайн, повторно<span aria-hidden="true">+</span></summary>
+        <ul>
+          <li>Повторная онлайн-консультация психиатра<b>2&nbsp;500&nbsp;₽</b></li>
+        </ul>
+      </details>
+    </div>
+  </section>
+    </main>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Открыто ли сейчас: время Москвы, приём 9:00–21:00, выезд врача — круглосуточно
+  var el = document.querySelector('[data-open]');
+  try {
+    var p = new Intl.DateTimeFormat('ru-RU', { timeZone:'Europe/Moscow', hour:'2-digit', minute:'2-digit', hourCycle:'h23' }).formatToParts(new Date());
+    var h = +p.find(function(x){ return x.type === 'hour'; }).value, m = +p.find(function(x){ return x.type === 'minute'; }).value;
+    var t = h * 60 + m;
+    el.textContent = (t >= 540 && t < 1260) ? 'Сейчас открыто, до 21:00' : 'Откроемся в 9:00, выезд врача круглосуточно';
+  } catch(e) {}
+
+  // Свет в кабинете: снимки сменяют друг друга раз в 6 секунд, пауза во фоне, без смены при «меньше движения»
+  var imgs = document.querySelectorAll('.b-photo img'), i = 0;
+  if (imgs.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setInterval(function(){
+      if (document.hidden) return;
+      imgs[i].classList.remove('is-on');
+      i = (i + 1) % imgs.length;
+      imgs[i].classList.add('is-on');
+    }, 6000);
+  }
+
+  // Появление заголовка раздела при прокрутке
+  var io = 'IntersectionObserver' in window && new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, { rootMargin:'0px 0px -10% 0px' });
+  document.querySelectorAll('[data-reveal]').forEach(function(n){ io ? io.observe(n) : n.classList.add('is-in'); });
+})();
+</script>
+</body>
+</html>
