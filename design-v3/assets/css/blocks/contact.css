@@ -1,1 +1,237 @@
-/* раздел собирается */
+/* ===== Вопросы перед первым визитом, запись и контакты — последние разделы главной. «Ночная вода», в конце — рассвет ===== */
+
+/* ---------- Вопросы: слева заголовок и карточка «напишите нам / срочно», справа аккордеон с линиями 1px ---------- */
+/* ПК: карточка — в левой колонке под заголовком, аккордеон занимает обе строки справа. Планшет и телефон: карточка после вопросов */
+.faq-grid{ grid-template-rows:auto 1fr; }
+.faq-side{ grid-column:1; grid-row:1; }
+.faq-list{ grid-column:2; grid-row:1 / span 2; }
+.faq-aside{ grid-column:1; grid-row:2; }
+/* Ореол шара гаснет к краю холста — без этого виден квадрат холста (общая правка для всех линз — в отчёте) */
+
+.faq-list{ border-top:1px solid var(--line); }
+.faq-item{ border-bottom:1px solid var(--line); }
+.faq-q{ display:grid; grid-template-columns:44px minmax(0, 1fr) 40px; gap:16px; align-items:start; width:100%; padding:22px 0; text-align:left; font:500 1.25rem/1.35 var(--font); letter-spacing:-0.012em; color:var(--text); }
+.faq-n{ padding-top:6px; font:500 .8125rem/1 var(--mono); letter-spacing:.06em; color:var(--text-3); }
+.faq-t{ text-wrap:pretty; transition:color .2s ease; }
+/* Плюс без вращения: при открытии вертикальная черта гаснет, остаётся минус. Подложка — цвет страницы: поверх линзы кружок не теряется */
+.faq-toggle{ position:relative; width:40px; height:40px; margin-top:-6px; border-radius:50%; background:var(--bg); box-shadow:inset 0 0 0 1px var(--line-2); transition:background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+.faq-toggle::before, .faq-toggle::after{ content:""; position:absolute; left:50%; top:50%; width:14px; height:2px; margin:-1px 0 0 -7px; border-radius:1px; background:currentColor; }
+.faq-toggle::after{ rotate:90deg; transition:opacity .2s ease; }
+.faq-item.is-open .faq-toggle{ background:var(--text); color:var(--on-light); box-shadow:none; }
+.faq-item.is-open .faq-toggle::after{ opacity:0; }
+.faq-a{ padding:0 56px 26px 60px; }   /* ответ под текстом вопроса: колонка номера 44 + зазор 16 */
+.faq-a p{ max-width:62ch; font-size:1.0625rem; line-height:1.55; color:var(--text-2); text-wrap:pretty; }
+/* Закрытые ответы прячем только при работающем скрипте — без него видны все */
+.js .faq-item:not(.is-open) .faq-a{ display:none; }
+@media (prefers-reduced-motion:no-preference){
+  .js .faq-item.is-open .faq-a{ animation:faq-fade .2s ease; }
+}
+@keyframes faq-fade{ from{ opacity:0; } }
+@media (hover:hover) and (pointer:fine){
+  .faq-q:hover .faq-t{ color:var(--accent); }
+  .faq-q:hover .faq-toggle{ box-shadow:inset 0 0 0 1px var(--text-2); }
+}
+
+/* Карточка в тёмном стекле: «Не нашли ответ?» и под линией — срочная связь */
+.faq-aside{ margin-top:12px; padding:var(--pad); border-radius:var(--r); }
+.faq-help{ display:grid; gap:8px; }
+.faq-help-t{ font:500 1.25rem/1.25 var(--font); letter-spacing:-0.015em; text-wrap:balance; }
+.faq-help .btn-row{ margin-top:10px; }
+.faq-urgent{ display:grid; justify-items:start; gap:10px; margin-top:var(--pad); padding-top:var(--pad); border-top:1px solid var(--line); }
+.faq-urgent-t{ display:flex; align-items:center; gap:10px; font-weight:500; }
+.faq-urgent-t .i{ color:var(--accent-2); }   /* тёплая отметка — срочное, без тревожного красного */
+.faq-urgent .fine{ max-width:46ch; }
+.faq-tel{ margin-top:4px; font-variant-numeric:tabular-nums; }
+.faq-tel .i{ color:var(--accent); }
+.faq-112{ display:inline-block; padding:12px 13px; margin:-12px -13px; }   /* цель нажатия 44px, строка не раздвигается */
+
+/* ---------- Запись и контакты: «ночная вода», у нижней кромки — едва заметный холодный ореол и линия горизонта ---------- */
+/* Тёплое свечение здесь смешивалось с бирюзой в грязную дымку — рассвет оставлен только в знаке и точечных акцентах */
+.contact{ background:radial-gradient(90% 40% at 50% 100%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 72%), var(--bg); }
+/* Мятный отсвет за формой — стеклу есть что размывать */
+.contact::before{ content:""; position:absolute; z-index:-1; right:-12%; top:6%; width:min(900px, 80vw); aspect-ratio:1; border-radius:50%; background:radial-gradient(closest-side, color-mix(in srgb, var(--accent) 10%, transparent), transparent); pointer-events:none; }
+/* Линия горизонта на стыке с подвалом */
+.contact::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 28%, transparent), transparent); pointer-events:none; }
+
+/* Верх: слева пример диалога, справа форма (одной высоты); низ: карта и контакты — те же колонки */
+.contact-top, .contact-bottom{ display:grid; grid-template-columns:minmax(0, 5fr) minmax(0, 6fr); gap:clamp(16px, 2vw, 24px) clamp(28px, 4vw, 64px); }
+.contact-bottom{ margin-top:clamp(28px, 3.4vw, 48px); }
+
+/* --- Пример диалога в тёмном стекле: реплики клиента справа, администратора слева; как в мессенджере, прижаты к низу --- */
+.chat{ display:flex; flex-direction:column; padding:20px; border-radius:var(--r); }
+.chat-head{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; padding-bottom:16px; border-bottom:1px solid var(--line); }
+.chat-tag{ margin-left:auto; }
+.chat-ava{ display:grid; place-items:center; width:44px; height:44px; flex-shrink:0; border-radius:50%; background:var(--surface-2); box-shadow:inset 0 0 0 1px var(--line); color:var(--accent); }
+.chat-ava svg{ width:28px; height:28px; }   /* знак «Рассвет»: солнце над водой */
+.chat-who{ display:grid; line-height:1.3; }
+.chat-who b{ font-size:.9375rem; font-weight:500; }
+.chat-who span{ font-size:.8125rem; color:var(--text-2); }
+.chat-list{ flex:1; display:grid; align-content:end; gap:10px; padding-top:16px; }
+.chat-day{ justify-self:center; }
+.chat-day span{ display:inline-block; padding:5px 10px; border-radius:999px; background:var(--accent-2); font:500 .6875rem/1.2 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--on-light); }
+.chat-msg{ position:relative; display:flex; }
+.chat-msg.is-me{ justify-content:flex-end; }
+.chat-b{ max-width:84%; padding:11px 16px 9px; border-radius:var(--r-sm); font-size:1rem; line-height:1.45; text-wrap:pretty; }
+.is-admin .chat-b{ border-bottom-left-radius:6px; background:var(--surface-2); }
+.is-me .chat-b{ border-bottom-right-radius:6px; background:var(--surface); box-shadow:inset 0 0 0 1px var(--line-2); }
+.chat-t{ display:block; margin-top:4px; text-align:right; font:500 .6875rem/1 var(--mono); letter-spacing:.04em; color:var(--text-3); }
+/* «Печатает…»: включается сценарием (.chat.is-playing). Место под реплики занято заранее — страница не прыгает */
+.chat-typing{ display:none; }
+.chat.is-playing .chat-b{ opacity:0; visibility:hidden; transition:opacity .3s ease, visibility 0s linear .3s; }
+.chat.is-playing .is-shown .chat-b{ opacity:1; visibility:visible; transition:opacity .3s ease; }
+.chat.is-playing .is-typing .chat-typing{ position:absolute; left:0; top:0; display:inline-flex; align-items:center; gap:5px; height:42px; padding:0 18px; border-radius:var(--r-sm); border-bottom-left-radius:6px; background:var(--surface-2); }
+.chat-typing i{ width:6px; height:6px; border-radius:50%; background:var(--text-2); opacity:.3; }
+@media (prefers-reduced-motion:no-preference){
+  .chat-typing i{ animation:typing 1.1s ease-in-out infinite; }
+  .chat-typing i:nth-child(2){ animation-delay:.18s; }
+  .chat-typing i:nth-child(3){ animation-delay:.36s; }
+}
+@keyframes typing{ 40%{ opacity:1; } }
+
+/* --- Форма записи в тёмном стекле. Ширина колонок полей зависит от ширины карточки, а не экрана --- */
+.book{ container-type:inline-size; display:flex; flex-direction:column; padding:clamp(22px, 3vw, 40px); border-radius:var(--r); box-shadow:inset 0 1px 0 var(--line), 0 40px 80px -40px var(--bg-2); }
+.book .form{ flex:1; display:flex; flex-direction:column; }
+.book .form-success{ flex:1; align-content:center; }   /* «Заявка принята» — по центру карточки, высота ряда не меняется */
+.book-head .muted{ max-width:46ch; margin-top:8px; }
+.book-submit{ display:flex; width:100%; }
+.book-submit .t{ flex:1; justify-content:center; }
+.book-notes{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 16px; margin-top:14px; }
+.book-secure{ display:inline-flex; align-items:center; gap:8px; }
+.book-notes .i{ width:16px; height:16px; color:var(--accent); }
+.form-next{ display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); margin-top:22px; border-top:1px solid var(--line); }
+.form-next li{ display:grid; align-content:start; gap:2px; padding:16px 16px 0 0; font-size:.875rem; line-height:1.4; }
+.form-next li + li{ padding-left:16px; border-left:1px solid var(--line); }
+.form-next .mono{ margin-bottom:6px; font-size:.75rem; color:var(--accent); }
+.form-next b{ font-size:.9375rem; font-weight:500; }
+
+/* Поля формы — общие для формы в разделе и в окне записи (setupBookingForm в menteya.js).
+   Цвета полей — местными переменными: светлому окну хватит переопределить их в одной строке */
+.form{ --field:var(--surface-2); --field-line:var(--line-2); --field-text:var(--text); --field-hint:var(--text-3); }
+.form-grid{ display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:18px 14px; margin:24px 0 22px; }
+.form .field.full{ grid-column:1 / -1; }
+.form .field > label:not(.consent), .form legend{ display:block; margin-bottom:8px; padding:0; font-size:.9375rem; font-weight:500; line-height:1.3; }   /* :not — подпись с галочкой согласия остаётся строкой */
+.form .req{ color:var(--accent); }
+.form .input{ display:block; width:100%; height:52px; padding:0 16px; border:0; border-radius:var(--r-sm); background:var(--field); color:var(--field-text); caret-color:var(--accent); box-shadow:inset 0 0 0 1px var(--field-line); transition:box-shadow .2s ease; }
+.form .input::placeholder{ color:var(--field-hint); opacity:1; }
+.form .input:-webkit-autofill{ -webkit-text-fill-color:var(--field-text); box-shadow:inset 0 0 0 1px var(--field-line), inset 0 0 0 40px var(--field); }   /* автозаполнение не красит поле в светлый */
+.form .input:focus{ outline:none; }
+.form .input:focus-visible{ box-shadow:inset 0 0 0 2px var(--accent); }
+.form .select{ position:relative; display:block; }
+.form .select .input{ -webkit-appearance:none; appearance:none; padding-right:44px; cursor:pointer; }
+.form .select .i{ position:absolute; right:16px; top:50%; width:18px; height:18px; translate:0 -50%; color:var(--text-2); pointer-events:none; }
+.form .select option{ background:var(--surface-2); color:var(--text); }
+/* Способ связи — капсулы-переключатели; сам переключатель прозрачный поверх капсулы, фокус видно на капсуле */
+.form .choice{ min-width:0; padding:0; border:0; }
+.choice-row{ display:flex; gap:6px; }
+.choice-row label{ position:relative; flex:1 1 auto; }
+.choice-row input{ position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; }
+.choice-row span{ display:flex; align-items:center; justify-content:center; min-height:52px; padding:0 12px; border-radius:999px; background:var(--field); color:var(--field-text); box-shadow:inset 0 0 0 1px var(--field-line); font-size:.9375rem; font-weight:500; white-space:nowrap; transition:background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+.choice-row input:checked + span{ background:var(--text); color:var(--on-light); box-shadow:none; }
+.choice-row input:focus-visible + span{ outline:2px solid var(--accent); outline-offset:3px; }
+@media (hover:hover) and (pointer:fine){ .choice-row input:not(:checked):hover + span{ box-shadow:inset 0 0 0 1px var(--text-2); } }
+/* Ошибки: текст цветом окружения (контраст), отметка и рамка — тёплым цветом рассвета */
+.form .error{ display:none; align-items:center; gap:8px; margin-top:8px; font-size:.875rem; font-weight:500; line-height:1.35; }
+.form .error::before{ content:""; width:8px; height:8px; flex-shrink:0; border-radius:50%; background:var(--accent-2); }
+.form .field.is-invalid .error{ display:flex; }
+.form .field.is-invalid .input{ box-shadow:inset 0 0 0 2px var(--accent-2); }
+.form .consent{ display:flex; align-items:flex-start; gap:12px; font-size:.9375rem; line-height:1.45; cursor:pointer; }
+.form .consent input{ width:22px; height:22px; margin:0; flex-shrink:0; accent-color:var(--accent); cursor:pointer; }
+.form .field.is-invalid .consent input{ outline:2px solid var(--accent-2); outline-offset:2px; }
+.form .hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.form-success{ display:grid; justify-items:center; gap:12px; padding:48px 12px; text-align:center; }
+.form-success .ok{ display:grid; place-items:center; width:64px; height:64px; border-radius:50%; background:var(--accent); color:var(--on-light); }
+.form-success .ok .i{ width:28px; height:28px; stroke-width:2; }
+.form-success b{ font:500 1.75rem/1.15 var(--font); letter-spacing:-0.02em; }
+.form-success b:focus{ outline:none; }
+.form-success p{ max-width:40ch; color:var(--text-2); }
+.form-success .btn{ margin-top:8px; }
+/* Узкая карточка: время и способ связи — во всю ширину; совсем узкая — все поля в столбик */
+@container (max-width:600px){
+  .book .field-time, .book .choice{ grid-column:1 / -1; }
+}
+@container (max-width:440px){
+  .book .form-grid, .book .form-next{ grid-template-columns:minmax(0, 1fr); }
+  .book .form-next li{ display:block; padding:12px 0 0; border-left:0; }
+  .book .form-next li + li{ padding-left:0; }
+  .book .form-next .mono{ display:inline-block; width:32px; margin:0; }
+  .book .form-next .muted{ display:block; padding-left:32px; }
+}
+
+/* --- Карта-схема: тёмная, улицы линиями; нарисована кодом, вся карточка — ссылка на Яндекс Карты --- */
+.cmap{ position:relative; isolation:isolate; display:block; min-height:340px; overflow:hidden; border-radius:var(--r); background:var(--bg-2); box-shadow:inset 0 0 0 1px var(--line); }
+.cmap-art{ position:absolute; inset:0; z-index:-1; width:100%; height:100%; transition:transform .3s var(--ease); }
+.cmap-art *{ vector-effect:non-scaling-stroke; }   /* линии одной толщины при любом размере карточки */
+.m-bg{ fill:var(--bg-2); }
+.m-house{ fill:var(--surface); }
+.m-park{ fill:var(--accent); opacity:.07; }
+.m-water{ fill:none; stroke:var(--accent); stroke-width:40; stroke-linecap:round; opacity:.07; }
+.m-shore{ fill:none; stroke:var(--accent); stroke-width:1; opacity:.4; }
+.m-road path, .m-road-s path{ fill:none; stroke:var(--text); stroke-linecap:round; }
+.m-road{ opacity:.34; }
+.m-road path{ stroke-width:2; }
+.m-road-s{ opacity:.14; }
+.m-road-s path{ stroke-width:1; }
+.m-name{ font:500 12px var(--mono); letter-spacing:.1em; fill:var(--text-3); paint-order:stroke; stroke:var(--bg-2); stroke-width:4px; stroke-linejoin:round; }   /* тёмный ореол — подпись читается поверх линии улицы */
+/* Метка клиники: светлая капсула со знаком и «ножкой» к мятной точке в центре схемы */
+.cmap::after{ content:""; position:absolute; left:50%; top:50%; width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px var(--bg-2), 0 0 0 12px color-mix(in srgb, var(--accent) 22%, transparent); }
+.cmap-pin{ position:absolute; left:50%; top:50%; display:flex; align-items:center; gap:10px; padding:6px 18px 6px 6px; translate:-50% calc(-100% - 16px); border-radius:999px; background:var(--text); color:var(--on-light); box-shadow:0 16px 30px -12px var(--bg-2); white-space:nowrap; }
+.cmap-pin::after{ content:""; position:absolute; left:50%; top:100%; width:2px; height:12px; margin-left:-1px; background:var(--text); }
+.cmap-mark{ display:grid; place-items:center; width:42px; height:42px; border-radius:50%; background:var(--on-light); color:var(--accent); }
+.cmap-mark svg{ width:28px; height:28px; }
+.cmap-name{ display:grid; gap:3px; line-height:1.2; }
+.cmap-name b{ font:600 .9375rem/1 var(--mark); letter-spacing:.14em; text-transform:uppercase; }   /* слово — антиквой, как в знаке */
+.cmap-name small{ font-size:.8125rem; opacity:.75; }
+.cmap-tag{ position:absolute; left:16px; top:16px; padding:7px 12px; border-radius:999px; background:var(--glass-solid); box-shadow:inset 0 0 0 1px var(--line); }
+.cmap-go{ position:absolute; left:16px; bottom:16px; min-height:44px; }
+@media (hover:hover) and (pointer:fine){
+  .cmap:hover .cmap-art{ transform:scale(1.02); }
+  .cmap:hover .cmap-go{ background:var(--surface-2); box-shadow:inset 0 0 0 1px var(--text-2); }
+}
+@media (prefers-reduced-motion:reduce){ .cmap-art{ transition:none; } }
+
+/* --- Контакты: ячейки в стекле с линиями 1px; телефон крупно --- */
+.cinfo{ display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); border-radius:var(--r); }
+.cinfo-cell{ display:grid; align-content:start; gap:8px; padding:clamp(20px, 2.2vw, 28px); }
+.cinfo-wide{ grid-column:1 / -1; }
+.cinfo-cell + .cinfo-cell{ border-top:1px solid var(--line); }
+.cinfo-cell:nth-child(3){ border-left:1px solid var(--line); }
+.cinfo-line{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px 24px; }
+.cinfo-tel{ font:500 clamp(2rem, 3.4vw, 3rem)/1.05 var(--font); letter-spacing:-0.03em; font-variant-numeric:tabular-nums; white-space:nowrap; transition:color .2s ease; }
+.cinfo-big{ font:500 1.25rem/1.3 var(--font); letter-spacing:-0.015em; text-wrap:balance; }
+.cinfo-status{ display:flex; align-items:center; gap:10px; }
+.cinfo .go{ margin-top:2px; }
+.cinfo-msg{ grid-template-columns:minmax(0, 1fr) auto; align-items:center; gap:16px 24px; }
+.cinfo-msg .cinfo-big{ margin-top:8px; }
+@media (hover:hover) and (pointer:fine){ .cinfo-tel:hover{ color:var(--accent); } }
+
+/* Планшет: всё в один столбец; форма раньше диалога, контакты раньше карты */
+@media (max-width:999px){
+  .faq-grid{ grid-template-rows:none; }
+  .faq-side, .faq-list, .faq-aside{ grid-column:auto; grid-row:auto; }
+  .faq-aside{ display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:var(--pad); margin-top:8px; }
+  .faq-urgent{ margin-top:0; padding:0 0 0 var(--pad); border-top:0; border-left:1px solid var(--line); }
+  .contact-top, .contact-bottom{ grid-template-columns:minmax(0, 1fr); }
+  .book{ order:-1; }
+  .cmap{ order:2; min-height:0; aspect-ratio:16 / 8; }
+}
+@media (max-width:699px){
+  .faq-q{ grid-template-columns:26px minmax(0, 1fr) 36px; gap:12px; padding:18px 0; font-size:1.0625rem; }
+  .faq-n{ padding-top:4px; font-size:.75rem; }
+  .faq-toggle{ width:36px; height:36px; margin-top:-6px; }
+  .faq-a{ padding:0 0 22px 38px; }
+  .faq-a p{ font-size:1rem; }
+  .faq-aside{ grid-template-columns:minmax(0, 1fr); }
+  .faq-urgent{ padding:var(--pad) 0 0; border-left:0; border-top:1px solid var(--line); }
+  .faq-help .btn-row .btn{ flex:1; }
+  .chat{ padding:14px; }
+  .chat-tag{ order:-1; width:100%; margin:0 0 4px; }
+  .chat-b{ max-width:90%; font-size:.9375rem; }
+  .chat-opt{ display:none; }   /* короткий диалог: без пары реплик про онлайн-приём */
+  .cinfo{ grid-template-columns:minmax(0, 1fr); }
+  .cinfo-cell:nth-child(3){ border-left:0; }
+  .cinfo-msg{ grid-template-columns:minmax(0, 1fr); }
+  .cinfo-msg .btn{ flex:1; }
+  .cinfo-tel, .cinfo .link, .cinfo .go{ display:inline-flex; align-items:center; min-height:44px; }   /* цели нажатия не меньше 44px */
+  .cinfo-cell{ gap:4px; }
+  .cmap{ aspect-ratio:4 / 3; }
+}

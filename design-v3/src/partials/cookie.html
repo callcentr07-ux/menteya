@@ -1,13 +1,14 @@
 <!-- ============ СОГЛАСИЕ НА COOKIE ============ -->
-<!-- 152-ФЗ: счётчики (Яндекс Метрика) подключаются только после «Принять». Выбор хранится в браузере;
-     изменить его можно ссылкой «Настройки cookie» в подвале. Без скриптов плашка не показывается — и счётчиков нет. -->
+<!-- 152-ФЗ: счётчики (Яндекс Метрика) подключаются только после «Принять»; «Принять» и «Отклонить» — одного вида и веса.
+     Выбор хранится в браузере; изменить его можно ссылкой «Настройки cookie» в подвале.
+     Без скриптов плашка не показывается — и счётчиков нет. id и data-cookie нужны скрипту menteya.js -->
 <section class="cookie" id="cookieBanner" aria-label="Согласие на использование cookie" hidden>
   <p class="cookie-text">
     <span class="ic" aria-hidden="true"><svg class="i"><use href="#i-cookie"/></svg></span>
-    <span><b>Мы используем cookie</b> для статистики посещений (Яндекс Метрика). <a href="#">Подробнее</a></span>
+    <span><b>Мы используем cookie</b> для статистики посещений (Яндекс Метрика). <a href="politika.html#cookie">Подробнее</a></span>
   </p>
   <div class="cookie-actions">
-    <button class="btn btn-primary btn-sm" type="button" data-cookie="accept">Принять</button>
-    <button class="btn btn-ghost btn-sm" type="button" data-cookie="decline">Отклонить</button>
+    <button class="btn btn-line btn-sm" type="button" data-cookie="accept">Принять</button>
+    <button class="btn btn-line btn-sm" type="button" data-cookie="decline">Отклонить</button>
   </div>
 </section>

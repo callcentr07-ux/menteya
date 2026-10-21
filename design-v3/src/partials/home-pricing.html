@@ -1,1 +1,142 @@
-<!-- раздел собирается -->
+<!-- ============ ЦЕНЫ ============ -->
+<!-- Цены и длительность — из прошлого дизайна (заглушки): заменить на реальные из прейскуранта клиники -->
+<section class="pricing" id="pricing" aria-labelledby="pricing-title">
+
+  <!-- Часть А: три своих формата рядом (приём Collider «Us vs Them»). С другими клиниками не сравниваем — ст. 5 закона «О рекламе».
+       Таблица «по строкам-форматам»: строка = формат, столбец = условие. На ПК форматы стоят колонками (subgrid), на телефоне — карточками -->
+  <div class="sec sec-dark pr-dark">
+    <div class="wrap sec-grid">
+      <div class="sec-side" data-reveal>
+        <p class="label">Цены и&nbsp;форматы</p>
+        <h2 class="h2" id="pricing-title">Цены на&nbsp;услуги</h2>
+        <p class="lead">Стоимость видна до&nbsp;записи. Первичный приём&nbsp;— очно, в&nbsp;клинике или на&nbsp;дому, повторные можно онлайн.</p>
+        <ul class="pr-perks">
+          <li><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg></span><span><b>Цена лечения&nbsp;— после консультации</b><span class="muted">Врач предложит план и&nbsp;назовёт стоимость до&nbsp;начала лечения</span></span></li>
+          <li><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><span><b>Картой и&nbsp;наличными</b><span class="muted">Кассовый чек после каждого приёма</span></span></li>
+          <li><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-doc"/></svg></span><span><b>Справка для налогового вычета</b><span class="muted">Вернёте часть стоимости лечения</span></span></li>
+        </ul>
+      </div>
+
+      <div class="pr-cmp" data-reveal style="--i:1">
+        <div class="cmp" role="table" aria-label="Форматы приёма: цена и условия">
+          <!-- Шапка таблицы: названия условий. На ПК — левая колонка, на телефоне скрыта (подписи повторены в карточках) -->
+          <div class="cmp-col cmp-keys" role="row">
+            <span class="cmp-c cmp-h" role="columnheader"><span class="visually-hidden">Формат</span></span>
+            <span class="cmp-c" role="columnheader">Первичная консультация</span>
+            <span class="cmp-c" role="columnheader">Когда</span>
+            <span class="cmp-c" role="columnheader">Длительность</span>
+            <span class="cmp-c" role="columnheader">Анонимно</span>
+            <span class="cmp-c cmp-fit" role="columnheader">Кому подходит</span>
+            <span class="cmp-c cmp-cta" role="columnheader"><span class="visually-hidden">Запись</span></span>
+          </div>
+
+          <!-- Рекомендуемый формат: приподнятая карточка с тонкой светлой обводкой, ответы — светлые капсулы с заливкой -->
+          <div class="cmp-col is-main" role="row">
+            <span class="cmp-c cmp-h" role="rowheader"><span class="cmp-name">В&nbsp;клинике</span><span class="cmp-top"><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg></span><span class="label">Рекомендуем</span></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Первичная консультация</span><span class="pill cmp-price">от&nbsp;3&nbsp;500&nbsp;₽</span></span>
+            <!-- Часы — в капсуле, «ежедневно» — подписью рядом: капсула не переносится на узких экранах -->
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Когда</span><span class="cmp-v"><span class="pill">9:00–21:00</span><span class="cmp-sub">ежедневно</span></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Длительность</span><span class="pill">60&nbsp;минут</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Анонимно</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>да</span></span>
+            <!-- «Кому подходит» — формулировки по фактам прошлого дизайна, согласовать с клиникой -->
+            <span class="cmp-c cmp-fit" role="cell"><span class="cmp-k" aria-hidden="true">Кому подходит</span><span class="cmp-txt">Первый визит и&nbsp;диагностика. Детям&nbsp;— с&nbsp;родителем</span></span>
+            <span class="cmp-c cmp-cta" role="cell"><a class="btn btn-light btn-sm btn-block" href="#booking" data-service="Первичная консультация в клинике">Записаться<span class="visually-hidden">: первичная консультация в&nbsp;клинике</span></a></span>
+          </div>
+
+          <div class="cmp-col" role="row">
+            <span class="cmp-c cmp-h" role="rowheader"><span class="cmp-name">На&nbsp;дому</span><span class="cmp-top"><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg></span><span class="label">По&nbsp;Москве</span></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Первичная консультация</span><span class="pill cmp-price">от&nbsp;6&nbsp;000&nbsp;₽</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Когда</span><span class="pill">круглосуточно</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Длительность</span><span class="pill">60&nbsp;минут</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Анонимно</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>да</span></span>
+            <span class="cmp-c cmp-fit" role="cell"><span class="cmp-k" aria-hidden="true">Кому подходит</span><span class="cmp-txt">Пожилым и&nbsp;тем, кому сложно приехать в&nbsp;клинику</span></span>
+            <span class="cmp-c cmp-cta" role="cell"><a class="btn btn-line btn-sm btn-block" href="#booking" data-service="Выезд психиатра на дом">Вызвать врача<span class="visually-hidden"> на&nbsp;дом</span></a></span>
+          </div>
+
+          <div class="cmp-col" role="row">
+            <span class="cmp-c cmp-h" role="rowheader"><span class="cmp-name">Онлайн&nbsp;— повторно</span><span class="cmp-top"><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg></span><span class="label">По&nbsp;видеосвязи</span></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Первичная консультация</span><span class="cmp-none"><span aria-hidden="true">—</span><small>только очно</small></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Когда</span><span class="pill">по&nbsp;записи</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Длительность</span><span class="pill">45&nbsp;минут</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Анонимно</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>да</span></span>
+            <span class="cmp-c cmp-fit" role="cell"><span class="cmp-k" aria-hidden="true">Кому подходит</span><span class="cmp-txt">Повторные консультации и&nbsp;наблюдение между визитами</span></span>
+            <span class="cmp-c cmp-cta" role="cell"><a class="btn btn-line btn-sm btn-block" href="#booking" data-service="Онлайн-консультация, повторная">Записаться<span class="visually-hidden">: онлайн-консультация, повторная</span></a></span>
+          </div>
+        </div>
+        <p class="fine pr-law"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg><span>Первичный приём с&nbsp;постановкой диагноза по&nbsp;закону проходит очно&nbsp;— в&nbsp;клинике или на&nbsp;дому (323&#8209;ФЗ). Повторные консультации и&nbsp;наблюдение&nbsp;— по&nbsp;видеосвязи.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Часть Б: прайс строками. Вкладки и окно записи работают из menteya.js:
+       '#pricing [role="tablist"]' + role="tab"/"tabpanel"; контекст окна записи — первый текст в .pr-name строки .price-row.
+       Кнопки «Записаться» называют услугу скрытым текстом — для списка ссылок экранного диктора -->
+  <div class="sec pr-prices">
+    <!-- Линза на стыке сравнения и прайса, у левого края — в пустом поле, мимо текста и вкладок; место — в pricing.css -->
+    <div class="lens lens-l" data-seed="6" aria-hidden="true"><canvas></canvas></div>
+    <div class="wrap sec-grid">
+      <div class="sec-side" data-reveal>
+        <p class="label">Прайс</p>
+        <h3 class="pr-title">Стоимость приёмов по&nbsp;направлениям</h3>
+        <div class="pr-tabs" role="tablist" aria-label="Категории услуг">
+          <button class="pr-tab" type="button" role="tab" id="pt-primary" aria-controls="pp-primary" aria-selected="true" tabindex="0">Первичный приём<span class="count" aria-hidden="true">5</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-psychiatry" aria-controls="pp-psychiatry" aria-selected="false" tabindex="-1">Психиатрия<span class="count" aria-hidden="true">4</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-psychotherapy" aria-controls="pp-psychotherapy" aria-selected="false" tabindex="-1">Психотерапия<span class="count" aria-hidden="true">2</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-psychology" aria-controls="pp-psychology" aria-selected="false" tabindex="-1">Психолог<span class="count" aria-hidden="true">3</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-kids" aria-controls="pp-kids" aria-selected="false" tabindex="-1">Детям<span class="count" aria-hidden="true">2</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-elderly" aria-controls="pp-elderly" aria-selected="false" tabindex="-1">Пожилым<span class="count" aria-hidden="true">2</span></button>
+        </div>
+        <!-- Номер — заглушка, как в шапке: заменить на телефон клиники -->
+        <p class="fine pr-help">Не&nbsp;знаете, к&nbsp;какому врачу записаться? Администратор подскажет: <a class="link" href="tel:+74950000000">+7&nbsp;495&nbsp;000-00-00</a></p>
+      </div>
+
+      <div class="pr-body" data-reveal style="--i:1">
+        <div class="pr-board">
+          <div class="pr-cols" aria-hidden="true"><span>Услуга и&nbsp;формат</span><span>Длительность</span><span>Цена</span></div>
+
+          <div class="price-list" role="tabpanel" id="pp-primary" aria-labelledby="pt-primary" tabindex="0">
+            <div class="price-row" style="--i:0"><div class="pr-name">Первичная консультация психиатра<span class="pr-badge">Популярно</span></div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация психиатра</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Первичная консультация психотерапевта</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;200&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация психотерапевта</span></a></div>
+            <div class="price-row" style="--i:2"><div class="pr-name">Первичная консультация психолога</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>50&nbsp;минут</span><span class="pr-cost"><small>от</small>2&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация психолога</span></a></div>
+            <div class="price-row" style="--i:3"><div class="pr-name">Первичная консультация детского психиатра</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill pill-fill"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg>с&nbsp;родителем</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация детского психиатра</span></a></div>
+            <div class="price-row" style="--i:4"><div class="pr-name">Онлайн-консультация, повторная</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg>онлайн</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>45&nbsp;минут</span><span class="pr-cost">2&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: онлайн-консультация, повторная</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-psychiatry" aria-labelledby="pt-psychiatry" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Первичная консультация психиатра<span class="pr-badge">Популярно</span></div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация психиатра</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Повторная консультация психиатра</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg>онлайн</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>45&nbsp;минут</span><span class="pr-cost">2&nbsp;800&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: повторная консультация психиатра</span></a></div>
+            <div class="price-row" style="--i:2"><div class="pr-name">Выезд психиатра на&nbsp;дом</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg>на&nbsp;дому</span><span class="pill pill-dk">круглосуточно</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>6&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: выезд психиатра на&nbsp;дом</span></a></div>
+            <div class="price-row" style="--i:3"><div class="pr-name">Врачебный консилиум</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>до&nbsp;120&nbsp;минут</span><span class="pr-cost"><small>от</small>12&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: врачебный консилиум</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-psychotherapy" aria-labelledby="pt-psychotherapy" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Сеанс психотерапии</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg>онлайн</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>50&nbsp;минут</span><span class="pr-cost">3&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: сеанс психотерапии</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Семейная консультация</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>80&nbsp;минут</span><span class="pr-cost">4&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: семейная консультация</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-psychology" aria-labelledby="pt-psychology" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Консультация психолога</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg>онлайн</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>50&nbsp;минут</span><span class="pr-cost"><small>от</small>2&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: консультация психолога</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Психологическая диагностика</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>до&nbsp;90&nbsp;минут</span><span class="pr-cost"><small>от</small>4&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: психологическая диагностика</span></a></div>
+            <div class="price-row" style="--i:2"><div class="pr-name">Нейропсихологическое обследование</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>до&nbsp;120&nbsp;минут</span><span class="pr-cost"><small>от</small>5&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: нейропсихологическое обследование</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-kids" aria-labelledby="pt-kids" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Консультация детского психиатра</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill pill-fill"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg>с&nbsp;родителем</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: консультация детского психиатра</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Консультация детского психолога</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill pill-fill"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg>с&nbsp;родителем</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>50&nbsp;минут</span><span class="pr-cost"><small>от</small>2&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: консультация детского психолога</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-elderly" aria-labelledby="pt-elderly" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Консультация психиатра для&nbsp;пожилых</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: консультация психиатра для&nbsp;пожилых</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Выезд психиатра на&nbsp;дом</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg>на&nbsp;дому</span><span class="pill pill-dk">круглосуточно</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>6&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: выезд психиатра на&nbsp;дом</span></a></div>
+          </div>
+        </div>
+
+        <div class="pr-foot">
+          <span class="pill"><svg class="i" aria-hidden="true"><use href="#i-calendar"/></svg>Цены действуют с&nbsp;октября 2026</span>
+          <a class="go" href="ceny.html">Все цены<svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+        <p class="fine pr-offer">Цены носят информационный характер и&nbsp;не&nbsp;являются публичной офертой.</p>
+      </div>
+    </div>
+  </div>
+</section>

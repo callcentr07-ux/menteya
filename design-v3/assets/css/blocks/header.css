@@ -1,21 +1,26 @@
-/* ===== Шапка: капсулы поверх сцены (Collider), меню «Услуги» тёмным стеклом (Seed), мобильный «остров» ===== */
-.site-header{ position:fixed; top:0; left:0; right:0; z-index:80; transition:background-color .3s ease, box-shadow .3s ease; }
-.site-header.is-scrolled{ background:rgba(244,241,234,.8); -webkit-backdrop-filter:blur(18px) saturate(1.2); backdrop-filter:blur(18px) saturate(1.2); box-shadow:0 1px 0 rgba(22,50,58,.08); }
+/* ===== Шапка: капсулы поверх тёмной страницы (Collider), меню «Услуги» тёмным стеклом (Seed), мобильный «остров» ===== */
+.site-header{ position:fixed; top:0; left:0; right:0; z-index:80; color:var(--text); }
+/* После прокрутки — тёмное стекло. Оно на псевдоэлементе: если размытие стоит на самой шапке,
+   меню внутри неё размывает только шапку, а не страницу, и текст страницы просвечивает сквозь меню */
+.site-header::before{ content:""; position:absolute; inset:0; z-index:-1; opacity:0; background:rgba(15,38,44,.8); box-shadow:0 1px 0 var(--line); transition:opacity .3s ease; }
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ .site-header::before{ background:rgba(15,38,44,.62); -webkit-backdrop-filter:blur(18px) saturate(1.2); backdrop-filter:blur(18px) saturate(1.2); } }
+.site-header.is-scrolled::before{ opacity:1; }
 .hd-inner{ position:relative; height:var(--header-h); display:flex; align-items:center; gap:6px; }
 
-/* Капсула: прозрачная, с тонкой обводкой — читается и на небе, и на тумане */
-.cap, .nav-link, .icon-btn, .head-phone{ display:inline-flex; align-items:center; justify-content:center; gap:8px; height:40px; padding:0 16px; border-radius:999px; background:rgba(255,255,255,.3); box-shadow:inset 0 0 0 1px rgba(22,50,58,.38); font-size:.9375rem; font-weight:500; white-space:nowrap; touch-action:manipulation; transition:background-color .2s ease, box-shadow .2s ease, transform .16s var(--ease); }
+/* Капсула: прозрачная, с тонкой светлой обводкой */
+.cap, .nav-link, .icon-btn, .head-phone{ display:inline-flex; align-items:center; justify-content:center; gap:8px; height:40px; padding:0 16px; border-radius:999px; background:rgba(244,241,234,.06); box-shadow:inset 0 0 0 1px var(--line-2); font-size:.9375rem; font-weight:500; white-space:nowrap; touch-action:manipulation; transition:background-color .2s ease, box-shadow .2s ease, transform .16s var(--ease); }
 .cap:active, .nav-link:active, .icon-btn:active{ transform:scale(.97); }
-@media (hover:hover) and (pointer:fine){ .cap:hover, .nav-link:hover, .icon-btn:hover, .head-phone:hover{ background:rgba(255,255,255,.72); } }
+@media (hover:hover) and (pointer:fine){ .cap:hover, .nav-link:hover, .icon-btn:hover, .head-phone:hover{ background:rgba(244,241,234,.14); } }
 
-.logo{ display:inline-flex; align-items:center; gap:9px; height:40px; padding:0 14px 0 8px; border-radius:999px; background:rgba(255,255,255,.3); box-shadow:inset 0 0 0 1px rgba(22,50,58,.38); flex-shrink:0; font:600 .9375rem/1 var(--mark); letter-spacing:.01em; }
-.logo-mark{ width:28px; height:28px; transform:scaleX(-1); --tree-w:12; }   /* в логотипе голова смотрит вправо */
-.logo-mark .hd{ fill:none; stroke:var(--deep); stroke-width:16; }
+/* Логотип «Рассвет»: знак и слово «МЕНТЕЯ» антиквой с разрядкой */
+.logo{ display:inline-flex; align-items:center; gap:10px; height:40px; padding:0 16px 0 10px; border-radius:999px; background:rgba(244,241,234,.06); box-shadow:inset 0 0 0 1px var(--line-2); flex-shrink:0; color:var(--accent); }
+.logo-mark{ width:28px; height:28px; }
+.logo-word{ font:600 1.0625rem/1 var(--mark); letter-spacing:.16em; text-transform:uppercase; color:var(--text); }
 
 .mainnav{ margin-left:2px; }
 .mainnav > ul{ display:flex; gap:6px; }
 .nav-link .caret{ width:16px; height:16px; transition:rotate .25s var(--ease); }
-.nav-link[aria-expanded="true"]{ background:var(--deep); color:var(--fog); box-shadow:none; }
+.nav-link[aria-expanded="true"]{ background:var(--text); color:var(--on-light); box-shadow:none; }
 .nav-link[aria-expanded="true"] .caret{ rotate:180deg; }
 
 .has-drop{ position:relative; }
@@ -98,7 +103,7 @@
 .mega-help b{ font:500 1.0625rem/1.25 var(--font); }
 .mega-help p{ margin-top:4px; color:#b9c6c0; font-size:.9375rem; }
 .mega-phone{ font:500 1.375rem/1 var(--font); letter-spacing:-0.02em; white-space:nowrap; }
-.mega-help .msg-row{ flex-wrap:nowrap; }
+.mega-help .btn-row{ flex-wrap:nowrap; }
 @media (max-width:1279px){
   .mega-cats{ --rail:260px; }
   .mega-list{ columns:3; }
@@ -109,38 +114,40 @@
 .scrim.show{ opacity:1; visibility:visible; transition-delay:0s; }
 
 /* ---------- Мобильное меню ---------- */
-.drawer{ position:fixed; left:0; right:0; bottom:0; top:0; z-index:79; overflow:auto; overscroll-behavior:contain; padding:calc(var(--header-h) + 4px) var(--gut) calc(24px + env(safe-area-inset-bottom, 0px)); background:var(--fog); opacity:0; visibility:hidden; translate:0 -8px; transition:opacity .22s ease, translate .3s var(--ease), visibility 0s .3s; }
+.drawer{ position:fixed; left:0; right:0; bottom:0; top:0; z-index:79; overflow:auto; overscroll-behavior:contain; padding:calc(var(--header-h) + 4px) var(--gut) calc(24px + env(safe-area-inset-bottom, 0px)); background:var(--bg); opacity:0; visibility:hidden; translate:0 -8px; transition:opacity .22s ease, translate .3s var(--ease), visibility 0s .3s; }
 .drawer.open{ opacity:1; visibility:visible; translate:none; transition-delay:0s; }
 .drawer-nav{ display:grid; gap:8px; }
-.drawer-nav > li > a, .drawer-nav summary{ display:flex; align-items:center; justify-content:space-between; min-height:58px; padding:0 18px; border-radius:18px; background:var(--paper); box-shadow:inset 0 0 0 1px var(--hair); font:500 1.0625rem/1.2 var(--font); cursor:pointer; list-style:none; }
+.drawer-nav > li > a, .drawer-nav summary{ display:flex; align-items:center; justify-content:space-between; min-height:58px; padding:0 18px; border-radius:18px; background:var(--surface); box-shadow:inset 0 0 0 1px var(--line); font:500 1.0625rem/1.2 var(--font); cursor:pointer; list-style:none; }
 .drawer-nav summary::-webkit-details-marker{ display:none; }
 .drawer-nav summary .i{ transition:rotate .25s var(--ease); }
 .drawer-nav details[open] > summary .i{ rotate:180deg; }
 .drawer-sub{ display:grid; gap:2px; padding:8px 4px 4px; }
 .drawer-sub > a{ display:block; padding:12px 14px; border-radius:14px; font-weight:500; }
-.drawer-search{ display:flex; align-items:center; gap:10px; height:52px; margin-bottom:8px; padding:0 16px; border-radius:999px; background:var(--paper); box-shadow:inset 0 0 0 1px var(--hair); }
+.drawer-search{ display:flex; align-items:center; gap:10px; height:52px; margin-bottom:8px; padding:0 16px; border-radius:999px; background:var(--surface); box-shadow:inset 0 0 0 1px var(--line); }
 .drawer-search input{ flex:1; min-width:0; height:100%; border:0; outline:0; background:none; }
-.drawer-cat{ border-radius:16px; background:var(--paper); box-shadow:inset 0 0 0 1px var(--hair); }
+.drawer-search input::placeholder{ color:var(--text-3); }
+.drawer-cat{ border-radius:16px; background:var(--surface); box-shadow:inset 0 0 0 1px var(--line); }
 .drawer-cat + .drawer-cat{ margin-top:6px; }
 .drawer-cat > summary{ display:flex; align-items:center; gap:12px; min-height:56px; padding:6px 14px 6px 6px; font:500 1rem/1.25 var(--font); cursor:pointer; list-style:none; }
 .drawer-cat > summary::-webkit-details-marker{ display:none; }
 .drawer-cat > summary .ic{ width:42px; height:42px; border-radius:12px; }
 .drawer-cat > summary .t{ flex:1; }
-.drawer-cat > summary .n{ padding:2px 8px; border-radius:999px; background:var(--stone); font:500 .75rem/1.4 var(--mono); color:var(--deep-2); }
+.drawer-cat > summary .n{ padding:2px 8px; border-radius:999px; background:var(--surface-2); font:500 .75rem/1.4 var(--mono); color:var(--text-2); }
 .drawer-cat > summary .chev{ width:18px; height:18px; transition:rotate .25s var(--ease); }
 .drawer-cat[open] > summary .chev{ rotate:180deg; }
 .drawer-services.is-searching .drawer-cat > summary .n{ display:none; }
 .drawer-cat-list{ display:grid; padding:0 8px 10px 62px; }
 .drawer-cat-list a{ padding:9px 0; font-size:.9688rem; }
-.drawer-cat-all{ color:var(--mint-d); font-weight:500; }
-.drawer-sub > .drawer-direct{ display:flex; align-items:center; gap:12px; min-height:52px; margin-top:6px; padding:6px 14px 6px 6px; border-radius:16px; background:var(--paper); box-shadow:inset 0 0 0 1px var(--hair); font-weight:500; }
-.drawer-direct .ic{ width:40px; height:40px; border-radius:12px; background:#f6e3d2; color:#8a4a1c; }
+.drawer-cat-all{ color:var(--accent); font-weight:500; }
+.drawer-sub > .drawer-direct{ display:flex; align-items:center; gap:12px; min-height:52px; margin-top:6px; padding:6px 14px 6px 6px; border-radius:16px; background:var(--surface); box-shadow:inset 0 0 0 1px var(--line); font-weight:500; }
+.drawer-direct .ic{ width:40px; height:40px; border-radius:12px; background:rgba(242,185,138,.14); color:var(--accent-2); }
 .drawer-direct > .i{ margin-left:auto; width:18px; height:18px; }
-.drawer-empty{ padding:14px; color:var(--deep-2); }
-.drawer-contact{ display:grid; gap:12px; margin-top:12px; padding:20px; border-radius:22px; background:var(--night); color:var(--fog); }
-.drawer-contact .muted{ color:#b9c6c0; }
+.drawer-empty{ padding:14px; color:var(--text-2); }
+.drawer-contact{ display:grid; gap:12px; margin-top:12px; padding:20px; border-radius:22px; background:var(--surface-2); }
+.drawer-contact .btn-cta{ width:100%; }
+.drawer-contact .btn-cta .t{ flex:1; justify-content:center; }
 .drawer-phone{ font:500 1.5rem/1 var(--font); letter-spacing:-0.02em; }
-.drawer-a11y{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:16px; padding:12px; color:var(--deep-2); font-weight:500; }
+.drawer-a11y{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:16px; padding:12px; color:var(--text-2); font-weight:500; }
 
 /* ---------- Ширины ---------- */
 @media (max-width:1279px){
@@ -157,12 +164,12 @@
 @media (min-width:1100px){ .drawer{ display:none; } }
 @media (max-width:699px){
   :root{ --header-h:72px; }
-  /* «Остров»: шапка — стеклянная плашка с отступами от краёв */
-  .hd-inner{ height:56px; margin:8px 8px 0; padding:0 6px 0 8px; border-radius:20px; background:rgba(244,241,234,.72); box-shadow:inset 0 0 0 1px rgba(255,255,255,.6), 0 10px 30px -20px rgba(16,40,46,.5); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); width:auto; }
-  .site-header.is-scrolled{ background:none; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none; }
-  .logo{ padding:0 6px 0 2px; background:none; box-shadow:none; }
+  /* «Остров»: шапка — тёмная стеклянная плашка с отступами от краёв; полосы на всю ширину нет */
+  .hd-inner{ height:56px; margin:8px 8px 0; padding:0 6px 0 8px; border-radius:20px; background:rgba(12,32,37,.72); box-shadow:inset 0 0 0 1px var(--line), 0 10px 30px -20px rgba(0,0,0,.6); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); width:auto; }
+  .site-header::before{ display:none; }
+  .logo{ min-height:44px; padding:0 6px 0 2px; background:none; box-shadow:none; }
   .hd-cta{ display:none; }
-  .call-btn{ background:none; box-shadow:inset 0 0 0 1px rgba(22,50,58,.3); }
-  .burger{ border-radius:12px; background:var(--deep); color:var(--mint); box-shadow:none; }
+  .call-btn{ background:none; }
+  .burger{ border-radius:12px; background:var(--text); color:var(--on-light); box-shadow:none; }
   .icon-btn{ width:44px; height:44px; }
 }

@@ -1,1 +1,54 @@
-<!-- раздел собирается -->
+<!-- ============ О КЛИНИКЕ ============ -->
+<!-- Полоса глубже фона: манифест (Diag-nose), сплит «фото с выносками + слово главного врача» (Collider, Seed), цифры 001–004 -->
+<section class="sec sec-dark" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="sec-grid about-top" data-reveal>
+      <div class="sec-side">
+        <p class="label">О&nbsp;клинике</p>
+        <h2 class="h2" id="about-title">Атмосфера доверия</h2>
+        <p class="lead">«Ментея»&nbsp;— команда психиатров, психотерапевтов и&nbsp;клинических психологов.</p>
+      </div>
+      <p class="manifest">Мы лечим не&nbsp;диагноз, а&nbsp;человека: <span class="muted">смотрим на&nbsp;сон, тело, отношения и&nbsp;историю.</span></p>
+    </div>
+
+    <div class="about-split">
+      <!-- Фото-заглушка: заменить на снимок клиники. Выноски — только правдивые факты; новое фото — сдвинуть точки (--x, --y в процентах кадра) -->
+      <figure class="about-photo" data-reveal style="--i:1">
+        <img src="assets/img/about-2.jpg" width="900" height="506" alt="Коридор клиники: кресла в зоне ожидания и двери кабинетов" loading="lazy">
+        <div class="about-pins">
+          <ul>
+            <li class="about-pin pin-down-sm" style="--x:19%; --y:61%"><span>Зона ожидания без очередей</span></li>
+            <li class="about-pin" style="--x:34%; --y:38%"><span>Кабинеты без казённой обстановки</span></li>
+          </ul>
+        </div>
+        <figcaption class="label about-cap">Коридор и&nbsp;зона ожидания</figcaption>
+      </figure>
+
+      <!-- Текст и подпись — из прошлого дизайна; перед запуском согласовать с главным врачом -->
+      <div class="about-word" data-reveal style="--i:2">
+        <p class="label">Слово главного врача</p>
+        <figure class="about-say">
+          <blockquote>
+            <p class="about-quote">«Обращение за&nbsp;психиатрической помощью&nbsp;— не&nbsp;признак слабости, а&nbsp;осознанный шаг к&nbsp;устойчивости и&nbsp;качеству жизни».</p>
+            <p class="about-text muted">Мы открыли клинику, чтобы обращение к&nbsp;психиатру перестало быть поводом для тревоги: здесь нет очередей, осуждающих взглядов и&nbsp;казённых кабинетов. Совмещаем лекарства и&nbsp;психотерапию, объясняем, что и&nbsp;зачем назначаем.</p>
+          </blockquote>
+          <figcaption class="about-sign">
+            <img src="assets/img/intro-main.jpg" width="700" height="700" alt="" loading="lazy">
+            <span><a href="vrach.html">Соколова Анна Викторовна</a><span class="fine">Главный врач, психиатр, к.&nbsp;м.&nbsp;н.</span></span>
+          </figcaption>
+        </figure>
+        <a class="go about-team" href="#doctors">Команда врачей<svg class="i"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Цифры — из прошлого дизайна, заменить на реальные (с источником). Нет подтверждения — убрать ячейку (закон о рекламе медуслуг).
+         Без накрутки счётчиков: цифры стоят как есть -->
+    <ul class="about-stats" data-reveal style="--i:3">
+      <li class="about-stat"><span class="label label-plain">001 · Пациенты</span><b class="num">12&nbsp;400+</b><span class="fine">пациентов обратились в&nbsp;клинику</span></li>
+      <li class="about-stat"><span class="label label-plain">002 · Стаж врачей</span><b class="num"><small>от&nbsp;</small>9<small>&nbsp;лет</small></b><span class="fine">у&nbsp;каждого специалиста команды</span></li>
+      <li class="about-stat"><span class="label label-plain">003 · Приём</span><b class="num">9–21</b><span class="fine">ежедневно, с&nbsp;9:00 до&nbsp;21:00 в&nbsp;клинике</span></li>
+      <li class="about-stat"><span class="label label-plain">004 · Выезд на&nbsp;дом</span><b class="num">24/7</b><span class="fine">психиатр на&nbsp;дом по&nbsp;Москве, от&nbsp;6&nbsp;000&nbsp;₽</span></li>
+    </ul>
+    <p class="fine about-note">Цифры&nbsp;— по&nbsp;данным клиники на&nbsp;1&nbsp;октября 2026&nbsp;года.</p>
+  </div>
+</section>

@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f4f1ea">
-<script>document.documentElement.classList.add('js')</script>
+<meta name="theme-color" content="#0f262c">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<!-- js — включены скрипты; no-motion — посетитель выключил анимацию кнопкой в подвале (ставим до первой отрисовки) -->
+<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('menteya-motion')==='off')document.documentElement.classList.add('no-motion')}catch(e){}</script>
 <title>{{title}}</title>
 <meta name="description" content="{{description}}">
 <link rel="canonical" href="{{url}}">
@@ -19,7 +21,7 @@
 <!-- Шрифты пока с Google Fonts; перед запуском — файлами на сайте (без запросов к чужим серверам) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Unbounded:wght@600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Cormorant+Garamond:wght@600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
 <link rel="stylesheet" href="assets/css/menteya.min.css">
 </head>

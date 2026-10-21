@@ -1,1 +1,108 @@
-<!-- раздел собирается -->
+<!-- ============ ВРАЧИ ============ -->
+<!-- Ряд карточек в рамке (Collider «Our Beers»): стрелки листают ряд на одну карточку, на телефоне — лента с защёлкой.
+     Окно записи берёт имя врача из .doc-card .doc-name — классы не менять.
+     Фото — заглушки до съёмки; стаж, цены и капсулы — из прошлого дизайна, заменить на реальные -->
+<section class="sec" id="doctors" aria-labelledby="doctors-title">
+  <div class="wrap">
+    <div class="sec-head doc-head" data-reveal>
+      <div>
+        <p class="label">Врачи</p>
+        <h2 class="h2" id="doctors-title">Врачи, которым можно доверять</h2>
+        <p class="lead">Психиатры, психотерапевты и&nbsp;психологи со&nbsp;стажем от&nbsp;9&nbsp;лет подберут формат помощи под ваш запрос.</p>
+      </div>
+      <div class="doc-arrows" role="group" aria-label="Листать врачей">
+        <button class="doc-arrow" type="button" data-dir="-1" aria-controls="doctorsTrack" aria-label="Листать назад"><svg class="i"><use href="#i-arrow"/></svg></button>
+        <button class="doc-arrow" type="button" data-dir="1" aria-controls="doctorsTrack" aria-label="Листать вперёд"><svg class="i"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+
+    <div class="frame doc-track" id="doctorsTrack" data-reveal style="--i:1">
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/intro-main.jpg" width="700" height="700" alt="Соколова Анна Викторовна, главный врач, психиатр" loading="lazy">
+          <p class="doc-caps"><span class="pill">Главный врач</span><span class="pill">Стаж 18&nbsp;лет</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Соколова Анна Викторовна</a></h3>
+          <p class="doc-role">Психиатр, кандидат медицинских наук</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;3&nbsp;500&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/doctor-orlov.jpg" width="700" height="700" alt="Орлов Михаил Андреевич, психиатр-психотерапевт" loading="lazy">
+          <p class="doc-caps"><span class="pill">Стаж 14&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Орлов Михаил Андреевич</a></h3>
+          <p class="doc-role">Психиатр, психотерапевт</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;3&nbsp;500&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/doctor-volkova.jpg" width="700" height="700" alt="Волкова Елена Сергеевна, клинический психолог" loading="lazy">
+          <p class="doc-caps"><span class="pill">Стаж 11&nbsp;лет</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Волкова Елена Сергеевна</a></h3>
+          <p class="doc-role">Клинический психолог</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;2&nbsp;500&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/doctor-lebedev.jpg" width="700" height="700" alt="Лебедев Игорь Павлович, детский психиатр" loading="lazy">
+          <p class="doc-caps"><span class="pill">Стаж 16&nbsp;лет</span><span class="pill">Дети и&nbsp;подростки</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Лебедев Игорь Павлович</a></h3>
+          <p class="doc-role">Детский психиатр</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;3&nbsp;500&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/doctor-belov.jpg" width="700" height="700" alt="Белов Сергей Николаевич, психотерапевт" loading="lazy">
+          <p class="doc-caps"><span class="pill">Стаж 9&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Белов Сергей Николаевич</a></h3>
+          <p class="doc-role">Психотерапевт</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;3&nbsp;200&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Последняя ячейка ряда — не врач, а подбор: класс не .doc-card, чтобы окно записи не искало имя -->
+      <div class="doc-cta">
+        <p class="label">Подбор врача</p>
+        <h3 class="h3">Не&nbsp;знаете, какой специалист нужен?</h3>
+        <p>Опишите ситуацию&nbsp;— администратор подберёт врача и&nbsp;удобное время.</p>
+        <ul class="doc-cta-list">
+          <li><svg class="i"><use href="#i-check"/></svg>Перезвоним за&nbsp;15&nbsp;минут</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Бесплатно и&nbsp;анонимно</li>
+        </ul>
+        <a class="btn btn-fill btn-block" href="#booking">Подобрать специалиста</a>
+      </div>
+    </div>
+  </div>
+</section>

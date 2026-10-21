@@ -1,32 +1,96 @@
 <!-- ============ ЗАПИСЬ И КОНТАКТЫ ============ -->
-<section class="sec" id="contacts" aria-labelledby="contacts-title">
+<!-- Раздел закрывает страницу «утром»: тёмная вода, снизу неподвижное тёплое свечение рассвета (contact.css).
+     Слева пример переписки, справа форма в тёмном стекле (на телефоне форма идёт первой), ниже — схема проезда и контакты.
+     Форма — те же id, классы и атрибуты, что в окне записи: их обслуживает setupBookingForm() в menteya.js
+     (маска телефона, проверка имени, телефона и согласия, ловушка для ботов, «Заявка принята»). -->
+<section class="sec sec-last contact" id="contacts" aria-labelledby="contacts-title">
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <div>
+        <p class="label">Запись и&nbsp;контакты</p>
         <h2 class="h2" id="contacts-title">Запишитесь на&nbsp;консультацию</h2>
-        <p>Оставьте заявку&nbsp;— администратор перезвонит за&nbsp;15&nbsp;минут, подберёт врача и&nbsp;удобное время.</p>
+        <p class="lead">Ответим на&nbsp;вопросы, подберём врача и&nbsp;удобное время. Анонимно, без постановки на&nbsp;учёт.</p>
       </div>
     </div>
-    <div class="bento contact-grid">
-      <div class="tile booking-tile" id="booking" data-reveal style="--i:0">
+
+    <div class="contact-top">
+      <!-- Пример переписки: показывает тон общения, а не реальный разговор. Без медицинских обещаний (ст. 24 закона «О рекламе»).
+           Реплики видны сразу; сценарий «печатает…» в menteya.js показывает их по очереди один раз (.is-playing / .is-typing / .is-shown) -->
+      <figure class="glass-dk chat" data-reveal style="--i:1">
+        <figcaption class="chat-head">
+          <span class="chat-ava" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><use href="#g-mark"/></svg></span>
+          <span class="chat-who" aria-hidden="true"><b>Администратор «Ментеи»</b><span>ежедневно 9:00–21:00</span></span>
+          <span class="label chat-tag">Пример диалога</span>
+        </figcaption>
+        <ol class="chat-list">
+          <li class="chat-day" aria-hidden="true"><span>Сегодня</span></li>
+          <li class="chat-msg is-me">
+            <p class="chat-b"><span class="visually-hidden">Клиент: </span>Здравствуйте. Хочу записаться к&nbsp;психиатру, но&nbsp;переживаю, что об&nbsp;этом узнают на&nbsp;работе.<time class="chat-t">9:12</time></p>
+          </li>
+          <li class="chat-msg is-admin">
+            <p class="chat-b"><span class="visually-hidden">Администратор: </span>Здравствуйте! Приём анонимный: на&nbsp;учёт не&nbsp;ставим, сведения никому не&nbsp;передаём. Достаточно имени.<time class="chat-t">9:13</time></p>
+            <span class="chat-typing" aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+          <!-- На телефоне эта пара реплик скрыта — диалог короче, об онлайн-приёме есть в вопросах выше -->
+          <li class="chat-msg is-me chat-opt">
+            <p class="chat-b"><span class="visually-hidden">Клиент: </span>А&nbsp;первый приём можно онлайн? Мне удобно в&nbsp;субботу вечером.<time class="chat-t">9:15</time></p>
+          </li>
+          <li class="chat-msg is-admin chat-opt">
+            <p class="chat-b"><span class="visually-hidden">Администратор: </span>Первый приём&nbsp;— очно, в&nbsp;клинике или у&nbsp;вас дома: так требует закон. Суббота подходит, мы работаем ежедневно до&nbsp;21:00. Повторные встречи можно онлайн.<time class="chat-t">9:16</time></p>
+            <span class="chat-typing" aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+          <li class="chat-msg is-admin">
+            <p class="chat-b"><span class="visually-hidden">Администратор: </span>Оставьте номер&nbsp;— перезвоню, подберу врача и&nbsp;время. Накануне напомним о&nbsp;приёме.<time class="chat-t">9:16</time></p>
+            <span class="chat-typing" aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+        </ol>
+      </figure>
+
+      <!-- Форма записи. id="booking" — сюда ведут кнопки «Записаться», если окно записи не открылось (нет скриптов) -->
+      <div class="glass book" id="booking" data-reveal style="--i:2">
         <form class="form" id="bookingForm" novalidate>
           <div class="form-body">
+            <div class="book-head">
+              <h3 class="h3">Оставьте заявку</h3>
+              <p class="muted">Администратор перезвонит за&nbsp;15&nbsp;минут, подберёт врача и&nbsp;удобное время.</p>
+            </div>
             <div class="form-grid">
               <div class="field">
-                <label for="f-name">Имя <span class="req" aria-hidden="true">*</span></label>
-                <input class="input" id="f-name" name="name" type="text" autocomplete="given-name" placeholder="Как к вам обращаться" required aria-describedby="f-name-err">
-                <span class="error" id="f-name-err">Напишите, как к вам обращаться</span>
+                <label for="f-name">Как к&nbsp;вам обращаться <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-name" name="name" type="text" autocomplete="given-name" placeholder="Имя, можно без фамилии" required>
+                <span class="error" id="f-name-err">Напишите, как к&nbsp;вам обращаться</span>
               </div>
               <div class="field">
                 <label for="f-phone">Телефон <span class="req" aria-hidden="true">*</span></label>
-                <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="f-phone-err">
-                <span class="error" id="f-phone-err">Проверьте номер: после +7 нужно 10 цифр</span>
+                <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required>
+                <span class="error" id="f-phone-err">Проверьте номер: после +7 нужно 10&nbsp;цифр</span>
               </div>
-              <!-- Согласие — отдельной галочкой и отдельным документом (152-ФЗ); политика — ссылкой ниже -->
+              <div class="field field-time">
+                <label for="f-time">Удобное время</label>
+                <span class="select">
+                  <select class="input" id="f-time" name="time">
+                    <option value="asap">Как можно скорее</option>
+                    <option value="morning">Утром, 9:00–12:00</option>
+                    <option value="day">Днём, 12:00–17:00</option>
+                    <option value="evening">Вечером, 17:00–21:00</option>
+                  </select>
+                  <svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg>
+                </span>
+              </div>
+              <fieldset class="field choice">
+                <legend>Как с&nbsp;вами связаться</legend>
+                <div class="choice-row">
+                  <label><input type="radio" name="channel" value="call" checked><span>Звонок</span></label>
+                  <label><input type="radio" name="channel" value="telegram"><span>Telegram</span></label>
+                  <label><input type="radio" name="channel" value="max"><span>MAX</span></label>
+                </div>
+              </fieldset>
+              <!-- Согласие — отдельной галочкой и отдельным документом (152-ФЗ); политика — ссылкой ниже.
+                   Адреса страниц согласия и политики — заглушки: заменить на настоящие -->
               <div class="field full">
                 <label class="consent">
-                  <input type="checkbox" name="consent" required aria-describedby="f-consent-err">
-                  <span>Даю <a href="#contacts">согласие на&nbsp;обработку персональных данных</a></span>
+                  <input type="checkbox" name="consent" required>
+                  <span>Даю <a class="link" href="soglasie.html">согласие на&nbsp;обработку персональных данных</a></span>
                 </label>
                 <span class="error" id="f-consent-err">Без согласия мы не&nbsp;сможем с&nbsp;вами связаться</span>
               </div>
@@ -36,51 +100,89 @@
                 <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
               </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Записаться на&nbsp;консультацию</button>
-            <p class="secure-note"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не&nbsp;передаются третьим лицам</p>
-            <p class="policy-note">Как мы храним данные&nbsp;— в&nbsp;<a href="#contacts">политике конфиденциальности</a></p>
+            <button type="submit" class="btn-cta book-submit"><span class="t">Записаться</span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></button>
+            <div class="book-notes fine">
+              <p class="book-secure"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не&nbsp;передаются третьим лицам</p>
+              <p>Как мы храним данные&nbsp;— в&nbsp;<a class="link" href="politika.html">политике конфиденциальности</a></p>
+            </div>
             <ol class="form-next" aria-label="Что будет после заявки">
-              <li><b>Перезвоним за&nbsp;15&nbsp;минут</b><span class="muted">в&nbsp;рабочее время, с&nbsp;9:00 до&nbsp;21:00</span></li>
-              <li><b>Подберём врача</b><span class="muted">и&nbsp;удобное время приёма</span></li>
-              <li><b>Напомним о&nbsp;приёме</b><span class="muted">накануне визита</span></li>
+              <li><span class="mono" aria-hidden="true">01</span><b>Перезвоним за&nbsp;15&nbsp;минут</b><span class="muted">в&nbsp;рабочее время, с&nbsp;9:00 до&nbsp;21:00</span></li>
+              <li><span class="mono" aria-hidden="true">02</span><b>Подберём врача</b><span class="muted">и&nbsp;удобное время приёма</span></li>
+              <li><span class="mono" aria-hidden="true">03</span><b>Напомним о&nbsp;приёме</b><span class="muted">накануне визита</span></li>
             </ol>
           </div>
           <div class="form-success" role="status" hidden>
             <span class="ok" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
             <b tabindex="-1">Заявка принята</b>
             <p>Администратор перезвонит в&nbsp;течение 15&nbsp;минут в&nbsp;рабочее время&nbsp;— ежедневно с&nbsp;9:00 до&nbsp;21:00.</p>
-            <button type="button" class="btn btn-ghost form-again">Отправить ещё одну заявку</button>
+            <button type="button" class="btn btn-line form-again">Отправить ещё одну заявку</button>
           </div>
         </form>
       </div>
+    </div>
 
-      <div class="tile contact-addr" data-reveal style="--i:1">
-        <span class="ic"><svg class="i"><use href="#i-pin"/></svg></span>
-        <span class="t-label">Адрес</span>
-        <p class="contact-big">Москва, ул.&nbsp;Примерная,&nbsp;1</p>
-        <div class="route-row">
-          <a class="btn btn-ghost btn-sm" href="#contacts"><svg class="i"><use href="#i-route"/></svg>Яндекс Карты</a>
-          <a class="btn btn-ghost btn-sm" href="#contacts">2ГИС</a>
+    <div class="contact-bottom">
+      <!-- Карта — неподвижная тёмная схема улиц линиями, нарисована кодом: не грузит чужие скрипты и cookie.
+           Заглушка: заменить ссылку на карточку организации в Яндекс Картах (yandex.ru/maps/org/…), схему — по реальным улицам -->
+      <a class="cmap" href="https://yandex.ru/maps/?text=Москва%2C%20ул.%20Примерная%2C%201" target="_blank" rel="noopener" aria-label="Открыть адрес клиники в Яндекс Картах (в новой вкладке)" data-reveal>
+        <svg class="cmap-art" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          <rect class="m-bg" width="800" height="480"/>
+          <path class="m-park" d="M184 300 306 292 310 376 198 384Z"/>
+          <path class="m-park" d="M652 116 800 104V214L646 222Z"/>
+          <g class="m-house">
+            <rect x="344" y="168" width="58" height="34"/><rect x="352" y="214" width="44" height="22"/><rect x="520" y="150" width="76" height="40"/>
+            <rect x="528" y="200" width="54" height="24"/><rect x="214" y="170" width="70" height="44"/><rect x="40" y="186" width="60" height="40"/>
+            <rect x="360" y="40" width="80" height="34"/><rect x="540" y="30" width="60" height="40"/><rect x="420" y="320" width="90" height="36"/>
+            <rect x="672" y="300" width="80" height="34"/><rect x="210" y="40" width="70" height="40"/>
+          </g>
+          <path class="m-water" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
+          <path class="m-shore" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
+          <g class="m-road-s">
+            <path d="M-20 150 820 100"/><path d="M330-20 310 500"/><path d="M640-20 620 500"/><path d="M200 392 820 352"/><path d="M40-20 20 300"/>
+          </g>
+          <g class="m-road">
+            <path d="M150-20C110 120 120 300 230 500"/><path d="M500-20 470 500"/><path d="M-20 300 820 236"/>
+          </g>
+          <text class="m-name" x="610" y="256" transform="rotate(-4.4 610 256)">УЛ. ПРИМЕРНАЯ</text>
+        </svg>
+        <span class="label cmap-tag">Схема проезда</span>
+        <span class="cmap-pin" aria-hidden="true">
+          <span class="cmap-mark"><svg viewBox="0 0 48 48" focusable="false"><use href="#g-mark"/></svg></span>
+          <span class="cmap-name"><b>Ментея</b><small>ул.&nbsp;Примерная,&nbsp;1</small></span>
+        </span>
+        <span class="btn btn-glass btn-sm cmap-go">Открыть в&nbsp;Яндекс Картах<svg class="i"><use href="#i-arrow"/></svg></span>
+      </a>
+
+      <!-- Контакты: телефон, адрес, часы, мессенджеры. Все данные — заглушки, заменить на реальные -->
+      <div class="glass cinfo" data-reveal style="--i:1">
+        <div class="cinfo-cell cinfo-wide">
+          <p class="label label-plain">Телефон</p>
+          <div class="cinfo-line">
+            <a class="cinfo-tel" href="tel:+74950000000">+7&nbsp;495&nbsp;000-00-00</a>
+            <a class="link cinfo-mail" href="mailto:info@menteya.ru">info@menteya.ru</a>
+          </div>
         </div>
-      </div>
-      <div class="tile tile-mint contact-hours" data-open data-reveal style="--i:2">
-        <span class="status"><span class="dot" aria-hidden="true"></span><span data-open-title>Ежедневно 9:00–21:00</span></span>
-        <p class="contact-big">9:00–21:00</p>
-        <p class="t-note">Ежедневно. Выезд врача на&nbsp;дом&nbsp;— круглосуточно</p>
-      </div>
-      <div class="tile contact-phone" data-reveal style="--i:3">
-        <span class="ic"><svg class="i"><use href="#i-phone"/></svg></span>
-        <span class="t-label">Телефон и&nbsp;почта</span>
-        <a class="contact-big" href="tel:+74950000000">+7 495 000-00-00</a>
-        <a class="go" href="mailto:info@menteya.ru">info@menteya.ru</a>
-      </div>
-      <div class="tile tile-lav contact-msg" data-reveal style="--i:4">
-        <span class="ic"><svg class="i"><use href="#i-chat"/></svg></span>
-        <span class="t-label">Мессенджеры</span>
-        <p class="contact-big">Ответим анонимно</p>
-        <div class="msg-row">
-          <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
-          <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        <div class="cinfo-cell">
+          <p class="label label-plain">Адрес</p>
+          <p class="cinfo-big">Москва, ул.&nbsp;Примерная,&nbsp;1</p>
+          <a class="go" href="https://2gis.ru/moscow/search/Москва%2C%20ул.%20Примерная%2C%201" target="_blank" rel="noopener">Маршрут в&nbsp;2ГИС<svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+        <!-- «Сейчас открыто»: menteya.js сверяет время Москвы и меняет строку [data-open-title]; без скриптов видны обычные часы -->
+        <div class="cinfo-cell" data-open>
+          <p class="label label-plain">Часы работы</p>
+          <p class="cinfo-big cinfo-status"><span class="dot" aria-hidden="true"></span><span data-open-title>Ежедневно 9:00–21:00</span></p>
+          <p class="fine">Приём ежедневно 9:00–21:00. Выезд психиатра на&nbsp;дом&nbsp;— круглосуточно</p>
+        </div>
+        <div class="cinfo-cell cinfo-wide cinfo-msg">
+          <div>
+            <p class="label label-plain">Мессенджеры</p>
+            <p class="cinfo-big">Ответим анонимно</p>
+          </div>
+          <!-- Адреса мессенджеров — заглушки: заменить на настоящие каналы клиники -->
+          <div class="btn-row">
+            <a class="btn btn-fill" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+            <a class="btn btn-line" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+          </div>
         </div>
       </div>
     </div>

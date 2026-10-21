@@ -1,23 +1,26 @@
-/* ===== Ментея, третий дизайн «Стеклянное утро»: основа — цвета, шрифты, кнопки, стекло, метки ===== */
+/* ===== Ментея, третий дизайн: «ночная вода» — тёмная страница, текущий свет, стеклянные линзы. Основа: цвета, шрифты, кнопки, стекло, метки ===== */
 :root{
-  /* Палитра: утренний туман, глубокая вода и мята из логотипа. Акцент один — мята */
-  --fog:#f4f1ea;      /* фон страницы */
-  --paper:#faf8f3;    /* карточки на тумане */
-  --stone:#e9eae3;    /* карточка с головой, поля форм, подложки */
-  --deep:#16323a;     /* основной текст, тёмные кнопки, словесный знак — 12:1 на тумане */
-  --deep-2:#3e5257;   /* вторичный текст — 7,3:1 */
-  --night:#10282e;    /* тёмные разделы: рейтинги, цены, подвал */
-  --night-2:#173840;  /* карточки на тёмном */
-  --sage:#8fa89a;     /* линии, иллюстрации, вторичный текст на тёмном */
-  --mint:#7fd6b9;     /* акцент: маркеры, свечение, точка «открыто», стрелка кнопки. Текстом — только на тёмном */
-  --mint-d:#1f6f5a;   /* ссылки и акцентный текст на светлом — 5,3:1 */
-  --dawn:#f2b98a;     /* только свет в картинках и бейдж «Сегодня» */
-  --hair:#d5d6cd;     /* линии 1px между колонками и строками */
-  --hair-dk:rgba(244,241,234,.14);
-  --ok:#1f7a4d; --warn:#b45309;
+  /* Роли цветов — ими пишутся все блоки */
+  --bg:#0f262c;        /* страница — ночная вода */
+  --bg-2:#0b1f24;      /* полосы глубже: рейтинги, подвал */
+  --surface:#13313a;   /* карточки */
+  --surface-2:#1a3b44; /* приподнятые карточки, поля форм, наведение */
+  --line:rgba(244,241,234,.12);    /* линии 1px между колонками и строками */
+  --line-2:rgba(244,241,234,.24);  /* обводка капсул и кнопок */
+  --text:#f4f1ea;      /* основной текст — 15:1 на фоне */
+  --text-2:#c3cfca;    /* вторичный текст — 10:1 */
+  --text-3:#8fa89a;    /* метки и подписи — 6:1 */
+  --accent:#7fd6b9;    /* мята из знака: маркеры, ссылки, свечение, точка «открыто» */
+  --accent-2:#f2b98a;  /* рассвет: солнце знака, тёплые отблески, бейдж «Сегодня» */
+  --on-light:#16323a;  /* текст на светлых кнопках и капсулах */
+  /* Те же цвета под прежними именами — для первого экрана и сцены */
+  --fog:#f4f1ea; --paper:#faf8f3; --stone:#e9eae3; --deep:#16323a; --deep-2:#3e5257;
+  --night:#10282e; --night-2:#173840; --sage:#8fa89a; --mint:#7fd6b9; --mint-d:#1f6f5a; --dawn:#f2b98a;
+  --hair:rgba(244,241,234,.12); --hair-dk:rgba(244,241,234,.12);
+  --ok:#7fd6b9; --warn:#f2b98a;
   /* Стекло: размывает то, что под ним; без поддержки — плотная заливка */
-  --glass:rgba(244,241,234,.6); --glass-solid:rgba(244,241,234,.9);
-  --glass-dk:rgba(16,40,46,.5); --glass-dk-solid:rgba(16,40,46,.88);
+  --glass:rgba(22,52,60,.5); --glass-solid:rgba(20,48,56,.94);
+  --glass-dk:rgba(10,28,33,.55); --glass-dk-solid:rgba(10,28,33,.94);
   --r-sm:16px; --r:28px;
   --pad:clamp(20px, 2vw, 28px);
   --gut:clamp(16px, 2.3vw, 32px); --maxw:1440px; --header-h:84px;
@@ -25,13 +28,13 @@
   --ease:cubic-bezier(.22, 1, .36, 1);
   --font:"Onest", system-ui, sans-serif;
   --mono:"JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
-  --mark:"Unbounded", var(--font);
+  --mark:"Cormorant Garamond", Georgia, serif;   /* только для слова «МЕНТЕЯ» в знаке */
 }
 *, *::before, *::after{ box-sizing:border-box; }
 *{ margin:0; }
 [hidden]{ display:none !important; }   /* скрытые вкладки, сообщения формы, пустые результаты — даже если у блока свой display */
-html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; -webkit-tap-highlight-color:transparent; scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + 12px); }
-body{ background:var(--fog); color:var(--deep); font:400 1.0625rem/1.55 var(--font); -webkit-font-smoothing:antialiased; overflow-x:clip; }
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; -webkit-tap-highlight-color:transparent; scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + 12px); color-scheme:dark; }
+body{ background:var(--bg); color:var(--text); font:400 1.0625rem/1.55 var(--font); -webkit-font-smoothing:antialiased; overflow-x:clip; }
 body.no-scroll{ overflow:hidden; }
 img, svg, video{ display:block; max-width:100%; }
 img{ height:auto; }
@@ -40,29 +43,28 @@ ul, ol{ padding:0; list-style:none; }
 button, input, textarea, select{ font:inherit; color:inherit; }
 button{ background:none; border:0; padding:0; cursor:pointer; }
 input, textarea, select{ font-size:max(16px, 1rem); }   /* меньше 16px — телефон приближает страницу при вводе */
-:focus-visible{ outline:2px solid var(--mint-d); outline-offset:3px; border-radius:10px; }
-.on-dark :focus-visible, .sec-dark :focus-visible{ outline-color:var(--mint); }
-::selection{ background:var(--mint); color:var(--deep); }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:10px; }
+::selection{ background:var(--accent); color:var(--on-light); }
 @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
 
 .i{ width:20px; height:20px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
 .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
-.skip-link{ position:absolute; left:12px; top:-60px; z-index:200; padding:12px 18px; border-radius:999px; background:var(--deep); color:var(--fog); font-weight:500; transition:top .2s; }
+.skip-link{ position:absolute; left:12px; top:-60px; z-index:200; padding:12px 18px; border-radius:999px; background:var(--text); color:var(--on-light); font-weight:500; transition:top .2s; }
 .skip-link:focus{ top:12px; }
 
 /* ---------- Текст ---------- */
 .h1{ font:500 clamp(1.75rem, 2.8vw, 2.5rem)/1.05 var(--font); letter-spacing:-0.025em; text-wrap:balance; }
 .h2{ font:500 clamp(1.875rem, 3.4vw, 3.25rem)/1.05 var(--font); letter-spacing:-0.03em; text-wrap:balance; }
 .h3{ font:500 clamp(1.25rem, 1.6vw, 1.5rem)/1.2 var(--font); letter-spacing:-0.015em; text-wrap:balance; }
-.lead{ font-size:clamp(1.0625rem, .6vw + .8rem, 1.1875rem); line-height:1.45; color:var(--deep-2); text-wrap:pretty; }
+.lead{ font-size:clamp(1.0625rem, .6vw + .8rem, 1.1875rem); line-height:1.45; color:var(--text-2); text-wrap:pretty; }
 .manifest{ font:400 clamp(1.625rem, 3vw, 2.75rem)/1.15 var(--font); letter-spacing:-0.025em; text-wrap:balance; }
 .num{ font:500 clamp(2.5rem, 3.6vw, 3.5rem)/1 var(--font); letter-spacing:-0.035em; font-variant-numeric:tabular-nums; }
-.muted{ color:var(--deep-2); }
-.fine{ font-size:.875rem; line-height:1.45; color:var(--deep-2); }
-.link{ color:var(--mint-d); font-weight:500; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
+.muted{ color:var(--text-2); }
+.fine{ font-size:.875rem; line-height:1.45; color:var(--text-2); }
+.link{ color:var(--accent); font-weight:500; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
 /* Метка: короткая подпись капсом моноширинным шрифтом с мятным квадратиком — «■ НАПРАВЛЕНИЯ» */
-.label{ display:inline-flex; align-items:center; gap:10px; font:500 .78rem/1.2 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--deep-2); }
-.label::before{ content:""; width:8px; height:8px; flex-shrink:0; background:var(--mint); }
+.label{ display:inline-flex; align-items:center; gap:10px; font:500 .78rem/1.2 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); }
+.label::before{ content:""; width:8px; height:8px; flex-shrink:0; background:var(--accent); }
 .label-plain::before{ display:none; }
 .mono{ font-family:var(--mono); font-weight:500; letter-spacing:.04em; }
 
@@ -70,54 +72,50 @@ input, textarea, select{ font-size:max(16px, 1rem); }   /* меньше 16px —
 .btn{ display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 24px; border-radius:999px; font:500 1rem/1.1 var(--font); white-space:nowrap; touch-action:manipulation; transition:background-color .2s ease, color .2s ease, box-shadow .2s ease, transform .16s var(--ease); }
 .btn:active{ transform:scale(.97); }
 .btn .i{ width:18px; height:18px; }
-.btn-dark{ background:var(--deep); color:var(--fog); }
-.btn-line{ box-shadow:inset 0 0 0 1px currentColor; }
-.btn-light{ background:var(--fog); color:var(--deep); }
-.btn-glass{ background:var(--glass); box-shadow:inset 0 0 0 1px rgba(255,255,255,.55); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); }
+/* Главная кнопка на тёмном — светлая; .btn-dark и .btn-light — прежние имена той же кнопки */
+.btn-fill, .btn-dark, .btn-light{ background:var(--text); color:var(--on-light); }
+.btn-line{ box-shadow:inset 0 0 0 1px var(--line-2); }
+.btn-glass{ background:var(--glass); box-shadow:inset 0 0 0 1px var(--line-2); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); }
 .btn-sm{ min-height:40px; padding:0 16px; font-size:.9375rem; }
 .btn-block{ width:100%; }
 @media (hover:hover) and (pointer:fine){
-  .btn-dark:hover{ background:#0b252b; }
-  .btn-line:hover{ background:rgba(22,50,58,.06); }
-  .btn-light:hover{ background:#fff; }
-  .btn-glass:hover{ background:rgba(244,241,234,.8); }
+  .btn-fill:hover, .btn-dark:hover, .btn-light:hover{ background:#fff; }
+  .btn-line:hover, .btn-glass:hover{ background:rgba(244,241,234,.08); box-shadow:inset 0 0 0 1px rgba(244,241,234,.5); }
 }
-/* Фирменная кнопка: тёмная капсула и отдельный мятный квадрат со стрелкой, стык скошен */
+/* Фирменная кнопка: светлая капсула и отдельный мятный квадрат со стрелкой, стык скошен */
 .btn-cta{ display:inline-flex; align-items:stretch; min-height:52px; touch-action:manipulation; }
-.btn-cta .t{ display:inline-flex; align-items:center; padding:0 26px 0 24px; border-radius:999px 0 0 999px; background:var(--deep); color:var(--fog); font:500 1rem/1.1 var(--font); white-space:nowrap; clip-path:polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); transition:background-color .2s ease; }
-.btn-cta .a{ display:grid; place-items:center; width:56px; margin-left:-8px; border-radius:0 16px 16px 0; background:var(--mint); color:var(--deep); clip-path:polygon(12px 0, 100% 0, 100% 100%, 0 100%); }
+.btn-cta .t{ display:inline-flex; align-items:center; padding:0 26px 0 24px; border-radius:999px 0 0 999px; background:var(--text); color:var(--on-light); font:500 1rem/1.1 var(--font); white-space:nowrap; clip-path:polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); transition:background-color .2s ease; }
+.btn-cta .a{ display:grid; place-items:center; width:56px; margin-left:-8px; border-radius:0 16px 16px 0; background:var(--accent); color:var(--on-light); clip-path:polygon(12px 0, 100% 0, 100% 100%, 0 100%); }
 .btn-cta .a .i{ width:20px; height:20px; stroke-width:1.8; transition:transform .25s var(--ease); }
 .btn-cta:active{ transform:scale(.98); }
 @media (hover:hover) and (pointer:fine){
-  .btn-cta:hover .t{ background:#0b252b; }
+  .btn-cta:hover .t{ background:#fff; }
   .btn-cta:hover .a .i{ transform:translateX(3px); }
 }
 .btn-row{ display:flex; flex-wrap:wrap; gap:10px; }
 /* Ссылка со стрелкой: «Все цены →» */
-.go{ display:inline-flex; align-items:center; gap:8px; font-weight:500; }
+.go{ display:inline-flex; align-items:center; gap:8px; font-weight:500; color:var(--accent); }
 .go .i{ width:18px; height:18px; transition:transform .25s var(--ease); }
 @media (hover:hover) and (pointer:fine){ .go:hover .i{ transform:translateX(4px); } }
 
 /* ---------- Стекло ---------- */
-.glass{ background:var(--glass-solid); border:1px solid rgba(255,255,255,.5); border-radius:var(--r-sm); }
-.glass-dk{ background:var(--glass-dk-solid); border:1px solid rgba(255,255,255,.14); border-radius:var(--r-sm); color:var(--fog); }
+.glass{ background:var(--glass-solid); border:1px solid var(--line); border-radius:var(--r-sm); }
+.glass-dk{ background:var(--glass-dk-solid); border:1px solid var(--line); border-radius:var(--r-sm); }
 @supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
   .glass{ background:var(--glass); -webkit-backdrop-filter:blur(20px) saturate(1.15); backdrop-filter:blur(20px) saturate(1.15); }
   .glass-dk{ background:var(--glass-dk); -webkit-backdrop-filter:blur(28px) saturate(1.1); backdrop-filter:blur(28px) saturate(1.1); }
 }
 
 /* ---------- Значок в квадрате ---------- */
-.ic{ display:grid; place-items:center; width:48px; height:48px; flex-shrink:0; border-radius:14px; background:var(--stone); color:var(--mint-d); }
+.ic{ display:grid; place-items:center; width:48px; height:48px; flex-shrink:0; border-radius:14px; background:rgba(127,214,185,.12); color:var(--accent); }
 .ic .i{ width:22px; height:22px; }
-.sec-dark .ic, .on-dark .ic{ background:rgba(127,214,185,.12); color:var(--mint); }
 
 /* ---------- Капсулы-метки, точка статуса ---------- */
-.pill{ display:inline-flex; align-items:center; gap:6px; min-height:32px; padding:0 12px; border-radius:999px; box-shadow:inset 0 0 0 1px var(--hair); font-size:.875rem; font-weight:500; white-space:nowrap; }
-.pill-dk{ background:var(--deep); color:var(--fog); box-shadow:none; }
-.pill-fill{ background:var(--stone); box-shadow:none; }
-.sec-dark .pill, .on-dark .pill{ box-shadow:inset 0 0 0 1px var(--hair-dk); }
-.dot{ position:relative; display:inline-block; width:8px; height:8px; flex-shrink:0; border-radius:50%; background:var(--mint); box-shadow:0 0 0 3px rgba(127,214,185,.28); }
-.is-closed .dot{ background:var(--dawn); box-shadow:0 0 0 3px rgba(242,185,138,.3); }
+.pill{ display:inline-flex; align-items:center; gap:6px; min-height:32px; padding:0 12px; border-radius:999px; box-shadow:inset 0 0 0 1px var(--line-2); font-size:.875rem; font-weight:500; white-space:nowrap; }
+.pill-solid, .pill-dk{ background:var(--text); color:var(--on-light); box-shadow:none; }
+.pill-fill{ background:var(--surface-2); box-shadow:none; }
+.dot{ position:relative; display:inline-block; width:8px; height:8px; flex-shrink:0; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px rgba(127,214,185,.28); }
+.is-closed .dot{ background:var(--accent-2); box-shadow:0 0 0 3px rgba(242,185,138,.3); }
 
 /* ---------- Появление блоков: один раз, только прозрачность и сдвиг до 8px ---------- */
 .js [data-reveal]:not(.is-in){ opacity:0; }
@@ -125,3 +123,7 @@ input, textarea, select{ font-size:max(16px, 1rem); }   /* меньше 16px —
   .js [data-reveal].is-in{ animation:appear .5s var(--ease) both; animation-delay:calc(var(--i, 0) * 60ms); }
 }
 @keyframes appear{ from{ opacity:0; translate:0 8px; } }
+
+/* Ручной выключатель «Отключить анимацию» в подвале: класс no-motion на <html> выключает движение, как prefers-reduced-motion.
+   !important — настройка человека должна быть сильнее правил любого блока (второе исключение после [hidden]) */
+.no-motion, .no-motion *, .no-motion *::before, .no-motion *::after, .no-motion *::backdrop{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }

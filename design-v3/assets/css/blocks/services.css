@@ -1,1 +1,129 @@
-/* раздел собирается */
+/* ===== «С чем мы помогаем»: карта состояний со стеклянной линзой (Seed) и рубрики сеткой в рамке (Collider) ===== */
+
+/* Часть А: слева текст (40%), справа карта (60%); блок «Не знаете, к кому?» прижат к низу карты */
+.svc-top{ display:grid; grid-template-columns:minmax(0, 4fr) minmax(0, 6fr); grid-template-rows:auto 1fr; grid-template-areas:"intro map" "help map"; gap:32px clamp(28px, 4vw, 64px); }
+.svc-intro{ grid-area:intro; }
+.svc-intro .h2{ margin-top:14px; }
+.svc-motto{ margin-top:16px; font:400 clamp(1.25rem, 1.7vw, 1.625rem)/1.25 var(--font); letter-spacing:-0.015em; color:var(--accent); text-wrap:balance; }
+.svc-intro .lead{ max-width:40ch; margin-top:18px; }
+/* Четыре факта строками с линиями 1px во всю ширину колонки (Integrated Bio) */
+.svc-facts{ margin-top:28px; border-top:1px solid var(--line); }
+.svc-facts li{ display:flex; align-items:center; gap:12px; min-height:56px; padding:10px 0; border-bottom:1px solid var(--line); font-size:1rem; font-weight:500; line-height:1.35; }
+.svc-facts .i{ color:var(--accent); }
+.svc-help{ grid-area:help; align-self:end; padding-top:24px; border-top:1px solid var(--line); }
+.svc-help-t{ font:500 1.25rem/1.25 var(--font); letter-spacing:-0.015em; }
+.svc-help-p{ max-width:44ch; margin-top:8px; color:var(--text-2); }
+.svc-help .btn-row{ align-items:center; margin-top:22px; }
+
+/* Карта: карточка, в центре — линза, вокруг — подписи с выносками к точкам на кромке шара.
+   Размеры — от ширины карты (cqi): --ar — высота к ширине (не меньше), --s — сторона холста линзы, --R — радиус шара (36% холста, так рисует модуль «Свет») */
+.svc-map{ --ar:.9; --s:66cqi; --R:calc(var(--s) * .36); --edge:clamp(16px, 3.6cqi, 28px); grid-area:map; position:relative; display:flex; flex-direction:column; container-type:inline-size; }
+.svc-card{ position:relative; isolation:isolate; flex:1; min-height:calc(var(--ar) * 100cqi); overflow:hidden; border:1px solid var(--line); border-radius:var(--r); background:var(--bg-2); }   /* шар светится в «ночной воде», как на первом экране */
+.svc-card::before{ content:""; position:absolute; left:50%; top:50%; width:calc(var(--R) * 2.9); aspect-ratio:1; translate:-50% -50%; border:1px solid var(--line); border-radius:50%; }   /* орбита: карта, а не просто картинка */
+.svc-card-label{ position:absolute; left:var(--edge); top:var(--edge); z-index:1; color:var(--text-2); }   /* метка может лечь на ореол шара — светлее обычной ради 4,5:1 */
+/* Линза — тот же компонент, что у краёв страницы, но стоит в центре карточки, над её фоном */
+.svc-lens{ z-index:0; left:calc(50% - var(--s) / 2); top:calc(50% - var(--s) / 2); width:var(--s); translate:none; }
+.svc-lens canvas{ -webkit-mask-image:radial-gradient(circle closest-side, #000 70%, transparent); mask-image:radial-gradient(circle closest-side, #000 70%, transparent); }   /* ореол уже, чем у краевых линз: шар — содержимое карточки, а не «планета» */
+
+/* Где точка на кромке: --x, --y — косинус и синус угла от центра шара (вверх — плюс). Слева 1–3, справа 4–6 */
+.svc-map [data-n="1"]{ --x:-.766; --y:.643; }
+.svc-map [data-n="2"]{ --x:-.999; --y:.035; }
+.svc-map [data-n="3"]{ --x:-.788; --y:-.616; }
+.svc-map [data-n="4"]{ --x:.809; --y:.588; }
+.svc-map [data-n="5"]{ --x:.998; --y:-.07; }
+.svc-map [data-n="6"]{ --x:.743; --y:-.669; }
+
+/* Подписи: строка на высоте точки; слева — текст, потом пунктир до точки, справа наоборот. Точка — ::before, свечение — ::after */
+.svc-calls{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+.svc-calls li{ position:absolute; top:calc(50% - var(--R) * var(--y)); translate:0 -50%; }
+.svc-calls .is-l{ left:var(--edge); right:calc(50% - var(--R) * var(--x)); }
+.svc-calls .is-r{ left:calc(50% + var(--R) * var(--x)); right:var(--edge); }
+.svc-calls a{ display:flex; align-items:center; gap:12px; min-height:44px; pointer-events:auto; font:500 clamp(14px, 2.1cqi, 16px)/1.25 var(--font); letter-spacing:-0.01em; color:var(--text-2); transition:color .2s ease; }
+.svc-calls .is-r a{ flex-direction:row-reverse; text-align:right; }
+.svc-calls a::after{ content:""; flex:1 0 20px; height:1px; background:repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 7px); opacity:.5; transition:opacity .2s ease; }
+.svc-call-t{ white-space:nowrap; }   /* переносы заданы в разметке (<br>), иначе пунктир съедается шириной текста */
+.svc-call-n, .svc-call-go{ display:none; }
+.svc-calls li::before, .svc-calls li::after{ content:""; position:absolute; top:50%; border-radius:50%; pointer-events:none; }
+.svc-calls li::before{ z-index:1; width:9px; height:9px; margin:-4.5px; background:var(--accent); box-shadow:0 0 0 2px var(--bg-2); }   /* тёмное кольцо — чтобы точка читалась на светлой кромке */
+.svc-calls li::after{ width:40px; height:40px; margin:-20px; background:radial-gradient(closest-side, color-mix(in srgb, var(--accent) 75%, transparent), transparent); opacity:0; transition:opacity .25s ease; }
+.svc-calls .is-l::before, .svc-calls .is-l::after{ left:100%; }
+.svc-calls .is-r::before, .svc-calls .is-r::after{ left:0; }
+/* Наведение и фокус: подпись светлее, пунктир ярче, точка светится — только цвет и прозрачность */
+.svc-calls a:hover, .svc-calls a:focus-visible{ color:var(--text); }
+.svc-calls a:hover::after, .svc-calls a:focus-visible::after{ opacity:.9; }
+.svc-calls li:hover::after, .svc-calls li:has(a:focus-visible)::after{ opacity:1; }
+
+/* Часть Б: шесть рубрик сеткой 3×2 в рамке; вся ячейка — ссылка на рубрику, капсулы — свои ссылки поверх */
+.svc-sub{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px 24px; margin:clamp(56px, 6vw, 88px) 0 18px; }
+.svc-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+.svc-cell{ position:relative; display:flex; flex-direction:column; align-items:flex-start; padding:clamp(22px, 2.2vw, 32px); transition:background-color .25s ease; }
+.svc-cell-top{ display:flex; align-self:stretch; align-items:flex-start; justify-content:space-between; }
+.svc-no{ font-size:.78rem; color:var(--text-3); }
+.svc-name{ margin-top:24px; font:500 1.375rem/1.15 var(--font); letter-spacing:-0.02em; text-wrap:balance; }
+.svc-name a::after{ content:""; position:absolute; inset:0; }
+.svc-name a:focus-visible{ outline:none; }
+.svc-name a:focus-visible::after{ outline:2px solid var(--accent); outline-offset:-4px; border-radius:var(--r-sm); }
+.svc-desc{ margin-top:8px; font-size:.9375rem; line-height:1.45; color:var(--text-2); text-wrap:pretty; }
+.svc-tags{ position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+.svc-tags .pill{ position:relative; transition:background-color .2s ease; }
+.svc-count{ margin-top:auto; padding-top:28px; font-size:.9375rem; }
+@media (hover:hover) and (pointer:fine){
+  .svc-cell:hover{ background:var(--surface); }
+  .svc-cell:hover .svc-count .i{ transform:translateX(4px); }
+  .svc-tags .pill:hover{ background:var(--surface-2); }
+}
+
+/* Широкий экран: у подписей хватает места — шар крупнее */
+@media (min-width:1280px){
+  .svc-map{ --s:70cqi; }
+}
+/* Узкий компьютер: левая колонка длиннее карты — подбор специалиста встаёт полосой под обеими колонками, кнопки справа */
+@media (min-width:1000px) and (max-width:1279px){
+  .svc-top{ grid-template-rows:auto auto; grid-template-areas:"intro map" "help help"; }
+  .svc-help{ display:grid; grid-template-columns:minmax(0, 1fr) auto; align-items:center; column-gap:32px; }
+  .svc-help .btn-row{ grid-column:2; grid-row:1 / span 2; margin-top:0; }
+}
+
+/* Планшет: рубрики в две колонки */
+@media (max-width:1099px){
+  .svc-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+}
+
+/* Столбиком: текст, карта, подбор специалиста; карта ниже и шире */
+@media (max-width:999px){
+  .svc-top{ grid-template-columns:minmax(0, 1fr); grid-template-rows:none; grid-template-areas:"intro" "map" "help"; }
+  .svc-help{ align-self:start; }
+  .svc-map{ --ar:.66; --s:58cqi; }
+}
+
+/* Телефон: линза сверху, под ней нумерованный список; точки на кромке получают номера.
+   Список и ссылки без позиционирования — поэтому точки (li::before) отсчитываются от всей карты (.svc-map) */
+@media (max-width:699px){
+  .svc-top{ gap:24px; }
+  .svc-map{ --ar:.8; --s:80cqi; --edge:16px; }
+  .svc-card{ flex:none; min-height:0; height:calc(var(--ar) * 100cqi); border-radius:var(--r-sm); }
+  .svc-calls{ position:static; margin-top:8px; pointer-events:auto; }
+  .svc-calls li{ position:static; translate:none; }
+  .svc-calls a, .svc-calls .is-r a{ flex-direction:row; gap:14px; min-height:56px; padding:8px 0; border-bottom:1px solid var(--line); font-size:1.0625rem; text-align:left; }
+  .svc-calls a::after, .svc-calls li::after{ display:none; }
+  .svc-call-t{ white-space:normal; }
+  .svc-call-t br{ display:none; }
+  .svc-call-n{ display:grid; place-items:center; width:28px; height:28px; flex-shrink:0; border-radius:50%; background:var(--accent); color:var(--on-light); font:600 .8125rem/1 var(--mono); }
+  .svc-call-go{ display:block; margin-left:auto; color:var(--accent); }
+  .svc-calls .is-l::before, .svc-calls .is-r::before{ left:calc(50cqi + var(--R) * var(--x)); top:calc(var(--ar) * 50cqi - var(--R) * var(--y)); display:grid; place-items:center; width:22px; height:22px; margin:-11px; content:attr(data-n); color:var(--on-light); font:600 11px/1 var(--mono); }
+  .svc-help .btn-row{ display:grid; grid-template-columns:1fr 1fr; }
+  .svc-help .btn-cta{ grid-column:1 / -1; }
+  .svc-help .btn-cta .t{ flex:1; justify-content:center; }
+  .svc-help .btn-sm{ min-height:48px; }
+  .svc-sub .go{ min-height:44px; }
+  /* Рубрики компактно: без значка, номера и описания, две капсулы — ссылки на все рубрики остаются */
+  .svc-grid{ grid-template-columns:minmax(0, 1fr); }
+  .svc-cell{ padding:20px 16px; }
+  .svc-cell-top, .svc-desc{ display:none; }
+  .svc-name{ margin-top:0; }
+  .svc-tags{ margin-top:14px; }
+  .svc-tags li:nth-child(n+3){ display:none; }
+  .svc-tags .pill{ min-height:36px; }
+  .svc-tags .pill::after{ content:""; position:absolute; inset:-4px 0; }   /* область нажатия 44px, соседние не перекрываются */
+  .svc-count{ padding-top:14px; }
+}

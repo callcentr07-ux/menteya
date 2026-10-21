@@ -1,21 +1,30 @@
-<!-- ============ FOOTER ============ -->
+<!-- ============ ПОДВАЛ ============ -->
+<!-- Подвал в стилистике первого экрана: «ночная вода» с неподвижным светом и стеклянной линзой справа, знак «Рассвет»,
+     ссылки, контакты стеклом поверх линзы, ниже — предупреждение, реквизиты и документы.
+     В WordPress — часть шаблона footer; колонки ссылок — меню «Подвал». -->
 <footer class="site-footer">
+  <!-- Фон: кадр света с линзой рисует один раз модуль «Свет» в menteya.js (data-silk="lens", стили — sections.css и footer.css).
+       Отдельным слоем, а не на самом подвале: размер линзы зависит от высоты блока, а слой на каждой ширине своей высоты -->
+  <div class="ft-silk" data-silk="lens" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="ft-card">
-      <!-- Обязательное предупреждение для рекламы медуслуг (ст. 24 закона «О рекламе») — заметной полосой -->
-      <p class="ft-warning">Имеются противопоказания. Необходима консультация специалиста</p>
-      <div class="ft-grid">
-        <div class="ft-brand">
-          <a href="#" class="logo" aria-label="Клиника «Ментея» — на главную"><span class="logo-mark" aria-hidden="true"></span>Ментея</a>
-          <p>Частная клиника психиатрии и&nbsp;психотерапии в&nbsp;Москве. Помогаем взрослым, подросткам, детям и&nbsp;пожилым вернуть устойчивость и&nbsp;качество жизни.</p>
-          <div class="ft-social">
-            <a href="#contacts" aria-label="Telegram клиники"><svg class="i"><use href="#i-tg"/></svg></a>
-            <a href="#contacts" aria-label="MAX клиники"><svg class="i"><use href="#i-max"/></svg></a>
-            <a href="#contacts" aria-label="Клиника во ВКонтакте"><svg class="i"><use href="#i-vk"/></svg></a>
-          </div>
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a class="ft-logo" href="index.html" aria-label="Клиника «Ментея» — на главную">
+          <svg class="ft-logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="#g-mark"/></svg>
+          <span class="ft-logo-t"><span class="ft-logo-word">Ментея</span><span class="ft-logo-sub">клиника психиатрии</span></span>
+        </a>
+        <p class="ft-about">Частная клиника психиатрии и&nbsp;психотерапии в&nbsp;Москве. Помогаем взрослым, подросткам, детям и&nbsp;пожилым вернуть устойчивость и&nbsp;качество жизни.</p>
+        <!-- заменить на реальные ссылки мессенджеров и сообщества -->
+        <div class="ft-social">
+          <a href="#contacts" aria-label="Telegram клиники"><svg class="i"><use href="#i-tg"/></svg></a>
+          <a href="#contacts" aria-label="MAX клиники"><svg class="i"><use href="#i-max"/></svg></a>
+          <a href="#contacts" aria-label="Клиника во ВКонтакте"><svg class="i"><use href="#i-vk"/></svg></a>
         </div>
-        <nav class="ft-col" aria-label="Пациентам">
-          <p class="ft-title">Пациентам</p>
+      </div>
+
+      <div class="ft-cols">
+        <nav class="ft-col" aria-labelledby="ft-patients">
+          <p class="label label-plain" id="ft-patients">Пациентам</p>
           <ul>
             <li><a href="napravlenie.html">Услуги</a></li>
             <li><a href="#doctors">Врачи</a></li>
@@ -24,53 +33,71 @@
             <li><a href="#faq">Вопросы и&nbsp;ответы</a></li>
           </ul>
         </nav>
-        <nav class="ft-col" aria-label="Направления">
-          <p class="ft-title">Направления</p>
+        <nav class="ft-col" aria-labelledby="ft-areas">
+          <p class="label label-plain" id="ft-areas">Направления</p>
           <ul>
             <li><a href="napravlenie.html">Психиатрия</a></li>
             <li><a href="napravlenie.html">Психотерапия</a></li>
             <li><a href="napravlenie.html">Психолог</a></li>
             <li><a href="napravlenie.html">Работа с&nbsp;пожилыми</a></li>
             <li><a href="napravlenie.html">Детская психиатрия</a></li>
-            <li><a href="stacionar.html">Стационар</a></li>
+            <li><a href="napravlenie.html">Психиатр на&nbsp;дом</a></li>
           </ul>
         </nav>
-        <nav class="ft-col" aria-label="Клиника">
-          <p class="ft-title">Клиника</p>
+        <nav class="ft-col" aria-labelledby="ft-clinic">
+          <p class="label label-plain" id="ft-clinic">Клиника</p>
           <ul>
-            <li><a href="#about">О клинике</a></li>
+            <li><a href="#about">О&nbsp;клинике</a></li>
             <li><a href="#licenses">Лицензии</a></li>
             <li><a href="#reviews">Отзывы</a></li>
             <li><a href="filialy.html">Филиалы</a></li>
             <li><a href="#contacts">Контакты</a></li>
-            <li><a href="#">Версия для слабовидящих</a></li>
+            <li><a href="vision.html">Версия для слабовидящих</a></li>
           </ul>
         </nav>
-        <div class="ft-contacts">
-          <p class="ft-title">Контакты</p>
-          <a class="ft-phone" href="tel:+74950000000">+7 495 000-00-00</a>
-          <p>Ежедневно 9:00–21:00<br>Выезд врача&nbsp;— круглосуточно</p>
+      </div>
+
+      <!-- Контакты — тёмным стеклом поверх линзы, как карточка выезда на первом экране. Заменить на реальные: телефон, адрес, почта -->
+      <div class="ft-contacts glass-dk">
+        <p class="label">Контакты</p>
+        <a class="ft-phone" href="tel:+74950000000">+7 495 000-00-00</a>
+        <p class="ft-open" data-open><span class="dot" aria-hidden="true"></span><span data-open-title>Ежедневно 9:00–21:00</span></p>
+        <div class="ft-info">
+          <p>Приём ежедневно 9:00–21:00<br>Выезд врача&nbsp;— круглосуточно</p>
           <p>Москва, ул.&nbsp;Примерная,&nbsp;1</p>
           <a class="ft-mail" href="mailto:info@menteya.ru">info@menteya.ru</a>
         </div>
       </div>
+    </div>
+
+    <!-- Обязательное предупреждение для рекламы медуслуг (ст. 24 закона «О рекламе») — заметной строкой -->
+    <p class="ft-warning"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg><span><span>Имеются противопоказания.</span> <span>Необходима консультация специалиста</span></span></p>
+
+    <div class="ft-legal">
+      <!-- заменить на реальные: юрлицо, ИНН, ОГРН, номер лицензии -->
+      <dl class="ft-req">
+        <div><dt>Юрлицо</dt><dd>ООО «Клиника Ментея»</dd></div>
+        <div><dt>ИНН</dt><dd>0000000000</dd></div>
+        <div><dt>ОГРН</dt><dd>0000000000000</dd></div>
+        <div><dt>Лицензия на&nbsp;медицинскую деятельность</dt><dd>№&nbsp;Л041-00000-77/00000000</dd></div>
+      </dl>
+      <!-- Адреса будущих страниц документов; те же адреса — в окне записи, форме записи и плашке cookie -->
       <nav class="ft-docs" aria-label="Документы">
-        <a href="#">Правила оказания платных услуг</a>
-        <a href="#">Права и&nbsp;обязанности пациентов</a>
-        <a href="#">Контролирующие органы</a>
-        <a href="#">Политика конфиденциальности</a>
-        <a href="#">Согласие на&nbsp;обработку персональных данных</a>
-        <a href="#" data-cookie-settings>Настройки cookie</a>
+        <a href="politika.html">Политика обработки персональных данных (152&#8209;ФЗ)</a>
+        <a href="soglasie.html">Согласие на&nbsp;обработку персональных данных</a>
+        <a href="pravila.html">Правила оказания платных услуг</a>
+        <a href="prava-pacientov.html">Права и&nbsp;обязанности пациентов</a>
+        <a href="kontrol.html">Контролирующие органы</a>
+        <a href="politika.html#cookie" data-cookie-settings>Настройки cookie</a>
       </nav>
-      <div class="ft-legal">
-        <p>ООО «Клиника Ментея» · ИНН 0000000000 · ОГРН 0000000000000 · Лицензия на&nbsp;медицинскую деятельность №&nbsp;Л041-00000-77/00000000</p>
-        <p>Сайт носит информационный характер и&nbsp;не&nbsp;является публичной офертой.</p>
-      </div>
-      <div class="ft-bottom">
-        <span>© 2026 Клиника «Ментея»</span>
-        <a class="go" href="#">Наверх<svg class="i"><use href="#i-arrow"/></svg></a>
-      </div>
-      <div class="ft-mark" aria-hidden="true">Ментея</div>
+      <p class="ft-note">Сайт носит информационный характер и&nbsp;не&nbsp;является публичной офертой.</p>
+    </div>
+
+    <div class="ft-bottom">
+      <span>© 2026 Клиника «Ментея»</span>
+      <!-- Выключатель движения: ставит на <html> класс no-motion и запоминает выбор. Без скриптов не показывается -->
+      <button class="ft-motion" type="button" aria-pressed="false" data-motion-toggle><span class="ft-switch" aria-hidden="true"></span>Отключить анимацию</button>
+      <a class="go ft-up" href="#main">Наверх<svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
   </div>
 </footer>

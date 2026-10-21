@@ -1,1 +1,66 @@
-<!-- раздел собирается -->
+<!-- ============ ВОПРОСЫ ПЕРЕД ПЕРВЫМ ВИЗИТОМ ============ -->
+<!-- Тёмная «ночная вода». Сетка 1/3–2/3: слева заголовок, под ним карточка «Не нашли ответ? / Срочно»; справа аккордеон.
+     На планшете и телефоне карточка идёт после вопросов — человек пришёл за ответами.
+     Раскрытие ведёт menteya.js (.faq-item / .faq-q / aria-expanded): открыт один ответ за раз. Без скриптов видны все ответы. -->
+<section class="sec" id="faq" aria-labelledby="faq-title">
+  <div class="wrap sec-grid faq-grid">
+    <div class="sec-side faq-side" data-reveal>
+      <p class="label">Вопросы и&nbsp;ответы</p>
+      <h2 class="h2" id="faq-title">Вопросы перед первым визитом</h2>
+      <p class="lead">Собрали то, о&nbsp;чём чаще всего спрашивают.</p>
+    </div>
+
+    <div class="faq-list" data-reveal style="--i:1">
+      <div class="faq-item is-open">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q1" aria-controls="faq-a1" aria-expanded="true"><span class="faq-n" aria-hidden="true">01</span><span class="faq-t">Нужно ли направление, чтобы попасть на&nbsp;приём?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a1"><p>Нет, направление не&nbsp;требуется. Записаться можно напрямую&nbsp;— по&nbsp;телефону, через сайт или мессенджер.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q2" aria-controls="faq-a2" aria-expanded="false"><span class="faq-n" aria-hidden="true">02</span><span class="faq-t">Ставите ли вы на&nbsp;учёт в&nbsp;психоневрологический диспансер?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a2"><p>Нет. «Ментея»&nbsp;— частная клиника, приём анонимный и&nbsp;не&nbsp;влечёт постановку на&nbsp;учёт в&nbsp;ПНД.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q3" aria-controls="faq-a3" aria-expanded="false"><span class="faq-n" aria-hidden="true">03</span><span class="faq-t">Сохраняется ли конфиденциальность обращения?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a3"><p>Да. Сведения о&nbsp;факте обращения и&nbsp;лечении не&nbsp;передаются третьим лицам, работодателю или в&nbsp;госучреждения без вашего согласия.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q4" aria-controls="faq-a4" aria-expanded="false"><span class="faq-n" aria-hidden="true">04</span><span class="faq-t">Можно ли пройти консультацию онлайн?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a4"><p>Повторные консультации и&nbsp;наблюдение&nbsp;— да, по&nbsp;видеосвязи. Первичный приём с&nbsp;постановкой диагноза по&nbsp;закону проходит очно&nbsp;— в&nbsp;клинике или на&nbsp;дому.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q5" aria-controls="faq-a5" aria-expanded="false"><span class="faq-n" aria-hidden="true">05</span><span class="faq-t">Как подготовиться к&nbsp;первому приёму?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a5"><p>Специальной подготовки не&nbsp;нужно. Возьмите результаты прошлых обследований и&nbsp;список лекарств, если они есть.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q6" aria-controls="faq-a6" aria-expanded="false"><span class="faq-n" aria-hidden="true">06</span><span class="faq-t">Можно ли обратиться за&nbsp;помощью для близкого человека?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a6"><p>Да. На&nbsp;первую консультацию можно прийти без пациента: врач расскажет, как поддержать близкого и&nbsp;предложить ему помощь. Осмотр проводится только с&nbsp;согласия пациента, кроме случаев, предусмотренных законом о&nbsp;психиатрической помощи.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q7" aria-controls="faq-a7" aria-expanded="false"><span class="faq-n" aria-hidden="true">07</span><span class="faq-t">Работаете ли вы с&nbsp;подростками?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a7"><p>Да, принимают детские и&nbsp;подростковые специалисты. Приём несовершеннолетних&nbsp;— в&nbsp;присутствии родителя или законного представителя.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q8" aria-controls="faq-a8" aria-expanded="false"><span class="faq-n" aria-hidden="true">08</span><span class="faq-t">Как оплатить приём и&nbsp;можно ли получить чек?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a8"><p>Наличными или картой. Выдаём кассовый чек, по&nbsp;запросу&nbsp;— справку для налогового вычета.</p></div>
+      </div>
+    </div>
+
+    <!-- Карточка в тёмном стекле: сверху «напишите нам», снизу срочная связь. На ПК — в левой колонке под заголовком -->
+    <div class="glass faq-aside" data-reveal style="--i:2">
+      <div class="faq-help">
+        <p class="faq-help-t">Не&nbsp;нашли ответ? Напишите&nbsp;— ответим анонимно</p>
+        <p class="fine">Администратор ответит за&nbsp;15&nbsp;минут в&nbsp;рабочее время. Бесплатно.</p>
+        <!-- Ведут к мессенджерам в разделе «Запись и контакты» -->
+        <div class="btn-row">
+          <a class="btn btn-fill" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+          <a class="btn btn-line" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        </div>
+      </div>
+      <div class="faq-urgent">
+        <p class="faq-urgent-t"><svg class="i"><use href="#i-info"/></svg>Срочно нужна помощь?</p>
+        <p class="fine">Позвоните&nbsp;— подберём ближайшее время или вызовем врача на&nbsp;дом. При угрозе жизни сразу звоните <a class="link faq-112" href="tel:112">112</a>.</p>
+        <a class="btn btn-line faq-tel" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>+7&nbsp;495&nbsp;000-00-00</a>
+      </div>
+    </div>
+  </div>
+</section>

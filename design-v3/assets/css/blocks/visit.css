@@ -1,1 +1,119 @@
-/* раздел собирается */
+/* ===== Первый приём (#steps): вставка с неподвижным шёлком света, поверх — тёмное стекло с фактами и шагами ===== */
+/* Вставка: 12px от краёв экрана, радиус --r; фон — кадр шёлка ([data-silk] в sections.css), виден рамкой вокруг стекла */
+.visit-box{ margin:0 12px; padding:clamp(56px, 8vw, 116px) 0; border-radius:var(--r); }
+
+/* Стекло на 84% ширины: слева 40% — заголовок и факты, справа 60% — шаги */
+.visit-panel{ display:grid; grid-template-columns:minmax(0, 4fr) minmax(0, 6fr); width:min(84%, 1376px); margin:0 auto; padding:clamp(28px, 3.4vw, 52px); border-color:var(--line-2); border-radius:var(--r); }
+.visit-panel .label{ color:var(--text-2); }   /* стекло поверх света: метка светлее обычной, чтобы держать 4,5:1 */
+.visit-side{ padding-right:clamp(28px, 4vw, 64px); }
+.visit-side .h2{ margin-top:14px; }
+.visit-side .lead{ margin-top:16px; }
+
+/* Карточки-факты: тонкая светлая рамка без заливки, капсула-подпись и крупная цифра */
+.visit-facts{ display:grid; gap:10px; margin-top:28px; }
+.visit-fact{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding:16px 18px 18px; border:1px solid var(--line-2); border-radius:var(--r-sm); }
+.visit-fact .pill{ color:var(--text-2); }
+.visit-fact .num{ font-size:2.5rem; }
+.visit-fact small{ font-size:.45em; letter-spacing:0; color:var(--text-2); }
+.visit-note{ margin-top:16px; font-size:.875rem; line-height:1.45; color:var(--text-2); }
+
+/* Шаги столбиком: капсула «01 / 04», линия 1px с мятной долей пути, заголовок и текст */
+.visit-main{ display:flex; flex-direction:column; padding-left:clamp(28px, 4vw, 64px); border-left:1px solid var(--line-2); }
+.visit-steps{ display:grid; gap:28px; }
+.visit-step-top{ display:flex; align-items:center; gap:14px; }
+.visit-n{ display:inline-flex; align-items:center; min-height:28px; padding:0 12px; border-radius:999px; box-shadow:inset 0 0 0 1px var(--line-2); color:var(--text-2); font:500 .75rem/1 var(--mono); letter-spacing:.06em; white-space:nowrap; }
+.visit-line{ position:relative; flex:1; height:1px; background:var(--line-2); }
+.visit-line::after{ content:""; position:absolute; inset:0; background:var(--accent); transform-origin:0 50%; transform:scaleX(var(--p, 1)); }
+.js .visit-step:not(.is-in) .visit-line::after{ transform:scaleX(0); }   /* до появления шага линия пустая */
+@media (prefers-reduced-motion:no-preference){
+  .visit-line::after{ transition:transform .6s var(--ease) calc(var(--i, 0) * 60ms + .2s); }   /* заполняется один раз, вслед за появлением */
+}
+.visit-step .h3{ margin-top:16px; }
+.visit-step p{ max-width:60ch; margin-top:8px; font-size:1rem; line-height:1.5; color:var(--text-2); }
+.visit-cta{ margin-top:auto; padding-top:32px; }
+
+/* Планшет: стекло шире; при сетке в столбик факты встают в ряд */
+@media (max-width:1099px){
+  .visit-panel{ width:calc(100% - 48px); }
+}
+@media (max-width:999px){
+  .visit-panel{ grid-template-columns:minmax(0, 1fr); }
+  .visit-side{ padding:0 0 32px; }
+  .visit-main{ padding:32px 0 0; border-left:0; border-top:1px solid var(--line-2); }
+  .visit-facts{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+  .visit-fact .num{ font-size:1.875rem; }
+}
+/* Телефон: шёлк — узкая кайма вокруг, внутри плотное тёмное стекло без размытия (дешевле для телефона) */
+@media (max-width:699px){
+  .visit-box{ padding:8px; background-size:auto 260%; background-position:50% 70%; }   /* пустой тёмной полосы сверху нет — стекло сразу */
+  .visit-panel{ width:auto; padding:28px 20px 32px; border-radius:calc(var(--r) - 8px); background:var(--glass-dk-solid); -webkit-backdrop-filter:none; backdrop-filter:none; }
+  .visit-facts{ grid-template-columns:1fr; margin-top:24px; }
+  .visit-fact{ flex-direction:row; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px 12px 16px; }
+  .visit-fact .num{ font-size:1.75rem; }
+  .visit-steps{ gap:24px; }
+  .visit-step .h3{ margin-top:14px; }
+  .visit-cta{ flex-direction:column; padding-top:28px; }
+  .visit-cta .btn-cta .t{ flex:1; justify-content:center; }
+  .visit-cta .btn-line{ width:100%; }
+}
+@media (max-width:399px){
+  .visit-cta-more{ display:none; }   /* узкий телефон: «Записаться» — длинная надпись не влезает в капсулу */
+}
+
+
+/* ===== Акции (#promo): тёмная вставка, шапка сверху, три талона с перфорацией (приём Hungry Tiger, спокойная версия) ===== */
+/* Вставка: 12px от краёв экрана, радиус --r; край вставки срезает линзу и вырезы талонов */
+.promo{ margin:var(--sec) 12px 0; padding-bottom:var(--sec); border-radius:var(--r); background:var(--bg-2); box-shadow:inset 0 0 0 1px var(--line); overflow:hidden; }
+.promo > .lens{ --lens-size:clamp(180px, 18vw, 300px); top:clamp(24px, 4.4vw, 64px); }   /* небольшая линза справа от шапки, напротив пустой стороны */
+.promo .sec-head .btn-row{ margin-top:24px; }
+
+/* Талоны: от 1100px три в ряд, уже — столбиком */
+.promo-list{ display:grid; gap:16px; }
+@media (min-width:1100px){
+  .promo-list{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+}
+/* Талон вертикальный: сверху условие, поперёк перфорация с полукруглыми вырезами, снизу корешок с ценой и кнопкой.
+   Обводку рисуют сами части талона, поэтому вокруг вырезов она идёт дугой, а не сквозь них */
+.promo-ticket{ display:grid; grid-template-rows:1fr 24px auto; overflow:hidden; border-radius:var(--r-sm); }
+.promo-main{ display:flex; flex-direction:column; align-items:flex-start; gap:10px; padding:26px 28px 20px; border:1px solid var(--line-2); border-bottom:0; border-radius:var(--r-sm) var(--r-sm) 0 0; background:var(--surface-2); }
+.promo-main .h3{ margin-top:4px; }
+.promo-text{ max-width:52ch; font-size:1rem; line-height:1.5; color:var(--text-2); }
+/* Перфорация: точки цвета меток, половины фона — как у условия и корешка; вырезы — круги цвета вставки */
+.promo-perf{ position:relative; padding:0 22px;
+  background-image:radial-gradient(circle, var(--text-3) 1.5px, transparent 2px), linear-gradient(var(--surface-2) 50%, var(--bg) 50%);
+  background-size:9px 3px, auto; background-position:0 50%, 0 0; background-repeat:repeat-x, no-repeat;
+  background-origin:content-box, border-box; background-clip:content-box, border-box; }
+.promo-perf::before, .promo-perf::after{ content:""; position:absolute; top:50%; width:24px; height:24px; margin-top:-12px; border:1px solid var(--line-2); border-radius:50%; background:var(--surface); }
+.promo-perf::before{ left:-12px; }
+.promo-perf::after{ right:-12px; }
+.promo-stub{ display:grid; grid-template-columns:minmax(0, 1fr) auto; align-items:end; gap:18px 12px; padding:18px 28px 28px; border:1px solid var(--line-2); border-top:0; border-radius:0 0 var(--r-sm) var(--r-sm); background:var(--bg); }
+.promo-no{ grid-area:1 / 2; align-self:start; font:500 .75rem/1 var(--mono); letter-spacing:.06em; color:var(--text-3); }
+.promo-price{ grid-area:1 / 1; display:flex; flex-direction:column; gap:2px; }
+.promo-price s{ font-size:.875rem; color:var(--text-3); text-decoration-thickness:1px; }
+.promo-price b{ font:500 1.75rem/1.1 var(--font); letter-spacing:-0.025em; font-variant-numeric:tabular-nums; }
+.promo-price small{ font-size:.55em; letter-spacing:0; }
+.promo-stub .btn{ grid-column:1 / -1; width:100%; }
+.promo-warn{ display:flex; align-items:center; gap:8px; margin-top:20px; }
+.promo-warn .i{ width:18px; height:18px; color:var(--accent); }
+
+/* Планшет: талоны столбиком, каждый горизонтальный — условие слева, перфорация сверху вниз, корешок справа */
+@media (min-width:700px) and (max-width:1099px){
+  .promo-ticket{ grid-template-rows:none; grid-template-columns:minmax(0, 1fr) 24px 260px; }
+  .promo-main{ padding:24px 12px 26px 28px; border:1px solid var(--line-2); border-right:0; border-radius:var(--r-sm) 0 0 var(--r-sm); }
+  .promo-perf{ padding:22px 0; background-image:radial-gradient(circle, var(--text-3) 1.5px, transparent 2px), linear-gradient(90deg, var(--surface-2) 50%, var(--bg) 50%); background-size:3px 9px, auto; background-position:50% 0, 0 0; background-repeat:repeat-y, no-repeat; }
+  .promo-perf::before, .promo-perf::after{ left:50%; right:auto; margin:0 0 0 -12px; }
+  .promo-perf::before{ top:-12px; }
+  .promo-perf::after{ top:auto; bottom:-12px; }
+  .promo-stub{ align-content:space-between; padding:22px 24px 24px 12px; border:1px solid var(--line-2); border-left:0; border-radius:0 var(--r-sm) var(--r-sm) 0; }
+}
+/* Телефон: корешок — новая цена и рядом зачёркнутая, под ними кнопка во всю ширину */
+@media (max-width:699px){
+  .promo > .lens{ top:16px; }   /* у правого края рядом с заголовком: строки короче, под текст шар не заходит */
+  .promo-main{ padding:22px 20px 16px; }
+  .promo-perf{ padding:0 20px; }
+  .promo-stub{ gap:12px; padding:14px 20px 20px; }
+  .promo-no{ display:none; }
+  .promo-price{ flex-direction:row-reverse; justify-content:flex-end; align-items:baseline; gap:12px; }
+  .promo-price b{ font-size:1.5rem; }
+  .promo-stub .btn{ min-height:48px; }
+}

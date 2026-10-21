@@ -1,47 +1,118 @@
-/* ===== Подвал — одна большая тёмная плитка с именем клиники внизу ===== */
-.site-footer{ position:relative; overflow-x:clip; padding:clamp(72px, 8vw, 128px) 0 16px; }
-.ft-card{ --fp:clamp(20px, 3vw, 48px); position:relative; overflow:hidden; padding:0 var(--fp); border-radius:32px; background:radial-gradient(70% 60% at 100% 0%, rgba(124,108,255,.35), rgba(124,108,255,0) 60%), var(--dark); color:#d8d4ff; }
-.ft-warning{ margin:0 calc(var(--fp) * -1); padding:14px 20px; background:rgba(255,255,255,.06); text-align:center; font-size:.8125rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#d4ceff; }
-.ft-grid{ display:grid; grid-template-columns:minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)) minmax(0, 1.3fr); gap:32px 40px; padding:48px 0 40px; }
-.ft-brand .logo{ color:#fff; }
-.ft-brand p{ max-width:36ch; margin-top:16px; font-size:.9375rem; line-height:1.6; }
-.ft-social{ display:flex; gap:8px; margin-top:20px; }
-.ft-social a{ display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:rgba(255,255,255,.08); color:#fff; transition:background-color .2s ease, transform .16s var(--ease); }
-.ft-social a:active{ transform:scale(.94); }
-.ft-title{ margin-bottom:14px; font:600 .9375rem/1.2 var(--font-d); letter-spacing:-0.01em; color:#fff; }
-.ft-col li + li{ margin-top:8px; }
-.ft-col a{ font-size:.9375rem; transition:color .2s ease; }
-.ft-phone{ font:600 1.25rem/1 var(--font-d); letter-spacing:-0.02em; color:#fff; white-space:nowrap; }
-.ft-contacts p:not(.ft-title){ margin-top:10px; font-size:.9375rem; line-height:1.6; }
-.ft-mail{ display:inline-block; margin-top:10px; }
-.ft-docs{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px 22px; padding:20px 0; box-shadow:inset 0 1px 0 rgba(255,255,255,.1); }
-.ft-docs a{ font-size:.875rem; text-decoration:underline; text-decoration-color:rgba(255,255,255,.3); text-underline-offset:3px; transition:color .2s ease, text-decoration-color .2s ease; }
-.ft-legal{ padding-bottom:20px; text-align:center; font-size:.8125rem; line-height:1.6; color:#aca6dc; }
-.ft-legal p + p{ margin-top:4px; }
-.ft-bottom{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:18px 0; box-shadow:inset 0 1px 0 rgba(255,255,255,.1); font-size:.875rem; }
-.ft-bottom .go{ color:#fff; }
-.ft-bottom .go .i{ rotate:-90deg; }
-@media (hover:hover) and (pointer:fine){
-  .ft-social a:hover{ background:rgba(255,255,255,.18); }
-  .ft-col a:hover, .ft-mail:hover, .ft-docs a:hover{ color:#fff; text-decoration-color:#fff; }
-  .ft-bottom .go:hover .i{ transform:translateY(-3px); }
-}
-.ft-mark{ margin:0 calc(var(--fp) * -1); padding-bottom:clamp(12px, 2vw, 32px); font:700 clamp(4.5rem, 17vw, 18rem)/.82 var(--font-d); letter-spacing:-0.06em; text-align:center; white-space:nowrap; background:linear-gradient(180deg, rgba(205,196,255,.34), rgba(205,196,255,.06)); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-user-select:none; user-select:none; pointer-events:none; }
+/* ===== Подвал в стилистике первого экрана: «ночная вода», неподвижный свет со стеклянной линзой справа, знак «Рассвет»,
+   контакты тёмным стеклом поверх линзы; ниже — предупреждение, реквизиты в рамке, документы ===== */
+.site-footer{ position:relative; isolation:isolate; overflow:clip; padding:var(--sec) 0 28px; background:var(--bg-2); color:var(--text); }
 
+/* Фон: кадр света с линзой (--silk кладёт menteya.js, основа правила — sections.css). Слой своей высоты на каждой ширине:
+   линза в кадре растёт с его высотой. Слева темнее — там текст; сверху и снизу свет растворяется в цвете подвала */
+.ft-silk{ position:absolute; left:0; right:0; top:0; z-index:-1; height:clamp(720px, 58vw, 900px); pointer-events:none; -webkit-mask-image:linear-gradient(#000 74%, transparent); mask-image:linear-gradient(#000 74%, transparent); }
+.ft-silk[data-silk]{ background-image:linear-gradient(var(--bg-2), transparent 22%), linear-gradient(90deg, color-mix(in srgb, var(--bg-2) 82%, transparent), color-mix(in srgb, var(--bg-2) 58%, transparent) 44%, transparent 72%), var(--silk, radial-gradient(26% 38% at 81% 48%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%)); }
+
+/* Верх: слева знак и описание, под ними три колонки ссылок; справа — линза фона и карточка контактов */
+.ft-top{ display:grid; grid-template-columns:minmax(0, 7fr) minmax(0, 5fr); grid-template-areas:"brand ." "cols contacts"; align-items:end; gap:clamp(40px, 4vw, 56px) clamp(28px, 3vw, 48px); }
+.ft-brand{ grid-area:brand; }
+.ft-cols{ grid-area:cols; }
+.ft-contacts{ grid-area:contacts; }
+
+/* Знак «Рассвет»: солнце над водой (линии — мятой), слово антиквой капсом с разрядкой, подпись моноширинным */
+.ft-logo{ display:inline-flex; align-items:center; gap:16px; color:var(--accent); }
+.ft-logo-mark{ width:56px; height:56px; flex-shrink:0; }
+.ft-logo-t{ display:grid; gap:8px; }
+.ft-logo-word{ font:600 1.75rem/1 var(--mark); letter-spacing:.16em; text-transform:uppercase; color:var(--text); }
+.ft-logo-sub{ font:500 .75rem/1.2 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--text-3); }
+.ft-about{ max-width:40ch; margin-top:28px; color:var(--text-2); text-wrap:pretty; }
+.ft-social{ display:flex; gap:8px; margin-top:24px; }
+.ft-social a{ display:grid; place-items:center; width:48px; height:48px; border-radius:50%; box-shadow:inset 0 0 0 1px var(--line-2); transition:background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+
+/* Колонки ссылок с линиями 1px между ними */
+.ft-cols{ display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); }
+.ft-col{ padding:2px clamp(14px, 1.4vw, 24px) 0; border-left:1px solid var(--line); }
+.ft-col:first-child{ padding-left:0; border-left:0; }
+.ft-col .label{ display:flex; margin-bottom:14px; }
+.ft-col li a{ display:inline-block; padding:5px 0; transition:color .2s ease; }
+
+/* Контакты — тёмное стекло (.glass-dk), справа у края, как карточка выезда на первом экране */
+.ft-contacts{ justify-self:end; width:min(100%, 380px); padding:24px 26px; }
+.ft-contacts .label{ display:flex; margin-bottom:14px; color:var(--text-2); }   /* стекло над светлой линзой: метка светлее обычной ради контраста */
+.ft-phone{ display:inline-block; font:500 1.5rem/1.2 var(--font); letter-spacing:-0.02em; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.ft-open{ display:flex; align-items:center; gap:10px; margin-top:10px; font-size:.9375rem; font-weight:500; }
+html:not(.js) .ft-open{ display:none; }   /* без скриптов строка повторила бы часы работы */
+.ft-info{ margin-top:18px; padding-top:16px; border-top:1px solid var(--line); }
+.ft-info p{ font-size:.9375rem; line-height:1.5; color:var(--text-2); }
+.ft-info p + p{ margin-top:10px; }
+.ft-mail{ display:inline-block; margin-top:10px; font-size:.9375rem; text-decoration:underline; text-decoration-color:var(--line-2); text-underline-offset:4px; transition:color .2s ease, text-decoration-color .2s ease; }
+
+/* Предупреждение (ст. 24 «О рекламе»): крупной строкой между линиями, не мелким шрифтом */
+.ft-warning{ display:flex; align-items:center; gap:14px; margin-top:clamp(56px, 6vw, 88px); padding:22px 0; border-block:1px solid var(--line); font:500 clamp(1.125rem, 1.7vw, 1.5rem)/1.3 var(--font); letter-spacing:-0.015em; }
+.ft-warning .i{ width:24px; height:24px; color:var(--accent); }
+
+/* Реквизиты — сеткой в рамке с линиями 1px; ниже документы строкой */
+.ft-legal{ padding-top:28px; }
+.ft-req{ display:grid; grid-template-columns:minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.7fr); gap:1px; overflow:hidden; border:1px solid var(--line); border-radius:var(--r-sm); background:var(--line); }
+.ft-req > div{ padding:16px 20px 18px; background:var(--bg-2); }
+.ft-req dt{ font:500 .75rem/1.35 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); }
+.ft-req dd{ margin:8px 0 0; font-weight:500; font-variant-numeric:tabular-nums; }
+.ft-docs{ display:flex; flex-wrap:wrap; gap:2px 28px; margin-top:20px; }
+.ft-docs a{ padding:6px 0; font-size:.9375rem; color:var(--text-2); text-decoration:underline; text-decoration-color:var(--line-2); text-underline-offset:4px; transition:color .2s ease, text-decoration-color .2s ease; }
+.ft-note{ margin-top:8px; font-size:.875rem; color:var(--text-3); }
+
+/* Низ: копирайт, выключатель движения, «Наверх» */
+.ft-bottom{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 24px; margin-top:28px; padding-top:14px; border-top:1px solid var(--line); font-size:.9375rem; color:var(--text-2); }
+.ft-motion{ display:inline-flex; align-items:center; gap:12px; min-height:44px; font-weight:500; color:var(--text); }
+html:not(.js) .ft-motion{ display:none; }   /* без скриптов выключатель ничего не сделает */
+.ft-switch{ position:relative; width:40px; height:24px; flex-shrink:0; border-radius:999px; box-shadow:inset 0 0 0 1.5px var(--text-3); transition:background-color .2s ease, box-shadow .2s ease; }
+.ft-switch::after{ content:""; position:absolute; left:5px; top:5px; width:14px; height:14px; border-radius:50%; background:var(--text-3); transition:left .2s var(--ease); }
+.ft-motion[aria-pressed="true"] .ft-switch{ background:var(--accent); box-shadow:none; }
+.ft-motion[aria-pressed="true"] .ft-switch::after{ left:21px; background:var(--on-light); }
+.ft-up{ min-height:44px; color:var(--text); }
+.ft-up .i{ rotate:-90deg; }   /* стрелка вверх; сдвиг при наведении из .go идёт тоже вверх */
+@media (hover:hover) and (pointer:fine){
+  .ft-col li a:hover, .ft-mail:hover, .ft-docs a:hover, .ft-motion:hover, .ft-up:hover{ color:var(--accent); }
+  .ft-mail:hover, .ft-docs a:hover{ text-decoration-color:currentColor; }
+  .ft-social a:hover{ background:color-mix(in srgb, var(--text) 8%, transparent); color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent); }
+}
+
+/* До 1099px: знак и описание слева, линза — справа от них в полосе света; ниже контакты и колонки во всю ширину */
 @media (max-width:1099px){
-  .ft-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
-  .ft-brand, .ft-contacts{ grid-column:1 / -1; }
+  .ft-silk{ height:440px; }
+  .ft-top{ grid-template-columns:minmax(0, 1fr); grid-template-areas:"brand" "contacts" "cols"; gap:40px; }
+  .ft-brand{ max-width:min(100%, 460px); }
+  .ft-contacts{ justify-self:stretch; width:auto; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); grid-template-rows:auto auto 1fr; align-items:start; gap:0 32px; }   /* 1fr — лишняя высота уходит под строку «открыто», она остаётся под телефоном */
+  .ft-contacts .label{ grid-column:1 / -1; }
+  .ft-info{ grid-column:2; grid-row:2 / span 2; margin:0; padding:0 0 0 32px; border-top:0; border-left:1px solid var(--line); }
+}
+@media (max-width:1099px) and (min-width:700px){
+  .ft-req{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width:699px){
-  .ft-card{ border-radius:26px; text-align:center; }
-  .ft-warning{ font-size:.75rem; letter-spacing:.04em; }
-  .ft-grid{ grid-template-columns:1fr 1fr; gap:28px 12px; padding:36px 0 28px; }
-  .ft-brand{ display:flex; flex-direction:column; align-items:center; }
-  .ft-brand p{ margin-inline:auto; }
-  .ft-social{ justify-content:center; }
-  .ft-contacts{ order:-1; padding:20px; border-radius:22px; background:rgba(255,255,255,.06); }
-  .ft-col a{ display:inline-block; padding:4px 0; }
-  .ft-col li + li{ margin-top:2px; }
-  .ft-bottom{ flex-direction:column-reverse; }
-  .ft-mark{ font-size:clamp(4rem, 22vw, 9rem); padding-bottom:28px; }
+  .site-footer{ padding-top:80px; padding-bottom:calc(92px + env(safe-area-inset-bottom, 0px)); }   /* снизу — место под док быстрой связи */
+  /* Линза справа от знака, на треть за краем экрана, как линзы разделов. Высота слоя 300px — меньше скрипт не рисует;
+     центр линзы (48% высоты слоя) — на уровне знака: 80px отступа + 24px половины знака − 144px */
+  .ft-silk{ top:-40px; right:auto; width:calc(100% + 64px); height:300px; }
+  .ft-logo-mark{ width:48px; height:48px; }
+  .ft-logo{ gap:12px; }
+  .ft-logo-word{ font-size:1.5rem; }
+  .ft-logo-sub{ font-size:.6875rem; }
+  .ft-about{ margin-top:56px; }   /* текст начинается под линзой */
+  .ft-social{ margin-top:20px; }
+  .ft-top{ gap:32px; }
+  .ft-contacts{ grid-template-columns:minmax(0, 1fr); grid-template-rows:none; padding:20px; }
+  .ft-info{ grid-column:auto; grid-row:auto; margin-top:16px; padding:14px 0 0; border-left:0; border-top:1px solid var(--line); }
+  .ft-phone, .ft-mail{ display:inline-flex; align-items:center; min-height:44px; }   /* цель нажатия не меньше 44px */
+  .ft-open{ margin-top:4px; }
+  .ft-mail{ margin-top:2px; }
+  .ft-cols{ grid-template-columns:1fr 1fr; gap:28px 16px; }
+  .ft-col{ padding:0; border:0; }
+  .ft-col .label{ margin-bottom:6px; }
+  .ft-col li a{ padding:10px 0; }   /* цель нажатия не меньше 44px */
+  .ft-warning{ align-items:flex-start; gap:12px; margin-top:40px; padding:18px 0; font-size:1rem; }
+  .ft-warning .i{ margin-top:1px; }
+  .ft-warning span span{ display:block; }   /* две фразы — две строки, без «висящих» слов */
+  .ft-req{ grid-template-columns:1fr 1fr; }
+  .ft-req > div:first-child, .ft-req > div:last-child{ grid-column:1 / -1; }
+  .ft-req > div{ padding:14px 16px 16px; }
+  .ft-req dd{ font-size:.9375rem; }
+  .ft-docs{ flex-direction:column; align-items:flex-start; gap:0; }
+  .ft-docs a{ padding:11px 0; }
+  .ft-bottom{ flex-direction:column; align-items:flex-start; gap:4px; }
+  .ft-bottom > span{ order:3; padding-top:8px; }
 }

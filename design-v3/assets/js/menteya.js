@@ -43,7 +43,8 @@
   triggers.forEach(function(t){
     var panel = panelOf(t);
     t.addEventListener('click', function(){
-      openTrigger === t ? closeMenu() : openMenu(t);
+      // мышью меню уже открылось наведением — клик по той же кнопке его не закрывает, иначе оно «мигает»
+      if(openTrigger === t && !(canHover && t.matches(':hover'))) closeMenu(); else openMenu(t);
     });
     if(canHover){
       [t, panel].forEach(function(el){
@@ -446,6 +447,9 @@ function setupBookingForm(form){
     var ok = test();
     el.closest('.field').classList.toggle('is-invalid', !ok);
     el.setAttribute('aria-invalid', String(!ok));
+    // текст ошибки связан с полем, только пока ошибка есть: иначе экранный диктор читает его как подсказку
+    var err = el.closest('.field').querySelector('.error');
+    if(err && err.id){ if(ok) el.removeAttribute('aria-describedby'); else el.setAttribute('aria-describedby', err.id); }
     return ok;
   }
   checks.forEach(function(c){
@@ -476,6 +480,7 @@ function setupBookingForm(form){
     checks.forEach(function(c){
       c[0].closest('.field').classList.remove('is-invalid');
       c[0].removeAttribute('aria-invalid');
+      c[0].removeAttribute('aria-describedby');
     });
     success.hidden = true;
     body.hidden = false;
@@ -501,6 +506,9 @@ function setupBookingForm(form){
   var trigger = null;
 
   function contextOf(link){
+    if(link.dataset.service) return 'Услуга: ' + link.dataset.service;   // кнопка сама называет услугу: «Вызвать врача» → «Выезд психиатра на дом»
+    var promo = link.closest('.promo-ticket');
+    if(promo) return 'Акция: ' + promo.querySelector('.h3').textContent.trim();
     var row = link.closest('.price-row');
     if(row) return 'Услуга: ' + row.querySelector('.pr-name').firstChild.textContent.trim();
     var card = link.closest('.doc-card');
@@ -525,7 +533,7 @@ function setupBookingForm(form){
     setTimeout(function(){
       modal.classList.remove('is-closing');
       modal.close();
-    }, reduce.matches ? 0 : 200);
+    }, reduce.matches || document.documentElement.classList.contains('no-motion') ? 0 : 200);
   }
 
   document.addEventListener('click', function(e){
@@ -670,13 +678,311 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   }, { passive:true });
 })();
 
-// Туман на сцене первого экрана стоит, пока экран не виден — не тратим батарею
+// Свет: «шёлк» — медленно текущий свет в глубине воды — и стеклянные линзы, сквозь которые он преломляется (WebGL).
+// Один шейдер на три случая:
+//  • первый экран — живой фон с большой линзой (.scene-gl);
+//  • линзы у краёв разделов — отдельные шары на прозрачном фоне (.lens canvas, стили — sections.css);
+//  • неподвижный фон разделов и подвала — кадр рисуется один раз и кладётся картинкой в --silk ([data-silk]).
+// Камера стоит, к прокрутке ничего не привязано. Не больше 30 кадров в секунду, рисуется только то, что у экрана.
+// «Уменьшить движение» в системе или кнопка в подвале — неподвижный кадр. Без WebGL остаются CSS-градиенты
+(function(){
+  if(!window.WebGLRenderingContext) return;
+  var FS = [
+    '#ifdef GL_FRAGMENT_PRECISION_HIGH',
+    'precision highp float;',
+    '#else',
+    'precision mediump float;',
+    '#endif',
+    // uMode: 0 — фон во весь холст, 1 — шар на прозрачном фоне; uShade: 0 — ровно, 1 — темнее слева (текст), 2 — темнее под линзой
+    'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim;',
+    'float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }',
+    'float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f);',
+    '  return mix(mix(hash(i), hash(i + vec2(1., 0.)), u.x), mix(hash(i + vec2(0., 1.)), hash(i + vec2(1., 1.)), u.x), u.y); }',
+    'float fbm(vec2 p){ float v = 0., a = .5; mat2 m = mat2(1.6, 1.2, -1.2, 1.6);',
+    '  for(int i = 0; i < 5; i++){ v += a * noise(p); p = m * p; a *= .5; } return v; }',
+    // шёлк: поле шума, дважды «закрученное» само в себя, окрашено от ночной воды через бирюзу в мяту и тёплый рассвет
+    'vec3 silk(vec2 p, float t){',
+    '  vec2 q = vec2(fbm(p * 1.1 + vec2(0., t * .6)), fbm(p * 1.1 + vec2(5.2, 1.3) - t * .5));',
+    '  vec2 r = vec2(fbm(p * 1.3 + 3. * q + vec2(1.7, 9.2) + t * .35), fbm(p * 1.3 + 3. * q + vec2(8.3, 2.8) - t * .3));',
+    '  float f = fbm(p * 1.2 + 3.2 * r);',
+    '  vec3 col = mix(vec3(.043, .118, .137), vec3(.086, .2, .227), smoothstep(.15, .5, f));',
+    '  col = mix(col, vec3(.13, .4, .4), smoothstep(.42, .78, f));',
+    '  col = mix(col, vec3(.5, .84, .73), smoothstep(.45, 1., f * f * 1.35) * .75);',
+    '  col = mix(col, vec3(.95, .73, .54), smoothstep(.55, 1., r.x) * smoothstep(.42, .9, f) * .5);',
+    '  float ridge = pow(1. - abs(fract(f * 6. + q.x * 2.) - .5) * 2., 12.);',
+    '  return col + vec3(.5, .84, .73) * ridge * .1;',
+    '}',
+    'void main(){',
+    '  vec2 p = (gl_FragCoord.xy - .5 * uRes) / uRes.y;',
+    '  float t = uTime * .065;',
+    '  vec2 d = p - uLens.xy; float R = uLens.z * (1. + .012 * sin(uTime * .5)), r = length(d);',   // линза едва заметно «дышит»
+    '  float edge = R > 0. ? smoothstep(R, R - 2.5 / uRes.y, r) : 0.;',
+    '  float glow = R > 0. ? exp(-pow(max(r - R, 0.) / (R * .32), 2.)) * (1. - edge) : 0.;',
+    '  vec3 inner = vec3(0.);',
+    '  if(edge > 0.){',
+    '    float z = sqrt(max(0., 1. - r * r / (R * R)));',
+    '    inner = silk(uLens.xy + uSeed + d * (.4 + .22 * (1. - z)) + vec2(.3, -.2), t * 1.15) * 1.25 + vec3(.02, .05, .05);',
+    '    inner = mix(inner, vec3(.86, .97, .93), pow(1. - z, 2.4) * .5);',   // светлая кромка стекла
+    '    vec2 h1 = d / R - vec2(-.36, .42); inner += exp(-dot(h1, h1) * 15.) * .5;',   // блик сверху слева
+    '    vec2 h2 = d / R - vec2(.34, -.52); inner += vec3(.95, .74, .55) * exp(-dot(h2, h2) * 9.) * .2;',   // тёплый рефлекс снизу
+    '  }',
+    '  if(uMode > .5){',   // шар: цвет уже умножен на прозрачность
+    '    gl_FragColor = vec4(inner * edge + vec3(.5, .84, .73) * glow * .4, clamp(edge + glow * .4, 0., 1.));',
+    '    return;',
+    '  }',
+    '  vec3 col = silk(p + uSeed, t) * uDim;',
+    '  float shade = uShade < .5 ? 0. : uShade < 1.5 ? smoothstep(.2, -.8, p.x - uLens.x + .45) : smoothstep(uLens.y - uLens.z, uLens.y - uLens.z - .45, p.y);',
+    '  col *= 1. - .5 * shade;',   // там, где текст, темнее
+    '  col *= 1. - .22 * dot(p * vec2(.55, 1.), p * vec2(.55, 1.));',
+    '  col += vec3(.5, .84, .73) * glow * .12;',   // свечение вокруг линзы
+    '  col = mix(col, inner, edge);',
+    '  col += (hash(gl_FragCoord.xy + fract(uTime)) - .5) * .022;',   // зерно, чтобы не было полос в градиенте
+    '  gl_FragColor = vec4(col, 1.);',
+    '}'
+  ].join('\n');
+  var VS = 'attribute vec2 a; void main(){ gl_Position = vec4(a, 0., 1.); }';
+  var root = document.documentElement;
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function calm(){ return still.matches || root.classList.contains('no-motion'); }
+  var start = performance.now() - 40000;   // не с нулевого кадра — узор уже «раскручен»
+
+  // Программа на холсте; null — если WebGL нет или шейдер не собрался
+  function renderer(canvas, alpha){
+    var gl = canvas.getContext('webgl', { alpha:alpha, premultipliedAlpha:true, antialias:false, depth:false, stencil:false, preserveDrawingBuffer:false, powerPreference:'low-power' });
+    if(!gl) return null;
+    function shader(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; }
+    var vs = shader(gl.VERTEX_SHADER, VS), fs = shader(gl.FRAGMENT_SHADER, FS);
+    if(!vs || !fs) return null;
+    var prog = gl.createProgram();
+    gl.attachShader(prog, vs); gl.attachShader(prog, fs);
+    gl.bindAttribLocation(prog, 0, 'a');
+    gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+    gl.useProgram(prog);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);   // один треугольник на весь холст
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    var loc = {};
+    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
+    gl.uniform1f(loc.uDim, 1);
+    return {
+      gl:gl,
+      size:function(w, h){
+        w = Math.max(1, Math.round(w)); h = Math.max(1, Math.round(h));
+        if(canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
+        gl.viewport(0, 0, w, h);
+        gl.uniform2f(loc.uRes, w, h);
+      },
+      set:function(n, a, b, c){ var l = loc[n]; if(c !== undefined) gl.uniform3f(l, a, b, c); else if(b !== undefined) gl.uniform2f(l, a, b); else gl.uniform1f(l, a); },
+      draw:function(sec){ gl.uniform1f(loc.uTime, sec); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+    };
+  }
+  function now(){ return (performance.now() - start) / 1000; }
+
+  var live = [];   // что течёт: { r, el, visible, resize }
+  function watch(item, margin){
+    live.push(item);
+    if(!('IntersectionObserver' in window)){ item.visible = true; return; }
+    new IntersectionObserver(function(es){
+      item.visible = es[0].isIntersecting;
+      if(item.visible && item.wake) item.wake();
+    }, { rootMargin:margin || '0px' }).observe(item.el);
+  }
+
+  // 1. Первый экран: линза справа от текста; на планшете и телефоне — над текстом, в отступе .hero-in (hero.css)
+  var heroCanvas = document.querySelector('.scene-gl');
+  var hr = heroCanvas && renderer(heroCanvas, false);
+  if(hr){
+    hr.set('uMode', 0); hr.set('uSeed', 0, 0);
+    var heroResize = function(){
+      var W = heroCanvas.clientWidth, H = heroCanvas.clientHeight, phone = W < 700, narrow = W < 1100;
+      var q = phone ? .5 : Math.min(window.devicePixelRatio || 1, 2) * .6;   // фон мягкий — полное разрешение не нужно
+      hr.size(W * q, H * q);
+      hr.set('uShade', narrow ? 2 : 1);
+      if(narrow){
+        var head = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 72;
+        var space = phone ? Math.min(W * .54, 300) : Math.min(W * .4, 340);
+        hr.set('uLens', phone ? 0 : W * .16 / H, .5 - (head + space / 2) / H, space * .42 / H);
+      } else {
+        hr.set('uLens', Math.min(W / H * .5 - .36, .5), .04, .3);
+      }
+      hr.draw(now());
+    };
+    heroResize();
+    heroCanvas.classList.add('is-on');
+    heroCanvas.addEventListener('webglcontextlost', function(e){ e.preventDefault(); heroCanvas.classList.remove('is-on'); });   // остаётся CSS-градиент
+    watch({ r:hr, el:heroCanvas, visible:true, resize:heroResize });
+  }
+
+  // 2. Линзы у краёв разделов: контекст WebGL создаём, только когда линза подъехала к экрану
+  document.querySelectorAll('.lens canvas').forEach(function(c, i){
+    var seed = +(c.parentNode.getAttribute('data-seed') || i + 1);
+    var item = { el:c, visible:false, r:null };
+    // слабый телефон может отобрать контекст WebGL — тогда возвращается CSS-пятно, а у экрана шар создаётся заново
+    c.addEventListener('webglcontextlost', function(e){ e.preventDefault(); item.r = null; c.classList.remove('is-on'); });
+    c.addEventListener('webglcontextrestored', function(){ if(item.visible && item.wake) item.wake(); });
+    item.resize = function(){
+      if(!item.r) return;
+      var q = window.innerWidth < 700 ? .6 : Math.min(window.devicePixelRatio || 1, 2) * .55;
+      item.r.size(c.clientWidth * q, c.clientHeight * q);
+      item.r.draw(now());
+    };
+    item.wake = function(){
+      if(item.r) return;
+      item.r = renderer(c, true);
+      if(!item.r){ item.wake = null; return; }
+      item.r.set('uMode', 1); item.r.set('uShade', 0);
+      item.r.set('uSeed', seed * 3.7, seed * 1.9);
+      item.r.set('uLens', 0, 0, .36);
+      item.resize();
+      c.classList.add('is-on');
+    };
+    watch(item, '200px 0px');
+  });
+
+  // 3. Неподвижный шёлк: один временный контекст рисует кадры по очереди и отдаёт их картинками, потом освобождается
+  var flats = Array.prototype.slice.call(document.querySelectorAll('[data-silk]'));
+  if(flats.length) setTimeout(function(){
+    var off = document.createElement('canvas');
+    var fr = renderer(off, false);
+    if(!fr) return;
+    fr.set('uMode', 0); fr.set('uShade', 0); fr.set('uDim', .8);
+    (function next(i){
+      if(i >= flats.length){
+        var lose = fr.gl.getExtension('WEBGL_lose_context');
+        if(lose) lose.loseContext();
+        return;
+      }
+      var el = flats[i], W = Math.min(el.clientWidth, 1600) || 1200, H = Math.max(Math.min(el.clientHeight * W / (el.clientWidth || W), 1000), 300);
+      fr.size(W * .7, H * .7);
+      fr.set('uSeed', 11.3 + i * 4.1, 3.7 + i * 2.3);
+      if(el.getAttribute('data-silk') === 'lens') fr.set('uLens', W / H * .5 - .32, .02, .26);
+      else fr.set('uLens', 0, 0, 0);
+      fr.draw(37 + i * 13);
+      off.toBlob(function(blob){
+        if(blob) el.style.setProperty('--silk', 'url("' + URL.createObjectURL(blob) + '")');
+        next(i + 1);
+      }, 'image/webp', .9);
+    })(0);
+  }, 700);
+
+  // Общий цикл: рисуем только видимое и не чаще 30 раз в секунду
+  var last = 0;
+  function loop(t){
+    requestAnimationFrame(loop);
+    if(document.hidden || calm() || t - last < 33) return;
+    last = t;
+    var s = now();
+    live.forEach(function(it){ if(it.visible && it.r) it.r.draw(s); });
+  }
+  requestAnimationFrame(loop);
+  var timer = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(timer);
+    timer = setTimeout(function(){ live.forEach(function(it){ if(it.resize) it.resize(); }); }, 150);
+  });
+})();
+
+// Док быстрой связи («Записаться / Позвонить / Написать»): виден, когда первый экран ушёл из вида.
+// Класс is-off у .hero, правила показа — overlays.css
 (function(){
   var hero = document.querySelector('.hero');
-  if(!hero || !('IntersectionObserver' in window)) return;
-  new IntersectionObserver(function(es){
-    hero.classList.toggle('is-off', !es[0].isIntersecting);
-  }).observe(hero);
+  if(!hero) return;
+  if(!('IntersectionObserver' in window)){ hero.classList.add('is-off'); return; }
+  new IntersectionObserver(function(es){ hero.classList.toggle('is-off', !es[0].isIntersecting); }).observe(hero);
+})();
+
+// Врачи на главной: стрелки листают ряд карточек на одну карточку; у края ряда стрелка гаснет.
+// Палец и колёсико листают ряд сами (CSS scroll-snap), скрипт только добавляет кнопки
+(function(){
+  var track = document.getElementById('doctorsTrack');
+  if(!track) return;
+  var prev = document.querySelector('.doc-arrow[data-dir="-1"]');
+  var next = document.querySelector('.doc-arrow[data-dir="1"]');
+  if(!prev || !next) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var ticking = false;
+  function step(){
+    var cell = track.firstElementChild;
+    return cell ? cell.getBoundingClientRect().width + 1 : track.clientWidth;   // + линия 1px между карточками
+  }
+  function update(){
+    var max = track.scrollWidth - track.clientWidth - 2;
+    prev.setAttribute('aria-disabled', String(track.scrollLeft <= 2));
+    next.setAttribute('aria-disabled', String(track.scrollLeft >= max));
+    ticking = false;
+  }
+  // aria-disabled, а не disabled: кнопка в фокусе не теряет его, когда ряд дошёл до края
+  [prev, next].forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if(btn.getAttribute('aria-disabled') === 'true') return;
+      var calm = reduce.matches || document.documentElement.classList.contains('no-motion');
+      track.scrollBy({ left:+btn.dataset.dir * step(), behavior:calm ? 'auto' : 'smooth' });
+    });
+  });
+  function onChange(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+  track.addEventListener('scroll', onChange, { passive:true });
+  window.addEventListener('resize', onChange);
+  update();
+})();
+
+// «Пример диалога» в разделе записи: реплики появляются по очереди один раз, когда диалог показался на экране;
+// перед ответом администратора 0,8 с видно «печатает…». Место под реплики занято заранее — страница не прыгает.
+// Без скриптов, без IntersectionObserver и при выключенной анимации все реплики видны сразу
+(function(){
+  var chat = document.querySelector('.chat');
+  if(!chat || !('IntersectionObserver' in window)) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('no-motion')) return;
+  var msgs = chat.querySelectorAll('.chat-msg');
+  chat.classList.add('is-playing');
+  function show(i){
+    if(i >= msgs.length){ chat.classList.remove('is-playing'); return; }   // всё показано — убираем служебный класс
+    var m = msgs[i];
+    if(m.classList.contains('is-admin')){
+      m.classList.add('is-typing');
+      setTimeout(function(){
+        m.classList.remove('is-typing');
+        m.classList.add('is-shown');
+        setTimeout(function(){ show(i + 1); }, 600);
+      }, 800);
+    } else {
+      m.classList.add('is-shown');
+      setTimeout(function(){ show(i + 1); }, 700);
+    }
+  }
+  var io = new IntersectionObserver(function(entries){
+    if(!entries[0].isIntersecting) return;
+    io.disconnect();
+    setTimeout(function(){ show(0); }, 300);
+  }, { threshold:.35 });
+  io.observe(chat);
+})();
+
+// «Отключить анимацию» в подвале: класс no-motion на <html> выключает движение так же, как системная настройка
+// «уменьшить движение» (правило в core.css), и останавливает свет. Выбор помним в браузере; при загрузке класс
+// ставит строка в <head> (layout.html), чтобы анимация не мелькнула
+(function(){
+  var buttons = document.querySelectorAll('[data-motion-toggle]');
+  if(!buttons.length) return;
+  var KEY = 'menteya-motion', root = document.documentElement;
+  function save(off){ try { if(off) localStorage.setItem(KEY, 'off'); else localStorage.removeItem(KEY); } catch(e){} }
+  function apply(off){
+    root.classList.toggle('no-motion', off);
+    buttons.forEach(function(b){ b.setAttribute('aria-pressed', String(off)); });
+  }
+  apply(root.classList.contains('no-motion'));
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){
+      var off = !root.classList.contains('no-motion');
+      save(off);
+      apply(off);
+    });
+  });
 })();
 
 // Появление блоков при прокрутке (один раз)

@@ -1,65 +1,115 @@
-/* ===== Окно записи, плашка cookie, нижняя панель на телефоне ===== */
+/* ===== Поверх страницы: окно записи, плашка cookie, док быстрой связи — тёмное стекло, как карточки первого экрана ===== */
 
-/* --- Окно записи: нативный <dialog> — фокус внутри окна, Esc и затемнение работают сами --- */
-.modal{ width:min(500px, calc(100% - 32px)); max-width:none; max-height:none; margin:auto; padding:0; border:0; background:transparent; color:var(--ink); overflow:visible; }
-.modal::backdrop{ background:rgba(29,26,66,.45); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
-.modal[open]{ animation:modal-in .36s var(--ease); }
-.modal[open]::backdrop{ animation:fade-in .36s var(--ease); }
-.modal.is-closing{ animation:modal-out .2s ease-in forwards; }
-.modal.is-closing::backdrop{ animation:fade-out .2s ease-in forwards; }
-@keyframes modal-in{ from{ opacity:0; translate:0 14px; scale:.97; } }
-@keyframes modal-out{ to{ opacity:0; translate:0 10px; scale:.98; } }
-@keyframes fade-in{ from{ opacity:0; } }
-@keyframes fade-out{ to{ opacity:0; } }
+/* --- Окно записи: нативный <dialog> — фокус внутри окна, Esc и затемнение работают сами. Тёмная карточка --- */
+.modal{ width:min(520px, calc(100% - 32px)); max-width:none; max-height:none; margin:auto; padding:0; border:0; background:transparent; color:var(--text); overflow:visible; }
+/* Цвет --bg-2 числами: ::backdrop в старых браузерах не видит переменные. Без размытия: размытие под окном тормозит телефоны */
+.modal::backdrop{ background:rgba(11,31,36,.78); }
 html.modal-open{ overflow:hidden; }
-.modal-card{ position:relative; isolation:isolate; overflow:hidden auto; overscroll-behavior:contain; max-height:calc(100dvh - 32px); padding:32px 28px 24px; border-radius:30px; background:radial-gradient(90% 60% at 100% 0%, var(--lav), rgba(231,226,255,0) 62%), #fff; box-shadow:0 40px 100px -30px rgba(29,26,66,.6); }
+/* Появление и закрытие — только прозрачность и сдвиг на 8px */
+@media (prefers-reduced-motion:no-preference){
+  .modal[open]{ animation:appear .32s var(--ease); }
+  .modal[open]::backdrop{ animation:ov-fade-in .32s ease; }
+  .modal.is-closing{ animation:ov-fade-out .2s ease-in forwards; }
+  .modal.is-closing::backdrop{ animation:ov-fade-out .2s ease-in forwards; }
+}
+@keyframes ov-fade-in{ from{ opacity:0; } }
+@keyframes ov-fade-out{ to{ opacity:0; } }
+/* Карточка: поверхность с тонкой светлой обводкой и мягким мятным отсветом в углу — как свет линзы */
+.modal-card{ position:relative; overflow:hidden auto; overscroll-behavior:contain; max-height:calc(100dvh - 32px); padding:24px 28px; border-radius:var(--r); background:radial-gradient(80% 45% at 100% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 72%), var(--surface); box-shadow:inset 0 0 0 1px var(--line-2), 0 40px 100px -30px rgba(0,0,0,.6); }
 .modal-card:focus{ outline:none; }
-.modal-close{ position:absolute; right:14px; top:14px; z-index:2; display:grid; place-items:center; width:44px; height:44px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 1px var(--line); transition:background-color .2s ease, transform .16s var(--ease); }
-.modal-close:active{ transform:scale(.92); }
-@media (hover:hover) and (pointer:fine){ .modal-close:hover{ background:var(--lav); } }
-.orb.orb-modal{ display:block; top:-56px; right:56px; width:120px; }
-.modal h2{ padding-right:52px; font:600 1.625rem/1.15 var(--font-d); letter-spacing:-0.03em; }
-.modal-lead{ margin-top:10px; color:var(--ink-2); }
-.modal-context{ display:inline-flex; align-items:center; gap:8px; margin-top:14px; padding:8px 14px; border-radius:999px; background:var(--mint); color:var(--green); font-weight:600; font-size:.9375rem; line-height:1.35; }
-.modal-context .i{ width:16px; height:16px; }
-.modal .form-grid{ grid-template-columns:1fr; margin:20px 0 16px; }
-.modal-alt{ display:grid; justify-items:center; gap:10px; margin-top:20px; padding-top:18px; box-shadow:inset 0 1px 0 var(--line); text-align:center; }
-.modal-alt .msg-row{ width:100%; }
-.modal-phone{ display:inline-flex; align-items:center; gap:8px; font:600 1.125rem/1 var(--font-d); letter-spacing:-0.01em; }
-.modal-phone .i{ width:18px; height:18px; color:var(--violet); }
-.modal .form-success{ padding:40px 8px 12px; }
+.modal-close{ position:absolute; right:16px; top:16px; z-index:2; display:grid; place-items:center; width:44px; height:44px; border-radius:50%; background:var(--surface-2); color:var(--text); box-shadow:inset 0 0 0 1px var(--line); transition:background-color .2s ease, box-shadow .2s ease, transform .16s var(--ease); }
+.modal-close:active{ transform:scale(.94); }
+@media (hover:hover) and (pointer:fine){ .modal-close:hover{ box-shadow:inset 0 0 0 1px var(--line-2); background:color-mix(in srgb, var(--text) 12%, var(--surface-2)); } }
+.modal-status{ display:flex; align-items:center; gap:10px; min-height:44px; padding-right:56px; font-size:.9375rem; font-weight:500; color:var(--text-2); }
+.modal-title{ margin-top:10px; font:500 1.75rem/1.1 var(--font); letter-spacing:-0.025em; text-wrap:balance; }
+.modal-lead{ margin-top:10px; line-height:1.5; color:var(--text-2); text-wrap:pretty; }
+.modal-context{ display:inline-flex; align-items:center; gap:8px; margin-top:14px; padding:8px 14px; border-radius:999px; background:color-mix(in srgb, var(--accent) 14%, transparent); box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent); font-size:.9375rem; font-weight:500; line-height:1.35; }
+.modal-context .i{ width:16px; height:16px; color:var(--accent); }
 
-/* --- Плашка cookie: компактная, в правом нижнем углу --- */
-.cookie{ position:fixed; right:16px; bottom:16px; z-index:93; width:min(360px, calc(100% - 32px)); padding:14px; border-radius:24px; background:#fff; box-shadow:0 24px 60px -24px rgba(29,26,66,.5), inset 0 0 0 1px var(--line); animation:cookie-in .45s var(--ease) .8s both; }
-.cookie.is-hiding{ animation:cookie-out .2s ease-in forwards; }
-@keyframes cookie-in{ from{ opacity:0; translate:0 16px; } }
-@keyframes cookie-out{ to{ opacity:0; translate:0 12px; } }
-.cookie-text{ display:flex; align-items:center; gap:12px; font-size:.875rem; line-height:1.45; color:var(--ink-2); }
-.cookie-text .ic{ width:40px; height:40px; border-radius:14px; }
+/* Поля формы — общие правила .form из блока записи (contact.css), здесь только раскладка окна */
+.modal .form-grid{ grid-template-columns:minmax(0, 1fr); gap:14px; margin:20px 0 18px; }   /* в окне поля в один столбец */
+.modal .field > .consent{ display:flex; margin-bottom:0; }   /* общее правило подписей .form .field > label иначе делает галочку блоком */
+.modal .consent a, .modal .policy-note a{ color:var(--accent); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
+.modal .hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }   /* ловушка для ботов — страховка, если общие правила формы поменяются */
+.modal-submit{ display:flex; width:100%; }
+.modal-submit .t{ flex:1; justify-content:center; }
+.modal .secure-note{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:14px; font-size:.875rem; color:var(--text-2); }
+.modal .secure-note .i{ width:16px; height:16px; color:var(--accent); }
+.modal .policy-note{ margin-top:4px; text-align:center; font-size:.8125rem; color:var(--text-3); }
+
+/* Другие способы: телефон и мессенджеры */
+.modal-alt{ display:grid; grid-template-columns:minmax(0, 1fr) auto; align-items:center; gap:12px 16px; margin-top:20px; padding-top:18px; border-top:1px solid var(--line); }
+.modal-alt-t{ font-size:.9375rem; color:var(--text-2); }
+.modal-phone{ display:inline-flex; align-items:center; gap:8px; min-height:44px; font:500 1.125rem/1 var(--font); letter-spacing:-0.01em; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.modal-phone .i{ width:18px; height:18px; color:var(--accent); }
+.modal-msg{ grid-column:1 / -1; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.modal-msg .btn{ min-height:44px; }
+.modal-msg .i{ color:var(--accent); }
+
+/* «Заявка принята» — общий вид из блока записи, в окне компактнее */
+.modal .form-success{ padding:32px 8px 4px; }
+.modal .form-success b{ font-size:1.5rem; }
+.modal .form-success .btn{ min-width:200px; }
+
+/* --- Плашка cookie: компактная тёмная карточка; «Принять» и «Отклонить» одного вида и веса (152-ФЗ) --- */
+.cookie{ position:fixed; right:24px; bottom:24px; z-index:93; width:min(380px, calc(100% - 32px)); padding:18px; border-radius:var(--r-sm); background:var(--glass-dk-solid); color:var(--text); box-shadow:inset 0 0 0 1px var(--line-2), 0 24px 60px -24px rgba(0,0,0,.6); }
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  .cookie{ -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); }   /* текст страницы под плашкой не проступает */
+}
+@media (prefers-reduced-motion:no-preference){
+  .cookie{ animation:appear .45s var(--ease) .8s both; }
+  .cookie.is-hiding{ animation:ov-fade-out .2s ease-in forwards; }
+}
+.cookie-text{ display:flex; align-items:flex-start; gap:12px; font-size:.9375rem; line-height:1.45; color:var(--text-2); }
+.cookie-text .ic{ width:40px; height:40px; border-radius:12px; }
 .cookie-text .ic .i{ width:20px; height:20px; }
-.cookie-text b{ color:var(--ink); }
-.cookie-text a{ font-weight:600; color:var(--primary); text-decoration:underline; text-underline-offset:2px; }
-.cookie-actions{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
-.cookie .btn{ min-height:40px; padding:0 14px; }
+.cookie-text b{ font-weight:500; color:var(--text); }
+.cookie-text a{ font-weight:500; color:var(--accent); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
+.cookie-actions{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+.cookie .btn{ min-height:44px; }
+body.no-scroll .cookie{ visibility:hidden; }   /* открыто мобильное меню — плашка не закрывает его низ и вернётся после закрытия */
 
-/* --- Нижняя панель быстрой связи — только на телефоне --- */
-.bottombar{ display:none; }
+/* --- Док быстрой связи: капсула тёмного стекла (.glass-dk). Компьютер: два круга столбиком в правом нижнем углу --- */
+.bottombar{ position:fixed; right:24px; bottom:24px; z-index:90; display:flex; flex-direction:column; gap:6px; padding:6px; border-radius:999px; box-shadow:0 18px 40px -18px rgba(0,0,0,.65); }
+.bb-cta{ display:none; }   /* на компьютере «Записаться» есть в шапке */
+/* Круги со светлой обводкой */
+.bb-ic{ position:relative; display:grid; place-items:center; width:52px; height:52px; border-radius:50%; color:var(--text); box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--text) 40%, transparent); touch-action:manipulation; transition:background-color .2s ease, box-shadow .2s ease, transform .16s var(--ease); }
+.bb-ic:active{ transform:scale(.94); }
+.bb-ic .i{ width:22px; height:22px; }
+/* Подпись круга: видна при наведении и фокусе, слева от дока; диктор читает её всегда */
+.bb-tip{ position:absolute; right:calc(100% + 16px); top:50%; translate:0 -50%; padding:8px 14px; border-radius:999px; background:var(--text); color:var(--on-light); font-size:.875rem; font-weight:500; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s ease; }
+.bb-ic:hover .bb-tip, .bb-ic:focus-visible .bb-tip{ opacity:1; }
+.bb-ic:focus-visible{ outline-offset:2px; border-radius:50%; }
+@media (hover:hover) and (pointer:fine){ .bb-ic:hover{ background:color-mix(in srgb, var(--text) 10%, transparent); box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--text) 70%, transparent); } }
+
+/* Пока виден первый экран — док спрятан. Класс is-off на .hero ставит модуль «Док быстрой связи» в menteya.js;
+   на страницах без первого экрана и без скриптов док виден всегда */
+.js body:has(.hero:not(.is-off)) .bottombar{ opacity:0; visibility:hidden; translate:0 8px; }
+@media (prefers-reduced-motion:no-preference){
+  .bottombar{ transition:opacity .25s ease, translate .3s var(--ease), visibility 0s; }
+  .js body:has(.hero:not(.is-off)) .bottombar{ transition:opacity .2s ease, translate .3s var(--ease), visibility 0s .3s; }
+}
+body.no-scroll .bottombar{ display:none; }   /* открыто мобильное меню */
+/* С 700px док не нужен: «Записаться» и телефон всегда видны в закреплённой шапке, а круги у края закрывали содержимое */
+@media (min-width:700px){ .bottombar{ display:none; } }
 
 @media (max-width:699px){
+  /* Окно записи — шторка снизу */
   .modal{ width:100%; margin:auto 0 0; }
-  .modal-card{ max-height:calc(100dvh - 40px); padding:28px 20px calc(20px + env(safe-area-inset-bottom, 0px)); border-radius:28px 28px 0 0; }
-  .modal[open]{ animation:sheet-in .38s var(--ease); }
-  .modal.is-closing{ animation:sheet-out .22s ease-in forwards; }
-  @keyframes sheet-in{ from{ translate:0 100%; } }
-  @keyframes sheet-out{ to{ translate:0 100%; } }
-  .modal h2{ font-size:1.375rem; }
+  .modal-card{ max-height:calc(100dvh - 24px); padding:16px 20px calc(20px + env(safe-area-inset-bottom, 0px)); border-radius:var(--r) var(--r) 0 0; }
+  .modal-close{ right:12px; top:12px; }
+  .modal-title{ margin-top:4px; font-size:1.5rem; }
+  .modal .form-grid{ gap:12px; margin:16px 0 16px; }
+  .modal .secure-note{ font-size:.8125rem; }
+  .modal-alt{ margin-top:16px; padding-top:14px; }
 
-  body{ padding-bottom:calc(84px + env(safe-area-inset-bottom, 0px)); }
-  .bottombar{ position:fixed; left:10px; right:10px; bottom:calc(10px + env(safe-area-inset-bottom, 0px)); z-index:90; display:grid; grid-template-columns:1fr 1fr 1.3fr; gap:6px; padding:6px; border-radius:999px; background:rgba(255,255,255,.85); -webkit-backdrop-filter:blur(14px) saturate(1.4); backdrop-filter:blur(14px) saturate(1.4); box-shadow:0 18px 40px -16px rgba(29,26,66,.45), inset 0 0 0 1px rgba(29,26,66,.06); }
-  body.no-scroll .bottombar{ display:none; }
-  .bb-btn{ display:flex; align-items:center; justify-content:center; gap:6px; min-height:48px; border-radius:999px; font-weight:600; font-size:.875rem; touch-action:manipulation; transition:transform .16s var(--ease); }
-  .bb-btn:active{ transform:scale(.96); }
-  .bb-btn .i{ width:18px; height:18px; }
-  .bb-primary{ background:var(--primary); color:#fff; }
-  .cookie{ left:10px; right:10px; width:auto; bottom:calc(84px + env(safe-area-inset-bottom, 0px)); }
+  /* Плашка cookie — во всю ширину над доком (док: 8px от края + 66px) */
+  .cookie{ left:8px; right:8px; width:auto; bottom:calc(82px + env(safe-area-inset-bottom, 0px)); padding:16px; }
+  .js body:has(.hero:not(.is-off)) .cookie{ bottom:calc(8px + env(safe-area-inset-bottom, 0px)); }   /* док ещё спрятан */
+
+  /* Нижний док: стеклянная полоса — светлая капсула «Записаться» и два круга; учитываем вырез экрана iPhone */
+  .bottombar{ left:8px; right:8px; bottom:calc(8px + env(safe-area-inset-bottom, 0px)); flex-direction:row; gap:6px; }
+  .bb-cta{ display:flex; flex:1; min-width:0; }
+  .bb-cta .t{ flex:1; justify-content:center; }
+  .bb-tip{ position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip-path:inset(50%); }   /* на телефоне подпись только для диктора */
 }

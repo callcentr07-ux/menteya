@@ -1,1 +1,65 @@
-<!-- раздел собирается -->
+<!-- ============ АКЦИИ ============ -->
+<!-- Тёмная вставка (--surface) с небольшой линзой у правого края; шапка раздела сверху, ниже три талона с перфорацией
+     (приём Hungry Tiger, спокойная версия): без крупных процентов и таймеров. Размер и место линзы — visit.css (.promo > .lens).
+     Сроки акций и цены в талонах — заглушки для макета, заменить на реальные условия.
+     Тексты акций согласовать с юристом (ст. 24 ФЗ «О рекламе»). -->
+<section class="sec promo" id="promo" aria-labelledby="promo-title">
+  <div class="lens lens-r" data-seed="7" aria-hidden="true"><canvas></canvas></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div data-reveal>
+        <p class="label">Акции</p>
+        <h2 class="h2" id="promo-title">Специальные предложения</h2>
+        <p class="lead">Подробные условия уточняйте у&nbsp;администратора.</p>
+        <div class="btn-row">
+          <a class="btn btn-line" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>Уточнить условия</a>
+        </div>
+      </div>
+    </div>
+
+    <ul class="promo-list" role="list">
+      <li class="promo-ticket" data-reveal style="--i:1">
+        <div class="promo-main">
+          <p class="label"><time datetime="2026-11-30">До&nbsp;30&nbsp;ноября</time></p>
+          <h3 class="h3">Скидка на&nbsp;первичный приём</h3>
+          <p class="promo-text">При записи через сайт первичная консультация психиатра или психотерапевта&nbsp;— со&nbsp;скидкой 20%.</p>
+        </div>
+        <span class="promo-perf" aria-hidden="true"></span>
+        <div class="promo-stub">
+          <span class="promo-no" aria-hidden="true">01 / 03</span>
+          <!-- цена = 3 500 ₽ минус 20%, пересчёт для макета: заменить на реальную -->
+          <p class="promo-price"><s><span class="visually-hidden">Обычная цена: </span>от&nbsp;3&nbsp;500&nbsp;₽</s><b><span class="visually-hidden">По акции: </span><small>от</small>&nbsp;2&nbsp;800&nbsp;₽</b></p>
+          <a class="btn btn-fill btn-sm" href="#booking">Записаться со&nbsp;скидкой</a>
+        </div>
+      </li>
+      <li class="promo-ticket" data-reveal style="--i:2">
+        <div class="promo-main">
+          <p class="label"><time datetime="2026-12-31">До&nbsp;31&nbsp;декабря</time></p>
+          <h3 class="h3">Диагностика в&nbsp;подарок</h3>
+          <p class="promo-text">При оформлении программы наблюдения от&nbsp;3&nbsp;месяцев&nbsp;— психологическая диагностика бесплатно.</p>
+        </div>
+        <span class="promo-perf" aria-hidden="true"></span>
+        <div class="promo-stub">
+          <span class="promo-no" aria-hidden="true">02 / 03</span>
+          <p class="promo-price"><s><span class="visually-hidden">Обычная цена: </span>от&nbsp;4&nbsp;000&nbsp;₽</s><b><span class="visually-hidden">По акции: </span>Бесплатно</b></p>
+          <a class="btn btn-line btn-sm" href="#booking">Узнать подробнее</a>
+        </div>
+      </li>
+      <li class="promo-ticket" data-reveal style="--i:3">
+        <div class="promo-main">
+          <p class="label"><time datetime="2026-12-31">До&nbsp;31&nbsp;декабря</time></p>
+          <h3 class="h3">Поддержка для студентов</h3>
+          <p class="promo-text">Специальная цена на&nbsp;консультации психолога для студентов очной формы обучения&nbsp;— по&nbsp;студенческому билету.</p>
+        </div>
+        <span class="promo-perf" aria-hidden="true"></span>
+        <div class="promo-stub">
+          <span class="promo-no" aria-hidden="true">03 / 03</span>
+          <!-- размер спеццены не указан и в прошлом дизайне: вписать, когда клиника назовёт -->
+          <p class="promo-price"><s><span class="visually-hidden">Обычная цена: </span>от&nbsp;2&nbsp;500&nbsp;₽</s><b><span class="visually-hidden">Для студентов: </span>Спеццена</b></p>
+          <a class="btn btn-line btn-sm" href="#booking">Записаться</a>
+        </div>
+      </li>
+    </ul>
+    <p class="fine promo-warn"><svg class="i"><use href="#i-info"/></svg>Имеются противопоказания. Необходима консультация специалиста</p>
+  </div>
+</section>

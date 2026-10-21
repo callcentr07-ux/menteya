@@ -1,1 +1,127 @@
-<!-- раздел собирается -->
+<!-- ============ С ЧЕМ МЫ ПОМОГАЕМ ============ -->
+<!-- Часть А — карта состояний: стеклянная линза, как на первом экране, и шесть подписей-ссылок с выносками к точкам на её кромке (приём Seed).
+     Часть Б — шесть рубрик сеткой в рамке (приём Collider). Рубрики те же, что в меню «Услуги» и в подвале -->
+<section class="sec" id="services" aria-labelledby="services-title">
+  <div class="wrap">
+    <div class="svc-top">
+      <div class="svc-intro" data-reveal>
+        <p class="label">Направления</p>
+        <h2 class="h2" id="services-title">С&nbsp;чем мы помогаем</h2>
+        <p class="svc-motto">Психика&nbsp;— такая же часть здоровья, как сердце</p>
+        <p class="lead">От первичной диагностики до&nbsp;долгого сопровождения&nbsp;— подбираем формат, который подходит именно вам.</p>
+        <ul class="svc-facts">
+          <li><svg class="i"><use href="#i-users"/></svg>Взрослым, подросткам, детям и&nbsp;пожилым</li>
+          <li><svg class="i"><use href="#i-sprout"/></svg>Лекарства&nbsp;— только когда без них не&nbsp;обойтись</li>
+          <li><svg class="i"><use href="#i-video"/></svg>Повторные консультации&nbsp;— онлайн</li>
+          <li><svg class="i"><use href="#i-lock"/></svg>Анонимно, без постановки на&nbsp;учёт</li>
+        </ul>
+      </div>
+
+      <!-- Карта: линза рисуется модулем «Свет» (menteya.js), шар — 72% стороны холста. Точки на кромке и выноски считает CSS
+           по углу каждой подписи (services.css, data-n). Подписи — обычный нумерованный список: экранный диктор читает его
+           как список ссылок, на телефоне он встаёт под линзу, а точки на кромке получают номера -->
+      <div class="svc-map" data-reveal style="--i:1">
+        <div class="svc-card">
+          <p class="label svc-card-label" id="svc-map-title">Карта состояний</p>
+          <div class="lens svc-lens" data-seed="5" aria-hidden="true"><canvas></canvas></div>
+        </div>
+        <ol class="svc-calls" aria-labelledby="svc-map-title">
+          <li class="is-l" data-n="1"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">1</span><span class="svc-call-t">Тревога и<br> панические атаки</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-l" data-n="2"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">2</span><span class="svc-call-t">Депрессия</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-l" data-n="3"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">3</span><span class="svc-call-t">Бессонница</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="4"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">4</span><span class="svc-call-t">Стресс и<br> выгорание</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="5"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">5</span><span class="svc-call-t">Память<br> у&nbsp;пожилых</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="6"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">6</span><span class="svc-call-t">Дети и<br> подростки</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+        </ol>
+      </div>
+
+      <div class="svc-help" data-reveal style="--i:2">
+        <p class="svc-help-t">Не&nbsp;знаете, какой специалист нужен?</p>
+        <p class="svc-help-p">Опишите ситуацию&nbsp;— администратор подберёт врача и&nbsp;удобное время. Это бесплатно и&nbsp;анонимно.</p>
+        <div class="btn-row">
+          <a class="btn-cta" href="#booking"><span class="t">Подобрать специалиста</span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></a>
+          <a class="btn btn-line btn-sm" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+          <a class="btn btn-line btn-sm" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Часть Б. Число страниц в рубрике — по каталогу «Услуги» прошлого дизайна; меняется каталог — меняется и число -->
+    <div class="svc-sub" data-reveal>
+      <p class="label">Шесть направлений</p>
+      <a class="go" href="napravlenie.html">Все направления<svg class="i"><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="frame svc-grid">
+      <article class="svc-cell" data-reveal style="--i:0">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-brain"/></svg></span><span class="mono svc-no" aria-hidden="true">01</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Психиатрия</a></h3>
+        <p class="svc-desc">Диагностика и&nbsp;лечение у&nbsp;взрослых, детей и&nbsp;подростков</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="zabolevanie.html">Депрессия</a></li>
+          <li><a class="pill" href="zabolevanie.html">Тревожность</a></li>
+          <li><a class="pill" href="zabolevanie.html">Панические атаки</a></li>
+        </ul>
+        <span class="go svc-count">39 состояний и&nbsp;услуг<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
+
+      <article class="svc-cell" data-reveal style="--i:1">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-activity"/></svg></span><span class="mono svc-no" aria-hidden="true">02</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Психические расстройства</a></h3>
+        <p class="svc-desc">Подбор терапии и&nbsp;долгосрочное наблюдение</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="zabolevanie.html">Биполярное расстройство</a></li>
+          <li><a class="pill" href="zabolevanie.html">ОКР</a></li>
+          <li><a class="pill" href="zabolevanie.html">РПП</a></li>
+        </ul>
+        <span class="go svc-count">10 расстройств<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
+
+      <article class="svc-cell" data-reveal style="--i:2">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-chat"/></svg></span><span class="mono svc-no" aria-hidden="true">03</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Психотерапия</a></h3>
+        <p class="svc-desc">Разговорные методы&nbsp;— с&nbsp;лекарствами или без</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="zabolevanie.html">Бессонница</a></li>
+          <li><a class="pill" href="zabolevanie.html">Апатия</a></li>
+          <li><a class="pill" href="zabolevanie.html">Психосоматика</a></li>
+        </ul>
+        <span class="go svc-count">11 состояний<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
+
+      <article class="svc-cell" data-reveal style="--i:3">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-users"/></svg></span><span class="mono svc-no" aria-hidden="true">04</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Психолог</a></h3>
+        <p class="svc-desc">Взрослым, детям и&nbsp;семьям: самооценка, отношения, утрата</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="napravlenie.html">Семейный психолог</a></li>
+          <li><a class="pill" href="zabolevanie.html">Низкая самооценка</a></li>
+        </ul>
+        <span class="go svc-count">17 услуг<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
+
+      <article class="svc-cell" data-reveal style="--i:4">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-heart"/></svg></span><span class="mono svc-no" aria-hidden="true">05</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Пожилым</a></h3>
+        <p class="svc-desc">Память, настроение и&nbsp;поведение, поддержка семьи</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="zabolevanie.html">Болезнь Альцгеймера</a></li>
+          <li><a class="pill" href="napravlenie.html">Психиатр на&nbsp;дом</a></li>
+        </ul>
+        <span class="go svc-count">6 состояний и&nbsp;услуг<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
+
+      <article class="svc-cell" data-reveal style="--i:5">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-kid"/></svg></span><span class="mono svc-no" aria-hidden="true">06</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Детям</a></h3>
+        <!-- «невролог» — сверить с перечнем работ в лицензии (замечание проверки); нет в лицензии — заменить на «психолог» -->
+        <p class="svc-desc">Детский психиатр и&nbsp;невролог&nbsp;— вместе с&nbsp;родителями</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="napravlenie.html">Детский психиатр</a></li>
+          <li><a class="pill" href="zabolevanie.html">Гиперактивность</a></li>
+          <li><a class="pill" href="zabolevanie.html">Аутизм</a></li>
+        </ul>
+        <span class="go svc-count">3 услуги<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
+    </div>
+  </div>
+</section>

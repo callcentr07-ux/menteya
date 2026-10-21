@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f4f1ea">
-<script>document.documentElement.classList.add('js')</script>
+<meta name="theme-color" content="#0f262c">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<!-- js — включены скрипты; no-motion — посетитель выключил анимацию кнопкой в подвале (ставим до первой отрисовки) -->
+<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('menteya-motion')==='off')document.documentElement.classList.add('no-motion')}catch(e){}</script>
 <title>Частная психиатрическая клиника в Москве — «Ментея»</title>
 <meta name="description" content="Клиника психиатрии и психотерапии «Ментея» в Москве: психиатр, психотерапевт, психолог. Анонимно, без учёта. Приём в клинике, на дому, повторно — онлайн.">
 <link rel="canonical" href="https://menteya.ru/">
@@ -19,7 +21,7 @@
 <!-- Шрифты пока с Google Fonts; перед запуском — файлами на сайте (без запросов к чужим серверам) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Unbounded:wght@600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Cormorant+Garamond:wght@600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
 <link rel="stylesheet" href="assets/css/menteya.min.css">
 </head>
@@ -62,20 +64,14 @@
   <symbol id="i-cookie" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01M16 15.5v.01M12 12v.01M11 17v.01M7 14v.01"/></symbol>
   <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M8.5 14.5v-5l3.5 3.5 3.5-3.5v5"/></symbol>
-  <!-- Знак «Ментеи»: голова в профиль (смотрит влево) и дерево с шестью узлами. Координаты узлов
-       совпадают с выносками в блоке «С чем мы помогаем»: N1 150,118 · N2 238,96 · N3 292,168 · N4 128,198 · N5 274,250 · N6 168,262 -->
-  <symbol id="g-head" viewBox="0 0 400 400"><path d="M268 400C266 372 270 344 288 318C318 280 338 236 338 186C338 104 276 44 196 44C128 44 84 92 84 150C84 166 86 176 82 186C78 196 64 208 58 216C55 220 57 226 63 228L76 231C72 236 70 241 74 245C77 248 80 249 80 251C74 254 74 261 80 264C78 274 82 286 96 290C116 294 134 296 146 312C154 330 156 364 152 400Z"/></symbol>
-  <symbol id="g-tree" viewBox="0 0 400 400">
-    <g fill="none" stroke-linecap="round" style="stroke:var(--tree, #7fd6b9); stroke-width:var(--tree-w, 6)">
-      <path d="M212 396C206 360 222 330 214 300C208 276 200 258 206 232"/>
-      <path d="M206 232C214 196 222 160 232 124"/><path d="M204 246C180 214 160 178 154 142"/>
-      <path d="M208 224C236 214 258 196 278 180"/><path d="M210 276C182 262 152 240 140 212"/>
-      <path d="M214 300C236 290 252 276 262 264"/><path d="M212 292C196 290 182 282 176 272"/>
-    </g>
-    <g style="fill:var(--node, #7fd6b9)">
-      <circle cx="238" cy="96" r="26"/><circle cx="150" cy="118" r="22"/><circle cx="292" cy="168" r="18"/>
-      <circle cx="128" cy="198" r="15"/><circle cx="274" cy="250" r="20"/><circle cx="168" cy="262" r="13"/>
-    </g>
+  <!-- Знак «Ментеи»&nbsp;— «Рассвет»: солнце встаёт над спокойной водой (новый день, надежда, восстановление).
+       Солнце&nbsp;— тёплый градиент, линии воды&nbsp;— цветом текста вокруг (currentColor) -->
+  <defs>
+    <linearGradient id="dawnG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd7b0"/><stop offset="1" stop-color="#f2a877"/></linearGradient>
+  </defs>
+  <symbol id="g-mark" viewBox="0 0 48 48">
+    <path d="M11 27a13 13 0 0 1 26 0Z" fill="url(#dawnG)"/>
+    <path d="M6 31.5h36M11.5 37h25M17.5 42.5h13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
   </symbol>
   <symbol id="i-vk" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M3.5 7h2.9c.1 3 1.4 4.6 2.6 4.9V7h2.7v2.7c1.2-.1 2.4-1.5 2.8-2.7h2.7c-.4 1.7-1.7 3-2.6 3.6.9.4 2.4 1.6 3 3.6h-3c-.4-1.3-1.5-2.3-2.9-2.4V14h-.3C6.6 14 3.6 11.3 3.5 7Z"/></symbol>
 </svg>
@@ -85,7 +81,7 @@
 <!-- ============ HEADER ============ -->
 <header class="site-header" id="siteHeader">
   <div class="wrap hd-inner">
-    <a href="#" class="logo" aria-label="Клиника «Ментея»&nbsp;— на главную"><svg class="logo-mark" viewBox="0 0 400 400" aria-hidden="true" focusable="false"><use class="hd" href="#g-head"/><use href="#g-tree"/></svg>Ментея</a>
+    <a href="index.html" class="logo" aria-label="Клиника «Ментея»&nbsp;— на главную"><svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="#g-mark"/></svg><span class="logo-word">Ментея</span></a>
     <nav class="mainnav" aria-label="Основное меню">
       <ul>
         <li><button class="nav-link" type="button" aria-expanded="false" aria-controls="megaServices" data-menu="mega">Услуги<svg class="i caret"><use href="#i-chevron"/></svg></button></li>
@@ -170,7 +166,7 @@
                 <li><a href="zabolevanie.html">Расстройство личности</a></li>
                 <li data-k="ковид covid"><a href="napravlenie.html">Реабилитация после коронавируса</a></li>
                 <li><a href="zabolevanie.html">Сексуальные расстройства</a></li>
-                <li><a href="napravlenie.html">Скорая психиатрическая помощь</a></li>
+                <li data-k="скорая экстренная"><a href="napravlenie.html">Срочный выезд психиатра на&nbsp;дом</a></li>
                 <li data-k="страх"><a href="zabolevanie.html">Страхи</a></li>
                 <li><a href="zabolevanie.html">Стресс</a></li>
                 <li data-k="суицид самоубийство"><a href="zabolevanie.html">Суицидальное поведение</a></li>
@@ -324,7 +320,7 @@
           </div>
 
           <div class="mega-extra">
-            <a class="mega-direct" href="stacionar.html"><span class="ic"><svg class="i"><use href="#i-bed"/></svg></span>Стационар<svg class="i"><use href="#i-arrow"/></svg></a>
+            <a class="mega-direct" href="napravlenie.html"><span class="ic"><svg class="i"><use href="#i-home"/></svg></span>Психиатр на&nbsp;дом&nbsp;— круглосуточно<svg class="i"><use href="#i-arrow"/></svg></a>
             <a class="mega-direct" href="#pricing"><span class="ic"><svg class="i"><use href="#i-card"/></svg></span>Все цены на услуги<svg class="i"><use href="#i-arrow"/></svg></a>
           </div>
 
@@ -342,9 +338,9 @@
           <p>Администратор подберёт специалиста под ваш запрос. Это бесплатно и анонимно.</p>
         </div>
         <a class="mega-phone" href="tel:+74950000000">+7 495 000-00-00</a>
-        <div class="msg-row">
-          <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
-          <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        <div class="btn-row">
+          <a class="btn btn-line btn-sm" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+          <a class="btn btn-line btn-sm" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
         </div>
       </aside>
     </div>
@@ -353,7 +349,7 @@
 
 <div class="scrim" id="scrim" aria-hidden="true"></div>
 
-<div class="drawer" id="mobileMenu" aria-label="Меню сайта">
+<nav class="drawer" id="mobileMenu" aria-label="Меню сайта">
   <ul class="drawer-nav">
     <li>
       <details>
@@ -381,152 +377,43 @@
   <div class="drawer-contact">
     <a class="drawer-phone" href="tel:+74950000000">+7 495 000-00-00</a>
     <p class="muted">Ежедневно 9:00–21:00, выезд врача круглосуточно<br>Москва, ул. Примерная, 1</p>
-    <div class="msg-row">
-      <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
-      <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+    <div class="btn-row">
+      <a class="btn btn-line btn-sm" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+      <a class="btn btn-line btn-sm" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
     </div>
-    <a href="#booking" class="btn btn-primary btn-block">Записаться на консультацию</a>
+    <a class="btn-cta" href="#booking"><span class="t">Записаться на&nbsp;консультацию</span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></a>
   </div>
-  <a class="drawer-a11y" href="#"><svg class="i"><use href="#i-eye"/></svg>Версия для слабовидящих</a>
-</div>
+  <a class="drawer-a11y" href="vision.html"><svg class="i"><use href="#i-eye"/></svg>Версия для слабовидящих</a>
+</nav>
 
 <main id="main">
 
 <!-- ============ ПЕРВЫЙ ЭКРАН ============ -->
-<section class="hero" aria-labelledby="hero-title">
+<section class="hero on-dark" aria-labelledby="hero-title">
   <div class="scene">
-    <!-- Сцена первого экрана нарисована кодом: утро, озеро в тумане, холмы во мху, над водой&nbsp;— стеклянная голова из логотипа.
-     Когда появится 3D-кадр или видео, этот блок заменяется на <video poster> (размеры и позиции карточек не меняются). -->
-<svg class="scene-art" viewBox="0 0 2000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#e3e9e6"/><stop offset=".36" stop-color="#ece8df"/>
-      <stop offset=".74" stop-color="#f3dcc3"/><stop offset="1" stop-color="#f6cda6"/>
-    </linearGradient>
-    <radialGradient id="sunG" cx="1000" cy="650" r="640" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#fff0dc"/><stop offset=".16" stop-color="#fbd9b4" stop-opacity=".95"/>
-      <stop offset=".46" stop-color="#f3c69e" stop-opacity=".38"/><stop offset="1" stop-color="#f3c69e" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="farG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9d3cc"/><stop offset="1" stop-color="#d9d6c8"/></linearGradient>
-    <linearGradient id="midG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a5b9ab"/><stop offset="1" stop-color="#bcc5b3"/></linearGradient>
-    <linearGradient id="bankG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#86a092"/><stop offset=".55" stop-color="#6b897c"/><stop offset="1" stop-color="#4f6c66"/></linearGradient>
-    <linearGradient id="waterG" x1="0" y1="640" x2="0" y2="1000" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f4dcc2"/><stop offset=".22" stop-color="#e2d9ca"/>
-      <stop offset=".6" stop-color="#a9bab3"/><stop offset="1" stop-color="#6c8885"/>
-    </linearGradient>
-    <radialGradient id="sunRefG"><stop offset="0" stop-color="#fff2e2" stop-opacity=".9"/><stop offset="1" stop-color="#fbe0c2" stop-opacity="0"/></radialGradient>
-    <!-- бархатный мох: мелкий шум поверх холмов -->
-    <filter id="moss" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 .1  0 0 0 0 .2  0 0 0 0 .16  0 0 0 .42 0" result="nc"/>
-      <feComposite in="nc" in2="SourceGraphic" operator="in" result="nm"/>
-      <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="nm"/></feMerge>
-    </filter>
-    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter>
-    <!-- матовое стекло: то, что за головой, размыто и чуть выбелено -->
-    <filter id="frost" x="820" y="300" width="360" height="360" filterUnits="userSpaceOnUse">
-      <feGaussianBlur stdDeviation="10"/>
-      <feColorMatrix type="matrix" values=".82 0 0 0 .17  0 .82 0 0 .17  0 0 .82 0 .17  0 0 0 1 0"/>
-    </filter>
-    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="edge" x="820" y="300" width="360" height="360" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="4"/></filter>
-    <linearGradient id="tintG" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset=".55" stop-color="#fff" stop-opacity=".12"/>
-      <stop offset="1" stop-color="#cfe6dc" stop-opacity=".22"/>
-    </linearGradient>
-    <radialGradient id="shadeG" cx=".78" cy=".82" r=".7"><stop offset="0" stop-color="#16323a" stop-opacity=".2"/><stop offset="1" stop-color="#16323a" stop-opacity="0"/></radialGradient>
-    <linearGradient id="refFade" x1="0" y1="626" x2="0" y2="900" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-    <mask id="refMask"><rect x="0" y="626" width="2000" height="374" fill="url(#refFade)"/></mask>
-    <path id="headShape" transform="translate(845 316) scale(.775)" d="M268 400C266 372 270 344 288 318C318 280 338 236 338 186C338 104 276 44 196 44C128 44 84 92 84 150C84 166 86 176 82 186C78 196 64 208 58 216C55 220 57 226 63 228L76 231C72 236 70 241 74 245C77 248 80 249 80 251C74 254 74 261 80 264C78 274 82 286 96 290C116 294 134 296 146 312C154 330 156 364 152 400Z"/>
-    <clipPath id="headClip"><use href="#headShape"/></clipPath>
-    <g id="treeArt" transform="translate(845 316) scale(.775)">
-      <g fill="none" stroke="#7fd6b9" stroke-width="5" stroke-linecap="round">
-        <path d="M212 396C206 360 222 330 214 300C208 276 200 258 206 232"/>
-        <path d="M206 232C214 196 222 160 232 124"/><path d="M204 246C180 214 160 178 154 142"/>
-        <path d="M208 224C236 214 258 196 278 180"/><path d="M210 276C182 262 152 240 140 212"/>
-        <path d="M214 300C236 290 252 276 262 264"/><path d="M212 292C196 290 182 282 176 272"/>
-      </g>
-      <g fill="#8fe0c4">
-        <circle cx="238" cy="96" r="26"/><circle cx="150" cy="118" r="22"/><circle cx="292" cy="168" r="18"/>
-        <circle cx="128" cy="198" r="15"/><circle cx="274" cy="250" r="20"/><circle cx="168" cy="262" r="13"/>
-      </g>
-      <g fill="#fff" fill-opacity=".75">
-        <circle cx="230" cy="86" r="6"/><circle cx="143" cy="110" r="5"/><circle cx="287" cy="162" r="4"/>
-        <circle cx="124" cy="193" r="3.5"/><circle cx="268" cy="244" r="4.5"/><circle cx="165" cy="258" r="3"/>
-      </g>
-    </g>
-  </defs>
-
-  <!-- мир за стеклом: небо, солнце, холмы, вода -->
-  <g id="land">
-    <rect width="2000" height="1000" fill="url(#skyG)"/>
-    <rect width="2000" height="1000" fill="url(#sunG)"/>
-    <path fill="url(#farG)" opacity=".9" d="M0 640V600C160 584 300 606 460 596C620 586 720 612 860 620C940 625 1060 625 1140 620C1280 612 1380 584 1540 590C1700 596 1840 578 2000 586V640Z"/>
-    <g id="hillsMid" filter="url(#moss)" fill="url(#midG)">
-      <path d="M0 640V470C120 438 260 446 380 484C500 522 600 580 720 616C760 628 800 636 860 640Z"/>
-      <path d="M2000 640V440C1880 404 1730 416 1610 458C1480 504 1380 566 1270 610C1230 626 1180 636 1130 640Z"/>
-    </g>
-    <rect y="640" width="2000" height="360" fill="url(#waterG)"/>
-    <use href="#hillsMid" transform="translate(0 1280) scale(1 -1)" opacity=".2" filter="url(#soft)"/>
-    <ellipse cx="1000" cy="720" rx="150" ry="300" fill="url(#sunRefG)"/>
-    <g stroke="#fff" stroke-linecap="round" fill="none">
-      <path stroke-opacity=".5" stroke-width="2" d="M760 668H930M1070 674H1240M690 698H860M1150 708H1360M640 738H820"/>
-      <path stroke-opacity=".38" stroke-width="2.5" d="M1210 756H1440M560 792H770M1270 818H1530M500 868H720M1330 900H1600M470 950H650"/>
-    </g>
-    <g filter="url(#moss)" fill="url(#bankG)">
-      <path d="M0 1000V560C90 540 200 552 300 590C420 636 520 720 600 800C660 860 690 930 700 1000Z"/>
-      <path d="M2000 1000V600C1900 580 1790 596 1700 636C1590 686 1500 770 1440 850C1400 905 1380 950 1372 1000Z"/>
-    </g>
-  </g>
-
-  <!-- отражение головы в воде -->
-  <g mask="url(#refMask)">
-    <g transform="translate(0 1252) scale(1 -1)" opacity=".34" filter="url(#soft)">
-      <use href="#headShape" fill="#fff" fill-opacity=".5"/>
-      <use href="#treeArt"/>
-    </g>
-  </g>
-
-  <!-- стеклянная голова: размытый мир внутри силуэта, оттенок, тень объёма, светящееся дерево, кромка -->
-  <g clip-path="url(#headClip)">
-    <use href="#land" filter="url(#frost)"/>
-    <rect x="820" y="300" width="360" height="360" fill="url(#tintG)"/>
-    <rect x="820" y="300" width="360" height="360" fill="url(#shadeG)"/>
-    <use href="#headShape" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="16" filter="url(#edge)"/>
-  </g>
-  <use href="#treeArt" filter="url(#glow)" opacity=".95"/>
-  <use href="#headShape" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="2.4"/>
-  <path fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round" transform="translate(845 316) scale(.775)" d="M300 270C326 236 334 198 330 160C324 116 296 80 252 62"/>
-</svg>
-    <span class="mist mist-1" aria-hidden="true"></span><span class="mist mist-2" aria-hidden="true"></span><span class="mist mist-3" aria-hidden="true"></span>
+    <!-- Живой фон первого экрана: медленно текущий «шёлк» света и стеклянная линза&nbsp;— рисует WebGL (модуль «Первый экран» в menteya.js).
+     Без WebGL и до запуска скрипта виден неподвижный градиент .scene. Когда появится видео-фон&nbsp;— заменить холст на <video poster> -->
+<canvas class="scene-gl" aria-hidden="true"></canvas>
   </div>
 
-  <!-- Название во всю ширину, как у Collider. Знак декоративный: название клиники читается из ссылки-логотипа в шапке -->
-  <div class="hero-mark" aria-hidden="true">
-    <svg viewBox="0 0 1000 150" focusable="false"><text x="0" y="146" textLength="1000" lengthAdjust="spacingAndGlyphs">МЕНТЕЯ</text></svg>
-  </div>
-
-  <div class="wrap hero-cards">
-    <div class="glass hero-card hero-main">
+  <div class="wrap hero-in">
+    <div class="hero-copy">
       <p class="label">Частная клиника · Москва</p>
-      <h1 class="h1" id="hero-title">Психиатрическая клиника в&nbsp;Москве</h1>
+      <h1 class="hero-h1" id="hero-title">Психиатрическая клиника в&nbsp;Москве</h1>
       <p class="hero-lead">Бережно разберёмся в&nbsp;состоянии и&nbsp;подберём лечение. Анонимно, без постановки на&nbsp;учёт.</p>
-      <ul class="hero-perks">
-        <li><svg class="i"><use href="#i-lock"/></svg>Анонимно</li>
-        <li><svg class="i"><use href="#i-home"/></svg>Врач на&nbsp;дом 24/7</li>
-        <li><svg class="i"><use href="#i-shield"/></svg>По&nbsp;лицензии</li>
-      </ul>
       <div class="btn-row">
         <a class="btn-cta" href="#booking"><span class="t">Записаться на&nbsp;консультацию</span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></a>
         <a class="btn btn-line" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>Позвонить</a>
       </div>
-      <p class="fine">Первичная консультация&nbsp;— от&nbsp;3&nbsp;500&nbsp;₽, 60&nbsp;минут</p>
+      <ul class="hero-perks">
+        <li><svg class="i"><use href="#i-lock"/></svg>Анонимно, без учёта</li>
+        <li><svg class="i"><use href="#i-clock"/></svg>Ежедневно 9:00–21:00</li>
+        <li><svg class="i"><use href="#i-shield"/></svg>По&nbsp;лицензии</li>
+      </ul>
+      <p class="hero-price">Первичная консультация&nbsp;— <b>от&nbsp;3&nbsp;500&nbsp;₽</b>, 60&nbsp;минут</p>
     </div>
 
-    <a class="glass hero-card hero-side" href="napravlenie.html">
+    <a class="glass-dk hero-side" href="napravlenie.html">
       <span class="label">Выезд на&nbsp;дом</span>
       <b class="hero-side-t">Психиатр на&nbsp;дом&nbsp;— круглосуточно</b>
       <span class="muted">По&nbsp;Москве, от&nbsp;6&nbsp;000&nbsp;₽</span>
@@ -535,58 +422,937 @@
     </a>
   </div>
 
-  <a class="hero-down glass" href="#services" aria-label="Дальше: с&nbsp;чем мы помогаем"><svg class="i"><use href="#i-chevron"/></svg></a>
+  <a class="hero-down" href="#services" aria-label="Дальше: с&nbsp;чем мы помогаем"><svg class="i"><use href="#i-chevron"/></svg></a>
 </section>
 
-<!-- раздел собирается -->
+<!-- ============ ПОЛОСА РЕЙТИНГОВ (сразу под первым экраном) ============ -->
+<!-- Оценки и число отзывов&nbsp;— заглушки из прошлого дизайна: заменить на реальные данные клиники с площадок.
+     Публиковать только настоящие цифры (ст. 24 ФЗ «О рекламе»). Каждая площадка ведёт к разделу отзывов, где есть ссылки на её страницу -->
+<section class="proof-strip" aria-label="Рейтинги клиники на независимых площадках">
+  <div class="wrap proof-in">
+    <p class="label proof-label">Рейтинги на&nbsp;независимых площадках</p>
+    <!-- Логотипы: от каждого файла видно только слово&nbsp;— рамка viewBox вырезает его без значка (числа&nbsp;— пиксели исходной картинки).
+         Размер подобран так, чтобы строчные буквы у всех были одной высоты (~10,5px), а низ рамки&nbsp;— на одной линии под строкой:
+         полоса ровная по весу. Цвет&nbsp;— один светлый, его задаёт фильтр в proof.css -->
+    <ul class="proof-list" role="list">
+      <li><a class="proof-item" href="#reviews" aria-label="Яндекс Карты: 4,5 из&nbsp;5, 212 отзывов">
+        <span class="proof-logo"><svg width="65.5" height="20.6" viewBox="2 1 156 49" aria-hidden="true"><image href="assets/img/platform-yandex.png" width="160" height="45"/></svg></span>
+        <span class="proof-score"><b>4,5</b><svg class="i"><use href="#i-star"/></svg></span>
+        <span class="proof-count">212&nbsp;отзывов</span>
+      </a></li>
+      <li><a class="proof-item" href="#reviews" aria-label="ПроДокторов: 4,9 из&nbsp;5, 128 отзывов">
+        <span class="proof-logo"><svg width="82.7" height="29.7" viewBox="2 2 156 56" aria-hidden="true"><image href="assets/img/platform-prodoctorov.png" width="160" height="57"/></svg></span>
+        <span class="proof-score"><b>4,9</b><svg class="i"><use href="#i-star"/></svg></span>
+        <span class="proof-count">128&nbsp;отзывов</span>
+      </a></li>
+      <li><a class="proof-item" href="#reviews" aria-label="НаПоправку: 4,8 из&nbsp;5, 64 отзыва">
+        <span class="proof-logo"><svg width="121" height="19" viewBox="38 10 121 19" aria-hidden="true"><image href="assets/img/platform-napopravku.png" width="160" height="34"/></svg></span>
+        <span class="proof-score"><b>4,8</b><svg class="i"><use href="#i-star"/></svg></span>
+        <span class="proof-count">64&nbsp;отзыва</span>
+      </a></li>
+      <li><a class="proof-item" href="#reviews" aria-label="Google: 4,7 из&nbsp;5, 45 отзывов">
+        <span class="proof-logo"><svg width="65.8" height="21.5" viewBox="1 112 141 46" aria-hidden="true"><image href="assets/img/platform-google.png" width="143" height="160"/></svg></span>
+        <span class="proof-score"><b>4,7</b><svg class="i"><use href="#i-star"/></svg></span>
+        <span class="proof-count">45&nbsp;отзывов</span>
+      </a></li>
+      <li><a class="proof-item" href="#reviews" aria-label="2ГИС: 5,0 из&nbsp;5, 37 отзывов">
+        <span class="proof-logo"><svg width="48.8" height="20.2" viewBox="54 9 106 44" aria-hidden="true"><image href="assets/img/platform-2gis.png" width="160" height="50"/></svg></span>
+        <span class="proof-score"><b>5,0</b><svg class="i"><use href="#i-star"/></svg></span>
+        <span class="proof-count">37&nbsp;отзывов</span>
+      </a></li>
+      <li><a class="proof-item" href="#reviews" aria-label="Yell.ru: 5,0 из&nbsp;5, 18 отзывов">
+        <span class="proof-logo"><svg width="66.4" height="20.6" viewBox="1 105 158 49" aria-hidden="true"><image href="assets/img/platform-yell.png" width="160" height="144"/></svg></span>
+        <span class="proof-score"><b>5,0</b><svg class="i"><use href="#i-star"/></svg></span>
+        <span class="proof-count">18&nbsp;отзывов</span>
+      </a></li>
+    </ul>
+  </div>
+</section>
 
-<!-- раздел собирается -->
+<!-- ============ С ЧЕМ МЫ ПОМОГАЕМ ============ -->
+<!-- Часть А&nbsp;— карта состояний: стеклянная линза, как на первом экране, и шесть подписей-ссылок с выносками к точкам на её кромке (приём Seed).
+     Часть Б&nbsp;— шесть рубрик сеткой в рамке (приём Collider). Рубрики те же, что в меню «Услуги» и в подвале -->
+<section class="sec" id="services" aria-labelledby="services-title">
+  <div class="wrap">
+    <div class="svc-top">
+      <div class="svc-intro" data-reveal>
+        <p class="label">Направления</p>
+        <h2 class="h2" id="services-title">С&nbsp;чем мы помогаем</h2>
+        <p class="svc-motto">Психика&nbsp;— такая же часть здоровья, как сердце</p>
+        <p class="lead">От первичной диагностики до&nbsp;долгого сопровождения&nbsp;— подбираем формат, который подходит именно вам.</p>
+        <ul class="svc-facts">
+          <li><svg class="i"><use href="#i-users"/></svg>Взрослым, подросткам, детям и&nbsp;пожилым</li>
+          <li><svg class="i"><use href="#i-sprout"/></svg>Лекарства&nbsp;— только когда без них не&nbsp;обойтись</li>
+          <li><svg class="i"><use href="#i-video"/></svg>Повторные консультации&nbsp;— онлайн</li>
+          <li><svg class="i"><use href="#i-lock"/></svg>Анонимно, без постановки на&nbsp;учёт</li>
+        </ul>
+      </div>
 
-<!-- раздел собирается -->
+      <!-- Карта: линза рисуется модулем «Свет» (menteya.js), шар&nbsp;— 72% стороны холста. Точки на кромке и выноски считает CSS
+           по углу каждой подписи (services.css, data-n). Подписи&nbsp;— обычный нумерованный список: экранный диктор читает его
+           как список ссылок, на телефоне он встаёт под линзу, а точки на кромке получают номера -->
+      <div class="svc-map" data-reveal style="--i:1">
+        <div class="svc-card">
+          <p class="label svc-card-label" id="svc-map-title">Карта состояний</p>
+          <div class="lens svc-lens" data-seed="5" aria-hidden="true"><canvas></canvas></div>
+        </div>
+        <ol class="svc-calls" aria-labelledby="svc-map-title">
+          <li class="is-l" data-n="1"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">1</span><span class="svc-call-t">Тревога и<br> панические атаки</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-l" data-n="2"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">2</span><span class="svc-call-t">Депрессия</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-l" data-n="3"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">3</span><span class="svc-call-t">Бессонница</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="4"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">4</span><span class="svc-call-t">Стресс и<br> выгорание</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="5"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">5</span><span class="svc-call-t">Память<br> у&nbsp;пожилых</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="6"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">6</span><span class="svc-call-t">Дети и<br> подростки</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+        </ol>
+      </div>
 
-<!-- раздел собирается -->
+      <div class="svc-help" data-reveal style="--i:2">
+        <p class="svc-help-t">Не&nbsp;знаете, какой специалист нужен?</p>
+        <p class="svc-help-p">Опишите ситуацию&nbsp;— администратор подберёт врача и&nbsp;удобное время. Это бесплатно и&nbsp;анонимно.</p>
+        <div class="btn-row">
+          <a class="btn-cta" href="#booking"><span class="t">Подобрать специалиста</span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></a>
+          <a class="btn btn-line btn-sm" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+          <a class="btn btn-line btn-sm" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        </div>
+      </div>
+    </div>
 
-<!-- раздел собирается -->
+    <!-- Часть Б. Число страниц в рубрике&nbsp;— по каталогу «Услуги» прошлого дизайна; меняется каталог&nbsp;— меняется и число -->
+    <div class="svc-sub" data-reveal>
+      <p class="label">Шесть направлений</p>
+      <a class="go" href="napravlenie.html">Все направления<svg class="i"><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="frame svc-grid">
+      <article class="svc-cell" data-reveal style="--i:0">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-brain"/></svg></span><span class="mono svc-no" aria-hidden="true">01</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Психиатрия</a></h3>
+        <p class="svc-desc">Диагностика и&nbsp;лечение у&nbsp;взрослых, детей и&nbsp;подростков</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="zabolevanie.html">Депрессия</a></li>
+          <li><a class="pill" href="zabolevanie.html">Тревожность</a></li>
+          <li><a class="pill" href="zabolevanie.html">Панические атаки</a></li>
+        </ul>
+        <span class="go svc-count">39 состояний и&nbsp;услуг<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
 
-<!-- раздел собирается -->
+      <article class="svc-cell" data-reveal style="--i:1">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-activity"/></svg></span><span class="mono svc-no" aria-hidden="true">02</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Психические расстройства</a></h3>
+        <p class="svc-desc">Подбор терапии и&nbsp;долгосрочное наблюдение</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="zabolevanie.html">Биполярное расстройство</a></li>
+          <li><a class="pill" href="zabolevanie.html">ОКР</a></li>
+          <li><a class="pill" href="zabolevanie.html">РПП</a></li>
+        </ul>
+        <span class="go svc-count">10 расстройств<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
 
-<!-- раздел собирается -->
+      <article class="svc-cell" data-reveal style="--i:2">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-chat"/></svg></span><span class="mono svc-no" aria-hidden="true">03</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Психотерапия</a></h3>
+        <p class="svc-desc">Разговорные методы&nbsp;— с&nbsp;лекарствами или без</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="zabolevanie.html">Бессонница</a></li>
+          <li><a class="pill" href="zabolevanie.html">Апатия</a></li>
+          <li><a class="pill" href="zabolevanie.html">Психосоматика</a></li>
+        </ul>
+        <span class="go svc-count">11 состояний<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
 
-<!-- раздел собирается -->
+      <article class="svc-cell" data-reveal style="--i:3">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-users"/></svg></span><span class="mono svc-no" aria-hidden="true">04</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Психолог</a></h3>
+        <p class="svc-desc">Взрослым, детям и&nbsp;семьям: самооценка, отношения, утрата</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="napravlenie.html">Семейный психолог</a></li>
+          <li><a class="pill" href="zabolevanie.html">Низкая самооценка</a></li>
+        </ul>
+        <span class="go svc-count">17 услуг<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
 
-<!-- раздел собирается -->
+      <article class="svc-cell" data-reveal style="--i:4">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-heart"/></svg></span><span class="mono svc-no" aria-hidden="true">05</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Пожилым</a></h3>
+        <p class="svc-desc">Память, настроение и&nbsp;поведение, поддержка семьи</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="zabolevanie.html">Болезнь Альцгеймера</a></li>
+          <li><a class="pill" href="napravlenie.html">Психиатр на&nbsp;дом</a></li>
+        </ul>
+        <span class="go svc-count">6 состояний и&nbsp;услуг<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
 
-<!-- раздел собирается -->
+      <article class="svc-cell" data-reveal style="--i:5">
+        <div class="svc-cell-top"><span class="ic"><svg class="i"><use href="#i-kid"/></svg></span><span class="mono svc-no" aria-hidden="true">06</span></div>
+        <h3 class="svc-name"><a href="napravlenie.html">Детям</a></h3>
+        <!-- «невролог»&nbsp;— сверить с перечнем работ в лицензии (замечание проверки); нет в лицензии&nbsp;— заменить на «психолог» -->
+        <p class="svc-desc">Детский психиатр и&nbsp;невролог&nbsp;— вместе с&nbsp;родителями</p>
+        <ul class="svc-tags" aria-label="Частые запросы">
+          <li><a class="pill" href="napravlenie.html">Детский психиатр</a></li>
+          <li><a class="pill" href="zabolevanie.html">Гиперактивность</a></li>
+          <li><a class="pill" href="zabolevanie.html">Аутизм</a></li>
+        </ul>
+        <span class="go svc-count">3 услуги<svg class="i"><use href="#i-arrow"/></svg></span>
+      </article>
+    </div>
+  </div>
+</section>
 
-<!-- ============ ЗАПИСЬ И КОНТАКТЫ ============ -->
-<section class="sec" id="contacts" aria-labelledby="contacts-title">
+<!-- ============ ПЕРВЫЙ ПРИЁМ ============ -->
+<!-- Вставка с неподвижным «шёлком» света (data-silk: кадр один раз рисует модуль «Свет» в menteya.js, стили&nbsp;— sections.css),
+     поверх&nbsp;— тёмное стекло: слева заголовок и факты, справа четыре шага с линиями (приём Integrated Bio). Линз в разделе нет. -->
+<section class="sec visit" id="steps" aria-labelledby="steps-title">
+  <div class="visit-box" data-silk>
+    <div class="glass-dk visit-panel">
+      <div class="visit-side" data-reveal>
+        <p class="label">Первый приём</p>
+        <h2 class="h2" id="steps-title">Как проходит первый приём</h2>
+        <p class="lead">Без очередей и&nbsp;спешки. Заранее понятно, что будет и&nbsp;сколько это стоит.</p>
+        <ul class="visit-facts">
+          <li class="visit-fact"><span class="pill">Консультация</span><b class="num">60&nbsp;мин</b></li>
+          <li class="visit-fact"><span class="pill">Стоимость</span><b class="num"><small>от</small>&nbsp;3&nbsp;500&nbsp;₽</b></li>
+          <li class="visit-fact"><span class="pill">Повторные приёмы</span><b class="num">онлайн</b></li>
+        </ul>
+        <p class="visit-note">Первичный приём и&nbsp;диагноз&nbsp;— только очно: в&nbsp;клинике или на&nbsp;дому.</p>
+      </div>
+
+      <div class="visit-main">
+        <!-- Линия у каждого шага заполняется один раз, когда шаг появился (класс is-in от data-reveal); --p&nbsp;— доля пути: 1/4, 2/4… -->
+        <ol class="visit-steps" role="list">
+          <li class="visit-step" data-reveal style="--i:1; --p:.25">
+            <div class="visit-step-top" aria-hidden="true"><span class="visit-n">01 / 04</span><span class="visit-line"></span></div>
+            <h3 class="h3">Заявка</h3>
+            <p>Позвоните, напишите или оставьте заявку. Перезвоним за&nbsp;15&nbsp;минут, подберём врача и&nbsp;время.</p>
+          </li>
+          <li class="visit-step" data-reveal style="--i:2; --p:.5">
+            <div class="visit-step-top" aria-hidden="true"><span class="visit-n">02 / 04</span><span class="visit-line"></span></div>
+            <h3 class="h3">Беседа с&nbsp;врачом</h3>
+            <p>60&nbsp;минут без спешки: врач расспросит о&nbsp;самочувствии, сне, настроении и&nbsp;о&nbsp;том, что беспокоит.</p>
+          </li>
+          <li class="visit-step" data-reveal style="--i:3; --p:.75">
+            <div class="visit-step-top" aria-hidden="true"><span class="visit-n">03 / 04</span><span class="visit-line"></span></div>
+            <h3 class="h3">План лечения</h3>
+            <p>Объясним, что происходит, и&nbsp;предложим понятный план. Лекарства&nbsp;— только когда без них не&nbsp;обойтись.</p>
+          </li>
+          <li class="visit-step" data-reveal style="--i:4; --p:1">
+            <div class="visit-step-top" aria-hidden="true"><span class="visit-n">04 / 04</span><span class="visit-line"></span></div>
+            <h3 class="h3">Наблюдение</h3>
+            <p>Остаёмся на&nbsp;связи между визитами. Повторные консультации можно проходить онлайн.</p>
+          </li>
+        </ol>
+        <div class="btn-row visit-cta" data-reveal style="--i:5">
+          <a class="btn-cta" href="#booking"><span class="t">Записаться<span class="visit-cta-more">&nbsp;на&nbsp;консультацию</span></span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></a>
+          <a class="btn btn-line" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>Позвонить</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ВРАЧИ ============ -->
+<!-- Ряд карточек в рамке (Collider «Our Beers»): стрелки листают ряд на одну карточку, на телефоне&nbsp;— лента с защёлкой.
+     Окно записи берёт имя врача из .doc-card .doc-name&nbsp;— классы не менять.
+     Фото&nbsp;— заглушки до съёмки; стаж, цены и капсулы&nbsp;— из прошлого дизайна, заменить на реальные -->
+<section class="sec" id="doctors" aria-labelledby="doctors-title">
+  <div class="wrap">
+    <div class="sec-head doc-head" data-reveal>
+      <div>
+        <p class="label">Врачи</p>
+        <h2 class="h2" id="doctors-title">Врачи, которым можно доверять</h2>
+        <p class="lead">Психиатры, психотерапевты и&nbsp;психологи со&nbsp;стажем от&nbsp;9&nbsp;лет подберут формат помощи под ваш запрос.</p>
+      </div>
+      <div class="doc-arrows" role="group" aria-label="Листать врачей">
+        <button class="doc-arrow" type="button" data-dir="-1" aria-controls="doctorsTrack" aria-label="Листать назад"><svg class="i"><use href="#i-arrow"/></svg></button>
+        <button class="doc-arrow" type="button" data-dir="1" aria-controls="doctorsTrack" aria-label="Листать вперёд"><svg class="i"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+
+    <div class="frame doc-track" id="doctorsTrack" data-reveal style="--i:1">
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/intro-main.jpg" width="700" height="700" alt="Соколова Анна Викторовна, главный врач, психиатр" loading="lazy">
+          <p class="doc-caps"><span class="pill">Главный врач</span><span class="pill">Стаж 18&nbsp;лет</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Соколова Анна Викторовна</a></h3>
+          <p class="doc-role">Психиатр, кандидат медицинских наук</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;3&nbsp;500&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/doctor-orlov.jpg" width="700" height="700" alt="Орлов Михаил Андреевич, психиатр-психотерапевт" loading="lazy">
+          <p class="doc-caps"><span class="pill">Стаж 14&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Орлов Михаил Андреевич</a></h3>
+          <p class="doc-role">Психиатр, психотерапевт</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;3&nbsp;500&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/doctor-volkova.jpg" width="700" height="700" alt="Волкова Елена Сергеевна, клинический психолог" loading="lazy">
+          <p class="doc-caps"><span class="pill">Стаж 11&nbsp;лет</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Волкова Елена Сергеевна</a></h3>
+          <p class="doc-role">Клинический психолог</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;2&nbsp;500&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/doctor-lebedev.jpg" width="700" height="700" alt="Лебедев Игорь Павлович, детский психиатр" loading="lazy">
+          <p class="doc-caps"><span class="pill">Стаж 16&nbsp;лет</span><span class="pill">Дети и&nbsp;подростки</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Лебедев Игорь Павлович</a></h3>
+          <p class="doc-role">Детский психиатр</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;3&nbsp;500&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <div class="doc-photo">
+          <img src="assets/img/doctor-belov.jpg" width="700" height="700" alt="Белов Сергей Николаевич, психотерапевт" loading="lazy">
+          <p class="doc-caps"><span class="pill">Стаж 9&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
+        </div>
+        <div class="doc-body">
+          <h3 class="doc-name"><a href="vrach.html">Белов Сергей Николаевич</a></h3>
+          <p class="doc-role">Психотерапевт</p>
+          <div class="doc-foot">
+            <p class="doc-price">от&nbsp;3&nbsp;200&nbsp;₽</p>
+            <a class="go doc-book" href="#booking">Записаться к&nbsp;врачу<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Последняя ячейка ряда&nbsp;— не врач, а подбор: класс не .doc-card, чтобы окно записи не искало имя -->
+      <div class="doc-cta">
+        <p class="label">Подбор врача</p>
+        <h3 class="h3">Не&nbsp;знаете, какой специалист нужен?</h3>
+        <p>Опишите ситуацию&nbsp;— администратор подберёт врача и&nbsp;удобное время.</p>
+        <ul class="doc-cta-list">
+          <li><svg class="i"><use href="#i-check"/></svg>Перезвоним за&nbsp;15&nbsp;минут</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Бесплатно и&nbsp;анонимно</li>
+        </ul>
+        <a class="btn btn-fill btn-block" href="#booking">Подобрать специалиста</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ЦЕНЫ ============ -->
+<!-- Цены и длительность&nbsp;— из прошлого дизайна (заглушки): заменить на реальные из прейскуранта клиники -->
+<section class="pricing" id="pricing" aria-labelledby="pricing-title">
+
+  <!-- Часть А: три своих формата рядом (приём Collider «Us vs Them»). С другими клиниками не сравниваем&nbsp;— ст. 5 закона «О рекламе».
+       Таблица «по строкам-форматам»: строка = формат, столбец = условие. На ПК форматы стоят колонками (subgrid), на телефоне&nbsp;— карточками -->
+  <div class="sec sec-dark pr-dark">
+    <div class="wrap sec-grid">
+      <div class="sec-side" data-reveal>
+        <p class="label">Цены и&nbsp;форматы</p>
+        <h2 class="h2" id="pricing-title">Цены на&nbsp;услуги</h2>
+        <p class="lead">Стоимость видна до&nbsp;записи. Первичный приём&nbsp;— очно, в&nbsp;клинике или на&nbsp;дому, повторные можно онлайн.</p>
+        <ul class="pr-perks">
+          <li><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg></span><span><b>Цена лечения&nbsp;— после консультации</b><span class="muted">Врач предложит план и&nbsp;назовёт стоимость до&nbsp;начала лечения</span></span></li>
+          <li><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><span><b>Картой и&nbsp;наличными</b><span class="muted">Кассовый чек после каждого приёма</span></span></li>
+          <li><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-doc"/></svg></span><span><b>Справка для налогового вычета</b><span class="muted">Вернёте часть стоимости лечения</span></span></li>
+        </ul>
+      </div>
+
+      <div class="pr-cmp" data-reveal style="--i:1">
+        <div class="cmp" role="table" aria-label="Форматы приёма: цена и условия">
+          <!-- Шапка таблицы: названия условий. На ПК&nbsp;— левая колонка, на телефоне скрыта (подписи повторены в карточках) -->
+          <div class="cmp-col cmp-keys" role="row">
+            <span class="cmp-c cmp-h" role="columnheader"><span class="visually-hidden">Формат</span></span>
+            <span class="cmp-c" role="columnheader">Первичная консультация</span>
+            <span class="cmp-c" role="columnheader">Когда</span>
+            <span class="cmp-c" role="columnheader">Длительность</span>
+            <span class="cmp-c" role="columnheader">Анонимно</span>
+            <span class="cmp-c cmp-fit" role="columnheader">Кому подходит</span>
+            <span class="cmp-c cmp-cta" role="columnheader"><span class="visually-hidden">Запись</span></span>
+          </div>
+
+          <!-- Рекомендуемый формат: приподнятая карточка с тонкой светлой обводкой, ответы&nbsp;— светлые капсулы с заливкой -->
+          <div class="cmp-col is-main" role="row">
+            <span class="cmp-c cmp-h" role="rowheader"><span class="cmp-name">В&nbsp;клинике</span><span class="cmp-top"><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg></span><span class="label">Рекомендуем</span></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Первичная консультация</span><span class="pill cmp-price">от&nbsp;3&nbsp;500&nbsp;₽</span></span>
+            <!-- Часы&nbsp;— в капсуле, «ежедневно»&nbsp;— подписью рядом: капсула не переносится на узких экранах -->
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Когда</span><span class="cmp-v"><span class="pill">9:00–21:00</span><span class="cmp-sub">ежедневно</span></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Длительность</span><span class="pill">60&nbsp;минут</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Анонимно</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>да</span></span>
+            <!-- «Кому подходит»&nbsp;— формулировки по фактам прошлого дизайна, согласовать с клиникой -->
+            <span class="cmp-c cmp-fit" role="cell"><span class="cmp-k" aria-hidden="true">Кому подходит</span><span class="cmp-txt">Первый визит и&nbsp;диагностика. Детям&nbsp;— с&nbsp;родителем</span></span>
+            <span class="cmp-c cmp-cta" role="cell"><a class="btn btn-light btn-sm btn-block" href="#booking" data-service="Первичная консультация в клинике">Записаться<span class="visually-hidden">: первичная консультация в&nbsp;клинике</span></a></span>
+          </div>
+
+          <div class="cmp-col" role="row">
+            <span class="cmp-c cmp-h" role="rowheader"><span class="cmp-name">На&nbsp;дому</span><span class="cmp-top"><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg></span><span class="label">По&nbsp;Москве</span></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Первичная консультация</span><span class="pill cmp-price">от&nbsp;6&nbsp;000&nbsp;₽</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Когда</span><span class="pill">круглосуточно</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Длительность</span><span class="pill">60&nbsp;минут</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Анонимно</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>да</span></span>
+            <span class="cmp-c cmp-fit" role="cell"><span class="cmp-k" aria-hidden="true">Кому подходит</span><span class="cmp-txt">Пожилым и&nbsp;тем, кому сложно приехать в&nbsp;клинику</span></span>
+            <span class="cmp-c cmp-cta" role="cell"><a class="btn btn-line btn-sm btn-block" href="#booking" data-service="Выезд психиатра на дом">Вызвать врача<span class="visually-hidden"> на&nbsp;дом</span></a></span>
+          </div>
+
+          <div class="cmp-col" role="row">
+            <span class="cmp-c cmp-h" role="rowheader"><span class="cmp-name">Онлайн&nbsp;— повторно</span><span class="cmp-top"><span class="ic" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg></span><span class="label">По&nbsp;видеосвязи</span></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Первичная консультация</span><span class="cmp-none"><span aria-hidden="true">—</span><small>только очно</small></span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Когда</span><span class="pill">по&nbsp;записи</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Длительность</span><span class="pill">45&nbsp;минут</span></span>
+            <span class="cmp-c" role="cell"><span class="cmp-k" aria-hidden="true">Анонимно</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>да</span></span>
+            <span class="cmp-c cmp-fit" role="cell"><span class="cmp-k" aria-hidden="true">Кому подходит</span><span class="cmp-txt">Повторные консультации и&nbsp;наблюдение между визитами</span></span>
+            <span class="cmp-c cmp-cta" role="cell"><a class="btn btn-line btn-sm btn-block" href="#booking" data-service="Онлайн-консультация, повторная">Записаться<span class="visually-hidden">: онлайн-консультация, повторная</span></a></span>
+          </div>
+        </div>
+        <p class="fine pr-law"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg><span>Первичный приём с&nbsp;постановкой диагноза по&nbsp;закону проходит очно&nbsp;— в&nbsp;клинике или на&nbsp;дому (323&#8209;ФЗ). Повторные консультации и&nbsp;наблюдение&nbsp;— по&nbsp;видеосвязи.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Часть Б: прайс строками. Вкладки и окно записи работают из menteya.js:
+       '#pricing [role="tablist"]' + role="tab"/"tabpanel"; контекст окна записи&nbsp;— первый текст в .pr-name строки .price-row.
+       Кнопки «Записаться» называют услугу скрытым текстом&nbsp;— для списка ссылок экранного диктора -->
+  <div class="sec pr-prices">
+    <!-- Линза на стыке сравнения и прайса, у левого края&nbsp;— в пустом поле, мимо текста и вкладок; место&nbsp;— в pricing.css -->
+    <div class="lens lens-l" data-seed="6" aria-hidden="true"><canvas></canvas></div>
+    <div class="wrap sec-grid">
+      <div class="sec-side" data-reveal>
+        <p class="label">Прайс</p>
+        <h3 class="pr-title">Стоимость приёмов по&nbsp;направлениям</h3>
+        <div class="pr-tabs" role="tablist" aria-label="Категории услуг">
+          <button class="pr-tab" type="button" role="tab" id="pt-primary" aria-controls="pp-primary" aria-selected="true" tabindex="0">Первичный приём<span class="count" aria-hidden="true">5</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-psychiatry" aria-controls="pp-psychiatry" aria-selected="false" tabindex="-1">Психиатрия<span class="count" aria-hidden="true">4</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-psychotherapy" aria-controls="pp-psychotherapy" aria-selected="false" tabindex="-1">Психотерапия<span class="count" aria-hidden="true">2</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-psychology" aria-controls="pp-psychology" aria-selected="false" tabindex="-1">Психолог<span class="count" aria-hidden="true">3</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-kids" aria-controls="pp-kids" aria-selected="false" tabindex="-1">Детям<span class="count" aria-hidden="true">2</span></button>
+          <button class="pr-tab" type="button" role="tab" id="pt-elderly" aria-controls="pp-elderly" aria-selected="false" tabindex="-1">Пожилым<span class="count" aria-hidden="true">2</span></button>
+        </div>
+        <!-- Номер&nbsp;— заглушка, как в шапке: заменить на телефон клиники -->
+        <p class="fine pr-help">Не&nbsp;знаете, к&nbsp;какому врачу записаться? Администратор подскажет: <a class="link" href="tel:+74950000000">+7&nbsp;495&nbsp;000-00-00</a></p>
+      </div>
+
+      <div class="pr-body" data-reveal style="--i:1">
+        <div class="pr-board">
+          <div class="pr-cols" aria-hidden="true"><span>Услуга и&nbsp;формат</span><span>Длительность</span><span>Цена</span></div>
+
+          <div class="price-list" role="tabpanel" id="pp-primary" aria-labelledby="pt-primary" tabindex="0">
+            <div class="price-row" style="--i:0"><div class="pr-name">Первичная консультация психиатра<span class="pr-badge">Популярно</span></div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация психиатра</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Первичная консультация психотерапевта</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;200&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация психотерапевта</span></a></div>
+            <div class="price-row" style="--i:2"><div class="pr-name">Первичная консультация психолога</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>50&nbsp;минут</span><span class="pr-cost"><small>от</small>2&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация психолога</span></a></div>
+            <div class="price-row" style="--i:3"><div class="pr-name">Первичная консультация детского психиатра</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill pill-fill"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg>с&nbsp;родителем</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация детского психиатра</span></a></div>
+            <div class="price-row" style="--i:4"><div class="pr-name">Онлайн-консультация, повторная</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg>онлайн</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>45&nbsp;минут</span><span class="pr-cost">2&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: онлайн-консультация, повторная</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-psychiatry" aria-labelledby="pt-psychiatry" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Первичная консультация психиатра<span class="pr-badge">Популярно</span></div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: первичная консультация психиатра</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Повторная консультация психиатра</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg>онлайн</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>45&nbsp;минут</span><span class="pr-cost">2&nbsp;800&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: повторная консультация психиатра</span></a></div>
+            <div class="price-row" style="--i:2"><div class="pr-name">Выезд психиатра на&nbsp;дом</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg>на&nbsp;дому</span><span class="pill pill-dk">круглосуточно</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>6&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: выезд психиатра на&nbsp;дом</span></a></div>
+            <div class="price-row" style="--i:3"><div class="pr-name">Врачебный консилиум</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>до&nbsp;120&nbsp;минут</span><span class="pr-cost"><small>от</small>12&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: врачебный консилиум</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-psychotherapy" aria-labelledby="pt-psychotherapy" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Сеанс психотерапии</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg>онлайн</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>50&nbsp;минут</span><span class="pr-cost">3&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: сеанс психотерапии</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Семейная консультация</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>80&nbsp;минут</span><span class="pr-cost">4&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: семейная консультация</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-psychology" aria-labelledby="pt-psychology" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Консультация психолога</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg>онлайн</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>50&nbsp;минут</span><span class="pr-cost"><small>от</small>2&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: консультация психолога</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Психологическая диагностика</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>до&nbsp;90&nbsp;минут</span><span class="pr-cost"><small>от</small>4&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: психологическая диагностика</span></a></div>
+            <div class="price-row" style="--i:2"><div class="pr-name">Нейропсихологическое обследование</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>до&nbsp;120&nbsp;минут</span><span class="pr-cost"><small>от</small>5&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: нейропсихологическое обследование</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-kids" aria-labelledby="pt-kids" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Консультация детского психиатра</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill pill-fill"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg>с&nbsp;родителем</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: консультация детского психиатра</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Консультация детского психолога</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span><span class="pill pill-fill"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg>с&nbsp;родителем</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>50&nbsp;минут</span><span class="pr-cost"><small>от</small>2&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: консультация детского психолога</span></a></div>
+          </div>
+
+          <div class="price-list" role="tabpanel" id="pp-elderly" aria-labelledby="pt-elderly" tabindex="0" hidden>
+            <div class="price-row" style="--i:0"><div class="pr-name">Консультация психиатра для&nbsp;пожилых</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>в&nbsp;клинике</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>3&nbsp;500&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: консультация психиатра для&nbsp;пожилых</span></a></div>
+            <div class="price-row" style="--i:1"><div class="pr-name">Выезд психиатра на&nbsp;дом</div><div class="pr-fmt"><span class="pill"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg>на&nbsp;дому</span><span class="pill pill-dk">круглосуточно</span></div><span class="pr-time"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>60&nbsp;минут</span><span class="pr-cost"><small>от</small>6&nbsp;000&nbsp;₽</span><a class="btn btn-line btn-sm" href="#booking">Записаться<span class="visually-hidden">: выезд психиатра на&nbsp;дом</span></a></div>
+          </div>
+        </div>
+
+        <div class="pr-foot">
+          <span class="pill"><svg class="i" aria-hidden="true"><use href="#i-calendar"/></svg>Цены действуют с&nbsp;октября 2026</span>
+          <a class="go" href="ceny.html">Все цены<svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+        <p class="fine pr-offer">Цены носят информационный характер и&nbsp;не&nbsp;являются публичной офертой.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ОТЗЫВЫ И РЕЙТИНГИ ПЛОЩАДОК ============ -->
+<!-- ВНИМАНИЕ, ст. 24 ФЗ «О рекламе»: реклама медицинских услуг не может содержать благодарности пациентов
+     и ссылки на случаи излечения или улучшения здоровья. Отзывы ниже&nbsp;— заглушки из прошлого дизайна, сокращены
+     до нейтральных отрывков о самом приёме (похвала врачу и фразы о результате лечения убраны). Публиковать только
+     реальные отзывы, с согласия авторов и после согласования с юристом.
+     Оценки, число отзывов и ссылки на площадки&nbsp;— тоже заглушки: заменить на реальные данные и страницы клиники -->
+<section class="sec" id="reviews" aria-labelledby="reviews-title">
+  <!-- Линза у правого края, за стеклянной карточкой среднего балла&nbsp;— как шар и карточка на первом экране -->
+  <div class="lens lens-r rv-lens" data-seed="2" aria-hidden="true"><canvas></canvas></div>
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <div>
-        <h2 class="h2" id="contacts-title">Запишитесь на&nbsp;консультацию</h2>
-        <p>Оставьте заявку&nbsp;— администратор перезвонит за&nbsp;15&nbsp;минут, подберёт врача и&nbsp;удобное время.</p>
+        <p class="label">Отзывы и&nbsp;рейтинги</p>
+        <h2 class="h2" id="reviews-title">Что говорят пациенты</h2>
+        <p class="lead">Оценки клиники на&nbsp;независимых площадках. Отзывы публикуем только с&nbsp;согласия пациентов, имена сокращены ради конфиденциальности.</p>
+      </div>
+      <!-- Средняя оценка&nbsp;— взвешенная по числу отзывов: (4,5×212 + 4,9×128 + 4,8×64 + 4,7×45 + 5,0×37 + 5,0×18) / 504 = 4,71.
+           С реальными данными пересчитать так же: простое среднее по площадкам завышает итог (ст. 5 ФЗ «О рекламе») -->
+      <div class="glass-dk rv-total">
+        <b class="num">4,7</b>
+        <p><span class="rv-stars" style="--r:4.7" aria-hidden="true"></span><span class="fine">средняя оценка<br>504&nbsp;отзыва на&nbsp;6&nbsp;площадках</span></p>
       </div>
     </div>
-    <div class="bento contact-grid">
-      <div class="tile booking-tile" id="booking" data-reveal style="--i:0">
+
+    <!-- Колонки площадок: метка сверху, крупная оценка внизу; нажимается вся колонка. Ссылки ведут на площадки&nbsp;— заменить на страницы клиники -->
+    <ul class="rv-cols" role="list">
+      <li class="rv-col" data-reveal style="--i:0">
+        <p class="rv-tag"><span>001</span> · Яндекс Карты</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:4.5" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">4,5</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">212&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://yandex.ru/maps/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: Яндекс Карты, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:1">
+        <p class="rv-tag"><span>002</span> · ПроДокторов</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:4.9" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">4,9</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">128&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://prodoctorov.ru/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: ПроДокторов, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:2">
+        <p class="rv-tag"><span>003</span> · НаПоправку</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:4.8" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">4,8</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">64&nbsp;отзыва</p>
+          <a class="go rv-go" href="https://napopravku.ru/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: НаПоправку, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:3">
+        <p class="rv-tag"><span>004</span> · Google</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:4.7" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">4,7</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">45&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://www.google.com/maps/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: Google Карты, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:4">
+        <p class="rv-tag"><span>005</span> · 2ГИС</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:5" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">5,0</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">37&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://2gis.ru/moscow" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: 2ГИС, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:5">
+        <p class="rv-tag"><span>006</span> · Yell.ru</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:5" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">5,0</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">18&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://www.yell.ru/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: Yell.ru, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Лента отзывов: листают вручную (пальцем, колесом с Shift, стрелками после фокуса), сама не едет -->
+    <div class="rv-feed-head" data-reveal>
+      <h3 class="h3">Из&nbsp;отзывов на&nbsp;площадках</h3>
+      <p class="fine">Отрывки, полные тексты&nbsp;— по&nbsp;ссылкам выше</p>
+    </div>
+    <div class="rv-feed" role="region" aria-label="Отзывы пациентов" tabindex="0" data-reveal style="--i:1">
+      <article class="rv-card">
+        <p class="rv-src"><span>Яндекс Карты</span><span>сентябрь&nbsp;2026</span></p>
+        <blockquote class="rv-quote"><p>Долго откладывала визит к&nbsp;психиатру&nbsp;— казалось, что это страшно.</p></blockquote>
+        <p class="rv-who"><span class="rv-avatar" aria-hidden="true">М</span><span><b>Марина, 34&nbsp;года</b><span>Приём у&nbsp;А.&nbsp;В.&nbsp;Соколовой</span></span></p>
+      </article>
+      <article class="rv-card">
+        <p class="rv-src"><span>ПроДокторов</span><span>август&nbsp;2026</span></p>
+        <blockquote class="rv-quote"><p>Сына направили к&nbsp;детскому психиатру после сложностей в&nbsp;школе.</p></blockquote>
+        <p class="rv-who"><span class="rv-avatar" aria-hidden="true">Д</span><span><b>Дмитрий, 41&nbsp;год</b><span>Приём у&nbsp;И.&nbsp;П.&nbsp;Лебедева</span></span></p>
+      </article>
+      <article class="rv-card">
+        <p class="rv-src"><span>2ГИС</span><span>октябрь&nbsp;2026</span></p>
+        <blockquote class="rv-quote"><p>Врач подробно объяснил схему терапии и&nbsp;был на&nbsp;связи между визитами.</p></blockquote>
+        <p class="rv-who"><span class="rv-avatar" aria-hidden="true">Е</span><span><b>Елена, 29&nbsp;лет</b><span>Повторный приём онлайн</span></span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ О КЛИНИКЕ ============ -->
+<!-- Полоса глубже фона: манифест (Diag-nose), сплит «фото с выносками + слово главного врача» (Collider, Seed), цифры 001–004 -->
+<section class="sec sec-dark" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="sec-grid about-top" data-reveal>
+      <div class="sec-side">
+        <p class="label">О&nbsp;клинике</p>
+        <h2 class="h2" id="about-title">Атмосфера доверия</h2>
+        <p class="lead">«Ментея»&nbsp;— команда психиатров, психотерапевтов и&nbsp;клинических психологов.</p>
+      </div>
+      <p class="manifest">Мы лечим не&nbsp;диагноз, а&nbsp;человека: <span class="muted">смотрим на&nbsp;сон, тело, отношения и&nbsp;историю.</span></p>
+    </div>
+
+    <div class="about-split">
+      <!-- Фото-заглушка: заменить на снимок клиники. Выноски&nbsp;— только правдивые факты; новое фото&nbsp;— сдвинуть точки (--x, --y в процентах кадра) -->
+      <figure class="about-photo" data-reveal style="--i:1">
+        <img src="assets/img/about-2.jpg" width="900" height="506" alt="Коридор клиники: кресла в зоне ожидания и двери кабинетов" loading="lazy">
+        <div class="about-pins">
+          <ul>
+            <li class="about-pin pin-down-sm" style="--x:19%; --y:61%"><span>Зона ожидания без очередей</span></li>
+            <li class="about-pin" style="--x:34%; --y:38%"><span>Кабинеты без казённой обстановки</span></li>
+          </ul>
+        </div>
+        <figcaption class="label about-cap">Коридор и&nbsp;зона ожидания</figcaption>
+      </figure>
+
+      <!-- Текст и подпись&nbsp;— из прошлого дизайна; перед запуском согласовать с главным врачом -->
+      <div class="about-word" data-reveal style="--i:2">
+        <p class="label">Слово главного врача</p>
+        <figure class="about-say">
+          <blockquote>
+            <p class="about-quote">«Обращение за&nbsp;психиатрической помощью&nbsp;— не&nbsp;признак слабости, а&nbsp;осознанный шаг к&nbsp;устойчивости и&nbsp;качеству жизни».</p>
+            <p class="about-text muted">Мы открыли клинику, чтобы обращение к&nbsp;психиатру перестало быть поводом для тревоги: здесь нет очередей, осуждающих взглядов и&nbsp;казённых кабинетов. Совмещаем лекарства и&nbsp;психотерапию, объясняем, что и&nbsp;зачем назначаем.</p>
+          </blockquote>
+          <figcaption class="about-sign">
+            <img src="assets/img/intro-main.jpg" width="700" height="700" alt="" loading="lazy">
+            <span><a href="vrach.html">Соколова Анна Викторовна</a><span class="fine">Главный врач, психиатр, к.&nbsp;м.&nbsp;н.</span></span>
+          </figcaption>
+        </figure>
+        <a class="go about-team" href="#doctors">Команда врачей<svg class="i"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Цифры&nbsp;— из прошлого дизайна, заменить на реальные (с источником). Нет подтверждения&nbsp;— убрать ячейку (закон о рекламе медуслуг).
+         Без накрутки счётчиков: цифры стоят как есть -->
+    <ul class="about-stats" data-reveal style="--i:3">
+      <li class="about-stat"><span class="label label-plain">001 · Пациенты</span><b class="num">12&nbsp;400+</b><span class="fine">пациентов обратились в&nbsp;клинику</span></li>
+      <li class="about-stat"><span class="label label-plain">002 · Стаж врачей</span><b class="num"><small>от&nbsp;</small>9<small>&nbsp;лет</small></b><span class="fine">у&nbsp;каждого специалиста команды</span></li>
+      <li class="about-stat"><span class="label label-plain">003 · Приём</span><b class="num">9–21</b><span class="fine">ежедневно, с&nbsp;9:00 до&nbsp;21:00 в&nbsp;клинике</span></li>
+      <li class="about-stat"><span class="label label-plain">004 · Выезд на&nbsp;дом</span><b class="num">24/7</b><span class="fine">психиатр на&nbsp;дом по&nbsp;Москве, от&nbsp;6&nbsp;000&nbsp;₽</span></li>
+    </ul>
+    <p class="fine about-note">Цифры&nbsp;— по&nbsp;данным клиники на&nbsp;1&nbsp;октября 2026&nbsp;года.</p>
+  </div>
+</section>
+
+<!-- ============ ЛИЦЕНЗИИ ============ -->
+<!-- Скелет 1/3–2/3 (Integrated Bio): слева заголовок и реквизиты столбиком, справа документы в рамке -->
+<section class="sec" id="licenses" aria-labelledby="licenses-title">
+  <div class="wrap">
+    <div class="sec-grid">
+      <div class="sec-side" data-reveal>
+        <p class="label">Лицензии</p>
+        <h2 class="h2" id="licenses-title">Работаем официально</h2>
+        <p class="lead">Лицензия на&nbsp;медицинскую деятельность, включая психиатрию и&nbsp;психотерапию. Номер можно проверить в&nbsp;открытом реестре Росздравнадзора.</p>
+
+        <!-- Реквизиты&nbsp;— заглушки, заменить на реальные (те же, что в подвале). Адрес «Контролирующие органы»&nbsp;— будущая страница -->
+        <div class="lic-req">
+          <dl>
+            <div><dt>Организация</dt><dd>ООО «Клиника Ментея»</dd></div>
+            <div><dt>ИНН</dt><dd>0000000000</dd></div>
+            <div><dt>ОГРН</dt><dd>0000000000000</dd></div>
+          </dl>
+          <a class="go" href="kontrol.html">Контролирующие органы<svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+
+      <div class="frame lic-frame" data-reveal style="--i:1">
+        <!-- Номер, дата, орган и перечень работ&nbsp;— заглушки: заменить на данные из лицензии.
+             Скан&nbsp;— заглушка адреса: положить PDF или картинку скана в assets/docs/ -->
+        <article class="lic-doc">
+          <!-- Миниатюра повторяет кнопку «Открыть скан»: для мыши&nbsp;— крупная цель, клавиатура и экранный диктор её пропускают -->
+          <a class="lic-scan" href="assets/docs/licenziya.pdf" tabindex="-1" aria-hidden="true">
+            <span class="lic-sheet"></span>
+          </a>
+          <div class="lic-info">
+            <p class="label label-plain">Документ 01 · Лицензия</p>
+            <h3 class="h3">Лицензия на&nbsp;медицинскую деятельность</h3>
+            <dl class="lic-meta">
+              <div><dt>Номер</dt><dd>Л041-00000-77/00000000</dd></div>
+              <div><dt>Дата</dt><dd>от&nbsp;00.00.0000</dd></div>
+              <div><dt>Выдал</dt><dd>Департамент здравоохранения города Москвы</dd></div>
+              <div><dt>Работы</dt><dd>Психиатрия, психотерапия</dd></div>
+            </dl>
+            <div class="lic-actions">
+              <a class="btn btn-fill btn-sm" href="assets/docs/licenziya.pdf"><svg class="i"><use href="#i-eye"/></svg>Открыть скан</a>
+              <a class="go lic-reg" href="https://roszdravnadzor.gov.ru/services/licenses" target="_blank" rel="noopener">Запись в&nbsp;едином реестре лицензий<span class="visually-hidden"> (откроется в&nbsp;новой вкладке)</span><svg class="i"><use href="#i-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <div class="lic-item">
+          <span class="ic"><svg class="i"><use href="#i-badge"/></svg></span>
+          <h3 class="lic-t">Аккредитация врачей</h3>
+          <p class="fine">Дипломы, действующая аккредитация и&nbsp;регулярное повышение квалификации</p>
+        </div>
+        <div class="lic-item">
+          <span class="ic"><svg class="i"><use href="#i-lock"/></svg></span>
+          <h3 class="lic-t">Врачебная тайна</h3>
+          <p class="fine">Сведения о&nbsp;пациентах не&nbsp;разглашаются&nbsp;— ст.&nbsp;13 закона №&nbsp;323&#8209;ФЗ</p>
+        </div>
+        <div class="lic-item">
+          <span class="ic"><svg class="i"><use href="#i-doc"/></svg></span>
+          <h3 class="lic-t">Клинические рекомендации</h3>
+          <p class="fine">Лечим по&nbsp;протоколам, утверждённым Минздравом России</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ АКЦИИ ============ -->
+<!-- Тёмная вставка (--surface) с небольшой линзой у правого края; шапка раздела сверху, ниже три талона с перфорацией
+     (приём Hungry Tiger, спокойная версия): без крупных процентов и таймеров. Размер и место линзы&nbsp;— visit.css (.promo > .lens).
+     Сроки акций и цены в талонах&nbsp;— заглушки для макета, заменить на реальные условия.
+     Тексты акций согласовать с юристом (ст. 24 ФЗ «О рекламе»). -->
+<section class="sec promo" id="promo" aria-labelledby="promo-title">
+  <div class="lens lens-r" data-seed="7" aria-hidden="true"><canvas></canvas></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div data-reveal>
+        <p class="label">Акции</p>
+        <h2 class="h2" id="promo-title">Специальные предложения</h2>
+        <p class="lead">Подробные условия уточняйте у&nbsp;администратора.</p>
+        <div class="btn-row">
+          <a class="btn btn-line" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>Уточнить условия</a>
+        </div>
+      </div>
+    </div>
+
+    <ul class="promo-list" role="list">
+      <li class="promo-ticket" data-reveal style="--i:1">
+        <div class="promo-main">
+          <p class="label"><time datetime="2026-11-30">До&nbsp;30&nbsp;ноября</time></p>
+          <h3 class="h3">Скидка на&nbsp;первичный приём</h3>
+          <p class="promo-text">При записи через сайт первичная консультация психиатра или психотерапевта&nbsp;— со&nbsp;скидкой 20%.</p>
+        </div>
+        <span class="promo-perf" aria-hidden="true"></span>
+        <div class="promo-stub">
+          <span class="promo-no" aria-hidden="true">01 / 03</span>
+          <!-- цена = 3 500 ₽ минус 20%, пересчёт для макета: заменить на реальную -->
+          <p class="promo-price"><s><span class="visually-hidden">Обычная цена: </span>от&nbsp;3&nbsp;500&nbsp;₽</s><b><span class="visually-hidden">По акции: </span><small>от</small>&nbsp;2&nbsp;800&nbsp;₽</b></p>
+          <a class="btn btn-fill btn-sm" href="#booking">Записаться со&nbsp;скидкой</a>
+        </div>
+      </li>
+      <li class="promo-ticket" data-reveal style="--i:2">
+        <div class="promo-main">
+          <p class="label"><time datetime="2026-12-31">До&nbsp;31&nbsp;декабря</time></p>
+          <h3 class="h3">Диагностика в&nbsp;подарок</h3>
+          <p class="promo-text">При оформлении программы наблюдения от&nbsp;3&nbsp;месяцев&nbsp;— психологическая диагностика бесплатно.</p>
+        </div>
+        <span class="promo-perf" aria-hidden="true"></span>
+        <div class="promo-stub">
+          <span class="promo-no" aria-hidden="true">02 / 03</span>
+          <p class="promo-price"><s><span class="visually-hidden">Обычная цена: </span>от&nbsp;4&nbsp;000&nbsp;₽</s><b><span class="visually-hidden">По акции: </span>Бесплатно</b></p>
+          <a class="btn btn-line btn-sm" href="#booking">Узнать подробнее</a>
+        </div>
+      </li>
+      <li class="promo-ticket" data-reveal style="--i:3">
+        <div class="promo-main">
+          <p class="label"><time datetime="2026-12-31">До&nbsp;31&nbsp;декабря</time></p>
+          <h3 class="h3">Поддержка для студентов</h3>
+          <p class="promo-text">Специальная цена на&nbsp;консультации психолога для студентов очной формы обучения&nbsp;— по&nbsp;студенческому билету.</p>
+        </div>
+        <span class="promo-perf" aria-hidden="true"></span>
+        <div class="promo-stub">
+          <span class="promo-no" aria-hidden="true">03 / 03</span>
+          <!-- размер спеццены не указан и в прошлом дизайне: вписать, когда клиника назовёт -->
+          <p class="promo-price"><s><span class="visually-hidden">Обычная цена: </span>от&nbsp;2&nbsp;500&nbsp;₽</s><b><span class="visually-hidden">Для студентов: </span>Спеццена</b></p>
+          <a class="btn btn-line btn-sm" href="#booking">Записаться</a>
+        </div>
+      </li>
+    </ul>
+    <p class="fine promo-warn"><svg class="i"><use href="#i-info"/></svg>Имеются противопоказания. Необходима консультация специалиста</p>
+  </div>
+</section>
+
+<!-- ============ ВОПРОСЫ ПЕРЕД ПЕРВЫМ ВИЗИТОМ ============ -->
+<!-- Тёмная «ночная вода». Сетка 1/3–2/3: слева заголовок, под ним карточка «Не нашли ответ? / Срочно»; справа аккордеон.
+     На планшете и телефоне карточка идёт после вопросов&nbsp;— человек пришёл за ответами.
+     Раскрытие ведёт menteya.js (.faq-item / .faq-q / aria-expanded): открыт один ответ за раз. Без скриптов видны все ответы. -->
+<section class="sec" id="faq" aria-labelledby="faq-title">
+  <div class="wrap sec-grid faq-grid">
+    <div class="sec-side faq-side" data-reveal>
+      <p class="label">Вопросы и&nbsp;ответы</p>
+      <h2 class="h2" id="faq-title">Вопросы перед первым визитом</h2>
+      <p class="lead">Собрали то, о&nbsp;чём чаще всего спрашивают.</p>
+    </div>
+
+    <div class="faq-list" data-reveal style="--i:1">
+      <div class="faq-item is-open">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q1" aria-controls="faq-a1" aria-expanded="true"><span class="faq-n" aria-hidden="true">01</span><span class="faq-t">Нужно ли направление, чтобы попасть на&nbsp;приём?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a1"><p>Нет, направление не&nbsp;требуется. Записаться можно напрямую&nbsp;— по&nbsp;телефону, через сайт или мессенджер.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q2" aria-controls="faq-a2" aria-expanded="false"><span class="faq-n" aria-hidden="true">02</span><span class="faq-t">Ставите ли вы на&nbsp;учёт в&nbsp;психоневрологический диспансер?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a2"><p>Нет. «Ментея»&nbsp;— частная клиника, приём анонимный и&nbsp;не&nbsp;влечёт постановку на&nbsp;учёт в&nbsp;ПНД.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q3" aria-controls="faq-a3" aria-expanded="false"><span class="faq-n" aria-hidden="true">03</span><span class="faq-t">Сохраняется ли конфиденциальность обращения?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a3"><p>Да. Сведения о&nbsp;факте обращения и&nbsp;лечении не&nbsp;передаются третьим лицам, работодателю или в&nbsp;госучреждения без вашего согласия.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q4" aria-controls="faq-a4" aria-expanded="false"><span class="faq-n" aria-hidden="true">04</span><span class="faq-t">Можно ли пройти консультацию онлайн?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a4"><p>Повторные консультации и&nbsp;наблюдение&nbsp;— да, по&nbsp;видеосвязи. Первичный приём с&nbsp;постановкой диагноза по&nbsp;закону проходит очно&nbsp;— в&nbsp;клинике или на&nbsp;дому.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q5" aria-controls="faq-a5" aria-expanded="false"><span class="faq-n" aria-hidden="true">05</span><span class="faq-t">Как подготовиться к&nbsp;первому приёму?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a5"><p>Специальной подготовки не&nbsp;нужно. Возьмите результаты прошлых обследований и&nbsp;список лекарств, если они есть.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q6" aria-controls="faq-a6" aria-expanded="false"><span class="faq-n" aria-hidden="true">06</span><span class="faq-t">Можно ли обратиться за&nbsp;помощью для близкого человека?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a6"><p>Да. На&nbsp;первую консультацию можно прийти без пациента: врач расскажет, как поддержать близкого и&nbsp;предложить ему помощь. Осмотр проводится только с&nbsp;согласия пациента, кроме случаев, предусмотренных законом о&nbsp;психиатрической помощи.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q7" aria-controls="faq-a7" aria-expanded="false"><span class="faq-n" aria-hidden="true">07</span><span class="faq-t">Работаете ли вы с&nbsp;подростками?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a7"><p>Да, принимают детские и&nbsp;подростковые специалисты. Приём несовершеннолетних&nbsp;— в&nbsp;присутствии родителя или законного представителя.</p></div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-h"><button class="faq-q" type="button" id="faq-q8" aria-controls="faq-a8" aria-expanded="false"><span class="faq-n" aria-hidden="true">08</span><span class="faq-t">Как оплатить приём и&nbsp;можно ли получить чек?</span><span class="faq-toggle" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a8"><p>Наличными или картой. Выдаём кассовый чек, по&nbsp;запросу&nbsp;— справку для налогового вычета.</p></div>
+      </div>
+    </div>
+
+    <!-- Карточка в тёмном стекле: сверху «напишите нам», снизу срочная связь. На ПК&nbsp;— в левой колонке под заголовком -->
+    <div class="glass faq-aside" data-reveal style="--i:2">
+      <div class="faq-help">
+        <p class="faq-help-t">Не&nbsp;нашли ответ? Напишите&nbsp;— ответим анонимно</p>
+        <p class="fine">Администратор ответит за&nbsp;15&nbsp;минут в&nbsp;рабочее время. Бесплатно.</p>
+        <!-- Ведут к мессенджерам в разделе «Запись и контакты» -->
+        <div class="btn-row">
+          <a class="btn btn-fill" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+          <a class="btn btn-line" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        </div>
+      </div>
+      <div class="faq-urgent">
+        <p class="faq-urgent-t"><svg class="i"><use href="#i-info"/></svg>Срочно нужна помощь?</p>
+        <p class="fine">Позвоните&nbsp;— подберём ближайшее время или вызовем врача на&nbsp;дом. При угрозе жизни сразу звоните <a class="link faq-112" href="tel:112">112</a>.</p>
+        <a class="btn btn-line faq-tel" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>+7&nbsp;495&nbsp;000-00-00</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ЗАПИСЬ И КОНТАКТЫ ============ -->
+<!-- Раздел закрывает страницу «утром»: тёмная вода, снизу неподвижное тёплое свечение рассвета (contact.css).
+     Слева пример переписки, справа форма в тёмном стекле (на телефоне форма идёт первой), ниже&nbsp;— схема проезда и контакты.
+     Форма&nbsp;— те же id, классы и атрибуты, что в окне записи: их обслуживает setupBookingForm() в menteya.js
+     (маска телефона, проверка имени, телефона и согласия, ловушка для ботов, «Заявка принята»). -->
+<section class="sec sec-last contact" id="contacts" aria-labelledby="contacts-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <p class="label">Запись и&nbsp;контакты</p>
+        <h2 class="h2" id="contacts-title">Запишитесь на&nbsp;консультацию</h2>
+        <p class="lead">Ответим на&nbsp;вопросы, подберём врача и&nbsp;удобное время. Анонимно, без постановки на&nbsp;учёт.</p>
+      </div>
+    </div>
+
+    <div class="contact-top">
+      <!-- Пример переписки: показывает тон общения, а не реальный разговор. Без медицинских обещаний (ст. 24 закона «О рекламе»).
+           Реплики видны сразу; сценарий «печатает…» в menteya.js показывает их по очереди один раз (.is-playing / .is-typing / .is-shown) -->
+      <figure class="glass-dk chat" data-reveal style="--i:1">
+        <figcaption class="chat-head">
+          <span class="chat-ava" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><use href="#g-mark"/></svg></span>
+          <span class="chat-who" aria-hidden="true"><b>Администратор «Ментеи»</b><span>ежедневно 9:00–21:00</span></span>
+          <span class="label chat-tag">Пример диалога</span>
+        </figcaption>
+        <ol class="chat-list">
+          <li class="chat-day" aria-hidden="true"><span>Сегодня</span></li>
+          <li class="chat-msg is-me">
+            <p class="chat-b"><span class="visually-hidden">Клиент: </span>Здравствуйте. Хочу записаться к&nbsp;психиатру, но&nbsp;переживаю, что об&nbsp;этом узнают на&nbsp;работе.<time class="chat-t">9:12</time></p>
+          </li>
+          <li class="chat-msg is-admin">
+            <p class="chat-b"><span class="visually-hidden">Администратор: </span>Здравствуйте! Приём анонимный: на&nbsp;учёт не&nbsp;ставим, сведения никому не&nbsp;передаём. Достаточно имени.<time class="chat-t">9:13</time></p>
+            <span class="chat-typing" aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+          <!-- На телефоне эта пара реплик скрыта&nbsp;— диалог короче, об онлайн-приёме есть в вопросах выше -->
+          <li class="chat-msg is-me chat-opt">
+            <p class="chat-b"><span class="visually-hidden">Клиент: </span>А&nbsp;первый приём можно онлайн? Мне удобно в&nbsp;субботу вечером.<time class="chat-t">9:15</time></p>
+          </li>
+          <li class="chat-msg is-admin chat-opt">
+            <p class="chat-b"><span class="visually-hidden">Администратор: </span>Первый приём&nbsp;— очно, в&nbsp;клинике или у&nbsp;вас дома: так требует закон. Суббота подходит, мы работаем ежедневно до&nbsp;21:00. Повторные встречи можно онлайн.<time class="chat-t">9:16</time></p>
+            <span class="chat-typing" aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+          <li class="chat-msg is-admin">
+            <p class="chat-b"><span class="visually-hidden">Администратор: </span>Оставьте номер&nbsp;— перезвоню, подберу врача и&nbsp;время. Накануне напомним о&nbsp;приёме.<time class="chat-t">9:16</time></p>
+            <span class="chat-typing" aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+        </ol>
+      </figure>
+
+      <!-- Форма записи. id="booking"&nbsp;— сюда ведут кнопки «Записаться», если окно записи не открылось (нет скриптов) -->
+      <div class="glass book" id="booking" data-reveal style="--i:2">
         <form class="form" id="bookingForm" novalidate>
           <div class="form-body">
+            <div class="book-head">
+              <h3 class="h3">Оставьте заявку</h3>
+              <p class="muted">Администратор перезвонит за&nbsp;15&nbsp;минут, подберёт врача и&nbsp;удобное время.</p>
+            </div>
             <div class="form-grid">
               <div class="field">
-                <label for="f-name">Имя <span class="req" aria-hidden="true">*</span></label>
-                <input class="input" id="f-name" name="name" type="text" autocomplete="given-name" placeholder="Как к вам обращаться" required aria-describedby="f-name-err">
-                <span class="error" id="f-name-err">Напишите, как к вам обращаться</span>
+                <label for="f-name">Как к&nbsp;вам обращаться <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" id="f-name" name="name" type="text" autocomplete="given-name" placeholder="Имя, можно без фамилии" required>
+                <span class="error" id="f-name-err">Напишите, как к&nbsp;вам обращаться</span>
               </div>
               <div class="field">
                 <label for="f-phone">Телефон <span class="req" aria-hidden="true">*</span></label>
-                <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="f-phone-err">
-                <span class="error" id="f-phone-err">Проверьте номер: после +7 нужно 10 цифр</span>
+                <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required>
+                <span class="error" id="f-phone-err">Проверьте номер: после +7 нужно 10&nbsp;цифр</span>
               </div>
-              <!-- Согласие&nbsp;— отдельной галочкой и отдельным документом (152-ФЗ); политика&nbsp;— ссылкой ниже -->
+              <div class="field field-time">
+                <label for="f-time">Удобное время</label>
+                <span class="select">
+                  <select class="input" id="f-time" name="time">
+                    <option value="asap">Как можно скорее</option>
+                    <option value="morning">Утром, 9:00–12:00</option>
+                    <option value="day">Днём, 12:00–17:00</option>
+                    <option value="evening">Вечером, 17:00–21:00</option>
+                  </select>
+                  <svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg>
+                </span>
+              </div>
+              <fieldset class="field choice">
+                <legend>Как с&nbsp;вами связаться</legend>
+                <div class="choice-row">
+                  <label><input type="radio" name="channel" value="call" checked><span>Звонок</span></label>
+                  <label><input type="radio" name="channel" value="telegram"><span>Telegram</span></label>
+                  <label><input type="radio" name="channel" value="max"><span>MAX</span></label>
+                </div>
+              </fieldset>
+              <!-- Согласие&nbsp;— отдельной галочкой и отдельным документом (152-ФЗ); политика&nbsp;— ссылкой ниже.
+                   Адреса страниц согласия и политики&nbsp;— заглушки: заменить на настоящие -->
               <div class="field full">
                 <label class="consent">
-                  <input type="checkbox" name="consent" required aria-describedby="f-consent-err">
-                  <span>Даю <a href="#contacts">согласие на&nbsp;обработку персональных данных</a></span>
+                  <input type="checkbox" name="consent" required>
+                  <span>Даю <a class="link" href="soglasie.html">согласие на&nbsp;обработку персональных данных</a></span>
                 </label>
                 <span class="error" id="f-consent-err">Без согласия мы не&nbsp;сможем с&nbsp;вами связаться</span>
               </div>
@@ -596,77 +1362,161 @@
                 <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
               </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Записаться на&nbsp;консультацию</button>
-            <p class="secure-note"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не&nbsp;передаются третьим лицам</p>
-            <p class="policy-note">Как мы храним данные&nbsp;— в&nbsp;<a href="#contacts">политике конфиденциальности</a></p>
+            <button type="submit" class="btn-cta book-submit"><span class="t">Записаться</span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></button>
+            <div class="book-notes fine">
+              <p class="book-secure"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не&nbsp;передаются третьим лицам</p>
+              <p>Как мы храним данные&nbsp;— в&nbsp;<a class="link" href="politika.html">политике конфиденциальности</a></p>
+            </div>
             <ol class="form-next" aria-label="Что будет после заявки">
-              <li><b>Перезвоним за&nbsp;15&nbsp;минут</b><span class="muted">в&nbsp;рабочее время, с&nbsp;9:00 до&nbsp;21:00</span></li>
-              <li><b>Подберём врача</b><span class="muted">и&nbsp;удобное время приёма</span></li>
-              <li><b>Напомним о&nbsp;приёме</b><span class="muted">накануне визита</span></li>
+              <li><span class="mono" aria-hidden="true">01</span><b>Перезвоним за&nbsp;15&nbsp;минут</b><span class="muted">в&nbsp;рабочее время, с&nbsp;9:00 до&nbsp;21:00</span></li>
+              <li><span class="mono" aria-hidden="true">02</span><b>Подберём врача</b><span class="muted">и&nbsp;удобное время приёма</span></li>
+              <li><span class="mono" aria-hidden="true">03</span><b>Напомним о&nbsp;приёме</b><span class="muted">накануне визита</span></li>
             </ol>
           </div>
           <div class="form-success" role="status" hidden>
             <span class="ok" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
             <b tabindex="-1">Заявка принята</b>
             <p>Администратор перезвонит в&nbsp;течение 15&nbsp;минут в&nbsp;рабочее время&nbsp;— ежедневно с&nbsp;9:00 до&nbsp;21:00.</p>
-            <button type="button" class="btn btn-ghost form-again">Отправить ещё одну заявку</button>
+            <button type="button" class="btn btn-line form-again">Отправить ещё одну заявку</button>
           </div>
         </form>
       </div>
+    </div>
 
-      <div class="tile contact-addr" data-reveal style="--i:1">
-        <span class="ic"><svg class="i"><use href="#i-pin"/></svg></span>
-        <span class="t-label">Адрес</span>
-        <p class="contact-big">Москва, ул.&nbsp;Примерная,&nbsp;1</p>
-        <div class="route-row">
-          <a class="btn btn-ghost btn-sm" href="#contacts"><svg class="i"><use href="#i-route"/></svg>Яндекс Карты</a>
-          <a class="btn btn-ghost btn-sm" href="#contacts">2ГИС</a>
+    <div class="contact-bottom">
+      <!-- Карта&nbsp;— неподвижная тёмная схема улиц линиями, нарисована кодом: не грузит чужие скрипты и cookie.
+           Заглушка: заменить ссылку на карточку организации в Яндекс Картах (yandex.ru/maps/org/…), схему&nbsp;— по реальным улицам -->
+      <a class="cmap" href="https://yandex.ru/maps/?text=Москва%2C%20ул.%20Примерная%2C%201" target="_blank" rel="noopener" aria-label="Открыть адрес клиники в Яндекс Картах (в новой вкладке)" data-reveal>
+        <svg class="cmap-art" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          <rect class="m-bg" width="800" height="480"/>
+          <path class="m-park" d="M184 300 306 292 310 376 198 384Z"/>
+          <path class="m-park" d="M652 116 800 104V214L646 222Z"/>
+          <g class="m-house">
+            <rect x="344" y="168" width="58" height="34"/><rect x="352" y="214" width="44" height="22"/><rect x="520" y="150" width="76" height="40"/>
+            <rect x="528" y="200" width="54" height="24"/><rect x="214" y="170" width="70" height="44"/><rect x="40" y="186" width="60" height="40"/>
+            <rect x="360" y="40" width="80" height="34"/><rect x="540" y="30" width="60" height="40"/><rect x="420" y="320" width="90" height="36"/>
+            <rect x="672" y="300" width="80" height="34"/><rect x="210" y="40" width="70" height="40"/>
+          </g>
+          <path class="m-water" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
+          <path class="m-shore" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
+          <g class="m-road-s">
+            <path d="M-20 150 820 100"/><path d="M330-20 310 500"/><path d="M640-20 620 500"/><path d="M200 392 820 352"/><path d="M40-20 20 300"/>
+          </g>
+          <g class="m-road">
+            <path d="M150-20C110 120 120 300 230 500"/><path d="M500-20 470 500"/><path d="M-20 300 820 236"/>
+          </g>
+          <text class="m-name" x="610" y="256" transform="rotate(-4.4 610 256)">УЛ. ПРИМЕРНАЯ</text>
+        </svg>
+        <span class="label cmap-tag">Схема проезда</span>
+        <span class="cmap-pin" aria-hidden="true">
+          <span class="cmap-mark"><svg viewBox="0 0 48 48" focusable="false"><use href="#g-mark"/></svg></span>
+          <span class="cmap-name"><b>Ментея</b><small>ул.&nbsp;Примерная,&nbsp;1</small></span>
+        </span>
+        <span class="btn btn-glass btn-sm cmap-go">Открыть в&nbsp;Яндекс Картах<svg class="i"><use href="#i-arrow"/></svg></span>
+      </a>
+
+      <!-- Контакты: телефон, адрес, часы, мессенджеры. Все данные&nbsp;— заглушки, заменить на реальные -->
+      <div class="glass cinfo" data-reveal style="--i:1">
+        <div class="cinfo-cell cinfo-wide">
+          <p class="label label-plain">Телефон</p>
+          <div class="cinfo-line">
+            <a class="cinfo-tel" href="tel:+74950000000">+7&nbsp;495&nbsp;000-00-00</a>
+            <a class="link cinfo-mail" href="mailto:info@menteya.ru">info@menteya.ru</a>
+          </div>
         </div>
-      </div>
-      <div class="tile tile-mint contact-hours" data-open data-reveal style="--i:2">
-        <span class="status"><span class="dot" aria-hidden="true"></span><span data-open-title>Ежедневно 9:00–21:00</span></span>
-        <p class="contact-big">9:00–21:00</p>
-        <p class="t-note">Ежедневно. Выезд врача на&nbsp;дом&nbsp;— круглосуточно</p>
-      </div>
-      <div class="tile contact-phone" data-reveal style="--i:3">
-        <span class="ic"><svg class="i"><use href="#i-phone"/></svg></span>
-        <span class="t-label">Телефон и&nbsp;почта</span>
-        <a class="contact-big" href="tel:+74950000000">+7 495 000-00-00</a>
-        <a class="go" href="mailto:info@menteya.ru">info@menteya.ru</a>
-      </div>
-      <div class="tile tile-lav contact-msg" data-reveal style="--i:4">
-        <span class="ic"><svg class="i"><use href="#i-chat"/></svg></span>
-        <span class="t-label">Мессенджеры</span>
-        <p class="contact-big">Ответим анонимно</p>
-        <div class="msg-row">
-          <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
-          <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        <div class="cinfo-cell">
+          <p class="label label-plain">Адрес</p>
+          <p class="cinfo-big">Москва, ул.&nbsp;Примерная,&nbsp;1</p>
+          <a class="go" href="https://2gis.ru/moscow/search/Москва%2C%20ул.%20Примерная%2C%201" target="_blank" rel="noopener">Маршрут в&nbsp;2ГИС<svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+        <!-- «Сейчас открыто»: menteya.js сверяет время Москвы и меняет строку [data-open-title]; без скриптов видны обычные часы -->
+        <div class="cinfo-cell" data-open>
+          <p class="label label-plain">Часы работы</p>
+          <p class="cinfo-big cinfo-status"><span class="dot" aria-hidden="true"></span><span data-open-title>Ежедневно 9:00–21:00</span></p>
+          <p class="fine">Приём ежедневно 9:00–21:00. Выезд психиатра на&nbsp;дом&nbsp;— круглосуточно</p>
+        </div>
+        <div class="cinfo-cell cinfo-wide cinfo-msg">
+          <div>
+            <p class="label label-plain">Мессенджеры</p>
+            <p class="cinfo-big">Ответим анонимно</p>
+          </div>
+          <!-- Адреса мессенджеров&nbsp;— заглушки: заменить на настоящие каналы клиники -->
+          <div class="btn-row">
+            <a class="btn btn-fill" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+            <a class="btn btn-line" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- Микроразметка клиники для карточки в Яндексе и Google: адрес, телефон, часы работы.
+     Перед запуском добавить реальные данные, координаты (geo) и ссылки на соцсети (sameAs). Домен&nbsp;— заглушка. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://menteya.ru/#clinic",
+      "name": "Клиника «Ментея»",
+      "description": "Частная клиника психиатрии и психотерапии в Москве: психиатр, психотерапевт, психолог. Анонимно, без постановки на учёт.",
+      "url": "https://menteya.ru/",
+      "telephone": "+7-495-000-00-00",
+      "email": "info@menteya.ru",
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "isAcceptingNewPatients": true,
+      "areaServed": { "@type": "City", "name": "Москва" },
+      "address": { "@type": "PostalAddress", "addressCountry": "RU", "addressLocality": "Москва", "streetAddress": "ул. Примерная, 1" },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "09:00",
+        "closes": "21:00"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://menteya.ru/#website",
+      "url": "https://menteya.ru/",
+      "name": "Клиника «Ментея»",
+      "inLanguage": "ru-RU",
+      "publisher": { "@id": "https://menteya.ru/#clinic" }
+    }
+  ]
+}
+</script>
+
 </main>
 
-<!-- ============ FOOTER ============ -->
+<!-- ============ ПОДВАЛ ============ -->
+<!-- Подвал в стилистике первого экрана: «ночная вода» с неподвижным светом и стеклянной линзой справа, знак «Рассвет»,
+     ссылки, контакты стеклом поверх линзы, ниже&nbsp;— предупреждение, реквизиты и документы.
+     В WordPress&nbsp;— часть шаблона footer; колонки ссылок&nbsp;— меню «Подвал». -->
 <footer class="site-footer">
+  <!-- Фон: кадр света с линзой рисует один раз модуль «Свет» в menteya.js (data-silk="lens", стили&nbsp;— sections.css и footer.css).
+       Отдельным слоем, а не на самом подвале: размер линзы зависит от высоты блока, а слой на каждой ширине своей высоты -->
+  <div class="ft-silk" data-silk="lens" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="ft-card">
-      <!-- Обязательное предупреждение для рекламы медуслуг (ст. 24 закона «О рекламе»)&nbsp;— заметной полосой -->
-      <p class="ft-warning">Имеются противопоказания. Необходима консультация специалиста</p>
-      <div class="ft-grid">
-        <div class="ft-brand">
-          <a href="#" class="logo" aria-label="Клиника «Ментея»&nbsp;— на главную"><span class="logo-mark" aria-hidden="true"></span>Ментея</a>
-          <p>Частная клиника психиатрии и&nbsp;психотерапии в&nbsp;Москве. Помогаем взрослым, подросткам, детям и&nbsp;пожилым вернуть устойчивость и&nbsp;качество жизни.</p>
-          <div class="ft-social">
-            <a href="#contacts" aria-label="Telegram клиники"><svg class="i"><use href="#i-tg"/></svg></a>
-            <a href="#contacts" aria-label="MAX клиники"><svg class="i"><use href="#i-max"/></svg></a>
-            <a href="#contacts" aria-label="Клиника во ВКонтакте"><svg class="i"><use href="#i-vk"/></svg></a>
-          </div>
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a class="ft-logo" href="index.html" aria-label="Клиника «Ментея»&nbsp;— на главную">
+          <svg class="ft-logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="#g-mark"/></svg>
+          <span class="ft-logo-t"><span class="ft-logo-word">Ментея</span><span class="ft-logo-sub">клиника психиатрии</span></span>
+        </a>
+        <p class="ft-about">Частная клиника психиатрии и&nbsp;психотерапии в&nbsp;Москве. Помогаем взрослым, подросткам, детям и&nbsp;пожилым вернуть устойчивость и&nbsp;качество жизни.</p>
+        <!-- заменить на реальные ссылки мессенджеров и сообщества -->
+        <div class="ft-social">
+          <a href="#contacts" aria-label="Telegram клиники"><svg class="i"><use href="#i-tg"/></svg></a>
+          <a href="#contacts" aria-label="MAX клиники"><svg class="i"><use href="#i-max"/></svg></a>
+          <a href="#contacts" aria-label="Клиника во ВКонтакте"><svg class="i"><use href="#i-vk"/></svg></a>
         </div>
-        <nav class="ft-col" aria-label="Пациентам">
-          <p class="ft-title">Пациентам</p>
+      </div>
+
+      <div class="ft-cols">
+        <nav class="ft-col" aria-labelledby="ft-patients">
+          <p class="label label-plain" id="ft-patients">Пациентам</p>
           <ul>
             <li><a href="napravlenie.html">Услуги</a></li>
             <li><a href="#doctors">Врачи</a></li>
@@ -675,92 +1525,116 @@
             <li><a href="#faq">Вопросы и&nbsp;ответы</a></li>
           </ul>
         </nav>
-        <nav class="ft-col" aria-label="Направления">
-          <p class="ft-title">Направления</p>
+        <nav class="ft-col" aria-labelledby="ft-areas">
+          <p class="label label-plain" id="ft-areas">Направления</p>
           <ul>
             <li><a href="napravlenie.html">Психиатрия</a></li>
             <li><a href="napravlenie.html">Психотерапия</a></li>
             <li><a href="napravlenie.html">Психолог</a></li>
             <li><a href="napravlenie.html">Работа с&nbsp;пожилыми</a></li>
             <li><a href="napravlenie.html">Детская психиатрия</a></li>
-            <li><a href="stacionar.html">Стационар</a></li>
+            <li><a href="napravlenie.html">Психиатр на&nbsp;дом</a></li>
           </ul>
         </nav>
-        <nav class="ft-col" aria-label="Клиника">
-          <p class="ft-title">Клиника</p>
+        <nav class="ft-col" aria-labelledby="ft-clinic">
+          <p class="label label-plain" id="ft-clinic">Клиника</p>
           <ul>
-            <li><a href="#about">О клинике</a></li>
+            <li><a href="#about">О&nbsp;клинике</a></li>
             <li><a href="#licenses">Лицензии</a></li>
             <li><a href="#reviews">Отзывы</a></li>
             <li><a href="filialy.html">Филиалы</a></li>
             <li><a href="#contacts">Контакты</a></li>
-            <li><a href="#">Версия для слабовидящих</a></li>
+            <li><a href="vision.html">Версия для слабовидящих</a></li>
           </ul>
         </nav>
-        <div class="ft-contacts">
-          <p class="ft-title">Контакты</p>
-          <a class="ft-phone" href="tel:+74950000000">+7 495 000-00-00</a>
-          <p>Ежедневно 9:00–21:00<br>Выезд врача&nbsp;— круглосуточно</p>
+      </div>
+
+      <!-- Контакты&nbsp;— тёмным стеклом поверх линзы, как карточка выезда на первом экране. Заменить на реальные: телефон, адрес, почта -->
+      <div class="ft-contacts glass-dk">
+        <p class="label">Контакты</p>
+        <a class="ft-phone" href="tel:+74950000000">+7 495 000-00-00</a>
+        <p class="ft-open" data-open><span class="dot" aria-hidden="true"></span><span data-open-title>Ежедневно 9:00–21:00</span></p>
+        <div class="ft-info">
+          <p>Приём ежедневно 9:00–21:00<br>Выезд врача&nbsp;— круглосуточно</p>
           <p>Москва, ул.&nbsp;Примерная,&nbsp;1</p>
           <a class="ft-mail" href="mailto:info@menteya.ru">info@menteya.ru</a>
         </div>
       </div>
+    </div>
+
+    <!-- Обязательное предупреждение для рекламы медуслуг (ст. 24 закона «О рекламе»)&nbsp;— заметной строкой -->
+    <p class="ft-warning"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg><span><span>Имеются противопоказания.</span> <span>Необходима консультация специалиста</span></span></p>
+
+    <div class="ft-legal">
+      <!-- заменить на реальные: юрлицо, ИНН, ОГРН, номер лицензии -->
+      <dl class="ft-req">
+        <div><dt>Юрлицо</dt><dd>ООО «Клиника Ментея»</dd></div>
+        <div><dt>ИНН</dt><dd>0000000000</dd></div>
+        <div><dt>ОГРН</dt><dd>0000000000000</dd></div>
+        <div><dt>Лицензия на&nbsp;медицинскую деятельность</dt><dd>№&nbsp;Л041-00000-77/00000000</dd></div>
+      </dl>
+      <!-- Адреса будущих страниц документов; те же адреса&nbsp;— в окне записи, форме записи и плашке cookie -->
       <nav class="ft-docs" aria-label="Документы">
-        <a href="#">Правила оказания платных услуг</a>
-        <a href="#">Права и&nbsp;обязанности пациентов</a>
-        <a href="#">Контролирующие органы</a>
-        <a href="#">Политика конфиденциальности</a>
-        <a href="#">Согласие на&nbsp;обработку персональных данных</a>
-        <a href="#" data-cookie-settings>Настройки cookie</a>
+        <a href="politika.html">Политика обработки персональных данных (152&#8209;ФЗ)</a>
+        <a href="soglasie.html">Согласие на&nbsp;обработку персональных данных</a>
+        <a href="pravila.html">Правила оказания платных услуг</a>
+        <a href="prava-pacientov.html">Права и&nbsp;обязанности пациентов</a>
+        <a href="kontrol.html">Контролирующие органы</a>
+        <a href="politika.html#cookie" data-cookie-settings>Настройки cookie</a>
       </nav>
-      <div class="ft-legal">
-        <p>ООО «Клиника Ментея» · ИНН 0000000000 · ОГРН 0000000000000 · Лицензия на&nbsp;медицинскую деятельность №&nbsp;Л041-00000-77/00000000</p>
-        <p>Сайт носит информационный характер и&nbsp;не&nbsp;является публичной офертой.</p>
-      </div>
-      <div class="ft-bottom">
-        <span>© 2026 Клиника «Ментея»</span>
-        <a class="go" href="#">Наверх<svg class="i"><use href="#i-arrow"/></svg></a>
-      </div>
-      <div class="ft-mark" aria-hidden="true">Ментея</div>
+      <p class="ft-note">Сайт носит информационный характер и&nbsp;не&nbsp;является публичной офертой.</p>
+    </div>
+
+    <div class="ft-bottom">
+      <span>© 2026 Клиника «Ментея»</span>
+      <!-- Выключатель движения: ставит на <html> класс no-motion и запоминает выбор. Без скриптов не показывается -->
+      <button class="ft-motion" type="button" aria-pressed="false" data-motion-toggle><span class="ft-switch" aria-hidden="true"></span>Отключить анимацию</button>
+      <a class="go ft-up" href="#main">Наверх<svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
   </div>
 </footer>
 
-<nav class="bottombar" aria-label="Быстрая связь">
-  <a class="bb-btn" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>Позвонить</a>
-  <a class="bb-btn" href="#contacts"><svg class="i"><use href="#i-chat"/></svg>Написать</a>
-  <a class="bb-btn bb-primary" href="#booking"><svg class="i"><use href="#i-calendar"/></svg>Записаться</a>
+<!-- ============ ДОК БЫСТРОЙ СВЯЗИ ============ -->
+<!-- Капсула тёмного стекла, появляется после первого экрана. Телефон: светлая капсула «Записаться» и два круга;
+     компьютер: два круга столбиком в правом нижнем углу («Записаться» там уже есть в шапке).
+     Подписи кругов видны при наведении, диктор читает их всегда -->
+<nav class="bottombar glass-dk" aria-label="Быстрая связь">
+  <a class="btn-cta bb-cta" href="#booking"><span class="t">Записаться</span><span class="a"><svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+  <a class="bb-ic" href="tel:+74950000000"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg><span class="bb-tip">Позвонить</span></a>
+  <a class="bb-ic" href="#contacts"><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg><span class="bb-tip">Написать</span></a>
 </nav>
 
 <!-- ============ ЗАПИСЬ&nbsp;— ВСПЛЫВАЮЩЕЕ ОКНО ============ -->
 <!-- Открывается любой кнопкой «Записаться» (ссылка #booking). Без скриптов ссылка просто ведёт к блоку записи.
-     На телефоне окно выезжает снизу шторкой. -->
+     Тёмная карточка с тонкой светлой обводкой; на компьютере&nbsp;— по центру, на телефоне&nbsp;— шторка снизу. Классы .field, .form-body, .form-success,
+     .modal-context, .modal-close, .modal-done и имена полей нужны скрипту menteya.js -->
 <dialog class="modal" id="bookingModal" aria-labelledby="bm-title">
   <div class="modal-card" tabindex="-1" autofocus>
     <button class="modal-close" type="button" aria-label="Закрыть окно записи"><svg class="i"><use href="#i-x"/></svg></button>
     <form class="form" id="bookingModalForm" novalidate>
       <div class="form-body">
-        <span class="orb orb-modal" aria-hidden="true"></span>
-        <h2 id="bm-title">Запись на&nbsp;консультацию</h2>
+        <!-- «Сейчас открыто / закрыто» подставляет скрипт по времени Москвы -->
+        <p class="modal-status" data-open><span class="dot" aria-hidden="true"></span><span data-open-title>Ежедневно 9:00–21:00</span></p>
+        <h2 class="modal-title" id="bm-title">Запись на&nbsp;консультацию</h2>
         <p class="modal-lead">Оставьте телефон&nbsp;— администратор перезвонит в&nbsp;течение 15&nbsp;минут, подберёт врача и&nbsp;удобное время.</p>
         <p class="modal-context" hidden><svg class="i"><use href="#i-check"/></svg><span></span></p>
         <input type="hidden" name="service">
         <div class="form-grid">
-          <div class="field full">
+          <div class="field">
             <label for="m-name">Имя <span class="req" aria-hidden="true">*</span></label>
-            <input class="input" id="m-name" name="name" type="text" autocomplete="given-name" placeholder="Как к вам обращаться" required aria-describedby="m-name-err">
-            <span class="error" id="m-name-err">Напишите, как к вам обращаться</span>
+            <input class="input" id="m-name" name="name" type="text" autocomplete="given-name" placeholder="Как к вам обращаться" required>
+            <span class="error" id="m-name-err">Напишите, как к&nbsp;вам обращаться</span>
           </div>
-          <div class="field full">
+          <div class="field">
             <label for="m-phone">Телефон <span class="req" aria-hidden="true">*</span></label>
-            <input class="input" id="m-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="m-phone-err">
-            <span class="error" id="m-phone-err">Проверьте номер: после +7 нужно 10 цифр</span>
+            <input class="input" id="m-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required>
+            <span class="error" id="m-phone-err">Проверьте номер: после +7 нужно 10&nbsp;цифр</span>
           </div>
           <!-- Согласие&nbsp;— отдельной галочкой и отдельным документом (152-ФЗ); политика&nbsp;— ссылкой ниже -->
-          <div class="field full">
+          <div class="field">
             <label class="consent">
-              <input type="checkbox" name="consent" required aria-describedby="m-consent-err">
-              <span>Даю <a href="#contacts">согласие на&nbsp;обработку персональных данных</a></span>
+              <input type="checkbox" name="consent" required>
+              <span>Даю <a href="soglasie.html">согласие на&nbsp;обработку персональных данных</a></span>
             </label>
             <span class="error" id="m-consent-err">Без согласия мы не&nbsp;сможем с&nbsp;вами связаться</span>
           </div>
@@ -769,39 +1643,40 @@
             <input id="m-website" name="website" type="text" tabindex="-1" autocomplete="off">
           </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Записаться</button>
+        <button type="submit" class="btn-cta modal-submit"><span class="t">Записаться</span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></button>
         <p class="secure-note"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не&nbsp;передаются третьим лицам</p>
-        <p class="policy-note">Как мы храним данные&nbsp;— в&nbsp;<a href="#contacts">политике конфиденциальности</a></p>
+        <p class="policy-note">Как мы храним данные&nbsp;— в&nbsp;<a href="politika.html">политике обработки персональных данных</a></p>
         <div class="modal-alt">
-          <span class="muted">Удобнее написать или позвонить?</span>
-          <div class="msg-row">
-            <a class="msg-btn msg-tg" href="#contacts"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
-            <a class="msg-btn msg-max" href="#contacts"><svg class="i"><use href="#i-max"/></svg>MAX</a>
-          </div>
+          <span class="modal-alt-t">Удобнее написать или позвонить?</span>
           <a class="modal-phone" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>+7 495 000-00-00</a>
+          <div class="modal-msg">
+            <a class="btn btn-line btn-sm" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
+            <a class="btn btn-line btn-sm" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+          </div>
         </div>
       </div>
       <div class="form-success" role="status" hidden>
         <span class="ok" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
         <b tabindex="-1">Заявка принята</b>
         <p>Администратор перезвонит в&nbsp;течение 15&nbsp;минут в&nbsp;рабочее время&nbsp;— ежедневно с&nbsp;9:00 до&nbsp;21:00.</p>
-        <button type="button" class="btn btn-ghost modal-done">Готово</button>
+        <button type="button" class="btn btn-fill modal-done">Готово</button>
       </div>
     </form>
   </div>
 </dialog>
 
 <!-- ============ СОГЛАСИЕ НА COOKIE ============ -->
-<!-- 152-ФЗ: счётчики (Яндекс Метрика) подключаются только после «Принять». Выбор хранится в браузере;
-     изменить его можно ссылкой «Настройки cookie» в подвале. Без скриптов плашка не показывается&nbsp;— и счётчиков нет. -->
+<!-- 152-ФЗ: счётчики (Яндекс Метрика) подключаются только после «Принять»; «Принять» и «Отклонить»&nbsp;— одного вида и веса.
+     Выбор хранится в браузере; изменить его можно ссылкой «Настройки cookie» в подвале.
+     Без скриптов плашка не показывается&nbsp;— и счётчиков нет. id и data-cookie нужны скрипту menteya.js -->
 <section class="cookie" id="cookieBanner" aria-label="Согласие на использование cookie" hidden>
   <p class="cookie-text">
     <span class="ic" aria-hidden="true"><svg class="i"><use href="#i-cookie"/></svg></span>
-    <span><b>Мы используем cookie</b> для статистики посещений (Яндекс Метрика). <a href="#">Подробнее</a></span>
+    <span><b>Мы используем cookie</b> для статистики посещений (Яндекс Метрика). <a href="politika.html#cookie">Подробнее</a></span>
   </p>
   <div class="cookie-actions">
-    <button class="btn btn-primary btn-sm" type="button" data-cookie="accept">Принять</button>
-    <button class="btn btn-ghost btn-sm" type="button" data-cookie="decline">Отклонить</button>
+    <button class="btn btn-line btn-sm" type="button" data-cookie="accept">Принять</button>
+    <button class="btn btn-line btn-sm" type="button" data-cookie="decline">Отклонить</button>
   </div>
 </section>
 

@@ -1,1 +1,106 @@
-<!-- раздел собирается -->
+<!-- ============ ОТЗЫВЫ И РЕЙТИНГИ ПЛОЩАДОК ============ -->
+<!-- ВНИМАНИЕ, ст. 24 ФЗ «О рекламе»: реклама медицинских услуг не может содержать благодарности пациентов
+     и ссылки на случаи излечения или улучшения здоровья. Отзывы ниже — заглушки из прошлого дизайна, сокращены
+     до нейтральных отрывков о самом приёме (похвала врачу и фразы о результате лечения убраны). Публиковать только
+     реальные отзывы, с согласия авторов и после согласования с юристом.
+     Оценки, число отзывов и ссылки на площадки — тоже заглушки: заменить на реальные данные и страницы клиники -->
+<section class="sec" id="reviews" aria-labelledby="reviews-title">
+  <!-- Линза у правого края, за стеклянной карточкой среднего балла — как шар и карточка на первом экране -->
+  <div class="lens lens-r rv-lens" data-seed="2" aria-hidden="true"><canvas></canvas></div>
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <p class="label">Отзывы и&nbsp;рейтинги</p>
+        <h2 class="h2" id="reviews-title">Что говорят пациенты</h2>
+        <p class="lead">Оценки клиники на&nbsp;независимых площадках. Отзывы публикуем только с&nbsp;согласия пациентов, имена сокращены ради конфиденциальности.</p>
+      </div>
+      <!-- Средняя оценка — взвешенная по числу отзывов: (4,5×212 + 4,9×128 + 4,8×64 + 4,7×45 + 5,0×37 + 5,0×18) / 504 = 4,71.
+           С реальными данными пересчитать так же: простое среднее по площадкам завышает итог (ст. 5 ФЗ «О рекламе») -->
+      <div class="glass-dk rv-total">
+        <b class="num">4,7</b>
+        <p><span class="rv-stars" style="--r:4.7" aria-hidden="true"></span><span class="fine">средняя оценка<br>504&nbsp;отзыва на&nbsp;6&nbsp;площадках</span></p>
+      </div>
+    </div>
+
+    <!-- Колонки площадок: метка сверху, крупная оценка внизу; нажимается вся колонка. Ссылки ведут на площадки — заменить на страницы клиники -->
+    <ul class="rv-cols" role="list">
+      <li class="rv-col" data-reveal style="--i:0">
+        <p class="rv-tag"><span>001</span> · Яндекс Карты</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:4.5" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">4,5</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">212&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://yandex.ru/maps/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: Яндекс Карты, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:1">
+        <p class="rv-tag"><span>002</span> · ПроДокторов</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:4.9" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">4,9</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">128&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://prodoctorov.ru/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: ПроДокторов, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:2">
+        <p class="rv-tag"><span>003</span> · НаПоправку</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:4.8" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">4,8</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">64&nbsp;отзыва</p>
+          <a class="go rv-go" href="https://napopravku.ru/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: НаПоправку, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:3">
+        <p class="rv-tag"><span>004</span> · Google</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:4.7" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">4,7</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">45&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://www.google.com/maps/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: Google Карты, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:4">
+        <p class="rv-tag"><span>005</span> · 2ГИС</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:5" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">5,0</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">37&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://2gis.ru/moscow" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: 2ГИС, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+      <li class="rv-col" data-reveal style="--i:5">
+        <p class="rv-tag"><span>006</span> · Yell.ru</p>
+        <div class="rv-foot">
+          <span class="rv-stars" style="--r:5" aria-hidden="true"></span>
+          <p class="rv-score"><b class="num">5,0</b><span>из&nbsp;5</span></p>
+          <p class="rv-count">18&nbsp;отзывов</p>
+          <a class="go rv-go" href="https://www.yell.ru/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: Yell.ru, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Лента отзывов: листают вручную (пальцем, колесом с Shift, стрелками после фокуса), сама не едет -->
+    <div class="rv-feed-head" data-reveal>
+      <h3 class="h3">Из&nbsp;отзывов на&nbsp;площадках</h3>
+      <p class="fine">Отрывки, полные тексты&nbsp;— по&nbsp;ссылкам выше</p>
+    </div>
+    <div class="rv-feed" role="region" aria-label="Отзывы пациентов" tabindex="0" data-reveal style="--i:1">
+      <article class="rv-card">
+        <p class="rv-src"><span>Яндекс Карты</span><span>сентябрь&nbsp;2026</span></p>
+        <blockquote class="rv-quote"><p>Долго откладывала визит к&nbsp;психиатру&nbsp;— казалось, что это страшно.</p></blockquote>
+        <p class="rv-who"><span class="rv-avatar" aria-hidden="true">М</span><span><b>Марина, 34&nbsp;года</b><span>Приём у&nbsp;А.&nbsp;В.&nbsp;Соколовой</span></span></p>
+      </article>
+      <article class="rv-card">
+        <p class="rv-src"><span>ПроДокторов</span><span>август&nbsp;2026</span></p>
+        <blockquote class="rv-quote"><p>Сына направили к&nbsp;детскому психиатру после сложностей в&nbsp;школе.</p></blockquote>
+        <p class="rv-who"><span class="rv-avatar" aria-hidden="true">Д</span><span><b>Дмитрий, 41&nbsp;год</b><span>Приём у&nbsp;И.&nbsp;П.&nbsp;Лебедева</span></span></p>
+      </article>
+      <article class="rv-card">
+        <p class="rv-src"><span>2ГИС</span><span>октябрь&nbsp;2026</span></p>
+        <blockquote class="rv-quote"><p>Врач подробно объяснил схему терапии и&nbsp;был на&nbsp;связи между визитами.</p></blockquote>
+        <p class="rv-who"><span class="rv-avatar" aria-hidden="true">Е</span><span><b>Елена, 29&nbsp;лет</b><span>Повторный приём онлайн</span></span></p>
+      </article>
+    </div>
+  </div>
+</section>

@@ -1,1 +1,177 @@
-/* раздел собирается */
+/* ===== Люди и доверие: врачи, о клинике, лицензии — «ночная вода», как первый экран ===== */
+
+/* ---------- Врачи: ряд карточек в рамке (Collider «Our Beers»), листается стрелками и пальцем ---------- */
+.doc-head > div{ max-width:900px; }
+.doc-arrows{ display:none; gap:8px; }
+.js .doc-arrows{ display:flex; }   /* без скрипта стрелки не нужны: ряд листается прокруткой */
+/* Стрелки — капсулы со светлой обводкой, как «Позвонить» на первом экране; у края ряда гаснут */
+.doc-arrow{ display:grid; place-items:center; width:64px; height:48px; border-radius:999px; box-shadow:inset 0 0 0 1px var(--line-2); color:var(--text); touch-action:manipulation; transition:background-color .2s ease, box-shadow .2s ease, opacity .2s ease, transform .16s var(--ease); }
+.doc-arrow[data-dir="-1"] .i{ rotate:180deg; }
+.doc-arrow[aria-disabled="true"]{ opacity:.3; box-shadow:inset 0 0 0 1px var(--line); cursor:default; }
+.doc-arrow:not([aria-disabled="true"]):active{ transform:scale(.95); }
+@media (hover:hover) and (pointer:fine){ .doc-arrow:not([aria-disabled="true"]):hover{ background:var(--surface-2); box-shadow:inset 0 0 0 1px var(--text-3); } }
+
+/* Лента: колонки ровно по 4 в ширину рамки, лишние уходят вправо; полосы прокрутки не видно — есть стрелки и свайп */
+.doc-track{ grid-auto-flow:column; grid-auto-columns:calc((100% - 3px) / 4); overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scrollbar-width:none; }
+.doc-track::-webkit-scrollbar{ display:none; }
+.doc-track > *{ scroll-snap-align:start; }
+
+.doc-card{ position:relative; display:flex; flex-direction:column; transition:background-color .25s ease; }
+.doc-photo{ position:relative; aspect-ratio:4 / 5; overflow:hidden; background:var(--surface); }
+.doc-photo img{ width:100%; height:100%; object-fit:cover; filter:saturate(.8) brightness(.86); transition:scale .3s var(--ease); }   /* единая приглушённая цветокоррекция заглушек: белые халаты не слепят на тёмной странице */
+.doc-photo::after{ content:""; position:absolute; inset:0; background:linear-gradient(to top, color-mix(in srgb, var(--bg) 45%, transparent), transparent 40%); pointer-events:none; }   /* низ фото уходит в ночную воду к подписи */
+/* Капсулы на фото — тёмное стекло; без размытия — плотная заливка */
+.doc-caps{ position:absolute; top:12px; left:12px; right:12px; display:flex; flex-wrap:wrap; gap:6px; }
+.doc-caps .pill{ min-height:28px; padding:0 11px; background:var(--glass-dk-solid); box-shadow:inset 0 0 0 1px var(--line-2); color:var(--text); font-size:.8125rem; }
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  .doc-caps .pill{ background:var(--glass-dk); -webkit-backdrop-filter:blur(14px) brightness(.62); backdrop-filter:blur(14px) brightness(.62); }   /* светлое фото под капсулой притемняется — текст читается */
+}
+.doc-body{ flex:1; display:flex; flex-direction:column; padding:20px 22px 18px; }
+.doc-name{ font:500 1.375rem/1.15 var(--font); letter-spacing:-0.02em; text-wrap:balance; }
+.doc-name a::after{ content:""; position:absolute; inset:0; }   /* вся карточка ведёт на страницу врача */
+.doc-name a:focus-visible{ outline:none; }
+.doc-name a:focus-visible::after{ outline:2px solid var(--accent); outline-offset:-4px; border-radius:var(--r-sm); }
+.doc-role{ margin:6px 0 20px; font-size:.9375rem; line-height:1.4; color:var(--text-2); }
+.doc-foot{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:2px 14px; margin-top:auto; padding-top:10px; border-top:1px solid var(--line); }
+.doc-price{ font-size:1.0625rem; font-weight:500; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.doc-book{ position:relative; z-index:1; min-height:44px; font-size:.9375rem; }   /* поверх ссылки-карточки */
+@media (hover:hover) and (pointer:fine){
+  .doc-card:hover{ background:var(--surface); }
+  .doc-name a:hover{ text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){ .doc-card:hover .doc-photo img{ scale:1.02; } }   /* фото чуть ближе при наведении */
+
+/* Последняя ячейка — подбор врача: приподнятая поверхность с мятным отсветом, светлая кнопка внизу */
+.doc-track > .doc-cta{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding:clamp(22px, 2.2vw, 32px); background:radial-gradient(90% 60% at 100% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%), var(--surface); }
+.doc-cta .label, .about-word .label{ color:var(--text-2); }   /* приподнятая панель с отсветом: метка светлее обычной, чтобы держать 4,5:1 */
+.doc-cta .h3{ margin-top:4px; }
+.doc-cta p:not(.label){ color:var(--text-2); font-size:.9375rem; line-height:1.5; }
+.doc-cta-list{ align-self:stretch; margin-top:auto; font-size:.9375rem; font-weight:500; }   /* список и кнопка — к низу ячейки */
+.doc-cta-list li{ display:flex; align-items:center; gap:10px; padding:12px 0; border-top:1px solid var(--line); }
+.doc-cta-list .i{ width:18px; height:18px; color:var(--accent); }
+.doc-cta .btn{ margin-top:6px; }
+
+/* ---------- О клинике: полоса глубже фона — манифест, фото с выносками, слово главного врача, цифры ---------- */
+.about-top{ align-items:end; margin-bottom:clamp(32px, 4vw, 56px); }
+.about-top .manifest{ max-width:22em; }
+.about-split{ display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:clamp(12px, 1.4vw, 20px); }
+
+/* Фото: выноски привязаны к кадру, а не к рамке — слой выносок повторяет обрезку object-fit:cover (кадр 900×506) */
+.about-photo{ position:relative; min-height:440px; overflow:hidden; container-type:size; border-radius:var(--r); background:var(--surface); outline:1px solid var(--line); outline-offset:-1px; }   /* обводка поверх фото — как у стеклянных карточек */
+.about-photo img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:25% 50%; filter:saturate(.85) brightness(.82); }   /* светлый коридор приглушён под ночную страницу */
+.about-photo::after{ content:""; position:absolute; z-index:0; inset:auto 0 0; height:32%; background:linear-gradient(to top, color-mix(in srgb, var(--bg-2) 70%, transparent), transparent); pointer-events:none; }   /* низ кадра уходит в полосу; выноски и подпись — выше */
+.about-pins, .about-photo .about-cap{ z-index:1; }
+.about-pins{ --w:max(100cqw, 100cqh * 1.7787); --h:max(100cqh, 100cqw * .5622); position:absolute; left:calc((100cqw - var(--w)) * .25); top:calc((100cqh - var(--h)) * .5); width:var(--w); height:var(--h); }
+.about-pin{ position:absolute; left:var(--x); top:var(--y); }
+.about-pin::before{ content:""; position:absolute; left:-7px; top:-7px; width:14px; height:14px; border-radius:50%; background:var(--text); box-shadow:inset 0 0 0 3px var(--accent), 0 0 0 5px color-mix(in srgb, var(--accent) 35%, transparent); }   /* точка на предмете */
+.about-pin::after{ content:""; position:absolute; left:0; bottom:9px; height:44px; border-left:1px dashed var(--text); }   /* светлый пунктир к подписи */
+/* Подписи на фото — тёмное стекло со светлой обводкой; без размытия — плотная заливка */
+.about-pin span, .about-photo .about-cap{ position:absolute; border-radius:999px; background:var(--glass-dk-solid); box-shadow:inset 0 0 0 1px var(--line-2); }
+.about-pin span{ left:-16px; bottom:53px; padding:8px 14px; color:var(--text); font-size:.9375rem; font-weight:500; line-height:1.2; white-space:nowrap; }
+.about-photo .about-cap{ left:16px; bottom:16px; padding:9px 14px; color:var(--text-2); }
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  .about-pin span, .about-photo .about-cap{ background:var(--glass-dk); -webkit-backdrop-filter:blur(16px) brightness(.6); backdrop-filter:blur(16px) brightness(.6); }
+}
+
+/* Слово главного врача: приподнятая панель с тонкой светлой обводкой, как стеклянные карточки первого экрана */
+.about-word{ position:relative; display:flex; flex-direction:column; padding:clamp(24px, 3.2vw, 48px); border-radius:var(--r); background:var(--surface); box-shadow:inset 0 0 0 1px var(--line-2); }
+.about-say{ flex:1; display:flex; flex-direction:column; }
+.about-quote{ max-width:24em; margin-top:22px; font:400 clamp(1.375rem, 2vw, 1.875rem)/1.25 var(--font); letter-spacing:-0.02em; text-wrap:balance; }
+.about-text{ max-width:50ch; margin-top:18px; text-wrap:pretty; }   /* цвет — от .muted */
+.about-sign{ display:flex; align-items:center; gap:14px; margin-top:auto; padding-top:28px; }
+.about-sign img{ width:56px; height:56px; flex-shrink:0; border-radius:50%; object-fit:cover; box-shadow:0 0 0 1px var(--line-2); }
+.about-sign > span{ display:flex; flex-direction:column; gap:2px; }
+.about-sign a{ margin:-10px 0; padding:10px 0; font-weight:500; }   /* цель нажатия 44px без сдвига строк */
+.about-team{ align-self:flex-start; min-height:44px; margin-top:14px; }
+@media (hover:hover) and (pointer:fine){ .about-sign a:hover{ text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; } }
+
+/* Цифры 001–004: колонки с вертикальными линиями (Diag-nose) */
+.about-stats{ display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); margin-top:clamp(40px, 5vw, 72px); border-top:1px solid var(--line); }
+.about-stat{ display:flex; flex-direction:column; gap:14px; padding:20px clamp(16px, 2vw, 28px) 6px; border-left:1px solid var(--line); }
+.about-stat:first-child{ padding-left:0; border-left:0; }
+.about-stat .num{ margin-top:18px; white-space:nowrap; }
+.about-stat .num small{ font-size:.42em; font-weight:400; letter-spacing:-0.01em; color:var(--text-2); }
+.about-note{ margin-top:28px; }
+
+/* ---------- Лицензии: слева заголовок и реквизиты столбиком, справа документ с миниатюрой скана и три признака ---------- */
+/* Реквизиты под лидом: моно-метка слева, значение справа, строки через линию 1px */
+.lic-req{ margin-top:clamp(28px, 3vw, 40px); border-top:1px solid var(--line); }
+.lic-req dl div, .lic-req .go{ display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:52px; border-bottom:1px solid var(--line); }
+.lic-req dt{ font:500 .75rem/1.3 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); }
+.lic-req dd{ font-size:.9375rem; font-weight:500; font-variant-numeric:tabular-nums; text-align:right; }
+.lic-req .go{ font-size:.9375rem; }
+
+.lic-frame{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+.lic-doc{ grid-column:1 / -1; display:grid; grid-template-columns:minmax(180px, 240px) minmax(0, 1fr); }
+.lic-scan{ display:grid; place-items:center; padding:28px 24px; background:radial-gradient(70% 60% at 50% 45%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 75%), var(--surface); border-right:1px solid var(--line); }
+/* Лист-заглушка скана, нарисован фоном: герб, заголовок, строки текста, подпись, печать; сзади — второй лист.
+   Бумага светлая, как будет на настоящем скане; «чернила» — цвет текста на светлом */
+.lic-sheet{ --ink:color-mix(in srgb, var(--on-light) 70%, transparent); --ink-2:color-mix(in srgb, var(--on-light) 22%, transparent);
+  position:relative; width:min(148px, 100%); aspect-ratio:210 / 297; border-radius:2px; transition:scale .3s var(--ease);
+  background:
+    radial-gradient(circle at 50% 12%, var(--text-3) 0 5px, transparent 5.5px),
+    linear-gradient(var(--ink), var(--ink)) 50% 21% / 58% 3px no-repeat,
+    linear-gradient(var(--ink-2), var(--ink-2)) 50% 26% / 40% 2px no-repeat,
+    repeating-linear-gradient(var(--ink-2) 0 2px, transparent 2px 7px) 50% 58% / 78% 36% no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 16% 86% / 26% 1px no-repeat,
+    var(--text);
+  box-shadow:7px 7px 0 -1px var(--text-2), 0 24px 40px -18px color-mix(in srgb, var(--bg-2) 90%, transparent); }
+.lic-sheet::after{ content:""; position:absolute; right:12%; bottom:7%; width:30%; aspect-ratio:1; border-radius:50%; border:1.5px solid color-mix(in srgb, var(--accent) 55%, var(--on-light)); box-shadow:inset 0 0 0 3px var(--text), inset 0 0 0 4px color-mix(in srgb, var(--accent) 40%, var(--on-light)); opacity:.75; }   /* печать */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){ .lic-scan:hover .lic-sheet{ scale:1.02; } }
+
+.lic-info{ padding:clamp(22px, 2.4vw, 32px); }
+.lic-info .h3{ margin-top:12px; }
+.lic-meta{ margin-top:18px; }
+.lic-meta div{ display:grid; grid-template-columns:96px minmax(0, 1fr); gap:12px; padding:9px 0; border-top:1px solid var(--line); }
+.lic-meta dt{ padding-top:3px; font:500 .75rem/1.3 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); }
+.lic-meta dd{ font-size:.9375rem; font-weight:500; font-variant-numeric:tabular-nums; }
+.lic-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px; margin-top:20px; }
+.lic-actions .btn{ min-height:44px; }
+.lic-reg{ min-height:44px; font-size:.9375rem; }
+
+.lic-item{ display:flex; flex-direction:column; gap:10px; padding:clamp(20px, 2vw, 28px); }
+.lic-item .ic{ margin-bottom:6px; }
+.lic-t{ font:500 1.0625rem/1.25 var(--font); letter-spacing:-0.01em; }
+
+/* ---------- Планшет ---------- */
+@media (max-width:1099px){
+  .doc-track{ grid-auto-columns:calc((100% - 2px) / 3); }
+  .about-stats{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .about-stat:nth-child(odd){ padding-left:0; border-left:0; }
+  .about-stat:nth-child(n+3){ border-top:1px solid var(--line); }
+  .about-stat{ padding-bottom:24px; }
+}
+@media (min-width:700px){ .doc-head{ flex-wrap:nowrap; } }   /* стрелки всегда справа от заголовка */
+@media (max-width:999px){
+  .about-split{ grid-template-columns:1fr; }
+  .about-photo{ min-height:0; aspect-ratio:16 / 10; }
+  .about-top .manifest{ max-width:none; }
+}
+
+/* ---------- Телефон: врачи — лента с защёлкой, карточка 80vw ---------- */
+@media (max-width:699px){
+  .js .doc-arrows{ display:none; }
+  .doc-track{ grid-auto-columns:80vw; }
+  .doc-body{ padding:18px 18px 14px; }
+  .doc-name{ font-size:1.25rem; }
+
+  .about-photo{ aspect-ratio:4 / 3; }
+  .about-pin::after{ height:28px; }
+  .about-pin span{ left:-12px; bottom:37px; width:max-content; max-width:210px; padding:6px 11px; border-radius:var(--r-sm); font-size:.8125rem; white-space:normal; }   /* на узком кадре длинная подпись — в две строки */
+  .pin-down-sm::after{ top:9px; bottom:auto; }   /* нижняя выноска смотрит вниз, чтобы не закрыть верхнюю точку */
+  .pin-down-sm span{ top:37px; bottom:auto; }
+  .about-photo .about-cap{ display:none; }   /* на узком кадре подпись фото мешает выноскам; что на фото — сказано в alt */
+  .about-word{ padding:24px 22px; }
+  .about-stat{ padding-right:12px; padding-left:16px; }
+  .about-stat .num{ margin-top:10px; font-size:2.5rem; }
+
+  .lic-frame{ grid-template-columns:1fr; }
+  .lic-doc{ grid-template-columns:1fr; }
+  .lic-scan{ padding:24px; border-right:0; border-bottom:1px solid var(--line); }
+  .lic-sheet{ width:120px; }
+  .lic-meta div{ grid-template-columns:1fr; gap:2px; }   /* подпись над значением: номер лицензии не рвётся */
+  .lic-reg{ display:block; padding:10px 0; line-height:1.4; }   /* стрелка сразу за текстом, даже если ссылка в две строки */
+  .lic-reg .i{ display:inline-block; margin-left:6px; vertical-align:-4px; }
+  .lic-item{ display:grid; grid-template-columns:auto minmax(0, 1fr); gap:4px 14px; }
+  .lic-item .ic{ grid-row:span 2; margin:0; }
+}

@@ -1,13 +1,12 @@
-/* ===== Общие приёмы разделов: контейнер, отступы, шапка раздела, сетка 1/3–2/3, сетка в рамке ===== */
+/* ===== Общие приёмы разделов: контейнер, отступы, шапка раздела, сетка 1/3–2/3, сетка в рамке, линзы и шёлк на фоне ===== */
 .wrap{ width:100%; max-width:var(--maxw); margin:0 auto; padding:0 var(--gut); }
-.sec{ position:relative; padding-top:var(--sec); }
+/* isolation: линзы и фоновые слои (z-index:-1) лежат над фоном раздела, но под его содержимым */
+.sec{ position:relative; isolation:isolate; overflow-x:clip; padding-top:var(--sec); }   /* декор не вылезает за край экрана */
 .sec-last{ padding-bottom:var(--sec); }
-/* Тёмный раздел — «ночная вода»: свои цвета текста и линий */
-.sec-dark{ background:var(--night); color:var(--fog); padding-bottom:var(--sec); }
+/* Раздел-полоса глубже основного фона */
+.sec-dark{ background:var(--bg-2); padding-bottom:var(--sec); }
 .sec-dark + .sec{ padding-top:var(--sec); }
-.sec-dark .label{ color:var(--sage); }
-.sec-dark .muted, .sec-dark .lead, .sec-dark .fine{ color:#b9c6c0; }
-.sec-dark .link{ color:var(--mint); }
+.sec:not(.sec-dark) + .sec-dark{ margin-top:var(--sec); }   /* полоса после обычного раздела: у того нет нижнего поля */
 
 /* Шапка раздела во всю ширину: метка, заголовок и лид слева, ссылка справа внизу */
 .sec-head{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px 48px; margin-bottom:clamp(24px, 3vw, 44px); }
@@ -22,11 +21,32 @@
 .sec-side .btn-row, .sec-side .btn-cta{ margin-top:24px; }
 
 /* Сетка в рамке: ячейки разделены линиями 1px (Collider «Our Beers») */
-.frame{ display:grid; gap:1px; overflow:hidden; border:1px solid var(--hair); border-radius:var(--r-sm); background:var(--hair); }
-.frame > *{ min-width:0; background:var(--fog); }
-.sec-dark .frame{ border-color:var(--hair-dk); background:var(--hair-dk); }
-.sec-dark .frame > *{ background:var(--night); }
+.frame{ display:grid; gap:1px; overflow:hidden; border:1px solid var(--line); border-radius:var(--r-sm); background:var(--line); }
+.frame > *{ min-width:0; background:var(--bg); }
+.sec-dark .frame > *{ background:var(--bg-2); }
+
+/* Линза — стеклянный шар с текущим светом внутри, как на первом экране. Стоит у края раздела, наполовину за экраном;
+   рисует модуль «Свет» в menteya.js. Свет внутри течёт медленно, сам шар не двигается и к прокрутке не привязан.
+   Разметка: <div class="lens lens-r" style="top:…" data-seed="2" aria-hidden="true"><canvas></canvas></div> */
+.lens{ position:absolute; z-index:-1; width:var(--lens-size, clamp(220px, 22vw, 340px)); aspect-ratio:1; pointer-events:none; }
+/* Маска: свечение шара гаснет к краю холста плавно, без светлого квадрата по его границе (шар — 72% радиуса холста) */
+.lens canvas{ display:block; width:100%; height:100%; opacity:0; transition:opacity 1.2s ease; -webkit-mask-image:radial-gradient(circle closest-side, #000 74%, transparent); mask-image:radial-gradient(circle closest-side, #000 74%, transparent); }
+.lens canvas.is-on{ opacity:1; }
+.lens-r{ right:0; translate:42% 0; }
+.lens-l{ left:0; translate:-42% 0; }
+/* Без WebGL — мягкое пятно света вместо шара */
+.lens::before{ content:""; position:absolute; inset:12%; border-radius:50%; background:radial-gradient(circle at 36% 32%, rgba(127,214,185,.28), rgba(127,214,185,.06) 60%, transparent 72%); }
+.lens:has(canvas.is-on)::before{ display:none; }
+
+/* Неподвижный шёлк на фоне раздела или подвала: кадр рисует тот же модуль «Свет» один раз и кладёт картинкой в --silk.
+   Разметка: атрибут data-silk у блока (data-silk="lens" — с линзой справа) */
+[data-silk]{ background-color:var(--bg-2); background-image:linear-gradient(rgba(11,31,36,.25), rgba(11,31,36,.55)), var(--silk, radial-gradient(60% 80% at 75% 40%, rgba(127,214,185,.16), transparent 70%)); background-size:cover; background-position:center; }
 
 @media (max-width:999px){
-  .sec-grid{ grid-template-columns:1fr; }
+  .sec-grid{ grid-template-columns:minmax(0, 1fr); }   /* minmax: ленты с прокруткой внутри не распирают колонку */
+}
+@media (max-width:699px){
+  .lens{ --lens-size:min(64vw, 260px); }
+  .lens-r{ translate:46% 0; }
+  .lens-l{ translate:-46% 0; }
 }
