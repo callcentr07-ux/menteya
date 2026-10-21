@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="ru" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ментея — вариант Г «Бенто»</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f3f0ea">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..700&family=Unbounded:wght@500..700&display=swap" rel="stylesheet">
+<style>
+/* Вариант Г: первый экран из плиток. Каждая плитка отвечает на один вопрос посетителя:
+   что это, сколько стоит, открыто ли сейчас, приедут ли домой, кто врачи, можно ли написать */
+:root{
+  --bg:#f3f0ea; --tile:#ffffff; --ink:#1d1a42; --ink-2:#4a4670; --line:rgba(29,26,66,.1);
+  --lav:#e7e2ff; --lav-2:#cdc4ff; --violet:#5b4be0; --primary:#3e33d1; --primary-h:#3229b3;
+  --peach:#ffe2d6; --mint:#dcf5e8; --green:#15803d; --amber:#b45309; --dark:#1d1a42;
+  --r:28px; --gap:12px; --pad:clamp(20px, 1.9vw, 32px);
+  --ease:cubic-bezier(.22, 1, .36, 1);
+  --font-d:"Unbounded", system-ui, sans-serif; --font-t:"Onest", system-ui, sans-serif;
+}
+*, *::before, *::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; -webkit-tap-highlight-color:transparent; }
+body{ margin:0; background:var(--bg); color:var(--ink); font:400 1.0625rem/1.5 var(--font-t); -webkit-font-smoothing:antialiased; }
+h1, h2, p, figure{ margin:0; }
+a{ color:inherit; text-decoration:none; }
+img{ display:block; max-width:100%; }
+:focus-visible{ outline:3px solid var(--violet); outline-offset:3px; border-radius:12px; }
+.i{ width:20px; height:20px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.sr{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+
+/* ---------- Кнопки ---------- */
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:56px; padding:0 28px; border-radius:999px; font-weight:600; font-size:1rem; white-space:nowrap; touch-action:manipulation; -webkit-user-select:none; user-select:none; transition:transform .16s var(--ease), background-color .2s ease, box-shadow .25s var(--ease), border-color .2s ease; }
+.btn:active{ transform:scale(.97); }
+.btn-primary{ background:var(--primary); color:#fff; box-shadow:0 12px 28px -12px rgba(62,51,209,.65); }
+.btn-ghost{ background:rgba(255,255,255,.7); color:var(--ink); box-shadow:inset 0 0 0 1.5px var(--line); }
+.btn-sm{ min-height:44px; padding:0 20px; font-size:.9375rem; }
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{ background:var(--primary-h); box-shadow:0 16px 34px -12px rgba(62,51,209,.75); transform:translateY(-1px); }
+  .btn-ghost:hover{ background:#fff; box-shadow:inset 0 0 0 1.5px rgba(29,26,66,.22); }
+}
+
+/* ---------- Шапка ---------- */
+.hd{ display:flex; align-items:center; gap:28px; height:76px; padding:0 max(16px, env(safe-area-inset-left)) 0 max(16px, env(safe-area-inset-right)); }
+.logo{ display:flex; align-items:center; gap:10px; font:600 1.25rem/1 var(--font-d); letter-spacing:-0.02em; }
+.logo-mark{ width:30px; height:30px; border-radius:50%; background:radial-gradient(circle at 32% 30%, #fff 0 14%, var(--lav-2) 42%, var(--violet) 100%); box-shadow:inset 0 0 0 1px rgba(29,26,66,.06); }
+.nav{ display:flex; gap:26px; margin-left:16px; font-size:.9688rem; font-weight:500; }
+.nav a, .hd-phone span{ background:linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat; padding-bottom:2px; transition:background-size .3s var(--ease); }
+.hd-r{ display:flex; align-items:center; gap:18px; margin-left:auto; }
+.hd-phone{ display:flex; align-items:center; gap:8px; font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.hd-phone .i{ width:18px; height:18px; color:var(--violet); }
+.burger{ display:none; width:44px; height:44px; border:0; border-radius:50%; background:var(--tile); color:var(--ink); align-items:center; justify-content:center; cursor:pointer; }
+@media (hover:hover) and (pointer:fine){ .nav a:hover, .hd-phone:hover span{ background-size:100% 1.5px; } }
+
+/* ---------- Сетка плиток ---------- */
+.bento{ display:grid; gap:var(--gap); padding:0 16px 16px; grid-template-columns:repeat(4, minmax(0, 1fr)); grid-template-rows:repeat(3, minmax(0, 1fr)); height:max(620px, calc(100svh - 76px)); }
+.tile{ position:relative; isolation:isolate; overflow:hidden; display:flex; flex-direction:column; padding:var(--pad); border-radius:var(--r); background:var(--tile); }
+.t-hero{ grid-column:1 / 3; grid-row:1 / 3; }
+.t-photo{ grid-column:3; grid-row:1 / 4; }
+.t-price{ grid-column:4; grid-row:1; }
+.t-open{ grid-column:4; grid-row:2; }
+.t-msg{ grid-column:4; grid-row:3; }
+.t-home{ grid-column:1; grid-row:3; }
+.t-docs{ grid-column:2; grid-row:3; }
+
+/* Подсветка под курсором и подъём плиток-ссылок — только для мыши */
+.tile::after{ content:""; position:absolute; inset:0; z-index:-1; opacity:0; transition:opacity .35s ease; background:radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.55), transparent 45%); pointer-events:none; }
+a.tile{ transition:transform .35s var(--ease), box-shadow .35s var(--ease); }
+@media (hover:hover) and (pointer:fine){
+  .tile:hover::after{ opacity:1; }
+  a.tile:hover{ transform:translateY(-4px); box-shadow:0 22px 44px -24px rgba(29,26,66,.45); }
+  a.tile:hover .t-link .i{ transform:translateX(4px); }
+}
+
+/* Общие куски текста в плитках */
+.t-label{ font-size:.9375rem; font-weight:500; color:var(--ink-2); }
+.t-big{ font:600 clamp(1.375rem, 1.6vw, 1.75rem)/1.15 var(--font-d); letter-spacing:-0.02em; }
+.t-note{ font-size:.9375rem; color:var(--ink-2); }
+.t-link{ display:inline-flex; align-items:center; gap:6px; margin-top:auto; font-weight:600; }
+.t-link .i{ width:18px; height:18px; transition:transform .25s var(--ease); }
+
+/* Главная плитка: заголовок, фраза, две кнопки */
+.t-hero{ justify-content:space-between; gap:24px;
+  background:
+    radial-gradient(110% 85% at 100% 0%, var(--lav) 0%, rgba(231,226,255,0) 62%),
+    radial-gradient(80% 75% at 0% 100%, #ffe8de 0%, rgba(255,232,222,0) 58%),
+    #fbfaf7; }
+/* Сфера из логотипа — заполняет верх главной плитки, когда экран высокий */
+.orb{ position:absolute; z-index:-1; top:-10%; right:-4%; width:clamp(190px, 17.5vw, 300px); aspect-ratio:1; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle at 32% 28%, #fff 0 10%, #ddd6ff 32%, #9d8cff 62%, #5b4be0 100%);
+  box-shadow:0 40px 80px -30px rgba(91,75,224,.55), inset -18px -24px 60px rgba(46,33,170,.35); }
+.orb::after{ content:""; position:absolute; inset:-30%; z-index:-1; border-radius:50%; background:radial-gradient(circle, rgba(157,140,255,.35), rgba(157,140,255,0) 62%); }
+@media (max-width:1099px), (max-height:819px){ .orb{ display:none; } }
+.chip{ align-self:flex-start; display:inline-flex; align-items:center; gap:8px; padding:9px 16px 9px 12px; border-radius:999px; background:rgba(255,255,255,.75); box-shadow:inset 0 0 0 1px var(--line); font-size:.9375rem; font-weight:500; }
+.chip .i{ width:18px; height:18px; color:var(--violet); }
+.t-hero h1{ max-width:13ch; font:600 clamp(2rem, 3.35vw, 3.5rem)/1.04 var(--font-d); letter-spacing:-0.035em; text-wrap:balance; }
+.lead{ max-width:46ch; margin-top:18px; font-size:clamp(1.0625rem, 1vw + .5rem, 1.1875rem); color:var(--ink-2); text-wrap:pretty; }
+.ctas{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+
+/* Фото врача со стеклянной подписью */
+.t-photo{ padding:14px; justify-content:flex-end; background:#d9d3e8; }
+.t-photo img{ position:absolute; inset:0; z-index:-1; width:100%; height:100%; object-fit:cover; object-position:50% 22%; }
+.glass{ display:grid; gap:2px; padding:14px 18px; border-radius:20px; background:rgba(255,255,255,.62); -webkit-backdrop-filter:blur(14px) saturate(1.5); backdrop-filter:blur(14px) saturate(1.5); box-shadow:inset 0 0 0 1px rgba(255,255,255,.6); }
+.glass b{ font-weight:600; }
+.glass span{ font-size:.9375rem; color:var(--ink-2); }
+
+/* Цена */
+.t-price{ background:var(--peach); gap:6px; }
+.price{ margin-top:6px; font:600 clamp(2rem, 2.7vw, 2.875rem)/1 var(--font-d); letter-spacing:-0.035em; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.price small{ font-size:.45em; font-weight:500; letter-spacing:0; margin-right:.25em; vertical-align:.45em; }
+
+/* Открыто ли сейчас — по московскому времени */
+.t-open{ background:var(--mint); gap:10px; }
+.status{ display:inline-flex; align-items:flex-start; gap:10px; font-weight:600; }
+.dot{ position:relative; width:10px; height:10px; margin-top:.45em; border-radius:50%; background:var(--green); flex-shrink:0; }
+.dot::after{ content:""; position:absolute; inset:0; border-radius:50%; background:inherit; }
+.t-open.is-closed{ background:#fdf0dc; }
+.t-open.is-closed .dot{ background:var(--amber); }
+.t-open .t-big{ margin-top:auto; }
+
+/* Выезд на дом — тёмная плитка */
+.t-home{ background:radial-gradient(90% 90% at 100% 0%, rgba(124,108,255,.55), rgba(124,108,255,0) 60%), var(--dark); color:#fff; gap:6px; }
+.t-home .t-label, .t-home .t-note{ color:#d8d4ff; }
+.ic{ display:grid; place-items:center; width:48px; height:48px; margin-bottom:auto; border-radius:16px; background:rgba(255,255,255,.12); color:#fff; }
+.ic .i{ width:24px; height:24px; }
+.t-home::after{ background:radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(167,155,255,.35), transparent 45%); }
+
+/* Врачи и рейтинг */
+.t-docs{ gap:6px; }
+.avatars{ display:flex; margin-bottom:auto; }
+.avatars img, .avatars .more{ width:48px; height:48px; border-radius:50%; object-fit:cover; object-position:50% 20%; box-shadow:0 0 0 3px var(--tile); transition:transform .3s var(--ease); }
+.avatars > * + *{ margin-left:-12px; }
+.avatars .more{ display:grid; place-items:center; background:var(--lav); color:var(--ink); font-size:.875rem; font-weight:600; }
+.rating{ display:flex; align-items:baseline; gap:8px; }
+.rating .t-big{ font-size:clamp(1.75rem, 2.2vw, 2.25rem); }
+.star{ width:24px; height:24px; fill:#f59e0b; stroke:none; transform:translateY(2px); }
+@media (hover:hover) and (pointer:fine){ .t-docs:hover .avatars > *:nth-child(2){ transform:translateX(4px); } .t-docs:hover .avatars > *:nth-child(3){ transform:translateX(8px); } .t-docs:hover .avatars > *:nth-child(4){ transform:translateX(12px); } .t-docs:hover .avatars > *:nth-child(5){ transform:translateX(16px); } }
+
+/* Написать в мессенджер */
+.t-msg{ background:var(--lav); gap:6px; }
+.t-msg .t-big{ font-size:clamp(1.125rem, 1.3vw, 1.375rem); }
+.msg{ display:flex; gap:8px; margin-top:auto; }
+.msg a{ flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:0 14px; border-radius:999px; color:#fff; font-weight:600; font-size:.9375rem; touch-action:manipulation; transition:transform .16s var(--ease), filter .2s ease; }
+.msg a:active{ transform:scale(.97); }
+.msg .tg{ background:#1677b3; }
+.msg .max{ background:#5b3df5; }
+.msg .i{ width:18px; height:18px; }
+@media (hover:hover) and (pointer:fine){ .msg a:hover{ filter:brightness(1.08); } }
+
+/* ---------- Планшет ---------- */
+@media (max-width:1099px){
+  .bento{ height:auto; grid-template-columns:repeat(2, minmax(0, 1fr)); grid-template-rows:none; grid-auto-rows:minmax(220px, auto); }
+  .t-hero{ grid-column:1 / -1; grid-row:1; min-height:0; justify-content:flex-start; }
+  .t-photo{ grid-column:1; grid-row:2 / 4; min-height:460px; }
+  .t-price{ grid-column:2; grid-row:2; }
+  .t-open{ grid-column:2; grid-row:3; }
+  .t-home{ grid-column:1; grid-row:4; }
+  .t-docs{ grid-column:2; grid-row:4; }
+  .t-msg{ grid-column:1 / -1; grid-row:5; }
+  .nav{ display:none; }
+}
+
+/* ---------- Телефон ---------- */
+@media (max-width:699px){
+  :root{ --r:24px; --gap:10px; --pad:20px; }
+  .hd{ height:64px; gap:12px; }
+  .hd-phone span, .hd-r .btn{ display:none; }
+  .hd-phone{ width:44px; height:44px; justify-content:center; border-radius:50%; background:var(--tile); }
+  .burger{ display:inline-flex; }
+  .bento{ padding:0 12px 12px; grid-auto-rows:auto; }
+  .bento > .tile{ grid-row:auto; }
+  .t-hero{ min-height:0; gap:20px; }
+  .t-hero h1{ font-size:clamp(1.6rem, 7.4vw, 2rem); }
+  .lead{ margin-top:12px; }
+  .ctas{ flex-direction:column; margin-top:22px; }
+  .ctas .btn{ width:100%; }
+  .t-price{ grid-column:1 / -1; flex-direction:row; flex-wrap:wrap; align-items:baseline; column-gap:12px; }
+  .t-price .t-label{ flex-basis:100%; }
+  .t-price .t-link{ margin-left:auto; }
+  .t-open, .t-home{ grid-column:1 / -1; min-height:0; }
+  .t-open .t-big{ margin-top:6px; }
+  .t-home .ic{ margin-bottom:14px; }
+  .t-photo{ grid-column:1 / -1; grid-row:auto; min-height:0; aspect-ratio:4 / 5; }
+  .t-docs, .t-msg{ grid-column:1 / -1; min-height:0; }
+  .avatars{ margin-bottom:16px; }
+  .msg{ margin-top:14px; }
+  .t-big{ font-size:1.25rem; }
+}
+
+/* ---------- Движение: плитки выкладываются по очереди, точка «открыто» дышит, фото медленно приближается ---------- */
+/* Появление — через translate/scale, а подъём при наведении — через transform: они складываются и не мешают друг другу */
+@media (prefers-reduced-motion:no-preference){
+  .js .tile{ animation:rise .9s var(--ease) both; animation-delay:calc(var(--i, 0) * 70ms + 80ms); }
+  .js .t-hero [style*="--j"]{ animation:rise-sm .8s var(--ease) both; animation-delay:calc(var(--j, 0) * 90ms + 260ms); }
+  .js .t-photo img{ animation:drift 14s var(--ease) both; }
+  .dot::after{ animation:pulse 2.2s ease-out infinite; }
+  .orb{ animation:float 7s ease-in-out infinite alternate; }
+}
+@keyframes float{ from{ translate:0 -10px; } to{ translate:-8px 12px; } }
+@keyframes rise{ from{ opacity:0; translate:0 22px; scale:.985; } }
+@keyframes rise-sm{ from{ opacity:0; translate:0 14px; } }
+@keyframes drift{ from{ scale:1.08; } }
+@keyframes pulse{ from{ transform:scale(1); opacity:.55; } to{ transform:scale(2.6); opacity:0; } }
+</style>
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+</svg>
+
+<header class="hd">
+  <a class="logo" href="#" aria-label="Ментея — на главную"><span class="logo-mark" aria-hidden="true"></span>Ментея</a>
+  <nav class="nav" aria-label="Разделы сайта">
+    <a href="#uslugi">Услуги</a><a href="#vrachi">Врачи</a><a href="#ceny">Цены</a><a href="#o-klinike">О клинике</a><a href="#kontakty">Контакты</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-phone" href="tel:+74950000000" aria-label="Позвонить: +7 495 000-00-00"><svg class="i"><use href="#i-phone"/></svg><span>+7 495 000-00-00</span></a>
+    <a class="btn btn-primary btn-sm" href="#booking">Записаться</a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<main>
+  <section class="bento" aria-labelledby="hero-title">
+    <div class="tile t-hero" style="--i:0">
+      <span class="orb" aria-hidden="true"></span>
+      <p class="chip" style="--j:0"><svg class="i"><use href="#i-shield"/></svg>Анонимно, без постановки на&nbsp;учёт</p>
+      <div>
+        <h1 id="hero-title" style="--j:1">Психиатрическая клиника в&nbsp;Москве</h1>
+        <p class="lead" style="--j:2">Бережно разберёмся в&nbsp;состоянии, подберём лечение и&nbsp;будем рядом до&nbsp;устойчивого результата. Взрослым, подросткам, детям и&nbsp;пожилым.</p>
+        <div class="ctas" style="--j:3">
+          <a class="btn btn-primary" href="#booking">Записаться на&nbsp;консультацию</a>
+          <a class="btn btn-ghost" href="#telegram"><svg class="i"><use href="#i-send"/></svg>Написать в&nbsp;Telegram</a>
+        </div>
+      </div>
+    </div>
+
+    <a class="tile t-price" href="#ceny" style="--i:2">
+      <span class="t-label">Первичная консультация психиатра</span>
+      <span class="price"><small>от</small>3&nbsp;500&nbsp;₽</span>
+      <span class="t-note">60&nbsp;минут, без спешки</span>
+      <span class="t-link">Все цены<svg class="i"><use href="#i-arrow"/></svg></span>
+    </a>
+
+    <div class="tile t-open" data-open style="--i:3">
+      <span class="status"><span class="dot" aria-hidden="true"></span><span data-open-title>Ежедневно 9:00–21:00</span></span>
+      <p class="t-big" data-open-big>Перезвоним за&nbsp;15&nbsp;минут</p>
+      <p class="t-note" data-open-note>Администратор подскажет, к&nbsp;какому врачу записаться</p>
+    </div>
+
+    <a class="tile t-home" href="#na-dom" style="--i:4">
+      <span class="ic"><svg class="i"><use href="#i-home"/></svg></span>
+      <span class="t-label">Вызов психиатра на&nbsp;дом</span>
+      <span class="t-big">Круглосуточно</span>
+      <span class="t-note">от 6&nbsp;000&nbsp;₽, по&nbsp;Москве</span>
+    </a>
+
+    <figure class="tile t-photo" style="--i:1">
+      <img src="../assets/img/intro-main.jpg" width="700" height="700" alt="Анна Викторовна Соколова, врач-психиатр клиники «Ментея»" fetchpriority="high">
+      <figcaption class="glass"><b>Анна Соколова</b><span>врач-психиатр, ведёт первичный приём</span></figcaption>
+    </figure>
+
+    <a class="tile t-docs" href="#vrachi" style="--i:5">
+      <span class="avatars" aria-hidden="true">
+        <img src="../assets/img/intro-main.jpg" width="700" height="700" alt="">
+        <img src="../assets/img/doctor-belov.jpg" width="700" height="700" alt="">
+        <img src="../assets/img/doctor-volkova.jpg" width="700" height="700" alt="">
+        <img src="../assets/img/doctor-orlov.jpg" width="700" height="700" alt="">
+        <span class="more">+8</span>
+      </span>
+      <span class="rating"><span class="t-big">4,9</span><svg class="i star" aria-hidden="true"><use href="#i-star"/></svg></span>
+      <span class="t-note">12 врачей, 230&nbsp;отзывов на&nbsp;ПроДокторов</span>
+    </a>
+
+    <div class="tile t-msg" style="--i:6">
+      <span class="t-label">Не&nbsp;готовы звонить?</span>
+      <p class="t-big">Напишите&nbsp;— ответим анонимно</p>
+      <div class="msg">
+        <a class="tg" href="#telegram"><svg class="i"><use href="#i-send"/></svg>Telegram</a>
+        <a class="max" href="#max"><svg class="i"><use href="#i-chat"/></svg>MAX</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  // Открыто ли сейчас: время Москвы, приём 9:00–21:00
+  var tile = document.querySelector('[data-open]');
+  try {
+    var p = new Intl.DateTimeFormat('ru-RU', { timeZone:'Europe/Moscow', hour:'2-digit', minute:'2-digit', hourCycle:'h23' }).formatToParts(new Date());
+    var h = +p.find(function(x){ return x.type === 'hour'; }).value, m = +p.find(function(x){ return x.type === 'minute'; }).value;
+    var t = h * 60 + m, open = t >= 540 && t < 1260;
+    tile.querySelector('[data-open-title]').textContent = open ? 'Сейчас открыто, до 21:00' : 'Сейчас закрыто, откроемся в 9:00';
+    if (!open) {
+      tile.classList.add('is-closed');
+      tile.querySelector('[data-open-big]').textContent = 'Оставьте заявку — перезвоним утром';
+      tile.querySelector('[data-open-note]').textContent = 'Вызов психиатра на дом — круглосуточно';
+    }
+  } catch(e) {}
+
+  // Подсветка плитки под курсором — только там, где есть мышь
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.tile').forEach(function(el){
+      el.addEventListener('pointermove', function(e){
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
