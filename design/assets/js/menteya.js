@@ -382,6 +382,29 @@ document.querySelectorAll('.gallery').forEach(function(g){
   });
 })();
 
+// Страница цен: поиск по прайсу — те же правила, что в каталоге услуг
+(function(){
+  var input = document.querySelector('.price-search input');
+  if(!input) return;
+  var groups = document.querySelectorAll('.price-group');
+  var empty = document.querySelector('.price-empty');
+  input.addEventListener('input', function(){
+    var ws = catalogSearch.words(input.value);
+    var found = 0;
+    groups.forEach(function(g){
+      var n = 0;
+      g.querySelectorAll('.price-row').forEach(function(row){
+        var ok = !ws.length || catalogSearch.match(row, ws);
+        row.hidden = !ok;
+        if(ok) n++;
+      });
+      g.hidden = ws.length > 0 && !n;
+      found += n;
+    });
+    empty.hidden = !ws.length || found > 0;
+  });
+})();
+
 // Форма записи: маска телефона, проверка полей, «Заявка принята».
 // В прототипе заявка никуда не отправляется — в WordPress сюда подключится обработчик формы.
 (function(){
@@ -481,7 +504,11 @@ document.querySelectorAll('.gallery').forEach(function(g){
   // Наблюдатель лишь будит пересчёт, когда раздел пересекает полосу 25–35% экрана.
   function update(){
     var line = innerHeight * .35, active = null;
-    ids.forEach(function(id){ if(document.getElementById(id).getBoundingClientRect().top <= line) active = id; });
+    ids.forEach(function(id){
+      var el = document.getElementById(id);
+      // скрытый поиском раздел не считаем — у него нет положения на странице
+      if(el.getClientRects().length && el.getBoundingClientRect().top <= line) active = id;
+    });
     activate(active);
   }
   var io = new IntersectionObserver(update, { rootMargin:'-25% 0px -65% 0px' });
