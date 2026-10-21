@@ -208,6 +208,101 @@ a.tile{ transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out)
 .side-card .phone{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:14px; font-size:16px; font-weight:800; color:var(--blue-800); }
 .side-card .phone .i{ width:17px; height:17px; }
 
+/* ===== Страница врача ===== */
+.doc-hero-badge{
+  display:inline-flex; align-items:center; gap:7px; margin-top:18px; padding:6px 13px 6px 10px;
+  border-radius:999px; background:#fff; border:1px solid var(--line);
+  font-size:13px; font-weight:800; color:var(--teal-700);
+}
+.doc-hero-badge .i{ width:16px; height:16px; }
+.doctor-hero h1{ margin-top:12px; margin-bottom:10px; }
+.doctor-role{ font-size:clamp(16px, 1.3vw, 18px); font-weight:600; line-height:1.5; color:var(--ink-soft); }
+.doctor-facts{
+  display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); margin-top:22px; padding:16px 4px;
+  border-radius:20px; background:#fff; border:1px solid var(--line);
+  box-shadow:0 18px 40px -32px rgba(14,42,94,.45);
+}
+.doctor-facts li{ padding:0 12px; text-align:center; }
+.doctor-facts li + li{ border-left:1px solid var(--line); }
+.doctor-facts b{ display:block; font-size:21px; font-weight:800; line-height:1.2; white-space:nowrap; color:var(--blue-900); }
+.doctor-facts .star{ color:#ffb020; }
+.doctor-facts li > span{ display:block; margin-top:4px; font-size:12.5px; line-height:1.3; color:var(--ink-soft); }
+.doctor-photo img{ aspect-ratio:4 / 4.3; object-position:50% 18%; }
+
+/* Мини-карточка врача в боковой записи */
+.sc-doctor{ display:flex; align-items:center; gap:12px; padding-bottom:14px; border-bottom:1px solid var(--line); }
+.sc-doctor img{ width:52px; height:52px; border-radius:14px; flex-shrink:0; object-fit:cover; object-position:50% 20%; }
+.sc-doctor > span{ font-size:13px; line-height:1.4; color:var(--ink-soft); }
+.sc-doctor b{ display:block; font-size:16px; font-weight:800; color:var(--blue-900); }
+
+/* С чем помогает — ссылки на страницы заболеваний */
+.link-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; margin-top:18px; }
+.link-grid a{
+  display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:54px; height:100%;
+  padding:10px 16px; border-radius:14px; background:#fff; border:1px solid var(--line);
+  font-size:15px; font-weight:700; line-height:1.3; color:var(--blue-900);
+  transition:border-color .25s, box-shadow .25s, transform .25s var(--ease-out);
+}
+.link-grid .i{ width:17px; height:17px; flex-shrink:0; color:var(--blue-500); transform:rotate(-45deg); transition:transform .25s var(--ease-out); }
+@media (hover:hover) and (pointer:fine){
+  .link-grid a:hover{ border-color:var(--blue-500); transform:translateY(-2px); box-shadow:0 14px 30px -22px rgba(16,34,84,.45); }
+  .link-grid a:hover .i{ transform:rotate(0); }
+}
+
+/* Образование и опыт — две ленты с годами */
+.timeline-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; margin-top:18px; }
+.timeline-card{ padding:22px 22px 24px; border-radius:20px; background:#fff; border:1px solid var(--line); }
+.article .timeline-card h3{ display:flex; align-items:center; gap:10px; margin:0 0 18px; }
+.timeline-card h3 .i{ width:22px; height:22px; color:var(--blue-600); }
+.timeline{ position:relative; display:grid; gap:18px; padding-left:26px; }
+.timeline::before{
+  content:""; position:absolute; left:6px; top:8px; bottom:8px; width:2px; border-radius:2px;
+  background:linear-gradient(var(--blue-500), var(--teal-400)); opacity:.35;
+}
+.timeline li{ position:relative; }
+.timeline li::before{
+  content:""; position:absolute; left:-26px; top:4px; width:14px; height:14px; border-radius:50%;
+  background:#fff; border:3px solid var(--blue-500);
+}
+.timeline .year{ display:block; font-size:12.5px; font-weight:800; letter-spacing:.03em; color:var(--teal-700); }
+.timeline b{ display:block; margin-top:2px; font-size:15.5px; font-weight:800; line-height:1.35; color:var(--blue-900); }
+.timeline li > span:last-child{ display:block; margin-top:2px; font-size:14px; line-height:1.5; color:var(--ink-soft); }
+
+/* Дипломы и сертификаты: в WordPress — сканы, открываются по клику */
+.doc-files{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px; margin-top:14px; }
+.doc-file{ display:flex; flex-direction:column; gap:4px; padding:12px 12px 14px; border-radius:18px; background:#fff; border:1px solid var(--line); }
+.doc-file .sheet{
+  display:flex; align-items:center; justify-content:center; aspect-ratio:4 / 3; margin-bottom:8px; border-radius:12px;
+  background:linear-gradient(135deg, #f4f8ff, #eef8f4); border:1px dashed #cfdaee; color:var(--blue-600);
+}
+.doc-file .sheet .i{ width:30px; height:30px; stroke-width:1.6; }
+.doc-file b{ font-size:13.5px; font-weight:800; line-height:1.35; color:var(--blue-900); }
+.doc-file > span:last-child{ font-size:12.5px; color:var(--ink-soft); }
+.article .membership{
+  display:flex; align-items:center; gap:10px; max-width:none; margin-top:16px; padding:14px 16px; border-radius:14px;
+  background:#fff; border:1px solid var(--line); font-size:14.5px; line-height:1.5; color:var(--ink);
+}
+.membership .i{ width:20px; height:20px; flex-shrink:0; color:var(--teal-700); }
+
+/* Отзывы и цены внутри колонки статьи */
+.article .pricing-shell{ margin-top:16px; }
+.article .platform-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); margin:18px 0 16px; }
+.article .review-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; }
+
+/* Статьи врача — связь автора с материалами */
+.article-links{ display:grid; gap:10px; margin-top:18px; }
+.article-links a{
+  display:flex; align-items:center; gap:10px 16px; padding:16px 18px; border-radius:16px;
+  background:#fff; border:1px solid var(--line); transition:border-color .25s, box-shadow .25s;
+}
+.article-links .role{ flex-shrink:0; padding:4px 10px; border-radius:999px; background:var(--bg-soft2); font-size:12px; font-weight:800; color:var(--blue-700); }
+.article-links b{ flex:1; min-width:0; font-size:15.5px; font-weight:800; line-height:1.35; color:var(--blue-900); }
+.article-links .date{ flex-shrink:0; font-size:13px; color:var(--ink-soft); white-space:nowrap; }
+.article-links .i{ width:17px; height:17px; flex-shrink:0; color:var(--blue-500); }
+@media (hover:hover) and (pointer:fine){
+  .article-links a:hover{ border-color:var(--blue-500); box-shadow:0 14px 30px -22px rgba(16,34,84,.45); }
+}
+
 /* --- Сетка заболеваний (страница направления) --- */
 .disease-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; }
 .disease-card{
@@ -260,6 +355,7 @@ a.tile{ transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out)
 /* Планшет: карточка записи во всю ширину — текст слева, кнопки справа, чтобы не было пустых полей */
 @media (min-width:600px) and (max-width:1023px){
   .page-hero-photo img{ aspect-ratio:16 / 9; }   /* картинка во всю ширину — пониже, чтобы не занимала весь экран */
+  .doctor-hero .page-hero-photo img{ aspect-ratio:4 / 3; }   /* портрет врача — повыше, чтобы лицо не обрезалось */
   .side-card{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:28px; align-items:center; }
   .side-card .sc-actions .btn{ margin-top:0; }
 }
@@ -275,6 +371,19 @@ a.tile{ transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out)
   .hero-reviewed{ align-items:flex-start; }
   .doctor-quote{ padding:20px 18px 18px; }
   .doctor-quote blockquote p{ font-size:16px; }
+
+  /* Страница врача */
+  .doctor-facts{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px 0; }
+  .doctor-facts li:nth-child(3){ border-left:0; }
+  .link-grid, .timeline-grid{ grid-template-columns:1fr; }
+  .doc-files{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .article .platform-grid{ grid-template-columns:1fr; gap:8px; }
+  .article .platform-card{ flex-direction:row; align-items:center; justify-content:space-between; }
+  .article .platform-card .p-count{ gap:10px; }
+  .article-links a{ flex-wrap:wrap; }
+  .article-links .date{ order:2; margin-left:auto; }
+  .article-links b{ order:3; flex:1 1 calc(100% - 40px); }
+  .article-links .i{ order:4; }
   .steps, .article .steps, .tile-grid, .disease-grid, .check-grid{ grid-template-columns:1fr; }
   .check-card .cols-2{ columns:1; }
   .article p{ font-size:16px; }
