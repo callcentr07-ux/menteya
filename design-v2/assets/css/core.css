@@ -6,7 +6,7 @@
   --peach:#ffe2d6; --mint:#dcf5e8; --sky:#e2ecff;
   --green:#15803d; --amber:#b45309; --dark:#1d1a42; --dark-2:#2b2766;
   --r:28px; --r-sm:18px; --gap:12px; --pad:clamp(20px, 1.9vw, 32px);
-  --gut:clamp(16px, 5.5vw, 104px); --maxw:1680px; --header-h:76px;   /* поля по бокам — место для спиралей ДНК */
+  --gut:clamp(16px, 5.5vw, 104px); --maxw:1680px; --header-h:76px;
   --ease:cubic-bezier(.22, 1, .36, 1);
   --font-d:"Unbounded", system-ui, sans-serif; --font-t:"Onest", system-ui, sans-serif;
 }
@@ -14,7 +14,7 @@
 *{ margin:0; }
 [hidden]{ display:none !important; }   /* скрытые вкладки, сообщения формы, пустые результаты — даже если у блока свой display */
 html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; -webkit-tap-highlight-color:transparent; scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + 16px); }
-body{ position:relative; background:var(--bg); color:var(--ink); font:400 1.0625rem/1.55 var(--font-t); -webkit-font-smoothing:antialiased; overflow-x:clip; }
+body{ background:var(--bg); color:var(--ink); font:400 1.0625rem/1.55 var(--font-t); -webkit-font-smoothing:antialiased; overflow-x:clip; }
 body.no-scroll{ overflow:hidden; }
 img, svg, video{ display:block; max-width:100%; }
 img{ height:auto; }
@@ -30,15 +30,12 @@ input, textarea, select{ font-size:max(16px, 1rem); }   /* меньше 16px —
 .i{ width:20px; height:20px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .i-fill{ fill:currentColor; stroke:none; }
 .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
-/* Нить ДНК через всю страницу: слой под содержимым во всю высоту, холсты-полосы рисует скрипт */
-.dna-layer{ position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
-.dna-layer canvas{ position:absolute; left:0; display:block; width:100%; opacity:.5; }   /* полупрозрачная */
 .skip-link{ position:absolute; left:12px; top:-60px; z-index:200; padding:12px 18px; border-radius:999px; background:var(--ink); color:#fff; font-weight:600; transition:top .2s; }
 .skip-link:focus{ top:12px; }
 
 /* ---------- Сетка страницы ---------- */
 .wrap{ width:100%; max-width:var(--maxw); margin:0 auto; padding:0 var(--gut); }
-.sec{ position:relative; overflow-x:clip; padding-top:clamp(72px, 8vw, 128px); }   /* декор не вылезает за край экрана; в отступе сверху проходит нить ДНК */
+.sec{ position:relative; overflow-x:clip; padding-top:clamp(72px, 8vw, 128px); }   /* фоновый декор не вылезает за край экрана */
 .sec-head{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px 48px; margin-bottom:clamp(20px, 2.4vw, 36px); }
 .sec-head > div{ max-width:760px; }
 .sec-head p{ max-width:52ch; margin-top:12px; color:var(--ink-2); }
