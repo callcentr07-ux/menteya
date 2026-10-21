@@ -1,5 +1,5 @@
 /* ===== Подвал — одна большая тёмная плитка с именем клиники внизу ===== */
-.site-footer{ padding:clamp(72px, 8vw, 128px) 0 16px; }
+.site-footer{ position:relative; overflow-x:clip; padding:clamp(72px, 8vw, 128px) 0 16px; }
 .ft-card{ --fp:clamp(20px, 3vw, 48px); position:relative; overflow:hidden; padding:0 var(--fp); border-radius:32px; background:radial-gradient(70% 60% at 100% 0%, rgba(124,108,255,.35), rgba(124,108,255,0) 60%), var(--dark); color:#d8d4ff; }
 .ft-warning{ margin:0 calc(var(--fp) * -1); padding:14px 20px; background:rgba(255,255,255,.06); text-align:center; font-size:.8125rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#d4ceff; }
 .ft-grid{ display:grid; grid-template-columns:minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)) minmax(0, 1.3fr); gap:32px 40px; padding:48px 0 40px; }

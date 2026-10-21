@@ -1,39 +1,25 @@
-/* ===== Первый экран: плитки — что это, сколько стоит, открыто ли сейчас, выезд, врачи, мессенджеры ===== */
+/* ===== Первый экран: большая плитка со спиралью ДНК и три плитки справа — цена, «открыто сейчас», выезд ===== */
 .hero{ padding-top:4px; }
-.hero-grid{ grid-template-rows:repeat(3, minmax(0, 1fr)); height:max(620px, calc(100svh - var(--header-h) - 16px)); }
-.t-hero{ grid-column:1 / 3; grid-row:1 / 3; }
-.t-photo{ grid-column:3; grid-row:1 / 4; }
+.hero-grid{ grid-template-rows:repeat(3, minmax(0, 1fr)); height:max(600px, calc(100svh - var(--header-h) - 16px)); }
+.t-hero{ grid-column:1 / 4; grid-row:1 / 4; }
 .t-price{ grid-column:4; grid-row:1; }
 .t-open{ grid-column:4; grid-row:2; }
-.t-msg{ grid-column:4; grid-row:3; }
-.t-home{ grid-column:1; grid-row:3; }
-.t-docs{ grid-column:2; grid-row:3; }
+.t-home{ grid-column:4; grid-row:3; }
 
 .t-label{ font-size:.9375rem; font-weight:500; color:var(--ink-2); }
 .t-big{ font:600 clamp(1.375rem, 1.6vw, 1.75rem)/1.15 var(--font-d); letter-spacing:-0.02em; }
 .t-note{ font-size:.9375rem; color:var(--ink-2); }
-.t-hero .go, .t-price .go{ margin-top:auto; }
+.t-price .go{ margin-top:auto; }
 
-/* Главная плитка */
-.t-hero{ justify-content:space-between; gap:24px;
-  background:radial-gradient(110% 85% at 100% 0%, var(--lav) 0%, rgba(231,226,255,0) 62%), radial-gradient(80% 75% at 0% 100%, #ffe8de 0%, rgba(255,232,222,0) 58%), var(--tile-2); }
-.t-hero .chip{ align-self:flex-start; }
-.t-hero h1{ max-width:13ch; font:600 clamp(2rem, 3.35vw, 3.5rem)/1.04 var(--font-d); letter-spacing:-0.035em; text-wrap:balance; }
-.hero-lead{ max-width:46ch; margin-top:18px; font-size:clamp(1.0625rem, 1vw + .5rem, 1.1875rem); color:var(--ink-2); text-wrap:pretty; }
-.hero-cta{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
-/* Сфера из логотипа — заполняет верх главной плитки на высоких экранах */
-.orb{ position:absolute; z-index:-1; top:-10%; right:-4%; width:clamp(190px, 17.5vw, 300px); aspect-ratio:1; border-radius:50%; pointer-events:none;
-  background:radial-gradient(circle at 32% 28%, #fff 0 10%, #ddd6ff 32%, #9d8cff 62%, #5b4be0 100%);
-  box-shadow:0 40px 80px -30px rgba(91,75,224,.55), inset -18px -24px 60px rgba(46,33,170,.35); }
-.orb::after{ content:""; position:absolute; inset:-30%; z-index:-1; border-radius:50%; background:radial-gradient(circle, rgba(157,140,255,.35), rgba(157,140,255,0) 62%); }
-@media (max-width:1099px), (max-height:819px){ .orb{ display:none; } }
-
-/* Фото врача со стеклянной подписью */
-.t-photo{ padding:14px; justify-content:flex-end; background:#d9d3e8; }
-.t-photo > img{ position:absolute; inset:0; z-index:-1; width:100%; height:100%; object-fit:cover; object-position:50% 22%; }
-.glass{ display:grid; gap:2px; padding:14px 18px; border-radius:20px; background:rgba(255,255,255,.62); -webkit-backdrop-filter:blur(14px) saturate(1.5); backdrop-filter:blur(14px) saturate(1.5); box-shadow:inset 0 0 0 1px rgba(255,255,255,.6); }
-.glass b{ font-weight:600; }
-.glass span{ font-size:.9375rem; color:var(--ink-2); }
+/* Главная плитка: текст слева по центру высоты, справа — крупная спираль ДНК, входит через край плитки (рисует скрипт) */
+.t-hero{ justify-content:center; gap:24px;
+  background:radial-gradient(70% 90% at 100% 0%, var(--lav) 0%, rgba(231,226,255,0) 62%), radial-gradient(60% 75% at 0% 100%, #ffe8de 0%, rgba(255,232,222,0) 58%), var(--tile-2); }
+.hero-dna{ position:absolute; inset:0; z-index:-1; width:100%; height:100%; pointer-events:none; }
+.t-hero .chip{ position:absolute; left:var(--pad); top:var(--pad); }
+.hero-copy{ max-width:min(70%, 900px); }
+.t-hero h1{ max-width:16ch; font:600 clamp(2.25rem, 3.5vw, 4rem)/1.03 var(--font-d);   /* потолок 4rem: шире 1680 плитка не растёт, а vw растёт */ letter-spacing:-0.04em; text-wrap:balance; }
+.hero-lead{ max-width:44ch; margin-top:20px; font-size:clamp(1.0625rem, 1vw + .5rem, 1.25rem); color:var(--ink-2); text-wrap:pretty; }
+.hero-cta{ display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
 
 /* Цена приёма */
 .t-price{ gap:6px; }
@@ -53,49 +39,39 @@
 .t-home{ gap:6px; }
 .t-home .ic{ margin-bottom:auto; }
 
-/* Врачи и рейтинг */
-.t-docs{ gap:6px; }
-.avatars{ display:flex; margin-bottom:auto; }
-.avatars img, .avatars .more{ width:48px; height:48px; border-radius:50%; object-fit:cover; object-position:50% 20%; box-shadow:0 0 0 3px var(--tile); transition:transform .3s var(--ease); }
-.avatars > * + *{ margin-left:-12px; }
-.avatars .more{ display:grid; place-items:center; background:var(--lav); color:var(--ink); font-size:.875rem; font-weight:600; }
-.rating{ display:flex; align-items:baseline; gap:8px; }
-.rating .t-big{ font-size:clamp(1.75rem, 2.2vw, 2.25rem); }
-.rating .i{ width:24px; height:24px; color:#f59e0b; transform:translateY(2px); }
-@media (hover:hover) and (pointer:fine){ .t-docs:hover .avatars > :nth-child(2){ transform:translateX(4px); } .t-docs:hover .avatars > :nth-child(3){ transform:translateX(8px); } .t-docs:hover .avatars > :nth-child(4){ transform:translateX(12px); } .t-docs:hover .avatars > :nth-child(5){ transform:translateX(16px); } }
-
-/* Мессенджеры */
-.t-msg{ gap:6px; }
-.t-msg .t-big{ font-size:clamp(1.125rem, 1.3vw, 1.375rem); }
-.t-msg .msg-row{ margin-top:auto; }
-
-/* Плитки первого экрана выкладываются по очереди, точка «открыто» дышит, фото медленно приближается */
+/* Плитки выкладываются по очереди, точка «открыто» дышит */
 @media (prefers-reduced-motion:no-preference){
   .js .hero-grid > .tile{ animation:rise .9s var(--ease) both; animation-delay:calc(var(--i, 0) * 70ms + 80ms); }
   .js .t-hero [style*="--j"]{ animation:rise-sm .8s var(--ease) both; animation-delay:calc(var(--j, 0) * 90ms + 260ms); }
-  .js .t-photo > img{ animation:drift 14s var(--ease) both; }
   .dot::after{ animation:pulse 2.2s ease-out infinite; }
   .orb{ animation:float 7s ease-in-out infinite alternate; }
 }
 @keyframes rise-sm{ from{ opacity:0; translate:0 14px; } }
-@keyframes drift{ from{ scale:1.08; } }
 @keyframes pulse{ from{ transform:scale(1); opacity:.55; } to{ transform:scale(2.6); opacity:0; } }
 @keyframes float{ from{ translate:0 -10px; } to{ translate:-8px 12px; } }
 
+/* Сфера из логотипа — на других плитках (направления, окно записи) */
+.orb{ position:absolute; z-index:-1; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle at 32% 28%, #fff 0 10%, #ddd6ff 32%, #9d8cff 62%, #5b4be0 100%);
+  box-shadow:0 40px 80px -30px rgba(91,75,224,.55), inset -18px -24px 60px rgba(46,33,170,.35); aspect-ratio:1; }
+.orb::after{ content:""; position:absolute; inset:-30%; z-index:-1; border-radius:50%; background:radial-gradient(circle, rgba(157,140,255,.35), rgba(157,140,255,0) 62%); }
+
 @media (max-width:1099px){
-  .hero-grid{ height:auto; grid-template-columns:repeat(2, minmax(0, 1fr)); grid-template-rows:none; grid-auto-rows:minmax(220px, auto); }
-  .t-hero{ grid-column:1 / -1; grid-row:1; justify-content:flex-start; }
-  .t-photo{ grid-column:1; grid-row:2 / 4; min-height:460px; }
-  .t-price{ grid-column:2; grid-row:2; }
-  .t-open{ grid-column:2; grid-row:3; }
-  .t-home{ grid-column:1; grid-row:4; }
-  .t-docs{ grid-column:2; grid-row:4; }
-  .t-msg{ grid-column:1 / -1; grid-row:5; }
+  .hero-grid{ height:auto; grid-template-columns:repeat(2, minmax(0, 1fr)); grid-template-rows:none; grid-auto-rows:minmax(200px, auto); }
+  .t-hero{ grid-column:1 / -1; grid-row:1; min-height:min(560px, 64svh); }
+  .hero-copy{ max-width:66%; }
+  .t-price{ grid-column:1; grid-row:2; }
+  .t-open{ grid-column:2; grid-row:2; }
+  .t-home{ grid-column:1 / -1; grid-row:3; min-height:0; flex-direction:row; flex-wrap:wrap; align-items:center; column-gap:16px; }
+  .t-home .ic{ margin-bottom:0; }
+  .t-home .t-big{ margin-left:auto; }
 }
 @media (max-width:699px){
   .hero-grid{ grid-auto-rows:auto; }
   .hero-grid > .tile{ grid-row:auto; }
-  .t-hero{ gap:20px; }
+  .t-hero{ min-height:0; gap:20px; padding-bottom:150px; justify-content:flex-start; }   /* внизу плитки — место для спирали */
+  .t-hero .chip{ position:static; align-self:flex-start; }
+  .hero-copy{ max-width:none; }
   .t-hero h1{ font-size:clamp(1.6rem, 7.4vw, 2rem); }
   .hero-lead{ margin-top:12px; }
   .hero-cta{ flex-direction:column; margin-top:22px; }
@@ -105,10 +81,8 @@
   .t-price .go{ margin-left:auto; }
   .t-open, .t-home{ grid-column:1 / -1; min-height:0; }
   .t-open .t-big{ margin-top:6px; }
-  .t-home .ic{ margin-bottom:14px; }
-  .t-photo{ grid-column:1 / -1; min-height:0; aspect-ratio:4 / 5; }
-  .t-docs, .t-msg{ grid-column:1 / -1; min-height:0; }
-  .avatars{ margin-bottom:16px; }
-  .t-msg .msg-row{ margin-top:14px; }
+  .t-home{ flex-direction:column; align-items:flex-start; }
+  .t-home .ic{ margin-bottom:10px; }
+  .t-home .t-big{ margin-left:0; }
   .t-big{ font-size:1.25rem; }
 }

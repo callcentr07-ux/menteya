@@ -30,14 +30,14 @@ input, textarea, select{ font-size:max(16px, 1rem); }   /* меньше 16px —
 .i{ width:20px; height:20px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .i-fill{ fill:currentColor; stroke:none; }
 .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
-/* Спирали ДНК по краям страницы: холст под содержимым, рисует скрипт */
-.helix-bg{ position:fixed; inset:0; z-index:-1; width:100%; height:100%; pointer-events:none; }
+/* Спирали ДНК между разделами: короткие холсты под содержимым, рисует и расставляет скрипт */
+.dna{ position:absolute; z-index:-1; display:block; pointer-events:none; transform-origin:50% 50%; }
 .skip-link{ position:absolute; left:12px; top:-60px; z-index:200; padding:12px 18px; border-radius:999px; background:var(--ink); color:#fff; font-weight:600; transition:top .2s; }
 .skip-link:focus{ top:12px; }
 
 /* ---------- Сетка страницы ---------- */
 .wrap{ width:100%; max-width:var(--maxw); margin:0 auto; padding:0 var(--gut); }
-.sec{ padding-top:clamp(72px, 8vw, 128px); }
+.sec{ position:relative; overflow-x:clip; padding-top:clamp(72px, 8vw, 128px); }   /* спирали ДНК не вылезают за край экрана */
 .sec-head{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px 48px; margin-bottom:clamp(20px, 2.4vw, 36px); }
 .sec-head > div{ max-width:760px; }
 .sec-head p{ max-width:52ch; margin-top:12px; color:var(--ink-2); }

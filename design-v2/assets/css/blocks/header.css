@@ -137,6 +137,11 @@
 .drawer-a11y{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:16px; padding:12px; color:var(--ink-2); font-weight:500; }
 
 /* ---------- Ширины ---------- */
+@media (max-width:1279px){   /* ноутбуки: меню, телефон и запись помещаются в одну строку */
+  .hd-inner{ gap:14px; }
+  .mainnav{ margin-left:4px; }
+  .nav-link{ padding:0 10px; }
+}
 @media (max-width:1099px){
   .mainnav, .search-btn, .head-phone{ display:none; }
   .call-btn, .burger{ display:inline-grid; }

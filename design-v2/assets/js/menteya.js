@@ -669,28 +669,23 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   }, { passive:true });
 })();
 
-// Спирали ДНК по краям страницы — из тех же объёмных сфер, что в логотипе.
-// Медленно вращаются, «вкручиваются» при прокрутке и едут чуть медленнее страницы; по нитям бегут импульсы.
-// Один холст под содержимым. На телефоне рисуем только при прокрутке (бережём батарею),
-// при «уменьшить движение» — неподвижная картинка.
+// ДНК — фирменный узор второго дизайна: спирали из тех же объёмных сфер, что в логотипе.
+// Большая спираль — главный образ первого экрана: входит в плитку через край. Между разделами
+// спирали выходят прямо из-за края экрана в полную яркость и уходят за плитки.
+// Крутятся медленно и на месте, едут вместе со страницей — без параллакса, голова не кружится.
+// Рисуем только видимые спирали и не чаще 30 раз в секунду; при «уменьшить движение» — неподвижная картинка.
 (function(){
-  var wrap = document.querySelector('.wrap');
-  var canvas = document.createElement('canvas');
-  if(!wrap || !canvas.getContext) return;
-  canvas.className = 'helix-bg';
-  canvas.setAttribute('aria-hidden', 'true');
-  document.body.prepend(canvas);
-  var ctx = canvas.getContext('2d');
+  var hero = document.querySelector('.t-hero');
+  if(!hero || !document.createElement('canvas').getContext) return;
   var still = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var STEP = 28;      // расстояние между парами, px
-  var TWIST = .38;    // поворот спирали на одну пару
-  var PAR = .55;      // спираль едет на 55% скорости страницы — ощущение глубины
-  var W = 0, H = 0, dpr = 1, mobile = false, scale = 1, sides = [];
-  var mouse = { x:-999, y:-999 };
-  var last = 0, lastScroll = -1, dirty = true;
+  var TWIST = .4;   // поворот спирали на одну пару
+  var items = [];
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.target._dna) e.target._dna.visible = e.isIntersecting; });
+  }, { rootMargin:'120px 0px' }) : null;
 
-  // Сферы рисуем заранее: блик, тело и мягкое свечение — как у знака в логотипе
-  function sphere(hi, mid, deep, glow){
+  // Сферы рисуем заранее: блик, насыщенное тело с тёмным краем и мягкое свечение — как у знака в логотипе
+  function sphere(hi, mid, deep, rim, glow){
     var c = document.createElement('canvas');
     c.width = c.height = 64;
     var g = c.getContext('2d');
@@ -701,8 +696,9 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     g.fillRect(0, 0, 64, 64);
     var body = g.createRadialGradient(27, 26, 1, 32, 32, 15);
     body.addColorStop(0, hi);
-    body.addColorStop(.45, mid);
-    body.addColorStop(1, deep);
+    body.addColorStop(.38, mid);
+    body.addColorStop(.82, deep);
+    body.addColorStop(1, rim);
     g.fillStyle = body;
     g.beginPath();
     g.arc(32, 32, 14, 0, Math.PI * 2);
@@ -710,137 +706,199 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     return c;
   }
   var SPHERES = [
-    sphere('#ffffff', '#d4ccff', '#5b4be0', 'rgba(124,108,255,.38)'),   // фиолетовая — основная
-    sphere('#ffffff', '#ffd9cb', '#ef8a6a', 'rgba(255,160,130,.32)'),   // персиковая
-    sphere('#ffffff', '#cdf3df', '#36a372', 'rgba(80,190,140,.30)')     // мятная
+    sphere('#ffffff', '#c9bfff', '#4a36dc', '#2f21a8', 'rgba(110,90,255,.42)'),   // фиолетовая — основная
+    sphere('#ffffff', '#ffc4b0', '#ec6d48', '#b84a2b', 'rgba(255,140,110,.36)'),   // персиковая
+    sphere('#ffffff', '#b6efd3', '#1a9e66', '#0f6b44', 'rgba(60,190,130,.34)')     // мятная
   ];
-  var BASES = ['91,75,224', '239,138,106', '54,163,114'];   // цвета перемычек — «пар оснований»
-
-  function layout(){
-    var r = canvas.getBoundingClientRect();
-    W = r.width; H = r.height;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(W * dpr);
-    canvas.height = Math.round(H * dpr);
-    var box = wrap.getBoundingClientRect();
-    var edge = box.left + parseFloat(getComputedStyle(wrap).paddingLeft);   // где начинается содержимое
-    mobile = W < 700;
-    // на широких экранах поля шире — спираль крупнее; на телефоне — тонкая цепочка в узком поле у края, не заходит на текст
-    scale = mobile ? .5 : Math.max(.85, Math.min(edge / 80, 1.3));
-    STEP = Math.round((mobile ? 36 : 28) * scale);
-    var amp = mobile ? Math.max(3, edge * .32) : Math.max(13, Math.min(edge * .3, 38));
-    var cx = edge / 2;
-    sides = [
-      { x:cx, amp:amp, phase:0, dir:1, pulses:[] },
-      { x:W - cx, amp:amp, phase:2.1, dir:-1, pulses:[] }
-    ];
-    sides.forEach(function(s){
-      for(var k = 0; k < 2; k++) s.pulses.push({ p:-1e9, strand:k, speed:1.6 + Math.random() * 1.2 });
-    });
-    dirty = true;
-  }
+  var BASES = ['80,62,222', '236,109,72', '26,158,102'];   // цвета перемычек — «пар оснований»
 
   function ease(v){ v = Math.max(0, Math.min(1, v)); return v * v * (3 - 2 * v); }
 
-  function draw(t, dt){
-    var sy = still.matches ? 0 : window.scrollY;
-    var shift = sy * PAR;
-    var from = Math.floor(shift / STEP) - 2, to = Math.ceil((shift + H) / STEP) + 2;
-    var fadeEdge = mobile ? 90 : 150;
-    var base = mobile ? .8 : 1;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, W, H);
-
-    sides.forEach(function(s){
-      var spin = s.phase + (still.matches ? 0 : t * .00022 * s.dir) + sy * .0035 * s.dir;
-      // импульсы: бегут вниз по нитям; ушёл за экран — стартует снова сверху
-      s.pulses.forEach(function(pl){
-        if(!still.matches && !mobile) pl.p += dt * pl.speed;
-        if(pl.p > to + 4 || pl.p < from - 40) { pl.p = from - 2 - Math.random() * 18; pl.strand = Math.random() < .5 ? 0 : 1; }
+  // Одна спираль вдоль оси (x0,y0)→(x1,y1). fadeA/fadeB — доля длины, где растворяется начало/конец
+  // (у края экрана — 0: спираль выходит из-за края в полную яркость). keep — прямоугольники текста: там спираль бледнее
+  function drawHelix(g, o){
+    var dx = o.x1 - o.x0, dy = o.y1 - o.y0, len = Math.hypot(dx, dy);
+    var ux = dx / len, uy = dy / len, nx = -uy, ny = ux;
+    var n = Math.ceil(len / o.step);
+    function pt(i, s){
+      var a = i * TWIST + o.spin, k = (s ? -1 : 1) * o.amp * Math.sin(a), along = i * o.step;
+      return { x:o.x0 + ux * along + nx * k, y:o.y0 + uy * along + ny * k, z:(s ? -1 : 1) * Math.cos(a), along:along };
+    }
+    function vis(p){
+      var f = (o.fadeA ? ease(p.along / (len * o.fadeA)) : 1) * (o.fadeB ? ease((len - p.along) / (len * o.fadeB)) : 1);
+      (o.keep || []).forEach(function(r){
+        var ex = Math.max(r.l - p.x, 0, p.x - r.r), ey = Math.max(r.t - p.y, 0, p.y - r.b);
+        f *= .38 + .62 * ease(Math.hypot(ex, ey) / 48);
       });
-      function point(i, strand){
-        var a = i * TWIST + spin, sin = Math.sin(a);
-        return { x:s.x + (strand ? -1 : 1) * s.amp * sin, y:i * STEP - shift, z:(strand ? -1 : 1) * Math.cos(a) };
+      return f * o.alpha;
+    }
+    var back = [], front = [];
+    for(var i = 0; i <= n; i++){
+      for(var s = 0; s < 2; s++){
+        var a = pt(i, s), b = pt(i + 1, s), f = vis(a);
+        if(f <= .01) continue;
+        var seg = { seg:true, i:i, s:s, f:Math.min(f, vis(b)), z:(a.z + b.z) / 2 };
+        (seg.z < 0 ? back : front).push(seg);
+        var boost = 0;
+        o.pulses.forEach(function(pl){ if(pl.s === s){ var d = i - pl.p; boost += Math.exp(-d * d / 3); } });
+        (a.z < 0 ? back : front).push({ x:a.x, y:a.y, z:a.z, f:f, boost:Math.min(boost, 1), c:(i * 7 + s * 3) % 9 });
       }
-      var back = [], front = [];
-      for(var i = from; i <= to; i++){
-        for(var strand = 0; strand < 2; strand++){
-          var a = point(i, strand), b = point(i + 1, strand);
-          var f = ease(a.y / fadeEdge) * ease((H - a.y) / fadeEdge) * base;
-          if(f <= 0) continue;
-          // нить: плавная кривая между соседними сферами
-          var seg = { kind:'seg', i:i, strand:strand, f:f, z:(a.z + b.z) / 2 };
-          (seg.z < 0 ? back : front).push(seg);
-          // сфера: впереди крупнее и ярче, сзади меньше и бледнее; импульс и курсор её подсвечивают
-          var boost = 0;
-          s.pulses.forEach(function(pl){ if(pl.strand === strand){ var d = i - pl.p; boost += Math.exp(-d * d / 3); } });
-          var dm = Math.hypot(a.x - mouse.x, a.y - mouse.y);
-          var near = dm < 110 ? 1 - dm / 110 : 0;
-          var node = { kind:'node', x:a.x, y:a.y, z:a.z, f:f, boost:Math.min(boost, 1), near:near, color:((i * 7 + strand * 3) % 9 + 9) % 9 };
-          (a.z < 0 ? back : front).push(node);
-        }
-      }
-      function paint(list){
-        list.forEach(function(o){
-          if(o.kind === 'seg'){
-            ctx.beginPath();
-            for(var u = 0; u <= 4; u++){
-              var p = point(o.i + u / 4, o.strand);
-              u ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y);
-            }
-            var dz = (o.z + 1) / 2;   // нить спереди толще и ярче, сзади тоньше и бледнее
-            ctx.strokeStyle = 'rgba(91,75,224,' + (o.f * (.14 + .36 * dz)).toFixed(3) + ')';
-            ctx.lineWidth = mobile ? .6 + .6 * dz : 1.1 + 1.3 * dz;
-            ctx.lineCap = 'round';
-            ctx.stroke();
-          } else {
-            var depth = (o.z + 1) / 2;
-            var rad = (3.2 + 2.8 * depth) * scale;
-            rad *= 1 + .7 * o.boost + .45 * o.near;
-            ctx.globalAlpha = Math.min(1, o.f * (.32 + .6 * depth + .45 * o.boost + .3 * o.near));
-            var img = SPHERES[o.color < 1 ? 1 : o.color < 2 ? 2 : 0];
-            ctx.drawImage(img, o.x - rad * 2.3, o.y - rad * 2.3, rad * 4.6, rad * 4.6);
-            ctx.globalAlpha = 1;
+    }
+    function paint(list){
+      list.forEach(function(q){
+        var dz = (q.z + 1) / 2;   // впереди — крупнее, толще и ярче; сзади — меньше и бледнее
+        if(q.seg){
+          g.beginPath();
+          for(var u = 0; u <= 4; u++){
+            var p = pt(q.i + u / 4, q.s);
+            u ? g.lineTo(p.x, p.y) : g.moveTo(p.x, p.y);
           }
-        });
-      }
-      paint(back);
-      // перемычки между нитями — «пары оснований», с небольшим разрывом посередине
-      for(var j = from; j <= to; j++){
-        var A = point(j, 0), B = point(j, 1);
-        var fr = ease(A.y / fadeEdge) * ease((H - A.y) / fadeEdge) * base;
-        if(fr <= 0 || Math.abs(A.x - B.x) < 4) continue;
-        var mx = (A.x + B.x) / 2, gap = (B.x - A.x) * .08;
-        ctx.lineWidth = mobile ? .8 : 2;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = 'rgba(' + BASES[j % 3] + ',' + (fr * .34).toFixed(3) + ')';
-        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(mx - gap, A.y); ctx.stroke();
-        ctx.strokeStyle = 'rgba(' + BASES[(j + 1) % 3] + ',' + (fr * .34).toFixed(3) + ')';
-        ctx.beginPath(); ctx.moveTo(mx + gap, B.y); ctx.lineTo(B.x, B.y); ctx.stroke();
-      }
-      paint(front);
+          g.strokeStyle = 'rgba(72,56,214,' + (q.f * (.22 + .5 * dz)).toFixed(3) + ')';
+          g.lineWidth = (1.3 + 1.7 * dz) * o.line;
+          g.lineCap = 'round';
+          g.stroke();
+        } else {
+          var r = (3.2 + 2.8 * dz) * o.scale * (1 + .5 * q.boost);
+          g.globalAlpha = Math.min(1, q.f * (.5 + .5 * dz + .4 * q.boost));
+          g.drawImage(SPHERES[q.c < 1 ? 1 : q.c < 2 ? 2 : 0], q.x - r * 2.3, q.y - r * 2.3, r * 4.6, r * 4.6);
+          g.globalAlpha = 1;
+        }
+      });
+    }
+    paint(back);
+    // перемычки между нитями — «пары оснований», с небольшим разрывом посередине
+    g.lineWidth = 2.4 * o.line;
+    g.lineCap = 'round';
+    for(var j = 0; j <= n; j++){
+      var A = pt(j, 0), B = pt(j, 1), fr = Math.min(vis(A), vis(B));
+      if(fr <= .01 || Math.hypot(A.x - B.x, A.y - B.y) < 4) continue;
+      var mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+      g.strokeStyle = 'rgba(' + BASES[j % 3] + ',' + (fr * .5).toFixed(3) + ')';
+      g.beginPath(); g.moveTo(A.x, A.y); g.lineTo(A.x + (mx - A.x) * .84, A.y + (my - A.y) * .84); g.stroke();
+      g.strokeStyle = 'rgba(' + BASES[(j + 1) % 3] + ',' + (fr * .5).toFixed(3) + ')';
+      g.beginPath(); g.moveTo(B.x, B.y); g.lineTo(B.x + (mx - B.x) * .84, B.y + (my - B.y) * .84); g.stroke();
+    }
+    paint(front);
+    return n;
+  }
+
+  // Холст под спираль: размер в пикселях экрана, отрисовка — по кадрам
+  function add(canvas, w, h, opts, keepEl){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    var it = { canvas:canvas, g:canvas.getContext('2d'), w:w, h:h, dpr:dpr, o:opts, visible:!io, n:0, keepEl:keepEl };
+    opts.spin = opts.phase;
+    opts.pulses = [0, 1].map(function(s){ return { s:s, p:Math.random() * 14, v:(1.1 + Math.random() * .8) * (opts.flow || 1) }; });
+    canvas._dna = it;
+    if(io) io.observe(canvas);
+    items.push(it);
+    render(it, 0, 0);
+  }
+  function render(it, t, dt){
+    var o = it.o;
+    if(!still.matches){
+      o.spin = o.phase + t * .0003 * o.dir;   // медленно, чтобы не отвлекать
+      o.pulses.forEach(function(pl){
+        pl.p += dt * pl.v;
+        if(pl.p > it.n + 6) pl.p = -6;
+        if(pl.p < -6) pl.p = it.n + 6;
+      });
+    }
+    it.g.setTransform(it.dpr, 0, 0, it.dpr, 0, 0);
+    it.g.clearRect(0, 0, it.w, it.h);
+    it.n = drawHelix(it.g, o);
+  }
+
+  // Прямоугольники текста внутри плитки — там спираль бледнее
+  function rectsIn(box, k, nodes){
+    return nodes.filter(Boolean).map(function(el){
+      var r = el.getBoundingClientRect();
+      return { l:(r.left - box.left) / k, r:(r.right - box.left) / k, t:(r.top - box.top) / k, b:(r.bottom - box.top) / k };
     });
   }
 
-  function tick(t){
-    requestAnimationFrame(tick);
-    if(document.hidden) return;
-    var sy = window.scrollY, moved = sy !== lastScroll;
-    var idle = !mobile && !still.matches;   // на компьютере спираль живёт и без прокрутки
-    if(!dirty && !moved && !(idle && t - last > 33)) return;
-    if(still.matches && !dirty) return;
-    var dt = last ? Math.min((t - last) / 1000, .1) : 0;
-    last = t; lastScroll = sy; dirty = false;
-    draw(t, dt);
+  // Где между разделами выходит спираль: номер раздела (над ним — полоса) и край экрана.
+  // После разделов с мелким текстом внизу слева спираль выходит справа, чтобы не задеть текст
+  var EDGES = { 0:'right', 2:'left', 4:'right', 7:'left', 9:'right', 10:'left' };
+
+  function build(){
+    items.forEach(function(it){ if(io) io.unobserve(it.canvas); if(!it.keepEl) it.canvas.remove(); });
+    items = [];
+    var W = document.documentElement.clientWidth;
+    var mobile = W < 700;
+
+    // 1. Большая спираль первого экрана: справа, наклонно, входит и выходит через края плитки
+    var hb = hero.getBoundingClientRect(), hw = hero.offsetWidth, hh = hero.offsetHeight;
+    var k0 = hb.width / hw || 1;   // плитка может ещё «подниматься» при появлении
+    var keep = rectsIn(hb, k0, [hero.querySelector('.chip'), hero.querySelector('h1'), hero.querySelector('.hero-lead'), hero.querySelector('.hero-cta')]);
+    var amp, hopts;
+    if(mobile){
+      amp = Math.min(hw * .09, 32);
+      hopts = { x0:-hw * .1, y0:hh - 62, x1:hw * 1.1, y1:hh - 140, amp:amp, step:amp * .64, scale:amp / 24, line:1.1, alpha:1, fadeA:0, fadeB:0, keep:keep, phase:.6, dir:1, flow:1 };
+    } else {
+      amp = Math.max(44, Math.min(hw * .085, 96));
+      hopts = { x0:hw * .9, y0:-hh * .14, x1:hw * .66, y1:hh * 1.14, amp:amp, step:amp * .6, scale:amp / 27, line:1.5, alpha:1, fadeA:0, fadeB:0, keep:keep, phase:.6, dir:1, flow:1 };
+    }
+    add(hero.querySelector('.hero-dna'), hw, hh, hopts, true);
+
+    // 2. Между разделами — в пустой полосе над заголовком, из-за края экрана
+    var wrap = document.querySelector('.wrap');
+    var wb = wrap.getBoundingClientRect();
+    var edge = wb.left + parseFloat(getComputedStyle(wrap).paddingLeft);   // где начинается содержимое
+    var scale = mobile ? .62 : Math.max(.9, Math.min(edge / 78, 1.3));
+    var secs = [].slice.call(document.querySelectorAll('main > .sec, .site-footer'));
+    secs.forEach(function(sec, k){
+      var side = EDGES[k], first = sec.querySelector('.wrap > *');
+      if(!side || !first) return;
+      var band = first.getBoundingClientRect().top - sec.getBoundingClientRect().top;   // пустая полоса над заголовком
+      if(band < 60) return;
+      var L = mobile ? Math.round(W * .62) : Math.round(Math.max(380, Math.min(W * .34, 620)));
+      var ang = (mobile ? 12 + (k * 3) % 6 : 16 + (k * 5) % 9) * Math.PI / 180, cs = Math.cos(ang), sn = Math.sin(ang);
+      var T = Math.round(108 * scale), halfT = T / 2, out = mobile ? 24 : 40;
+      // внешний конец — за краем экрана; у края содержимого ось проходит над заголовком раздела
+      var yO = band - 16 - halfT / cs + (edge + out) * Math.tan(ang);
+      var cx = side === 'left' ? -out + L / 2 * cs : W + out - L / 2 * cs;
+      var cy = yO - L / 2 * sn;
+      var c = document.createElement('canvas');
+      c.className = 'dna';
+      c.style.width = L + 'px';
+      c.style.height = T + 'px';
+      c.style.left = (cx - L / 2) + 'px';
+      c.style.top = (cy - halfT) + 'px';
+      c.style.transform = 'rotate(' + (side === 'left' ? -ang : ang) + 'rad)';
+      sec.appendChild(c);
+      add(c, L, T, {
+        x0:0, y0:halfT, x1:L, y1:halfT, amp:28 * scale, step:26 * scale, scale:scale * 1.05, line:1.15, alpha:1,
+        // у края экрана — полная яркость, внутренний конец уходит за плитки и тает
+        fadeA:side === 'left' ? 0 : .22, fadeB:side === 'left' ? .22 : 0,
+        keep:null, phase:k * 1.3, dir:side === 'left' ? 1 : -1, flow:side === 'left' ? 1 : -1
+      }, false);
+    });
   }
 
-  layout();
-  window.addEventListener('resize', layout);
-  still.addEventListener('change', function(){ dirty = true; });
-  if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
-    document.addEventListener('pointermove', function(e){ mouse.x = e.clientX; mouse.y = e.clientY; }, { passive:true });
-    document.addEventListener('pointerleave', function(){ mouse.x = mouse.y = -999; });
+  var last = 0;
+  function tick(t){
+    requestAnimationFrame(tick);
+    // на телефоне 15 кадров в секунду — вращение медленное, разницы не видно, а батарея целее
+    if(document.hidden || still.matches || t - last < (width < 700 ? 66 : 33)) return;
+    var dt = last ? Math.min((t - last) / 1000, .1) : 0;
+    last = t;
+    items.forEach(function(it){ if(it.visible) render(it, t, dt); });
   }
+
+  var width = 0, timer = null;
+  function rebuild(force){
+    var w = document.documentElement.clientWidth;
+    if(!force && w === width) return;   // на телефоне меняется только высота (строка адреса) — не пересобираем
+    width = w;
+    build();
+  }
+  rebuild(true);
+  window.addEventListener('resize', function(){ clearTimeout(timer); timer = setTimeout(function(){ rebuild(false); }, 200); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ rebuild(true); });   // шрифт меняет размеры текста
+  window.addEventListener('load', function(){ rebuild(true); });
+  still.addEventListener('change', function(){ items.forEach(function(it){ render(it, 0, 0); }); });
   requestAnimationFrame(tick);
 })();
 
