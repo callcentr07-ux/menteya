@@ -1,0 +1,72 @@
+/* ===== Первый экран: тихий мир во весь экран, «МЕНТЕЯ» от края до края, стеклянные карточки поверх (приём Collider) ===== */
+.hero{ position:relative; isolation:isolate; display:flex; flex-direction:column; min-height:max(680px, 100svh); padding:76px 0 28px; overflow:clip; background:#ece3d6; }
+
+/* Сцена рисуется кодом (hero-scene.html); туман дрейфует на 2% за 30–46 с, камера стоит */
+.scene{ position:absolute; inset:0; z-index:-1; overflow:hidden; }
+.scene-art{ width:100%; height:100%; }
+.scene::before{ content:""; position:absolute; inset:0 0 auto; z-index:1; height:200px; background:linear-gradient(rgba(244,241,234,.6), rgba(244,241,234,0)); pointer-events:none; }   /* шапка читается на небе */
+.scene::after{ content:""; position:absolute; inset:0; z-index:2; opacity:.07; mix-blend-mode:multiply; pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E") 0 0/180px; }   /* зерно, как у плёнки */
+.mist{ position:absolute; z-index:1; border-radius:50%; background:radial-gradient(closest-side, rgba(255,252,247,.8), rgba(255,252,247,0)); pointer-events:none; }
+.mist-1{ left:-10%; top:55%; width:72%; height:15%; }
+.mist-2{ right:-12%; top:59%; width:66%; height:13%; opacity:.85; }
+.mist-3{ left:24%; top:66%; width:54%; height:9%; opacity:.7; }
+@media (prefers-reduced-motion:no-preference){
+  .mist-1{ animation:drift 38s ease-in-out infinite alternate; }
+  .mist-2{ animation:drift 46s ease-in-out infinite alternate-reverse; }
+  .mist-3{ animation:drift 31s ease-in-out infinite alternate; }
+  .hero.is-off .mist{ animation-play-state:paused; }
+}
+@keyframes drift{ from{ transform:translateX(-2%); } to{ transform:translateX(2%); } }
+
+/* Название во всю ширину; на очень широких экранах не больше 1600px, чтобы не закрывать голову */
+.hero-mark{ width:min(94vw, 1600px); margin:0 auto; }
+.hero-mark svg{ width:100%; height:auto; overflow:visible; }
+.hero-mark text{ font:600 196px var(--mark); fill:var(--deep); }
+
+/* Карточки: слева — оффер с заголовком, справа — выезд на дом */
+.hero-cards{ flex:1; display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:20px 24px; padding-top:32px; }
+.hero-card{ padding:28px; }
+.hero-main{ flex:0 1 456px; }
+.hero-main .h1{ margin-top:14px; }
+.hero-lead{ max-width:36ch; margin-top:14px; font-size:1.0625rem; line-height:1.5; color:var(--deep-2); }
+.hero-perks{ display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:20px; padding-top:18px; border-top:1px solid rgba(22,50,58,.12); font-size:.9375rem; font-weight:500; }
+.hero-perks li{ display:inline-flex; align-items:center; gap:8px; }
+.hero-perks .i{ color:var(--mint-d); }
+.hero-main .btn-row{ margin-top:22px; }
+.hero-main .fine{ margin-top:14px; }
+.hero-side{ flex:0 1 340px; display:flex; flex-direction:column; gap:8px; margin-bottom:clamp(0px, 9vh, 110px); transition:background-color .25s ease, transform .3s var(--ease); }
+.hero-side-t{ margin-top:6px; font:500 1.3125rem/1.2 var(--font); letter-spacing:-0.015em; }
+.hero-status{ display:inline-flex; align-items:center; gap:10px; margin-top:4px; font-size:.9375rem; font-weight:500; }
+.hero-side .go{ margin-top:10px; }
+@media (hover:hover) and (pointer:fine){
+  .hero-side:hover{ transform:translateY(-3px); }
+  .hero-side:hover .go .i{ transform:translateX(4px); }
+}
+.hero-down{ position:absolute; left:50%; bottom:28px; display:grid; place-items:center; width:44px; height:44px; translate:-50% 0; border-radius:14px; color:var(--deep); }
+
+/* Карточки появляются один раз при загрузке: только прозрачность */
+@media (prefers-reduced-motion:no-preference){
+  .js .hero-card, .js .hero-mark{ animation:appear .7s var(--ease) both; }
+  .js .hero-main{ animation-delay:.15s; }
+  .js .hero-side{ animation-delay:.3s; }
+}
+
+/* Телефон: сцена сверху (голова крупнее), под ней карточка без размытия — читается и не тормозит */
+@media (max-width:699px){
+  .hero{ display:block; min-height:0; padding:72px 0 0; background:var(--fog); }
+  .scene{ bottom:auto; height:calc(72px + 13.8vw + 46svh); }
+  .scene-art{ transform:translateY(7%) scale(1.55); transform-origin:50% 58%; }   /* голова крупнее и ниже названия */
+  .mist-1{ top:50%; } .mist-2{ top:56%; } .mist-3{ top:62%; }
+  .hero-mark{ width:92vw; }
+  .hero-cards{ display:block; padding-top:calc(46svh - 56px); }
+  .hero-card{ padding:22px; background:rgba(250,248,243,.96); -webkit-backdrop-filter:none; backdrop-filter:none; box-shadow:0 20px 40px -28px rgba(16,40,46,.45); }
+  .hero-main .h1{ font-size:1.75rem; }
+  .hero-lead{ font-size:1rem; }
+  .hero-perks{ gap:6px 14px; font-size:.875rem; }
+  .hero-main .btn-row{ flex-direction:column; }
+  .hero-main .btn-cta .t{ flex:1; justify-content:center; }
+  .hero-main .btn-line{ width:100%; }
+  .hero-side{ margin:12px 0 0; }
+  .hero-down{ display:none; }
+}

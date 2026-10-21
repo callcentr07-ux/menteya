@@ -1,0 +1,47 @@
+/* ===== Подвал — одна большая тёмная плитка с именем клиники внизу ===== */
+.site-footer{ position:relative; overflow-x:clip; padding:clamp(72px, 8vw, 128px) 0 16px; }
+.ft-card{ --fp:clamp(20px, 3vw, 48px); position:relative; overflow:hidden; padding:0 var(--fp); border-radius:32px; background:radial-gradient(70% 60% at 100% 0%, rgba(124,108,255,.35), rgba(124,108,255,0) 60%), var(--dark); color:#d8d4ff; }
+.ft-warning{ margin:0 calc(var(--fp) * -1); padding:14px 20px; background:rgba(255,255,255,.06); text-align:center; font-size:.8125rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#d4ceff; }
+.ft-grid{ display:grid; grid-template-columns:minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)) minmax(0, 1.3fr); gap:32px 40px; padding:48px 0 40px; }
+.ft-brand .logo{ color:#fff; }
+.ft-brand p{ max-width:36ch; margin-top:16px; font-size:.9375rem; line-height:1.6; }
+.ft-social{ display:flex; gap:8px; margin-top:20px; }
+.ft-social a{ display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:rgba(255,255,255,.08); color:#fff; transition:background-color .2s ease, transform .16s var(--ease); }
+.ft-social a:active{ transform:scale(.94); }
+.ft-title{ margin-bottom:14px; font:600 .9375rem/1.2 var(--font-d); letter-spacing:-0.01em; color:#fff; }
+.ft-col li + li{ margin-top:8px; }
+.ft-col a{ font-size:.9375rem; transition:color .2s ease; }
+.ft-phone{ font:600 1.25rem/1 var(--font-d); letter-spacing:-0.02em; color:#fff; white-space:nowrap; }
+.ft-contacts p:not(.ft-title){ margin-top:10px; font-size:.9375rem; line-height:1.6; }
+.ft-mail{ display:inline-block; margin-top:10px; }
+.ft-docs{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px 22px; padding:20px 0; box-shadow:inset 0 1px 0 rgba(255,255,255,.1); }
+.ft-docs a{ font-size:.875rem; text-decoration:underline; text-decoration-color:rgba(255,255,255,.3); text-underline-offset:3px; transition:color .2s ease, text-decoration-color .2s ease; }
+.ft-legal{ padding-bottom:20px; text-align:center; font-size:.8125rem; line-height:1.6; color:#aca6dc; }
+.ft-legal p + p{ margin-top:4px; }
+.ft-bottom{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:18px 0; box-shadow:inset 0 1px 0 rgba(255,255,255,.1); font-size:.875rem; }
+.ft-bottom .go{ color:#fff; }
+.ft-bottom .go .i{ rotate:-90deg; }
+@media (hover:hover) and (pointer:fine){
+  .ft-social a:hover{ background:rgba(255,255,255,.18); }
+  .ft-col a:hover, .ft-mail:hover, .ft-docs a:hover{ color:#fff; text-decoration-color:#fff; }
+  .ft-bottom .go:hover .i{ transform:translateY(-3px); }
+}
+.ft-mark{ margin:0 calc(var(--fp) * -1); padding-bottom:clamp(12px, 2vw, 32px); font:700 clamp(4.5rem, 17vw, 18rem)/.82 var(--font-d); letter-spacing:-0.06em; text-align:center; white-space:nowrap; background:linear-gradient(180deg, rgba(205,196,255,.34), rgba(205,196,255,.06)); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-user-select:none; user-select:none; pointer-events:none; }
+
+@media (max-width:1099px){
+  .ft-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+  .ft-brand, .ft-contacts{ grid-column:1 / -1; }
+}
+@media (max-width:699px){
+  .ft-card{ border-radius:26px; text-align:center; }
+  .ft-warning{ font-size:.75rem; letter-spacing:.04em; }
+  .ft-grid{ grid-template-columns:1fr 1fr; gap:28px 12px; padding:36px 0 28px; }
+  .ft-brand{ display:flex; flex-direction:column; align-items:center; }
+  .ft-brand p{ margin-inline:auto; }
+  .ft-social{ justify-content:center; }
+  .ft-contacts{ order:-1; padding:20px; border-radius:22px; background:rgba(255,255,255,.06); }
+  .ft-col a{ display:inline-block; padding:4px 0; }
+  .ft-col li + li{ margin-top:2px; }
+  .ft-bottom{ flex-direction:column-reverse; }
+  .ft-mark{ font-size:clamp(4rem, 22vw, 9rem); padding-bottom:28px; }
+}
