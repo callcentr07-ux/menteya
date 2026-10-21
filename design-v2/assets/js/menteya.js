@@ -669,20 +669,26 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   }, { passive:true });
 })();
 
-// ДНК — фирменный узор второго дизайна: спирали из тех же объёмных сфер, что в логотипе.
-// Большая спираль — главный образ первого экрана: входит в плитку через край. Между разделами
-// спирали выходят прямо из-за края экрана в полную яркость и уходят за плитки.
-// Крутятся медленно и на месте, едут вместе со страницей — без параллакса, голова не кружится.
-// Рисуем только видимые спирали и не чаще 30 раз в секунду; при «уменьшить движение» — неподвижная картинка.
+// ДНК — одна полупрозрачная нить через всю страницу, из тех же объёмных сфер, что в логотипе.
+// Идёт по полю сбоку от разделов, а в пустом отступе над разделом переходит на другую сторону —
+// «прошивает» страницу и не ложится на текст. Лежит под плитками и едет вместе со страницей.
+// Медленно вращается; пока страницу листают — замирает, чтобы не кружилась голова.
+// Холсты — полосами по высоте страницы, рисуются только у экрана; при «уменьшить движение» — неподвижная.
 (function(){
-  var hero = document.querySelector('.t-hero');
-  if(!hero || !document.createElement('canvas').getContext) return;
+  if(!document.body || !document.createElement('canvas').getContext) return;
   var still = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var TWIST = .4;   // поворот спирали на одну пару
-  var items = [];
+  var TWIST = .55;                // поворот спирали на одну пару оснований
+  var GROOVE = Math.PI * .8;      // сдвиг второй нити: широкая и узкая бороздки, как у настоящей ДНК
+  var DS = 2;                     // шаг выборки пути, px
+  var STRIP = 1024;               // высота холста-полосы
+  var layer = document.createElement('div');
+  layer.className = 'dna-layer';
+  layer.setAttribute('aria-hidden', 'true');
+  document.body.insertBefore(layer, document.body.firstChild);
+  var strips = [], path = null, width = 0, spin = .6, rate = 1;
   var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.target._dna) e.target._dna.visible = e.isIntersecting; });
-  }, { rootMargin:'120px 0px' }) : null;
+    es.forEach(function(e){ if(e.target._strip) setNear(e.target._strip, e.isIntersecting); });
+  }, { rootMargin:'100% 0px' }) : null;   // полосы готовим заранее, за экран до появления
 
   // Сферы рисуем заранее: блик, насыщенное тело с тёмным краем и мягкое свечение — как у знака в логотипе
   function sphere(hi, mid, deep, rim, glow){
@@ -712,36 +718,88 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   ];
   var BASES = ['80,62,222', '236,109,72', '26,158,102'];   // цвета перемычек — «пар оснований»
 
-  function ease(v){ v = Math.max(0, Math.min(1, v)); return v * v * (3 - 2 * v); }
+  // Путь: старт под шапкой справа, вниз по полю; в середине отступа над каждым разделом — переход на другое поле.
+  // Углы скруглены дугами. Выборка через DS px длины: точка и нормаль к пути
+  function buildPath(W, H){
+    var wrap = document.querySelector('.wrap');
+    var edge = wrap.getBoundingClientRect().left + parseFloat(getComputedStyle(wrap).paddingLeft);   // где начинается содержимое
+    var amp = Math.max(13, Math.min(W * .016, 32));
+    // поле вмещает нить — идёт посередине поля; узкое (телефон) — за краем экрана, видны только переходы
+    var xl = edge / 2 >= amp * 1.3 + 4 ? edge / 2 : -(amp * 1.4 + 6), xr = W - xl;
+    var R = Math.max(44, Math.min(amp * 3.2, 110));   // радиус поворота
+    var top0 = document.body.getBoundingClientRect().top;
+    var pts = [[xr, -60]], x = xr, y0 = -60;
+    [].forEach.call(document.querySelectorAll('main > .sec, .site-footer'), function(sec){
+      var pad = parseFloat(getComputedStyle(sec).paddingTop);
+      var y = sec.getBoundingClientRect().top - top0 + pad / 2;   // середина пустого отступа над разделом
+      if(pad < 56 || y < y0 + 8) return;
+      pts.push([x, y]);
+      x = x === xr ? xl : xr;
+      pts.push([x, y]);
+      y0 = y;
+    });
+    pts.push([x, H + 60]);
 
-  // Одна спираль вдоль оси (x0,y0)→(x1,y1). fadeA/fadeB — доля длины, где растворяется начало/конец
-  // (у края экрана — 0: спираль выходит из-за края в полную яркость). keep — прямоугольники текста: там спираль бледнее
-  function drawHelix(g, o){
-    var dx = o.x1 - o.x0, dy = o.y1 - o.y0, len = Math.hypot(dx, dy);
-    var ux = dx / len, uy = dy / len, nx = -uy, ny = ux;
-    var n = Math.ceil(len / o.step);
-    function pt(i, s){
-      var a = i * TWIST + o.spin, k = (s ? -1 : 1) * o.amp * Math.sin(a), along = i * o.step;
-      return { x:o.x0 + ux * along + nx * k, y:o.y0 + uy * along + ny * k, z:(s ? -1 : 1) * Math.cos(a), along:along };
+    var X = [], Y = [], NX = [], NY = [], s = 0, done = 0, from = pts[0];
+    function emit(len, at){
+      for(; s <= done + len; s += DS){
+        var q = at(s - done);
+        X.push(q[0]); Y.push(q[1]); NX.push(-q[3]); NY.push(q[2]);
+      }
+      done += len;
     }
-    function vis(p){
-      var f = (o.fadeA ? ease(p.along / (len * o.fadeA)) : 1) * (o.fadeB ? ease((len - p.along) / (len * o.fadeB)) : 1);
-      (o.keep || []).forEach(function(r){
-        var ex = Math.max(r.l - p.x, 0, p.x - r.r), ey = Math.max(r.t - p.y, 0, p.y - r.b);
-        f *= .38 + .62 * ease(Math.hypot(ex, ey) / 48);
+    function line(a, b){
+      var len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      if(!len) return;
+      var tx = (b[0] - a[0]) / len, ty = (b[1] - a[1]) / len;
+      emit(len, function(u){ return [a[0] + tx * u, a[1] + ty * u, tx, ty]; });
+    }
+    function arc(c, d1, d2, r){   // четверть окружности: входим по d1, выходим по d2
+      emit(r * Math.PI / 2, function(u){
+        var f = u / r, cs = Math.cos(f), sn = Math.sin(f);
+        return [c[0] + r * (d1[0] * sn - d2[0] * cs), c[1] + r * (d1[1] * sn - d2[1] * cs), d1[0] * cs + d2[0] * sn, d1[1] * cs + d2[1] * sn];
       });
-      return f * o.alpha;
+    }
+    for(var i = 1; i < pts.length - 1; i++){
+      var Q = pts[i - 1], P = pts[i], N = pts[i + 1];
+      var l1 = Math.hypot(P[0] - Q[0], P[1] - Q[1]), l2 = Math.hypot(N[0] - P[0], N[1] - P[1]);
+      var d1 = [(P[0] - Q[0]) / l1, (P[1] - Q[1]) / l1], d2 = [(N[0] - P[0]) / l2, (N[1] - P[1]) / l2];
+      var r = Math.min(R, l1 / 2, l2 / 2);
+      var t1 = [P[0] - d1[0] * r, P[1] - d1[1] * r];
+      line(from, t1);
+      arc([t1[0] + d2[0] * r, t1[1] + d2[1] * r], d1, d2, r);
+      from = [P[0] + d2[0] * r, P[1] + d2[1] * r];
+    }
+    line(from, pts[pts.length - 1]);
+    return { X:X, Y:Y, NX:NX, NY:NY, amp:amp, K:Math.max(5, Math.round(amp * .4)), scale:amp / 25, line:amp / 22 };
+  }
+
+  function lower(arr, v){   // первая выборка не выше v (путь идёт только вниз)
+    var lo = 0, hi = arr.length;
+    while(lo < hi){ var mid = (lo + hi) >> 1; if(arr[mid] < v) lo = mid + 1; else hi = mid; }
+    return lo;
+  }
+
+  // Кусок нити в полосе: пары оснований, попадающие в её высоту (с запасом на толщину)
+  function draw(st){
+    var g = st.g, P = path;
+    if(!st.c.width) return;
+    g.setTransform(st.dpr, 0, 0, st.dpr, 0, -st.top * st.dpr);   // рисуем в координатах страницы
+    g.clearRect(0, st.top, width, st.h);
+    if(!P) return;
+    var K = P.K, n = P.Y.length, m = P.amp * 2 + 10;
+    var j0 = Math.floor(lower(P.Y, st.top - m) / K), j1 = Math.min(Math.ceil(lower(P.Y, st.top + st.h + m) / K), Math.floor((n - 1) / K) - 1);
+    function pt(i, s){   // i — номер выборки, s — нить 0 или 1
+      var k = Math.min(n - 1, Math.round(i)), a = i / K * TWIST + spin + (s ? GROOVE : 0), off = P.amp * Math.sin(a);
+      return { x:P.X[k] + P.NX[k] * off, y:P.Y[k] + P.NY[k] * off, z:Math.cos(a) };
     }
     var back = [], front = [];
-    for(var i = 0; i <= n; i++){
+    for(var j = j0; j <= j1; j++){
       for(var s = 0; s < 2; s++){
-        var a = pt(i, s), b = pt(i + 1, s), f = vis(a);
-        if(f <= .01) continue;
-        var seg = { seg:true, i:i, s:s, f:Math.min(f, vis(b)), z:(a.z + b.z) / 2 };
+        var A = pt(j * K, s), B = pt((j + 1) * K, s);
+        var seg = { seg:true, j:j, s:s, z:(A.z + B.z) / 2 };
         (seg.z < 0 ? back : front).push(seg);
-        var boost = 0;
-        o.pulses.forEach(function(pl){ if(pl.s === s){ var d = i - pl.p; boost += Math.exp(-d * d / 3); } });
-        (a.z < 0 ? back : front).push({ x:a.x, y:a.y, z:a.z, f:f, boost:Math.min(boost, 1), c:(i * 7 + s * 3) % 9 });
+        (A.z < 0 ? back : front).push({ x:A.x, y:A.y, z:A.z, c:(j * 7 + s * 3) % 9 });
       }
     }
     function paint(list){
@@ -750,16 +808,16 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
         if(q.seg){
           g.beginPath();
           for(var u = 0; u <= 4; u++){
-            var p = pt(q.i + u / 4, q.s);
+            var p = pt((q.j + u / 4) * K, q.s);
             u ? g.lineTo(p.x, p.y) : g.moveTo(p.x, p.y);
           }
-          g.strokeStyle = 'rgba(72,56,214,' + (q.f * (.22 + .5 * dz)).toFixed(3) + ')';
-          g.lineWidth = (1.3 + 1.7 * dz) * o.line;
+          g.strokeStyle = 'rgba(72,56,214,' + (.22 + .5 * dz).toFixed(3) + ')';
+          g.lineWidth = (1.3 + 1.7 * dz) * P.line;
           g.lineCap = 'round';
           g.stroke();
         } else {
-          var r = (3.2 + 2.8 * dz) * o.scale * (1 + .5 * q.boost);
-          g.globalAlpha = Math.min(1, q.f * (.5 + .5 * dz + .4 * q.boost));
+          var r = (3.2 + 2.8 * dz) * P.scale;
+          g.globalAlpha = .5 + .5 * dz;
           g.drawImage(SPHERES[q.c < 1 ? 1 : q.c < 2 ? 2 : 0], q.x - r * 2.3, q.y - r * 2.3, r * 4.6, r * 4.6);
           g.globalAlpha = 1;
         }
@@ -767,138 +825,83 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     }
     paint(back);
     // перемычки между нитями — «пары оснований», с небольшим разрывом посередине
-    g.lineWidth = 2.4 * o.line;
+    g.lineWidth = 2.4 * P.line;
     g.lineCap = 'round';
-    for(var j = 0; j <= n; j++){
-      var A = pt(j, 0), B = pt(j, 1), fr = Math.min(vis(A), vis(B));
-      if(fr <= .01 || Math.hypot(A.x - B.x, A.y - B.y) < 4) continue;
-      var mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
-      g.strokeStyle = 'rgba(' + BASES[j % 3] + ',' + (fr * .5).toFixed(3) + ')';
-      g.beginPath(); g.moveTo(A.x, A.y); g.lineTo(A.x + (mx - A.x) * .84, A.y + (my - A.y) * .84); g.stroke();
-      g.strokeStyle = 'rgba(' + BASES[(j + 1) % 3] + ',' + (fr * .5).toFixed(3) + ')';
-      g.beginPath(); g.moveTo(B.x, B.y); g.lineTo(B.x + (mx - B.x) * .84, B.y + (my - B.y) * .84); g.stroke();
+    for(j = j0; j <= j1; j++){
+      var a0 = pt(j * K, 0), b0 = pt(j * K, 1);
+      if(Math.hypot(a0.x - b0.x, a0.y - b0.y) < 4) continue;
+      var mx = (a0.x + b0.x) / 2, my = (a0.y + b0.y) / 2;
+      g.strokeStyle = 'rgba(' + BASES[j % 3] + ',.5)';
+      g.beginPath(); g.moveTo(a0.x, a0.y); g.lineTo(a0.x + (mx - a0.x) * .84, a0.y + (my - a0.y) * .84); g.stroke();
+      g.strokeStyle = 'rgba(' + BASES[(j + 1) % 3] + ',.5)';
+      g.beginPath(); g.moveTo(b0.x, b0.y); g.lineTo(b0.x + (mx - b0.x) * .84, b0.y + (my - b0.y) * .84); g.stroke();
     }
     paint(front);
-    return n;
   }
 
-  // Холст под спираль: размер в пикселях экрана, отрисовка — по кадрам
-  function add(canvas, w, h, opts, keepEl){
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    var it = { canvas:canvas, g:canvas.getContext('2d'), w:w, h:h, dpr:dpr, o:opts, visible:!io, n:0, keepEl:keepEl };
-    opts.spin = opts.phase;
-    opts.pulses = [0, 1].map(function(s){ return { s:s, p:Math.random() * 14, v:(1.1 + Math.random() * .8) * (opts.flow || 1) }; });
-    canvas._dna = it;
-    if(io) io.observe(canvas);
-    items.push(it);
-    render(it, 0, 0);
+  // Полоса у экрана — выделяем память и рисуем; далеко — освобождаем
+  function setNear(st, on){
+    st.near = on;
+    if(on){ size(st); draw(st); }
+    else { st.c.width = 0; st.c.height = 0; }
   }
-  function render(it, t, dt){
-    var o = it.o;
-    if(!still.matches){
-      o.spin = o.phase + t * .0003 * o.dir;   // медленно, чтобы не отвлекать
-      o.pulses.forEach(function(pl){
-        pl.p += dt * pl.v;
-        if(pl.p > it.n + 6) pl.p = -6;
-        if(pl.p < -6) pl.p = it.n + 6;
-      });
-    }
-    it.g.setTransform(it.dpr, 0, 0, it.dpr, 0, 0);
-    it.g.clearRect(0, 0, it.w, it.h);
-    it.n = drawHelix(it.g, o);
+  function size(st){
+    var w = Math.round(width * st.dpr), h = Math.round(st.h * st.dpr);
+    if(st.c.width !== w) st.c.width = w;
+    if(st.c.height !== h) st.c.height = h;
   }
 
-  // Прямоугольники текста внутри плитки — там спираль бледнее
-  function rectsIn(box, k, nodes){
-    return nodes.filter(Boolean).map(function(el){
-      var r = el.getBoundingClientRect();
-      return { l:(r.left - box.left) / k, r:(r.right - box.left) / k, t:(r.top - box.top) / k, b:(r.bottom - box.top) / k };
-    });
-  }
-
-  // Где между разделами выходит спираль: номер раздела (над ним — полоса) и край экрана.
-  // После разделов с мелким текстом внизу слева спираль выходит справа, чтобы не задеть текст
-  var EDGES = { 0:'right', 2:'left', 4:'right', 7:'left', 9:'right', 10:'left' };
-
-  function build(){
-    items.forEach(function(it){ if(io) io.unobserve(it.canvas); if(!it.keepEl) it.canvas.remove(); });
-    items = [];
-    var W = document.documentElement.clientWidth;
-    var mobile = W < 700;
-
-    // 1. Большая спираль первого экрана: справа, наклонно, входит и выходит через края плитки
-    var hb = hero.getBoundingClientRect(), hw = hero.offsetWidth, hh = hero.offsetHeight;
-    var k0 = hb.width / hw || 1;   // плитка может ещё «подниматься» при появлении
-    var keep = rectsIn(hb, k0, [hero.querySelector('.chip'), hero.querySelector('h1'), hero.querySelector('.hero-lead'), hero.querySelector('.hero-cta')]);
-    var amp, hopts;
-    if(mobile){
-      amp = Math.min(hw * .09, 32);
-      hopts = { x0:-hw * .1, y0:hh - 62, x1:hw * 1.1, y1:hh - 140, amp:amp, step:amp * .64, scale:amp / 24, line:1.1, alpha:1, fadeA:0, fadeB:0, keep:keep, phase:.6, dir:1, flow:1 };
-    } else {
-      amp = Math.max(44, Math.min(hw * .085, 96));
-      hopts = { x0:hw * .9, y0:-hh * .14, x1:hw * .66, y1:hh * 1.14, amp:amp, step:amp * .6, scale:amp / 27, line:1.5, alpha:1, fadeA:0, fadeB:0, keep:keep, phase:.6, dir:1, flow:1 };
-    }
-    add(hero.querySelector('.hero-dna'), hw, hh, hopts, true);
-
-    // 2. Между разделами — в пустой полосе над заголовком, из-за края экрана
-    var wrap = document.querySelector('.wrap');
-    var wb = wrap.getBoundingClientRect();
-    var edge = wb.left + parseFloat(getComputedStyle(wrap).paddingLeft);   // где начинается содержимое
-    var scale = mobile ? .62 : Math.max(.9, Math.min(edge / 78, 1.3));
-    var secs = [].slice.call(document.querySelectorAll('main > .sec, .site-footer'));
-    secs.forEach(function(sec, k){
-      var side = EDGES[k], first = sec.querySelector('.wrap > *');
-      if(!side || !first) return;
-      var band = first.getBoundingClientRect().top - sec.getBoundingClientRect().top;   // пустая полоса над заголовком
-      if(band < 60) return;
-      var L = mobile ? Math.round(W * .62) : Math.round(Math.max(380, Math.min(W * .34, 620)));
-      var ang = (mobile ? 12 + (k * 3) % 6 : 16 + (k * 5) % 9) * Math.PI / 180, cs = Math.cos(ang), sn = Math.sin(ang);
-      var T = Math.round(108 * scale), halfT = T / 2, out = mobile ? 24 : 40;
-      // внешний конец — за краем экрана; у края содержимого ось проходит над заголовком раздела
-      var yO = band - 16 - halfT / cs + (edge + out) * Math.tan(ang);
-      var cx = side === 'left' ? -out + L / 2 * cs : W + out - L / 2 * cs;
-      var cy = yO - L / 2 * sn;
+  function layout(){
+    var W = document.documentElement.clientWidth, H = document.body.offsetHeight;
+    var dpr = Math.min(window.devicePixelRatio || 1, W < 700 ? 2 : 1.5);   // нить мягкая — чётче 1,5 на компьютере не нужно
+    width = W;
+    path = buildPath(W, H);
+    var n = Math.ceil(H / STRIP);
+    while(strips.length > n){ var old = strips.pop(); if(io) io.unobserve(old.c); old.c.remove(); }
+    while(strips.length < n){
       var c = document.createElement('canvas');
-      c.className = 'dna';
-      c.style.width = L + 'px';
-      c.style.height = T + 'px';
-      c.style.left = (cx - L / 2) + 'px';
-      c.style.top = (cy - halfT) + 'px';
-      c.style.transform = 'rotate(' + (side === 'left' ? -ang : ang) + 'rad)';
-      sec.appendChild(c);
-      add(c, L, T, {
-        x0:0, y0:halfT, x1:L, y1:halfT, amp:28 * scale, step:26 * scale, scale:scale * 1.05, line:1.15, alpha:1,
-        // у края экрана — полная яркость, внутренний конец уходит за плитки и тает
-        fadeA:side === 'left' ? 0 : .22, fadeB:side === 'left' ? .22 : 0,
-        keep:null, phase:k * 1.3, dir:side === 'left' ? 1 : -1, flow:side === 'left' ? 1 : -1
-      }, false);
+      c.width = c.height = 0;
+      var st = { c:c, g:c.getContext('2d'), near:!io };
+      c._strip = st;
+      layer.appendChild(c);
+      strips.push(st);
+      if(io) io.observe(c);
+    }
+    strips.forEach(function(st, i){
+      st.top = i * STRIP;
+      st.h = Math.min(STRIP, H - st.top);
+      st.dpr = dpr;
+      st.c.style.top = st.top + 'px';
+      st.c.style.height = st.h + 'px';
+      if(st.near){ size(st); draw(st); }
     });
   }
 
-  var last = 0;
+  var last = 0, scrolled = -1e9;
+  window.addEventListener('scroll', function(){ scrolled = performance.now(); }, { passive:true });
   function tick(t){
     requestAnimationFrame(tick);
     // на телефоне 15 кадров в секунду — вращение медленное, разницы не видно, а батарея целее
-    if(document.hidden || still.matches || t - last < (width < 700 ? 66 : 33)) return;
+    if(document.hidden || still.matches || !path || t - last < (width < 700 ? 66 : 33)) return;
     var dt = last ? Math.min((t - last) / 1000, .1) : 0;
     last = t;
-    items.forEach(function(it){ if(it.visible) render(it, t, dt); });
+    // листают — вращение быстро затихает; полсекунды покоя — плавно возвращается
+    var calm = t - scrolled > 500 ? 1 : 0;
+    rate += (calm - rate) * Math.min(1, dt * (calm ? 1.6 : 14));
+    if(rate < .01) return;   // нить стоит — перерисовывать нечего, страница листается без нагрузки
+    spin += dt * .3 * rate;
+    var y = window.scrollY, vh = window.innerHeight;
+    strips.forEach(function(st){ if(st.near && st.top < y + vh && st.top + st.h > y) draw(st); });
   }
 
-  var width = 0, timer = null;
-  function rebuild(force){
-    var w = document.documentElement.clientWidth;
-    if(!force && w === width) return;   // на телефоне меняется только высота (строка адреса) — не пересобираем
-    width = w;
-    build();
-  }
-  rebuild(true);
-  window.addEventListener('resize', function(){ clearTimeout(timer); timer = setTimeout(function(){ rebuild(false); }, 200); });
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ rebuild(true); });   // шрифт меняет размеры текста
-  window.addEventListener('load', function(){ rebuild(true); });
-  still.addEventListener('change', function(){ items.forEach(function(it){ render(it, 0, 0); }); });
+  var timer = null;
+  function later(){ clearTimeout(timer); timer = setTimeout(layout, 150); }
+  // ширина окна, раскрытый вопрос, догрузка шрифта меняют высоту страницы — путь пересчитываем
+  if('ResizeObserver' in window) new ResizeObserver(later).observe(document.body);
+  else window.addEventListener('resize', later);
+  window.addEventListener('load', layout);
+  still.addEventListener('change', function(){ strips.forEach(function(st){ if(st.near) draw(st); }); });
+  layout();
   requestAnimationFrame(tick);
 })();
 

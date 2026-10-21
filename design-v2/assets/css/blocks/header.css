@@ -7,7 +7,7 @@
 
 .mainnav{ margin-left:12px; }
 .mainnav > ul{ display:flex; gap:2px; }
-.nav-link{ display:inline-flex; align-items:center; gap:6px; height:44px; padding:0 14px; border-radius:999px; font-size:.9688rem; font-weight:500; transition:background-color .2s ease; }
+.nav-link{ display:inline-flex; align-items:center; gap:6px; height:44px; padding:0 14px; border-radius:999px; font-size:.9688rem; font-weight:500; white-space:nowrap; transition:background-color .2s ease; }
 .nav-link .caret{ width:16px; height:16px; transition:rotate .25s var(--ease); }
 .nav-link[aria-expanded="true"]{ background:#fff; }
 .nav-link[aria-expanded="true"] .caret{ rotate:180deg; }
@@ -141,6 +141,10 @@
   .hd-inner{ gap:14px; }
   .mainnav{ margin-left:4px; }
   .nav-link{ padding:0 10px; }
+}
+@media (max-width:1199px){   /* самые узкие ноутбуки: «О клинике» не переносится на две строки */
+  .nav-link{ gap:4px; padding:0 8px; font-size:.9375rem; }
+  .head-phone{ padding:0 2px; }
 }
 @media (max-width:1099px){
   .mainnav, .search-btn, .head-phone{ display:none; }
