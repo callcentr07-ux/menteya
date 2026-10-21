@@ -121,7 +121,7 @@ html:has(.page-nav){ scroll-padding-top:calc(var(--bar-h-scrolled) + 76px); }
 .doctor-quote figcaption{ display:flex; align-items:center; gap:12px; margin-top:16px; }
 .doctor-quote figcaption img{ width:46px; height:46px; border-radius:50%; flex-shrink:0; object-fit:cover; object-position:50% 22%; }
 .doctor-quote figcaption span{ font-size:13px; line-height:1.45; color:var(--ink-soft); }
-.doctor-quote figcaption a{ display:block; font-size:14.5px; font-weight:800; color:var(--blue-900); }
+.doctor-quote figcaption a, .doctor-quote figcaption b{ display:block; font-size:14.5px; font-weight:800; color:var(--blue-900); }
 
 /* Источники и дисклеймер */
 .sources-title{ margin-top:24px; font-size:17px; font-weight:800; color:var(--blue-900); }
