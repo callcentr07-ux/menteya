@@ -54,36 +54,7 @@
                 <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="f-phone-err">
                 <span class="error" id="f-phone-err">Проверьте номер: после +7 нужно 10 цифр</span>
               </div>
-              <fieldset class="field full">
-                <legend>Формат приёма</legend>
-                <div class="chips">
-                  <label class="chip"><input type="radio" name="format" value="clinic" checked><span><svg class="i"><use href="#i-pin"/></svg>В клинике</span></label>
-                  <label class="chip"><input type="radio" name="format" value="online"><span><svg class="i"><use href="#i-video"/></svg>Онлайн</span></label>
-                  <label class="chip"><input type="radio" name="format" value="home"><span><svg class="i"><use href="#i-home"/></svg>На дому</span></label>
-                </div>
-              </fieldset>
-              <div class="field full">
-                <label for="f-spec">Специалист</label>
-                <select class="input" id="f-spec" name="specialist">
-                  <option>Не знаю — помогите выбрать</option>
-                  <option>Психиатр</option>
-                  <option>Психотерапевт</option>
-                  <option>Психолог</option>
-                  <option>Детский специалист</option>
-                </select>
-              </div>
-              <fieldset class="field full">
-                <legend>Как с вами связаться?</legend>
-                <div class="chips">
-                  <label class="chip"><input type="radio" name="contact" value="call" checked><span><svg class="i"><use href="#i-phone"/></svg>Позвонить</span></label>
-                  <label class="chip"><input type="radio" name="contact" value="tg"><span><svg class="i"><use href="#i-tg"/></svg>Telegram</span></label>
-                  <label class="chip"><input type="radio" name="contact" value="max"><span><svg class="i"><use href="#i-max"/></svg>MAX</span></label>
-                </div>
-              </fieldset>
-              <div class="field full">
-                <label for="f-comment">Комментарий <span class="opt">— необязательно</span></label>
-                <textarea class="input" id="f-comment" name="comment" rows="3" placeholder="Можно не описывать проблему — расскажете врачу на приёме"></textarea>
-              </div>
+              <!-- Только имя и телефон: формат приёма и врача администратор уточнит по телефону — короткую форму заполняют охотнее -->
               <div class="field full">
                 <label class="consent">
                   <input type="checkbox" name="consent" required aria-describedby="f-consent-err">
@@ -99,6 +70,11 @@
             </div>
             <button type="submit" class="btn btn-primary btn-lg btn-block">Записаться на консультацию</button>
             <p class="secure-note"><svg class="i"><use href="#i-lock"/></svg>Анонимно. Данные не передаются третьим лицам</p>
+            <ol class="form-next" aria-label="Что будет после заявки">
+              <li><b>Перезвоним за 15 минут</b><span>в рабочее время, с 9:00 до 21:00</span></li>
+              <li><b>Подберём врача</b><span>и удобное время приёма</span></li>
+              <li><b>Напомним о приёме</b><span>накануне визита</span></li>
+            </ol>
           </div>
           <div class="form-success" role="status" hidden>
             <span class="ok" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>

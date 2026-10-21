@@ -89,6 +89,8 @@
   background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
 }
 .stat-card span{ display:block; font-size:13.5px; line-height:1.45; color:var(--ink-soft); }
+.about-copy .stat-note{ margin-top:10px; font-size:12.5px; line-height:1.4; }   /* откуда цифры — честно и для доверия */
+.about-copy .doctor-quote{ margin-top:26px; }
 
 /* ===== Адаптив ===== */
 @media (max-width:1023px){

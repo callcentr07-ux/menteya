@@ -135,6 +135,20 @@ select.input{
 .secure-note{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:12px; font-size:12.5px; color:var(--ink-soft); }
 .secure-note .i{ width:15px; height:15px; color:var(--teal-700); }
 
+/* Что будет после заявки — снимает тревогу перед звонком из клиники */
+.form-next{
+  display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px;
+  margin-top:24px; padding-top:20px; border-top:1px solid var(--line); counter-reset:next;
+}
+.form-next li{ position:relative; padding-left:36px; counter-increment:next; font-size:13px; line-height:1.45; color:var(--ink-soft); }
+.form-next li::before{
+  content:counter(next); position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg-soft2); font-size:12.5px; font-weight:800; color:var(--blue-700);
+}
+.form-next b{ display:block; font-size:13.5px; color:var(--ink); }
+.form-next span{ display:block; }
+
 /* --- Заявка принята --- */
 .form-success{ text-align:center; padding:40px 8px; }
 .form-success .ok{
@@ -167,6 +181,7 @@ select.input{
   .cb-info{ grid-template-columns:1fr; padding-top:22px; }
   .cb-call > span:last-child{ font-size:21px; }
   .form-grid{ grid-template-columns:1fr; gap:16px; }
+  .form-next{ grid-template-columns:1fr; gap:10px; }
   /* Три варианта — ровно в ряд */
   .chips{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:6px; }
   .chip span{ width:100%; justify-content:center; gap:5px; padding:0 6px; font-size:13.5px; white-space:nowrap; }

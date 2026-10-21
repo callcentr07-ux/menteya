@@ -83,6 +83,7 @@
 .price-note p{ display:flex; align-items:flex-start; gap:10px; max-width:640px; font-size:14px; line-height:1.55; color:var(--ink-soft); }
 .price-note p .i{ width:18px; height:18px; flex-shrink:0; margin-top:1px; color:var(--blue-600); }
 .price-note b{ color:var(--ink); }
+.price-note-actions{ display:flex; flex-wrap:wrap; gap:10px; }
 
 /* --- Оплата и документы --- */
 .price-perks{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; margin-top:18px; }
@@ -118,6 +119,6 @@
   .pr-name{ font-size:15.5px; }
   .pr-side{ justify-content:space-between; gap:12px; }
   .price-note{ padding:20px 18px; }
-  .price-note .btn{ width:100%; }
+  .price-note .btn, .price-note-actions{ width:100%; }
   .price-perks{ grid-template-columns:1fr; gap:10px; }
 }

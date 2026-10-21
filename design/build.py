@@ -21,7 +21,7 @@ META = re.compile(r"<!-- (title|description|url): (.*?) -->\n")
 DASH = re.compile(r"(?<=\S) — ")
 SCRIPT = re.compile(r"(<script\b.*?</script>)", re.S)
 # Стили по блокам — в порядке подключения; в WordPress каждый файл — стили своего блока
-CSS_FILES = ["base.css", "blocks/header.css", "blocks/hero.css", "blocks/intro.css", "blocks/services.css",
+CSS_FILES = ["base.css", "blocks/header.css", "blocks/hero.css", "blocks/services.css",
              "blocks/about.css", "blocks/licenses.css", "blocks/doctors.css", "blocks/pricing.css",
              "blocks/reviews.css", "blocks/promo.css", "blocks/faq.css", "blocks/booking.css",
              "blocks/footer.css", "blocks/page.css"]
