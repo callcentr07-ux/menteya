@@ -101,8 +101,18 @@
   .svc-ic .i{ width:22px; height:22px; }
   .svc-arrow{ grid-column:3; grid-row:1; width:36px; height:36px; }
   .svc-card h3{ grid-column:2; grid-row:1; font-size:18px; margin:0; }
-  .svc-card p{ grid-column:1 / -1; margin:14px 0 14px; font-size:14.5px; }
-  .svc-tags{ grid-column:1 / -1; }
+  /* На телефоне — только название и частые запросы: блок почти вдвое короче, описание остаётся в коде для поиска */
+  .svc-card p, .services .section-head > p{ display:none; }
+  /* Частые запросы — одной строкой с прокруткой вбок, справа мягкое затухание подсказывает, что есть ещё */
+  .svc-tags{
+    grid-column:1 / -1; margin:14px -18px 0; padding:0 18px; flex-wrap:nowrap; overflow-x:auto;
+    scrollbar-width:none; overscroll-behavior-x:contain; scroll-padding-inline:18px;
+    -webkit-mask-image:linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+    mask-image:linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+  }
+  .svc-tags::-webkit-scrollbar{ display:none; }
+  .svc-tags li{ flex-shrink:0; }
+  .svc-tags li:last-child{ padding-right:18px; }   /* последний запрос можно докрутить из-под затухания */
   .svc-cta{ padding:24px 20px; border-radius:20px; }
   .svc-cta-text{ align-items:flex-start; }
   .svc-cta-ic{ width:48px; height:48px; }
