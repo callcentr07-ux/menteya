@@ -1,10 +1,12 @@
 """Сборка страниц прототипа «Ментеи» из общих частей.
 
   python build.py            — собрать все страницы из src/pages в папку design/
+                               и стили assets/css в один сжатый файл menteya.min.css
 
 Страница в src/pages — это содержимое <main> с мета-строками в начале:
   <!-- title: Заголовок вкладки -->
   <!-- description: Описание для поисковиков -->
+  <!-- url: Главный адрес страницы (canonical) -->
 Вставка общей части: <!-- @include booking.html --> (файл из src/partials).
 В WordPress этим частям соответствуют части шаблона (header, footer) и паттерны блоков.
 """
@@ -13,10 +15,40 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "src"
+CSS_DIR = ROOT / "assets" / "css"
 INCLUDE = re.compile(r"<!-- @include ([\w.-]+) -->")
-META = re.compile(r"<!-- (title|description): (.*?) -->\n")
+META = re.compile(r"<!-- (title|description|url): (.*?) -->\n")
 DASH = re.compile(r"(?<=\S) — ")
 SCRIPT = re.compile(r"(<script\b.*?</script>)", re.S)
+# Стили по блокам — в порядке подключения; в WordPress каждый файл — стили своего блока
+CSS_FILES = ["base.css", "blocks/header.css", "blocks/hero.css", "blocks/intro.css", "blocks/services.css",
+             "blocks/about.css", "blocks/licenses.css", "blocks/doctors.css", "blocks/pricing.css",
+             "blocks/reviews.css", "blocks/promo.css", "blocks/faq.css", "blocks/booking.css",
+             "blocks/footer.css", "blocks/page.css"]
+COMMENT = re.compile(r"/\*.*?\*/", re.S)
+STRING = re.compile(r"""("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')""")
+
+
+def minify_css(css):
+    # Осторожное сжатие: убираем комментарии и лишние пробелы, строки (адреса, data:) не трогаем
+    parts = STRING.split(COMMENT.sub("", css))
+    for i in range(0, len(parts), 2):   # чётные части — вне кавычек
+        p = re.sub(r"\s+", " ", parts[i])
+        parts[i] = re.sub(r"\s*([{};])\s*", r"\1", p).replace(";}", "}")
+    return "".join(parts).strip()
+
+
+def bundle_css():
+    # Один файл стилей вместо пятнадцати — меньше запросов при загрузке страницы
+    chunks = []
+    for name in CSS_FILES:
+        css = (CSS_DIR / name).read_text(encoding="utf-8")
+        if name.startswith("blocks/"):
+            css = css.replace("../../", "../")   # адреса картинок — относительно assets/css/
+        chunks.append(css)
+    out = minify_css("\n".join(chunks))
+    (CSS_DIR / "menteya.min.css").write_text(out, encoding="utf-8")
+    return round(len(out.encode("utf-8")) / 1024)
 
 
 def typo(text):
@@ -39,6 +71,7 @@ def build_page(path):
     layout = (SRC / "layout.html").read_text(encoding="utf-8")
     page = (layout.replace("{{title}}", meta["title"])
                   .replace("{{description}}", meta["description"])
+                  .replace("{{url}}", meta["url"])
                   .replace("{{content}}", content))
     page = expand(page)
     (ROOT / path.name).write_text(page, encoding="utf-8")
@@ -47,4 +80,4 @@ def build_page(path):
 
 if __name__ == "__main__":
     built = [build_page(p) for p in sorted((SRC / "pages").glob("*.html"))]
-    print("собрано:", ", ".join(built))
+    print("собрано:", ", ".join(built), "| стили:", bundle_css(), "КБ")
