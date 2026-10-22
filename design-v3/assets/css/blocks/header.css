@@ -2,8 +2,8 @@
 .site-header{ position:fixed; top:0; left:0; right:0; z-index:80; color:var(--text); }
 /* После прокрутки — тёмное стекло. Оно на псевдоэлементе: если размытие стоит на самой шапке,
    меню внутри неё размывает только шапку, а не страницу, и текст страницы просвечивает сквозь меню */
-.site-header::before{ content:""; position:absolute; inset:0; z-index:-1; opacity:0; background:rgba(15,38,44,.8); box-shadow:0 1px 0 var(--line); transition:opacity .3s ease; }
-@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ .site-header::before{ background:rgba(15,38,44,.62); -webkit-backdrop-filter:blur(18px) saturate(1.2); backdrop-filter:blur(18px) saturate(1.2); } }
+.site-header::before{ content:""; position:absolute; inset:0; z-index:-1; opacity:0; background:rgba(15,38,44,.9); box-shadow:0 1px 0 var(--line); transition:opacity .3s ease; }
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ .site-header::before{ background:rgba(15,38,44,.74); -webkit-backdrop-filter:blur(18px) saturate(1.2); backdrop-filter:blur(18px) saturate(1.2); } }
 .site-header.is-scrolled::before{ opacity:1; }
 .hd-inner{ position:relative; height:var(--header-h); display:flex; align-items:center; gap:6px; }
 
@@ -26,8 +26,8 @@
 .nav-link[aria-expanded="true"] .caret{ rotate:180deg; }
 
 .has-drop{ position:relative; }
-.dropdown{ position:absolute; top:calc(100% + 10px); left:0; z-index:5; min-width:240px; padding:8px; border-radius:22px; background:rgba(16,40,46,.92); color:var(--fog); box-shadow:0 24px 60px -24px rgba(16,40,46,.6); opacity:0; visibility:hidden; translate:0 6px; transition:opacity .2s ease, translate .3s var(--ease), visibility 0s .3s; }
-@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ .dropdown{ background:rgba(16,40,46,.78); -webkit-backdrop-filter:blur(24px); backdrop-filter:blur(24px); } }
+.dropdown{ position:absolute; top:calc(100% + 10px); left:0; z-index:5; min-width:240px; padding:8px; border-radius:22px; background:rgba(16,40,46,.97); color:var(--fog); box-shadow:0 24px 60px -24px rgba(16,40,46,.6); opacity:0; visibility:hidden; translate:0 6px; transition:opacity .2s ease, translate .3s var(--ease), visibility 0s .3s; }
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ .dropdown{ background:rgba(16,40,46,.9); -webkit-backdrop-filter:blur(24px); backdrop-filter:blur(24px); } }
 .dropdown.open{ opacity:1; visibility:visible; translate:none; transition-delay:0s; }
 .dropdown a{ display:block; padding:11px 14px; border-radius:14px; font-weight:500; transition:background-color .2s; }
 @media (hover:hover) and (pointer:fine){ .dropdown a:hover{ background:rgba(255,255,255,.08); } }
@@ -44,10 +44,12 @@
 .burger[aria-expanded="true"] .i-close{ display:block; }
 
 /* ---------- Мега-меню «Услуги»: тёмное стекло ---------- */
-.mega{ position:absolute; left:0; right:0; top:100%; padding:0 var(--gut); color:var(--fog); opacity:0; visibility:hidden; translate:0 8px; transition:opacity .22s ease, translate .3s var(--ease), visibility 0s .3s; }
-.mega.open{ opacity:1; visibility:visible; translate:none; transition-delay:0s; }
-.mega-inner{ max-width:calc(var(--maxw) - 2 * var(--gut)); margin:0 auto; display:grid; gap:18px; max-height:calc(100svh - var(--header-h) - 16px); overflow:auto; overscroll-behavior:contain; padding:20px; border-radius:24px; border:1px solid rgba(255,255,255,.12); background:rgba(16,40,46,.95); box-shadow:0 30px 80px -30px rgba(16,40,46,.7); }
-@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ .mega-inner{ background:rgba(16,40,46,.82); -webkit-backdrop-filter:blur(28px) saturate(1.1); backdrop-filter:blur(28px) saturate(1.1); } }
+/* Прозрачность появления — на самой панели, а не на .mega: у предка с opacity < 1 размытие фона (backdrop-filter) перестаёт видеть страницу */
+.mega{ position:absolute; left:0; right:0; top:100%; padding:0 var(--gut); color:var(--fog); visibility:hidden; translate:0 8px; transition:translate .3s var(--ease), visibility 0s .3s; }
+.mega.open{ visibility:visible; translate:none; transition-delay:0s; }
+.mega-inner{ max-width:calc(var(--maxw) - 2 * var(--gut)); margin:0 auto; display:grid; gap:18px; max-height:calc(100svh - var(--header-h) - 16px); overflow:auto; overscroll-behavior:contain; padding:20px; border-radius:24px; border:1px solid rgba(255,255,255,.12); background:rgba(16,40,46,.97); box-shadow:0 30px 80px -30px rgba(16,40,46,.7); opacity:0; transition:opacity .22s ease; }
+.mega.open .mega-inner{ opacity:1; }
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ .mega-inner{ background:rgba(16,40,46,.9); -webkit-backdrop-filter:blur(28px) saturate(1.1); backdrop-filter:blur(28px) saturate(1.1); } }
 .mega-top{ display:flex; flex-wrap:wrap; align-items:center; gap:12px 20px; }
 .mega-search{ flex:0 1 440px; display:flex; align-items:center; gap:10px; height:52px; padding:0 18px; border-radius:999px; background:rgba(255,255,255,.08); box-shadow:inset 0 0 0 1px rgba(255,255,255,.14); transition:box-shadow .2s ease; }
 .mega-search:focus-within{ box-shadow:inset 0 0 0 2px var(--mint); }
@@ -112,7 +114,7 @@
   .mega-list.cols-3{ columns:2; }
 }
 
-.scrim{ position:fixed; inset:0; z-index:70; background:rgba(16,40,46,.32); opacity:0; visibility:hidden; transition:opacity .25s ease, visibility 0s .25s; }
+.scrim{ position:fixed; inset:0; z-index:70; background:rgba(16,40,46,.5); opacity:0; visibility:hidden; transition:opacity .25s ease, visibility 0s .25s; }
 .scrim.show{ opacity:1; visibility:visible; transition-delay:0s; }
 
 /* ---------- Мобильное меню ---------- */
