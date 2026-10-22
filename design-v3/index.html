@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
 <!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
-<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792656014">
+<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792657083">
 </head>
 <body>
 
@@ -1078,17 +1078,41 @@
     </div>
 
     <div class="about-split">
-      <!-- Фото-заглушка: заменить на снимок клиники. Выноски&nbsp;— только правдивые факты; новое фото&nbsp;— сдвинуть точки (--x, --y в процентах кадра) -->
-      <figure class="about-photo" data-reveal style="--i:1">
-        <img src="assets/img/about-2.jpg" width="900" height="506" alt="Коридор клиники: кресла в зоне ожидания и двери кабинетов" loading="lazy">
-        <div class="about-pins">
-          <ul>
-            <li class="about-pin pin-down-sm" style="--x:19%; --y:61%"><span>Зона ожидания без очередей</span></li>
-            <li class="about-pin" style="--x:34%; --y:38%"><span>Кабинеты без казённой обстановки</span></li>
-          </ul>
+      <!-- Галерея фото клиники: листается стрелками, миниатюрами и свайпом, сама сменяет кадр раз в 7 с (полоса под миниатюрой),
+           при наведении и вне экрана стоит&nbsp;— ведёт menteya.js (.gallery: .gallery-slide, .gallery-thumb с .bar и data-caption, .gallery-btn, .gallery-caption).
+           Фото&nbsp;— заглушки до съёмки: заменить на снимки клиники. Выноски&nbsp;— только у первого кадра и только правдивые факты;
+           новое фото&nbsp;— сдвинуть точки (--x, --y в процентах кадра) -->
+      <div class="about-photo gallery" data-reveal style="--i:1" role="group" aria-label="Фото клиники">
+        <div class="gallery-stage">
+          <figure class="gallery-slide is-active">
+            <img src="assets/img/about-2.jpg" width="900" height="506" alt="Коридор клиники: кресла в зоне ожидания и двери кабинетов" loading="lazy">
+            <div class="about-pins">
+              <ul>
+                <li class="about-pin pin-down-sm" style="--x:19%; --y:61%"><span>Зона ожидания без очередей</span></li>
+                <li class="about-pin" style="--x:34%; --y:38%"><span>Кабинеты без казённой обстановки</span></li>
+              </ul>
+            </div>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/img/intro-inset.jpg" width="900" height="506" alt="Стойка администратора и кресла зоны ожидания" loading="lazy">
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/img/about-3.jpg" width="900" height="506" alt="Кабинет врача: стол, два кресла для беседы, окно" loading="lazy">
+          </figure>
+          <p class="label about-cap gallery-caption"><span>Коридор и&nbsp;зона ожидания</span></p>
         </div>
-        <figcaption class="label about-cap">Коридор и&nbsp;зона ожидания</figcaption>
-      </figure>
+        <div class="gallery-bar">
+          <div class="gallery-thumbs" role="group" aria-label="Кадры">
+            <button class="gallery-thumb is-active" type="button" data-caption="Коридор и зона ожидания" aria-current="true" aria-label="Кадр 1: коридор и зона ожидания"><img src="assets/img/about-2.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Стойка администратора" aria-label="Кадр 2: стойка администратора"><img src="assets/img/intro-inset.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Кабинет врача" aria-label="Кадр 3: кабинет врача"><img src="assets/img/about-3.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+          </div>
+          <div class="gallery-nav">
+            <button class="gallery-btn prev" type="button" aria-label="Предыдущий кадр"><svg class="i"><use href="#i-arrow"/></svg></button>
+            <button class="gallery-btn next" type="button" aria-label="Следующий кадр"><svg class="i"><use href="#i-arrow"/></svg></button>
+          </div>
+        </div>
+      </div>
 
       <!-- Текст и подпись&nbsp;— из прошлого дизайна; перед запуском согласовать с главным врачом -->
       <div class="about-word" data-reveal style="--i:2">
@@ -1741,9 +1765,9 @@
   </div>
 </section>
 
-<script src="assets/js/menteya.js?v=1792656014" defer></script>
+<script src="assets/js/menteya.js?v=1792657083" defer></script>
 <!-- Движение: заставка, плавная прокрутка, параллакс, появление по словам. Только при html.has-motion -->
-<script src="assets/js/motion.js?v=1792656014" defer></script>
+<script src="assets/js/motion.js?v=1792657083" defer></script>
 
 </body>
 </html>

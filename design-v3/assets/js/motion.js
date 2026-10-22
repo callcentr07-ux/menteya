@@ -1,7 +1,7 @@
 // Движение третьего дизайна «Ментеи» — поверх menteya.js, тот модуль не меняем.
 // Что здесь: заставка и занавес между страницами, плавная прокрутка колесом, заголовки по словам, параллакс первого экрана
 // (сцена и мозг идут за курсором и прокруткой, вода светится у курсора), линии шагов и слова манифеста по прокрутке,
-// магнитные кнопки, наклон карточек и пятно света под курсором, лента состояний, ряд врачей мышью, бегунок вкладок
+// пятно света под курсором, лента состояний, ряд врачей мышью, бегунок вкладок
 // прайса, досчёт оценок, шапка, которая прячется при прокрутке вниз, линия прогресса чтения.
 // Работает только при классе has-motion на <html> — его ставит строка в <head> (нет «уменьшить движение», анимация не
 // выключена в подвале). Кнопка «Отключить анимацию» снимает класс на лету, и всё возвращается в спокойный режим.
@@ -264,34 +264,9 @@
     });
   })();
 
-  // ---------- Мышь: магнитные кнопки, наклон карточек, пятно света, кольцо у курсора ----------
+  // ---------- Мышь: пятно света в ячейках, ряд врачей ----------
+  // Магнитных кнопок и наклона карточек нет: владелец отметил, что кнопки «уезжают» из-под курсора
   if(FINE.matches){
-    // Магнит: кнопка тянется к курсору на треть расстояния до него и пружинит обратно
-    document.querySelectorAll('.hero .btn-cta, .hero .btn-line, .hd-cta, .doc-arrow, .svc-help .btn-cta, .visit-cta .btn-cta, .visit-cta .btn-line, .book-submit, .promo-stub .btn, .faq-aside .btn').forEach(function(el){
-      el.classList.add('is-magnetic');
-      el.addEventListener('pointermove', function(e){
-        if(!on() || e.pointerType !== 'mouse') return;
-        var r = el.getBoundingClientRect();
-        el.classList.add('is-pulled');
-        el.style.translate = ((e.clientX - r.left - r.width / 2) * .3).toFixed(1) + 'px ' + ((e.clientY - r.top - r.height / 2) * .3).toFixed(1) + 'px';
-      });
-      el.addEventListener('pointerleave', function(){ el.classList.remove('is-pulled'); el.style.translate = ''; });
-    });
-
-    // Наклон: карточка поворачивается к курсору; большим панелям — меньший угол
-    document.querySelectorAll('.promo-ticket, .rv-card, .visit-fact, .about-word, .faq-aside, .rv-total, .cinfo, .lic-item').forEach(function(el){
-      el.setAttribute('data-tilt', '');
-      el.addEventListener('pointermove', function(e){
-        if(!on() || e.pointerType !== 'mouse') return;
-        var r = el.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-        var a = 7 * Math.min(1, 420 / Math.max(r.width, r.height));
-        el.classList.add('is-tilting');
-        el.style.transform = 'perspective(900px) rotateX(' + ((.5 - py) * a).toFixed(2) + 'deg) rotateY(' + ((px - .5) * a).toFixed(2) + 'deg)';
-      });
-      el.addEventListener('pointerleave', function(){ el.classList.remove('is-tilting'); el.style.transform = ''; });
-    });
-
     // Пятно света под курсором в ячейках сеток
     document.querySelectorAll('.svc-cell, .rv-col, .lic-item, .doc-cta, .cmp-col, .about-stat').forEach(function(el){ el.setAttribute('data-spot', ''); });
     document.addEventListener('pointermove', function(e){
@@ -421,7 +396,7 @@
   // ---------- Выключатель в подвале и системная настройка: движение снимается на лету ----------
   function teardown(){
     smooth.stop();
-    document.querySelectorAll('.scene, .hero-copy, .hero-side, .is-magnetic, [data-tilt]').forEach(function(el){ el.style.transform = ''; el.style.translate = ''; });
+    document.querySelectorAll('.scene, .hero-copy, .hero-side').forEach(function(el){ el.style.transform = ''; el.style.translate = ''; });
     document.querySelectorAll('[data-reveal]').forEach(function(el){ el.classList.add('is-in'); });
     var header = document.getElementById('siteHeader');
     if(header) header.classList.remove('is-hidden');

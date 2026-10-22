@@ -45,7 +45,7 @@
 .btn-glass{ box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line-2); }
 .cap, .nav-link, .icon-btn, .head-phone, .mega-popular a, .mega-search{ box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line-2); }
 .mega-search:focus-within{ box-shadow:var(--glass-edge), inset 0 0 0 2px var(--mint); }
-.doc-arrow, .faq-toggle, .modal-close, .bb-ic, .ft-social a, .pr-tab, .visit-n, .choice-row span{ background-image:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)); box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line-2); }
+.doc-arrow, .gallery-btn, .faq-toggle, .modal-close, .bb-ic, .ft-social a, .pr-tab, .visit-n, .choice-row span{ background-image:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)); box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line-2); }
 .pr-tab[aria-selected="true"], .choice-row input:checked + span{ background-image:none; box-shadow:none; }
 .form .input{ background-image:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0)); box-shadow:var(--glass-edge), inset 0 0 0 1px var(--field-line); }
 .form .input:focus-visible{ box-shadow:var(--glass-edge), inset 0 0 0 2px var(--accent); }
