@@ -192,10 +192,6 @@
   function setVar(el, name){ return function(p){ el.style.setProperty(name, p.toFixed(4)); }; }
   document.querySelectorAll('.visit-steps[data-scrub]').forEach(function(el){ scrub(el, view(.92, .42), setVar(el, '--sp')); });
   document.querySelectorAll('.manifest[data-scrub]').forEach(function(el){ scrub(el, view(.95, .35), setVar(el, '--sp')); });
-  // Восход в блоке контактов: солнце поднимается, пока раздел входит в экран
-  document.querySelectorAll('.contact[data-scrub]').forEach(function(el){
-    scrub(el, function(r, vh){ return clamp01((vh - r.top) / (vh * .7)); }, setVar(el, '--sp'));
-  });
   document.querySelectorAll('.site-footer[data-scrub]').forEach(function(el){
     scrub(el, function(r, vh){ return clamp01((vh - r.top) / (vh * .75)); }, setVar(el, '--sp'));
   });

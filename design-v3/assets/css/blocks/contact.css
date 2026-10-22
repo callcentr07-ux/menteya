@@ -45,21 +45,13 @@
 .faq-tel .i{ color:var(--accent); }
 .faq-112{ display:inline-block; padding:12px 13px; margin:-12px -13px; }   /* цель нажатия 44px, строка не раздвигается */
 
-/* ---------- Запись и контакты — финал «утро»: ночная вода сверху светлеет к горизонту через нейтральный сланец, у нижней кромки —
-   заря и солнце за горизонтом. Тёплое ложится на нейтральное, а не на бирюзу — иначе получалась грязная дымка ---------- */
-.contact{ background:
-  radial-gradient(120% 50% at 50% 102%, rgba(242,185,138,.22), rgba(242,185,138,0) 70%),
-  linear-gradient(180deg, var(--bg) 0%, #142b33 38%, #222d33 68%, #3a2f2c 100%); }
-/* Солнце за горизонтом — отдельным слоем: в движении поднимается с прокруткой (--sp) и дышит (motion.css) */
-.dawn{ position:absolute; z-index:-1; left:0; right:0; bottom:0; height:min(70vw, 560px); pointer-events:none; transform-origin:62% 100%;
-  background:radial-gradient(38% 62% at 62% 100%, rgba(255,226,194,.78), rgba(250,194,146,.34) 36%, rgba(242,185,138,0) 70%); }
-/* Отметки раздела — тёплые: точки меток и номера шагов «что будет после заявки» */
-.contact .label:not(.label-plain)::before{ background:var(--accent-2); box-shadow:0 0 0 3px rgba(242,185,138,.24); }
-.contact .form-next .mono{ color:var(--accent-2); }
-/* Отсвет за формой — стеклу есть что размывать; здесь он ещё холодный, утро начинается ниже */
-.contact::before{ content:""; position:absolute; z-index:-1; right:-12%; top:6%; width:min(900px, 80vw); aspect-ratio:1; border-radius:50%; background:radial-gradient(closest-side, color-mix(in srgb, var(--accent) 9%, transparent), transparent); pointer-events:none; }
-/* Линия горизонта на стыке с подвалом — тёплая, ярче под солнцем */
-.contact::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:linear-gradient(90deg, transparent 10%, rgba(255,214,170,.35) 40%, rgba(255,230,200,.75) 62%, rgba(255,214,170,.3) 80%, transparent); pointer-events:none; }
+/* ---------- Запись и контакты: «ночная вода», у нижней кромки — едва заметный холодный ореол и линия горизонта ---------- */
+/* Тёплый «рассвет» внизу пробовали дважды (дымка; 22.10 — не понравился владельцу): рассвет остаётся только в знаке и точечных акцентах */
+.contact{ background:radial-gradient(90% 40% at 50% 100%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 72%), var(--bg); }
+/* Мятный отсвет за формой — стеклу есть что размывать */
+.contact::before{ content:""; position:absolute; z-index:-1; right:-12%; top:6%; width:min(900px, 80vw); aspect-ratio:1; border-radius:50%; background:radial-gradient(closest-side, color-mix(in srgb, var(--accent) 10%, transparent), transparent); pointer-events:none; }
+/* Линия горизонта на стыке с подвалом */
+.contact::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 28%, transparent), transparent); pointer-events:none; }
 
 /* Верх: слева пример диалога, справа форма (одной высоты); низ: карта и контакты — те же колонки */
 .contact-top, .contact-bottom{ display:grid; grid-template-columns:minmax(0, 5fr) minmax(0, 6fr); gap:clamp(16px, 2vw, 24px) clamp(28px, 4vw, 64px); }

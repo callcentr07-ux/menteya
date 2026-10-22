@@ -227,11 +227,6 @@ html:not(.has-motion) .progress{ display:none; }
 @keyframes mo-grain{ 0%{ transform:translate3d(0, 0, 0); } 20%{ transform:translate3d(-3%, 2%, 0); } 40%{ transform:translate3d(2%, -4%, 0); } 60%{ transform:translate3d(-4%, -2%, 0); } 80%{ transform:translate3d(3%, 4%, 0); } 100%{ transform:translate3d(0, 0, 0); } }
 @media (max-width:699px){ .has-motion .grain{ animation:none; } }   /* телефону хватит неподвижного зерна */
 
-/* ---------- Финал «утро»: солнце поднимается с прокруткой (--sp пишет скрипт) и медленно дышит ---------- */
-.has-motion .contact[data-scrub] .dawn{ transform:translate3d(0, calc((1 - var(--sp, 1)) * 140px), 0) scale(calc(.88 + var(--sp, 1) * .12)); }
-.has-motion .dawn::after{ content:""; position:absolute; inset:0; background:radial-gradient(26% 40% at 62% 100%, rgba(255,236,210,.4), rgba(255,236,210,0) 70%); animation:mo-breathe 7s ease-in-out infinite alternate; }
-@keyframes mo-breathe{ from{ opacity:.35; } to{ opacity:1; } }
-
 /* ---------- Мастер «Подобрать специалиста»: шаг выезжает снизу, итог — тоже ---------- */
 .has-motion .wiz-q.is-active{ animation:mo-up-sm .45s var(--ease) backwards; }
 .has-motion .wiz-result:not([hidden]){ animation:mo-up .7s var(--ease) backwards; }

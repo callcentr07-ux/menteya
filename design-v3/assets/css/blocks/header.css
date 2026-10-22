@@ -19,7 +19,8 @@
 .logo-word{ font:600 1.3125rem/1 var(--mark); letter-spacing:.2em; text-transform:uppercase; }
 .logo-sub{ font:500 .75rem/1 var(--font); color:var(--text-2); white-space:nowrap; }
 
-.mainnav{ margin-left:2px; }
+/* Меню — по центру свободного места между логотипом и кнопками справа: от логотипа отступ, а не впритык (просьба владельца) */
+.mainnav{ margin:0 auto; padding:0 12px; }
 .mainnav > ul{ display:flex; gap:6px; }
 .nav-link .caret{ width:16px; height:16px; transition:rotate .25s var(--ease); }
 .nav-link[aria-expanded="true"]{ background:var(--text); color:var(--on-light); box-shadow:none; }
@@ -32,7 +33,7 @@
 .dropdown a{ display:block; padding:11px 14px; border-radius:14px; font-weight:500; transition:background-color .2s; }
 @media (hover:hover) and (pointer:fine){ .dropdown a:hover{ background:rgba(255,255,255,.08); } }
 
-.hd-actions{ display:flex; align-items:center; gap:6px; margin-left:auto; }
+.hd-actions{ display:flex; align-items:center; gap:6px; }   /* без margin-left:auto — свободное место целиком отдано полям меню */
 .icon-btn{ width:40px; padding:0; }
 .icon-btn .i{ width:19px; height:19px; }
 .head-phone{ font-variant-numeric:tabular-nums; }

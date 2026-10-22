@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
 <!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
-<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792658003">
+<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792658367">
 </head>
 <body>
 
@@ -1389,13 +1389,12 @@
 </section>
 
 <!-- ============ ЗАПИСЬ И КОНТАКТЫ ============ -->
-<!-- Раздел закрывает страницу «утром»: ночная вода светлеет к горизонту, у нижней кромки&nbsp;— заря и солнце за горизонтом (contact.css);
-     в полном движении солнце поднимается, пока раздел входит в экран (data-scrub, motion.js), и медленно «дышит».
+<!-- Раздел закрывает страницу: тёмная вода, у нижней кромки&nbsp;— холодный ореол и линия горизонта (contact.css).
+     Тёплый «рассвет» пробовали 22.10&nbsp;— владельцу не понравился, оставлен холодный финал.
      Слева пример переписки, справа форма в тёмном стекле (на телефоне форма идёт первой), ниже&nbsp;— схема проезда и контакты.
      Форма&nbsp;— те же id, классы и атрибуты, что в окне записи: их обслуживает setupBookingForm() в menteya.js
      (маска телефона, проверка имени, телефона и согласия, ловушка для ботов, «Заявка принята»). -->
-<section class="sec sec-last contact" id="contacts" aria-labelledby="contacts-title" data-scrub>
-  <div class="dawn" aria-hidden="true"></div>
+<section class="sec sec-last contact" id="contacts" aria-labelledby="contacts-title">
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <div>
@@ -1814,9 +1813,9 @@
   </div>
 </section>
 
-<script src="assets/js/menteya.js?v=1792658003" defer></script>
+<script src="assets/js/menteya.js?v=1792658367" defer></script>
 <!-- Движение: заставка, плавная прокрутка, параллакс, появление по словам. Только при html.has-motion -->
-<script src="assets/js/motion.js?v=1792658003" defer></script>
+<script src="assets/js/motion.js?v=1792658367" defer></script>
 
 </body>
 </html>
