@@ -682,6 +682,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
 // Два шейдера на общей основе (шум, шёлк, затемнение под текстом):
 //  • мозг — первый экран (.scene-gl): живой фон и стеклянный мозг справа от текста. Форма — поле расстояний из эллипсоидов
 //    (полушария, височные доли, мозжечок, ствол), извилины — изогнутый гироид; по бороздам бегут волны мятного света;
+//  • карта состояний — тот же мозг, но вид сверху (лоб — вверх экрана) на прозрачном фоне (.svc-lens[data-shape="brain"]);
 //  • линза — шары у краёв разделов (.lens canvas, стили — sections.css) и неподвижный фон разделов и подвала:
 //    кадр рисуется один раз и кладётся картинкой в --silk ([data-silk]).
 // Камера стоит; сдвиг сцены за прокруткой и курсором делает motion.js (CSS-трансформация холста и uTilt). Не больше 30 кадров в секунду, рисуется только то, что у экрана;
@@ -752,7 +753,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
 
   // Мозг: uLens — центр (xy) и масштаб (z: ширина мозга ≈ 2,5·z) в долях высоты холста. Единица модели — длина мозга;
   // x — поперёк, y — вверх, z — ко лбу. Камера смотрит сверху-сбоку: лоб слева, видны макушка, щель между полушариями и висок
-  var BRAIN = BASE.concat([
+  var BRAIN_FN = BASE.concat([
     'float sdEll(vec3 p, vec3 r){ float k0 = length(p / r), k1 = length(p / (r * r)); return k0 * (k0 - 1.) / k1; }',
     'float smin(float a, float b, float k){ float h = clamp(.5 + .5 * (b - a) / k, 0., 1.); return mix(b, a, h) - k * h * (1. - h); }',
     'float smax(float a, float b, float k){ return -smin(-a, -b, k); }',
@@ -817,7 +818,11 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '  c += spec * .4 * (1. - .8 * sul);',
     '  c += vec3(.95, .74, .55) * warm * .3;',   // тёплый рефлекс снизу справа
     '  return c;',
-    '}',
+    '}'
+  ]);
+
+  // Первый экран: шёлк во весь холст, планктон, свет у курсора и мозг справа от текста
+  var BRAIN = BRAIN_FN.concat([
     'void main(){',
     '  vec2 p = (gl_FragCoord.xy - .5 * uRes) / uRes.y;',
     '  vec3 col = silk(p + uSeed + uTilt.xy * .035, uTime * .065) * uDim;',
@@ -854,6 +859,42 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '  }',
     '  col += (hash(gl_FragCoord.xy + fract(uTime)) - .5) * .022;',
     '  gl_FragColor = vec4(col, 1.);',
+    '}'
+  ]).join('\n');
+
+  // Карта состояний: тот же мозг, вид сверху — лоб вверх экрана, видны оба полушария и щель между ними; фон прозрачный.
+  // Покачивается и чуть идёт за курсором; вокруг силуэта — мятный ореол. uLens.z — масштаб: длина мозга ≈ 2,5·z высоты холста
+  var MAP = BRAIN_FN.concat([
+    'void main(){',
+    '  vec2 p = (gl_FragCoord.xy - .5 * uRes) / uRes.y;',
+    '  float yaw = 3.1416 + .1 * sin(uTime * .14) + uTilt.x * .14, pitch = 1.34 + .05 * sin(uTime * .1 + 1.) - uTilt.y * .08;',
+    '  float cy = cos(yaw), sy = sin(yaw), cp = cos(pitch), sp = sin(pitch);',
+    '  mat3 rot = mat3(1., 0., 0., 0., cp, sp, 0., -sp, cp) * mat3(cy, 0., -sy, 0., 1., 0., sy, 0., cy);',
+    '  float k = .4 / uLens.z;',
+    '  vec2 m = (p - uLens.xy) * k;',
+    '  vec3 rdc = normalize(vec3(m, -3.5));',
+    '  vec3 ro = vec3(0., 0., 3.5) * rot, rd = rdc * rot;',
+    '  vec3 oc = ro - vec3(0., -.06, -.02);',
+    '  float b = dot(oc, rd), disc = b * b - dot(oc, oc) + .36;',
+    '  vec3 col = vec3(0.); float a = 0.;',
+    '  if(disc > 0.){',
+    '    float sq = sqrt(disc), t = -b - sq, t1 = -b + sq;',
+    '    float px = 1.4 * k / uRes.y, dm = 1e3, tm = t, hit = 0.;',
+    '    for(int i = 0; i < 110; i++){',
+    '      float d = map(ro + rd * t);',
+    '      if(d < dm){ dm = d; tm = t; }',
+    '      if(d < .0005){ hit = 1.; break; }',
+    '      t += d * .5;',
+    '      if(t > t1) break;',
+    '    }',
+    '    vec3 pos = ro + rd * (hit > .5 ? t : tm);',
+    '    float cover = hit > .5 ? 1. : 1. - smoothstep(0., px, dm);',
+    '    float glow = exp(-dm * dm / .004) * (1. - cover) * .4;',   // ореол вокруг силуэта
+    '    if(cover > 0.) col = brain(pos, rdc, rot, p) * cover;',
+    '    col += vec3(.5, .84, .73) * glow;',
+    '    a = clamp(cover + glow, 0., 1.);',
+    '  }',
+    '  gl_FragColor = vec4(col, a);',   // цвет уже умножен на прозрачность
     '}'
   ]).join('\n');
 
@@ -944,23 +985,24 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   // 2. Линзы у краёв разделов: контекст WebGL создаём, только когда линза подъехала к экрану
   document.querySelectorAll('.lens canvas').forEach(function(c, i){
     var seed = +(c.parentNode.getAttribute('data-seed') || i + 1);
+    var isBrain = c.parentNode.getAttribute('data-shape') === 'brain';   // карта состояний: мозг сверху вместо шара
     var item = { el:c, visible:false, r:null };
     // слабый телефон может отобрать контекст WebGL — тогда возвращается CSS-пятно, а у экрана шар создаётся заново
     c.addEventListener('webglcontextlost', function(e){ e.preventDefault(); item.r = null; c.classList.remove('is-on'); });
     c.addEventListener('webglcontextrestored', function(){ if(item.visible && item.wake) item.wake(); });
     item.resize = function(){
       if(!item.r) return;
-      var q = window.innerWidth < 700 ? .6 : Math.min(window.devicePixelRatio || 1, 2) * .55;
+      var q = (window.innerWidth < 700 ? .6 : Math.min(window.devicePixelRatio || 1, 2) * .55) * (isBrain ? 1.4 : 1);   // мозгу нужны извилины — разрешение выше
       item.r.size(c.clientWidth * q, c.clientHeight * q);
       item.r.draw(now());
     };
     item.wake = function(){
       if(item.r) return;
-      item.r = renderer(c, true, LENS);
+      item.r = renderer(c, true, isBrain ? MAP : LENS);
       if(!item.r){ item.wake = null; return; }
       item.r.set('uMode', 1); item.r.set('uShade', 0);
       item.r.set('uSeed', seed * 3.7, seed * 1.9);
-      item.r.set('uLens', 0, 0, .36);
+      item.r.set('uLens', 0, 0, isBrain ? .29 : .36);   // шар — 72% стороны холста; мозг — длиной 72% высоты
       item.r.set('uTilt', tiltNow[0], tiltNow[1], tiltNow[2]);
       item.resize();
       c.classList.add('is-on');

@@ -17,13 +17,13 @@
         </ul>
       </div>
 
-      <!-- Карта: линза рисуется модулем «Свет» (menteya.js), шар — 72% стороны холста. Точки на кромке и выноски считает CSS
-           по углу каждой подписи (services.css, data-n). Подписи — обычный нумерованный список: экранный диктор читает его
+      <!-- Карта: в центре — стеклянный мозг, вид сверху (модуль «Свет», menteya.js, data-shape="brain"), длиной 72% высоты холста.
+           Точки по контуру и выноски считает CSS по углу каждой подписи (services.css, data-n); контур — овал (--ax, --ay). Подписи — обычный нумерованный список: экранный диктор читает его
            как список ссылок, на телефоне он встаёт под линзу, а точки на кромке получают номера -->
       <div class="svc-map" data-reveal style="--i:1">
         <div class="svc-card">
           <p class="label svc-card-label" id="svc-map-title">Карта состояний</p>
-          <div class="lens svc-lens" data-seed="5" aria-hidden="true"><canvas></canvas></div>
+          <div class="lens svc-lens" data-seed="5" data-shape="brain" aria-hidden="true"><canvas></canvas></div>
         </div>
         <ol class="svc-calls" aria-labelledby="svc-map-title">
           <li class="is-l" data-n="1"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">1</span><span class="svc-call-t">Тревога и<br> панические атаки</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>

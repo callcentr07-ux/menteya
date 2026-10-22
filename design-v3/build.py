@@ -23,7 +23,7 @@ SCRIPT = re.compile(r"(<script\b.*?</script>)", re.S)
 # Стили по частям — в порядке подключения; в WordPress каждый файл — стили своего блока
 CSS_FILES = ["core.css", "blocks/sections.css", "blocks/header.css", "blocks/hero.css",
              "blocks/proof.css", "blocks/services.css", "blocks/visit.css", "blocks/people.css",
-             "blocks/pricing.css", "blocks/contact.css", "blocks/footer.css", "blocks/overlays.css", "blocks/motion.css"]
+             "blocks/pricing.css", "blocks/contact.css", "blocks/footer.css", "blocks/overlays.css", "blocks/glass.css", "blocks/motion.css"]
 COMMENT = re.compile(r"/\*.*?\*/", re.S)
 STRING = re.compile(r"""("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')""")
 

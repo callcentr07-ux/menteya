@@ -15,17 +15,18 @@
 .svc-help-p{ max-width:44ch; margin-top:8px; color:var(--text-2); }
 .svc-help .btn-row{ align-items:center; margin-top:22px; }
 
-/* Карта: карточка, в центре — линза, вокруг — подписи с выносками к точкам на кромке шара.
-   Размеры — от ширины карты (cqi): --ar — высота к ширине (не меньше), --s — сторона холста линзы, --R — радиус шара (36% холста, так рисует модуль «Свет») */
-.svc-map{ --ar:.9; --s:66cqi; --R:calc(var(--s) * .36); --edge:clamp(16px, 3.6cqi, 28px); grid-area:map; position:relative; display:flex; flex-direction:column; container-type:inline-size; }
+/* Карта: карточка, в центре — стеклянный мозг сверху, вокруг — подписи с выносками к точкам на его контуре.
+   Размеры — от ширины карты (cqi): --ar — высота к ширине (не меньше), --s — сторона холста, --R — половина длины мозга (36% холста,
+   так рисует модуль «Свет»); контур — овал: --ax — ширина к длине, --ay — длина */
+.svc-map{ --ar:.9; --s:66cqi; --R:calc(var(--s) * .36); --ax:.84; --ay:1; --edge:clamp(16px, 3.6cqi, 28px); grid-area:map; position:relative; display:flex; flex-direction:column; container-type:inline-size; }
 .svc-card{ position:relative; isolation:isolate; flex:1; min-height:calc(var(--ar) * 100cqi); overflow:hidden; border:1px solid var(--line); border-radius:var(--r); background:var(--bg-2); }   /* шар светится в «ночной воде», как на первом экране */
-.svc-card::before{ content:""; position:absolute; left:50%; top:50%; width:calc(var(--R) * 2.9); aspect-ratio:1; translate:-50% -50%; border:1px solid var(--line); border-radius:50%; }   /* орбита: карта, а не просто картинка */
+.svc-card::before{ content:""; position:absolute; left:50%; top:50%; width:calc(var(--R) * 2.9); aspect-ratio:1; translate:-50% -50%; border:1px solid var(--line); border-radius:50%; }   /* орбита вокруг мозга: карта, а не просто картинка */
 .svc-card-label{ position:absolute; left:var(--edge); top:var(--edge); z-index:1; }
-/* Линза — тот же компонент, что у краёв страницы, но стоит в центре карточки, над её фоном */
+/* Холст мозга — тот же компонент .lens, что у краёв страницы, но стоит в центре карточки, над её фоном; маска не нужна — фон прозрачный */
 .svc-lens{ z-index:0; left:calc(50% - var(--s) / 2); top:calc(50% - var(--s) / 2); width:var(--s); translate:none; }
-.svc-lens canvas{ -webkit-mask-image:radial-gradient(circle closest-side, #000 70%, transparent); mask-image:radial-gradient(circle closest-side, #000 70%, transparent); }   /* ореол уже, чем у краевых линз: шар — содержимое карточки, а не «планета» */
+.svc-lens canvas{ -webkit-mask-image:none; mask-image:none; }
 
-/* Где точка на кромке: --x, --y — косинус и синус угла от центра шара (вверх — плюс). Слева 1–3, справа 4–6 */
+/* Где точка на контуре: --x, --y — косинус и синус угла от центра (вверх — плюс), по овалу мозга (--ax, --ay). Слева 1–3, справа 4–6 */
 .svc-map [data-n="1"]{ --x:-.766; --y:.643; }
 .svc-map [data-n="2"]{ --x:-.999; --y:.035; }
 .svc-map [data-n="3"]{ --x:-.788; --y:-.616; }
@@ -35,9 +36,9 @@
 
 /* Подписи: строка на высоте точки; слева — текст, потом пунктир до точки, справа наоборот. Точка — ::before, свечение — ::after */
 .svc-calls{ position:absolute; inset:0; z-index:1; pointer-events:none; }
-.svc-calls li{ position:absolute; top:calc(50% - var(--R) * var(--y)); translate:0 -50%; }
-.svc-calls .is-l{ left:var(--edge); right:calc(50% - var(--R) * var(--x)); }
-.svc-calls .is-r{ left:calc(50% + var(--R) * var(--x)); right:var(--edge); }
+.svc-calls li{ position:absolute; top:calc(50% - var(--R) * var(--y) * var(--ay)); translate:0 -50%; }
+.svc-calls .is-l{ left:var(--edge); right:calc(50% - var(--R) * var(--x) * var(--ax)); }
+.svc-calls .is-r{ left:calc(50% + var(--R) * var(--x) * var(--ax)); right:var(--edge); }
 .svc-calls a{ display:flex; align-items:center; gap:12px; min-height:44px; pointer-events:auto; font:500 clamp(14px, 2.1cqi, 16px)/1.25 var(--font); letter-spacing:-0.01em; color:var(--text-2); transition:color .2s ease; }
 .svc-calls .is-r a{ flex-direction:row-reverse; text-align:right; }
 .svc-calls a::after{ content:""; flex:1 0 20px; height:1px; background:repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 7px); opacity:.5; transition:opacity .2s ease; }
@@ -117,7 +118,7 @@
   .svc-call-t br{ display:none; }
   .svc-call-n{ display:grid; place-items:center; width:28px; height:28px; flex-shrink:0; border-radius:50%; background:var(--accent); color:var(--on-light); font:600 .8125rem/1 var(--font); font-variant-numeric:tabular-nums; }
   .svc-call-go{ display:block; margin-left:auto; color:var(--accent); }
-  .svc-calls .is-l::before, .svc-calls .is-r::before{ left:calc(50cqi + var(--R) * var(--x)); top:calc(var(--ar) * 50cqi - var(--R) * var(--y)); display:grid; place-items:center; width:22px; height:22px; margin:-11px; content:attr(data-n); color:var(--on-light); font:600 11px/1 var(--font); }
+  .svc-calls .is-l::before, .svc-calls .is-r::before{ left:calc(50cqi + var(--R) * var(--x) * var(--ax)); top:calc(var(--ar) * 50cqi - var(--R) * var(--y) * var(--ay)); display:grid; place-items:center; width:22px; height:22px; margin:-11px; content:attr(data-n); color:var(--on-light); font:600 11px/1 var(--font); }
   .svc-help .btn-row{ display:grid; grid-template-columns:1fr 1fr; }
   .svc-help .btn-cta{ grid-column:1 / -1; }
   .svc-help .btn-cta .t{ flex:1; justify-content:center; }
