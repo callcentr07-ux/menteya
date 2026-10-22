@@ -53,6 +53,13 @@
 .svc-calls a:hover::after, .svc-calls a:focus-visible::after{ opacity:.9; }
 .svc-calls li:hover::after, .svc-calls li:has(a:focus-visible)::after{ opacity:1; }
 
+/* Лента состояний: капсулы-ссылки в две строки; без движения — обычный перенос, в движении едут (motion.css) */
+.svc-ticker{ display:grid; gap:10px; margin-top:clamp(40px, 5vw, 64px); }
+.ticker-row{ display:flex; flex-wrap:wrap; gap:10px; }
+.ticker-row li{ flex-shrink:0; }
+.ticker-row .pill{ min-height:40px; padding:0 16px; font-size:.9375rem; transition:background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+@media (hover:hover) and (pointer:fine){ .ticker-row .pill:hover{ background:var(--text); color:var(--on-light); box-shadow:none; } }
+
 /* Часть Б: шесть рубрик сеткой 3×2 в рамке; вся ячейка — ссылка на рубрику, капсулы — свои ссылки поверх */
 .svc-sub{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px 24px; margin:clamp(56px, 6vw, 88px) 0 18px; }
 .svc-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); }

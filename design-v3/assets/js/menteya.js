@@ -696,8 +696,9 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     'precision mediump float;',
     '#endif',
     // uMode: 0 — фон во весь холст, 1 — шар на прозрачном фоне; uShade: 0 — ровно, 1 — темнее слева (текст), 2 — темнее под линзой или мозгом;
-    // uTilt — куда смотрит курсор (−1…1), пишет motion.js: мозг и свет чуть поворачиваются вслед
-    'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim; uniform vec2 uTilt;',
+    // uTilt — куда смотрит курсор (xy: −1…1) и доля прокрутки первого экрана (z: 0…1), пишет motion.js: мозг и свет поворачиваются вслед;
+    // uPtr — курсор в координатах холста (xy) и сила свечения (z): вода подсвечивается там, где курсор
+    'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim; uniform vec3 uTilt; uniform vec3 uPtr;',
     'float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }',
     'float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f);',
     '  return mix(mix(hash(i), hash(i + vec2(1., 0.)), u.x), mix(hash(i + vec2(0., 1.)), hash(i + vec2(1., 1.)), u.x), u.y); }',
@@ -730,7 +731,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '  vec3 inner = vec3(0.);',
     '  if(edge > 0.){',
     '    float z = sqrt(max(0., 1. - r * r / (R * R)));',
-    '    inner = silk(uLens.xy + uSeed + d * (.4 + .22 * (1. - z)) + vec2(.3, -.2), t * 1.15) * 1.25 + vec3(.02, .05, .05);',
+    '    inner = silk(uLens.xy + uSeed + d * (.4 + .22 * (1. - z)) + uTilt.xy * .06 + vec2(.3, -.2), t * 1.15) * 1.25 + vec3(.02, .05, .05);',   // свет внутри идёт за курсором
     '    inner = mix(inner, vec3(.86, .97, .93), pow(1. - z, 2.4) * .5);',   // светлая кромка стекла
     '    vec2 h1 = d / R - vec2(-.36, .42); inner += exp(-dot(h1, h1) * 15.) * .5;',   // блик сверху слева
     '    vec2 h2 = d / R - vec2(.34, -.52); inner += vec3(.95, .74, .55) * exp(-dot(h2, h2) * 9.) * .2;',   // тёплый рефлекс снизу
@@ -784,6 +785,17 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '  if(d.y < .03) d.y += .003 * sin(p.y * 110. + 10. * length(p.xz - vec2(0., -.27)));',   // листки мозжечка
     '  return min(min(d.x, d.y), d.z);',
     '}',
+    // планктон: в каждой клетке сетки — одна точка со случайным сдвигом; клетки медленно плывут вверх, точки мерцают;
+    // светится около половины клеток. Смотрим 3×3 соседних клетки — огонёк не обрезается на границе
+    'float motes(vec2 p, float t){',
+    '  vec2 q = p * 7. - vec2(0., t * .05); vec2 i = floor(q), f = fract(q); float v = 0.;',
+    '  for(int y = -1; y <= 1; y++) for(int x = -1; x <= 1; x++){',
+    '    vec2 o = vec2(float(x), float(y)); vec2 h = vec2(hash(i + o), hash(i + o + 7.3));',
+    '    vec2 d = o + .5 + .3 * sin(t * .25 + h * 6.28) - f;',
+    '    v += exp(-dot(d, d) * 70.) * (.25 + .75 * (.5 + .5 * sin(t * .8 + h.x * 6.28))) * step(.55, h.y);',
+    '  }',
+    '  return v;',
+    '}',
     // цвет точки поверхности: шёлк сквозь стекло, объём от света сверху слева, светящиеся борозды, кромка, блики
     'vec3 brain(vec3 pos, vec3 rdc, mat3 rot, vec2 p){',
     '  const vec2 e = vec2(.0015, -.0015);',
@@ -808,15 +820,18 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '}',
     'void main(){',
     '  vec2 p = (gl_FragCoord.xy - .5 * uRes) / uRes.y;',
-    '  vec3 col = silk(p + uSeed + uTilt * .035, uTime * .065) * uDim;',
+    '  vec3 col = silk(p + uSeed + uTilt.xy * .035, uTime * .065) * uDim;',
     '  col *= 1. - .5 * shadeAt(p);',
     '  col *= 1. - .22 * dot(p * vec2(.55, 1.), p * vec2(.55, 1.));',
+    '  col += vec3(.5, .84, .73) * motes(p + uTilt.xy * .02, uTime) * .3 * (1. - .4 * shadeAt(p));',   // планктон, под текстом тусклее
+    '  vec2 dl = p - uPtr.xy;',
+    '  col += vec3(.45, .8, .7) * uPtr.z * (.11 * exp(-dot(dl, dl) * 16.) + .05 * exp(-dot(dl, dl) * 3.));',   // вода светится у курсора
     // мозг медленно покачивается и чуть всплывает; поворот модели в камеру — сначала вокруг вертикали, потом наклон; курсор (uTilt) доворачивает его вслед за взглядом
-    '  float yaw = -1.13 + .21 * sin(uTime * .16) + uTilt.x * .22, pitch = .34 + .05 * sin(uTime * .11 + 1.) - uTilt.y * .14;',
+    '  float yaw = -1.13 + .21 * sin(uTime * .16) + uTilt.x * .22 + uTilt.z * .5, pitch = .34 + .05 * sin(uTime * .11 + 1.) - uTilt.y * .14 + uTilt.z * .1;',   // при прокрутке мозг отворачивается
     '  float cy = cos(yaw), sy = sin(yaw), cp = cos(pitch), sp = sin(pitch);',
     '  mat3 rot = mat3(1., 0., 0., 0., cp, sp, 0., -sp, cp) * mat3(cy, 0., -sy, 0., 1., 0., sy, 0., cy);',
     '  float k = .4 / uLens.z;',
-    '  vec2 m = (p - uLens.xy + uTilt * vec2(.025, -.018)) * k;',   // мозг сдвигается чуть меньше фона — глубина
+    '  vec2 m = (p - uLens.xy + uTilt.xy * vec2(.025, -.018)) * k;',   // мозг сдвигается чуть меньше фона — глубина
     '  m.y += .012 * sin(uTime * .35);',
     '  vec3 rdc = normalize(vec3(m, -3.5));',
     '  vec3 ro = vec3(0., 0., 3.5) * rot, rd = rdc * rot;',   // луч — в пространство модели (v * M — обратный поворот)
@@ -866,7 +881,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     var loc = {};
-    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim', 'uTilt'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
+    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim', 'uTilt', 'uPtr'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
     gl.uniform1f(loc.uDim, 1);
     return {
       gl:gl,
@@ -882,7 +897,9 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   }
   function now(){ return (performance.now() - start) / 1000; }
 
-  var live = [];   // что течёт: { r, el, visible, resize, slow }
+  var live = [];   // что течёт: { r, el, visible, every (мс между кадрами), resize, slow }
+  var heroFast = window.matchMedia('(hover: hover) and (pointer: fine)').matches && window.innerWidth >= 700;
+  var tiltNow = [0, 0, 0];
   function watch(item, margin){
     live.push(item);
     if(!('IntersectionObserver' in window)){ item.visible = true; return; }
@@ -915,10 +932,9 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     };
     heroResize();
     heroCanvas.classList.add('is-on');
-    // Взгляд за курсором: motion.js передаёт сюда положение курсора (−1…1); мозг и свет чуть доворачиваются
-    window.MenteyaLight = { tilt:function(x, y){ hr.set('uTilt', x, y); } };
     heroCanvas.addEventListener('webglcontextlost', function(e){ e.preventDefault(); heroCanvas.classList.remove('is-on'); });   // остаётся CSS-градиент
-    watch({ r:hr, el:heroCanvas, visible:true, resize:heroResize, slow:function(){
+    // Компьютер с мышью — до 60 кадров в секунду: мозг идёт за курсором плавно; телефон и планшет — 30
+    watch({ r:hr, el:heroCanvas, visible:true, every:heroFast ? 16 : 33, resize:heroResize, slow:function(){
       if(heroQ <= .5) return;
       heroQ = Math.max(.5, heroQ * .75);
       heroResize();
@@ -945,6 +961,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
       item.r.set('uMode', 1); item.r.set('uShade', 0);
       item.r.set('uSeed', seed * 3.7, seed * 1.9);
       item.r.set('uLens', 0, 0, .36);
+      item.r.set('uTilt', tiltNow[0], tiltNow[1], tiltNow[2]);
       item.resize();
       c.classList.add('is-on');
     };
@@ -977,21 +994,31 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     })(0);
   }, 700);
 
-  // Общий цикл: рисуем только видимое и не чаще 30 раз в секунду.
-  // Кадры раз за разом дольше 60 мс — видеокарта не справляется: первый экран рисуется в меньшем разрешении
+  // Взгляд за курсором и свет у курсора — пишет motion.js. tilt: x, y (−1…1) и доля прокрутки первого экрана;
+  // pointer: курсор в координатах холста первого экрана и сила свечения 0…1
+  window.MenteyaLight = {
+    tilt:function(x, y, s){ tiltNow = [x, y, s || 0]; live.forEach(function(it){ if(it.r) it.r.set('uTilt', x, y, s || 0); }); },
+    pointer:function(x, y, k){ if(hr) hr.set('uPtr', x, y, k); }
+  };
+
+  // Общий цикл: рисуем только видимое; у каждого холста свой шаг кадра (every): мозг на компьютере — 16 мс, остальное — 33.
+  // Кадры раз за разом заметно дольше шага — видеокарта не справляется: первый экран рисуется в меньшем разрешении
   var last = 0, lag = 0;
   function loop(t){
     requestAnimationFrame(loop);
     if(document.hidden || calm()){ last = 0; return; }
-    if(t - last < 33) return;
     if(last){
       var gap = t - last;
-      if(gap > 60 && gap < 250) lag++; else if(lag) lag--;   // паузы дольше четверти секунды — не видеокарта, а фоновая вкладка или занятый поток
+      if(gap > (heroFast ? 45 : 60) && gap < 250) lag++; else if(lag) lag--;   // паузы дольше четверти секунды — не видеокарта, а фоновая вкладка или занятый поток
       if(lag > 40){ lag = 0; live.forEach(function(it){ if(it.visible && it.slow) it.slow(); }); }
     }
     last = t;
     var s = now();
-    live.forEach(function(it){ if(it.visible && it.r) it.r.draw(s); });
+    live.forEach(function(it){
+      if(!it.visible || !it.r || t - (it.last || 0) < (it.every || 33) - 1) return;
+      it.last = t;
+      it.r.draw(s);
+    });
   }
   requestAnimationFrame(loop);
   var timer = null;

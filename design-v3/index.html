@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
 <!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
-<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792654233">
+<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792654980">
 </head>
 <body>
 
@@ -93,9 +93,9 @@
     <p class="loader-sub">психиатрическая клиника</p>
   </div>
 </div>
-<!-- Линия прогресса чтения и кольцо у курсора — только при html.has-motion (кольцо — только с мышью) -->
+<!-- Линия прогресса чтения и медленное сияние фона за прозрачными разделами — только при html.has-motion -->
 <div class="progress" id="progress" aria-hidden="true"></div>
-<div class="cursor" id="cursor" aria-hidden="true"><span class="cursor-ring"></span></div>
+<div class="aurora" aria-hidden="true"><i></i><i></i></div>
 
 <a class="skip-link" href="#main">Перейти к содержанию</a>
 
@@ -536,6 +536,40 @@
           <a class="btn btn-line btn-sm" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
         </div>
       </div>
+    </div>
+
+    <!-- Лента состояний: частые запросы капсулами-ссылками в две строки. В полном движении строки едут навстречу друг другу
+         и останавливаются под курсором (motion.js дублирует содержимое для бесшовного круга); без движения&nbsp;— обычный перенос.
+         Состояния&nbsp;— из каталога «Услуги»: меняется каталог&nbsp;— сверить ленту -->
+    <div class="svc-ticker" data-reveal aria-label="Частые запросы">
+      <ul class="ticker-row" role="list">
+        <li><a class="pill" href="zabolevanie.html">Тревожность</a></li>
+        <li><a class="pill" href="zabolevanie.html">Депрессия</a></li>
+        <li><a class="pill" href="zabolevanie.html">Панические атаки</a></li>
+        <li><a class="pill" href="zabolevanie.html">Бессонница</a></li>
+        <li><a class="pill" href="zabolevanie.html">Стресс</a></li>
+        <li><a class="pill" href="zabolevanie.html">Хроническая усталость</a></li>
+        <li><a class="pill" href="zabolevanie.html">Навязчивые мысли</a></li>
+        <li><a class="pill" href="zabolevanie.html">Биполярное расстройство</a></li>
+        <li><a class="pill" href="zabolevanie.html">Фобии</a></li>
+        <li><a class="pill" href="zabolevanie.html">Психосоматика</a></li>
+        <li><a class="pill" href="zabolevanie.html">Нервные срывы</a></li>
+        <li><a class="pill" href="zabolevanie.html">Апатия</a></li>
+      </ul>
+      <ul class="ticker-row is-rev" role="list">
+        <li><a class="pill" href="zabolevanie.html">Деменция</a></li>
+        <li><a class="pill" href="zabolevanie.html">Болезнь Альцгеймера</a></li>
+        <li><a class="pill" href="napravlenie.html">Психиатр на&nbsp;дом</a></li>
+        <li><a class="pill" href="napravlenie.html">Детский психиатр</a></li>
+        <li><a class="pill" href="zabolevanie.html">Гиперактивность</a></li>
+        <li><a class="pill" href="zabolevanie.html">Аутизм</a></li>
+        <li><a class="pill" href="zabolevanie.html">Расстройство пищевого поведения</a></li>
+        <li><a class="pill" href="napravlenie.html">Семейный психолог</a></li>
+        <li><a class="pill" href="zabolevanie.html">Кошмары</a></li>
+        <li><a class="pill" href="zabolevanie.html">Неврозы</a></li>
+        <li><a class="pill" href="zabolevanie.html">Шизофрения</a></li>
+        <li><a class="pill" href="napravlenie.html">Консультация психолога</a></li>
+      </ul>
     </div>
 
     <!-- Часть Б. Число страниц в рубрике&nbsp;— по каталогу «Услуги» прошлого дизайна; меняется каталог&nbsp;— меняется и число -->
@@ -1707,9 +1741,9 @@
   </div>
 </section>
 
-<script src="assets/js/menteya.js?v=1792654233" defer></script>
+<script src="assets/js/menteya.js?v=1792654980" defer></script>
 <!-- Движение: заставка, плавная прокрутка, параллакс, появление по словам. Только при html.has-motion -->
-<script src="assets/js/motion.js?v=1792654233" defer></script>
+<script src="assets/js/motion.js?v=1792654980" defer></script>
 
 </body>
 </html>

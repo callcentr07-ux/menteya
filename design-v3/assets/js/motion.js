@@ -1,8 +1,8 @@
 // Движение третьего дизайна «Ментеи» — поверх menteya.js, тот модуль не меняем.
 // Что здесь: заставка и занавес между страницами, плавная прокрутка колесом, заголовки по словам, параллакс первого экрана
-// (сцена и мозг идут за курсором и прокруткой), линии шагов и слова манифеста по прокрутке, магнитные кнопки, наклон
-// карточек и пятно света под курсором, кольцо у курсора, бегунок вкладок прайса, досчёт оценок, шапка, которая прячется
-// при прокрутке вниз, линия прогресса чтения.
+// (сцена и мозг идут за курсором и прокруткой, вода светится у курсора), линии шагов и слова манифеста по прокрутке,
+// магнитные кнопки, наклон карточек и пятно света под курсором, лента состояний, ряд врачей мышью, бегунок вкладок
+// прайса, досчёт оценок, шапка, которая прячется при прокрутке вниз, линия прогресса чтения.
 // Работает только при классе has-motion на <html> — его ставит строка в <head> (нет «уменьшить движение», анимация не
 // выключена в подвале). Кнопка «Отключить анимацию» снимает класс на лету, и всё возвращается в спокойный режим.
 // Всё, что двигается, — transform, translate, scale, opacity и переменные CSS: раскладку страницы не трогаем.
@@ -200,22 +200,34 @@
   (function(){
     var hero = document.querySelector('.hero');
     if(!hero) return;
-    var scene = hero.querySelector('.scene'), copy = hero.querySelector('.hero-copy'), side = hero.querySelector('.hero-side');
+    var scene = hero.querySelector('.scene'), canvas = hero.querySelector('.scene-gl'), copy = hero.querySelector('.hero-copy'), side = hero.querySelector('.hero-side');
     var tx = 0, ty = 0, cx = 0, cy = 0, inView = true, lastP = -1;
+    var px = 0, py = 0, lx = 0, ly = 0, tk = 0, lk = 0;   // курсор в координатах холста (цель и сглаженное) и сила свечения
     if('IntersectionObserver' in window) new IntersectionObserver(function(es){ inView = es[0].isIntersecting; }).observe(hero);
     if(FINE.matches){
       hero.addEventListener('pointermove', function(e){
         if(e.pointerType !== 'mouse') return;
         tx = e.clientX / window.innerWidth * 2 - 1;
         ty = e.clientY / window.innerHeight * 2 - 1;
+        if(canvas){
+          // Те же координаты, что у точки в шейдере: от центра холста, в долях его высоты, ось y — вверх
+          var r = canvas.getBoundingClientRect();
+          px = (e.clientX - r.left - r.width / 2) / r.height;
+          py = -(e.clientY - r.top - r.height / 2) / r.height;
+        }
+        tk = 1;
       });
-      hero.addEventListener('pointerleave', function(){ tx = 0; ty = 0; });
+      hero.addEventListener('pointerleave', function(){ tx = 0; ty = 0; tk = 0; });
     }
     jobs.push(function(t, dt){
       if(!on() || !inView) return;
-      var k = lerpK(.07, dt);
+      // Мозг и сцена догоняют курсор тяжело, как стекло в воде; пятно света — живее
+      var k = lerpK(.035, dt), kl = lerpK(.14, dt);
       cx += (tx - cx) * k;
       cy += (ty - cy) * k;
+      lx += (px - lx) * kl;
+      ly += (py - ly) * kl;
+      lk += (tk - lk) * lerpK(.06, dt);
       var vh = window.innerHeight;
       var p = clamp01(-hero.getBoundingClientRect().top / (hero.offsetHeight || vh));
       if(Math.abs(p - lastP) > .0005){ lastP = p; hero.style.setProperty('--hs', p.toFixed(4)); }
@@ -223,7 +235,10 @@
       if(scene) scene.style.transform = 'translate3d(' + (cx * -8).toFixed(2) + 'px,' + (p * vh * .08 + cy * -6).toFixed(2) + 'px,0) scale(' + (1 + p * .18).toFixed(4) + ')';
       if(copy) copy.style.translate = (cx * 7).toFixed(2) + 'px ' + (cy * 5).toFixed(2) + 'px';
       if(side) side.style.translate = (cx * 14).toFixed(2) + 'px ' + (cy * 9 + p * vh * .1).toFixed(2) + 'px';
-      if(window.MenteyaLight) window.MenteyaLight.tilt(cx, cy);
+      if(window.MenteyaLight){
+        window.MenteyaLight.tilt(cx, cy, p);
+        window.MenteyaLight.pointer(lx, ly, lk * (1 - p));
+      }
     });
   })();
 
@@ -287,33 +302,51 @@
       cell.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
     }, { passive:true });
 
-    // Кольцо у курсора: отстаёт от стрелки, над ссылками и кнопками растёт, в полях ввода сжимается
+    // Врачи: ряд можно тащить мышью. Пока тащим — защёлка выключена; после отпускания — лёгкий разгон, и ряд сам защёлкивается.
+    // Нажатие после перетаскивания не считается кликом по карточке
     (function(){
-      var c = document.getElementById('cursor');
-      if(!c) return;
-      var ring = c.querySelector('.cursor-ring');
-      var x = 0, y = 0, rx = 0, ry = 0, shown = false;
-      document.addEventListener('pointermove', function(e){
-        if(e.pointerType !== 'mouse') return;
-        x = e.clientX; y = e.clientY;
-        if(!shown){ shown = true; rx = x; ry = y; c.classList.add('is-on'); }
-        var t = e.target.closest && e.target.closest('a, button, [role="tab"], summary, label, input, select, textarea');
-        var field = !!t && t.matches('input, select, textarea');
-        c.classList.toggle('is-link', !!t && !field);
-        c.classList.toggle('is-text', field);
-      }, { passive:true });
-      document.addEventListener('pointerdown', function(e){ if(e.pointerType === 'mouse') c.classList.add('is-down'); });
-      document.addEventListener('pointerup', function(){ c.classList.remove('is-down'); });
-      root.addEventListener('mouseleave', function(){ shown = false; c.classList.remove('is-on'); });
-      jobs.push(function(t, dt){
-        if(!shown) return;
-        var k = lerpK(.2, dt);
-        rx += (x - rx) * k;
-        ry += (y - ry) * k;
-        ring.style.transform = 'translate3d(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px,0)';
+      var track = document.getElementById('doctorsTrack');
+      if(!track) return;
+      var down = false, moved = false, x0 = 0, s0 = 0, vx = 0, lastX = 0, lastT = 0;
+      track.classList.add('is-draggable');
+      track.addEventListener('dragstart', function(e){ e.preventDefault(); });   // фото не «вытаскивается» из карточки
+      track.addEventListener('pointerdown', function(e){
+        if(!on() || e.pointerType !== 'mouse' || e.button !== 0) return;
+        down = true; moved = false; vx = 0;
+        x0 = lastX = e.clientX; s0 = track.scrollLeft; lastT = e.timeStamp;
+        track.classList.add('is-dragging');
+        track.setPointerCapture(e.pointerId);
       });
+      track.addEventListener('pointermove', function(e){
+        if(!down) return;
+        var dx = e.clientX - x0;
+        if(Math.abs(dx) > 4) moved = true;
+        track.scrollLeft = s0 - dx;
+        var dt = e.timeStamp - lastT;
+        if(dt > 0){ vx = (e.clientX - lastX) / dt; lastX = e.clientX; lastT = e.timeStamp; }
+      });
+      function up(){
+        if(!down) return;
+        down = false;
+        track.classList.remove('is-dragging');
+        if(moved) track.scrollBy({ left:-vx * 160, behavior:'smooth' });
+      }
+      track.addEventListener('pointerup', up);
+      track.addEventListener('pointercancel', up);
+      track.addEventListener('click', function(e){ if(moved){ e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
     })();
   }
+
+  // ---------- Лента состояний: содержимое строк дублируется, чтобы круг был бесшовным (копии скрыты от диктора и Tab) ----------
+  if(on()) document.querySelectorAll('.ticker-row').forEach(function(row){
+    Array.prototype.slice.call(row.children).forEach(function(li){
+      var copy = li.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      copy.setAttribute('data-clone', '');
+      copy.querySelectorAll('a').forEach(function(a){ a.tabIndex = -1; });
+      row.appendChild(copy);
+    });
+  });
 
   // ---------- Вкладки прайса: бегунок переезжает к выбранной вкладке (переменные --tx/--ty/--tw/--th на списке) ----------
   (function(){
@@ -392,8 +425,10 @@
     document.querySelectorAll('[data-reveal]').forEach(function(el){ el.classList.add('is-in'); });
     var header = document.getElementById('siteHeader');
     if(header) header.classList.remove('is-hidden');
-    var c = document.getElementById('cursor');
-    if(c) c.classList.remove('is-on');
+    document.querySelectorAll('[data-clone]').forEach(function(el){ el.remove(); });   // лента — обычным переносом, без дублей
+    var track = document.getElementById('doctorsTrack');
+    if(track) track.classList.remove('is-draggable', 'is-dragging');
+    if(window.MenteyaLight){ window.MenteyaLight.tilt(0, 0, 0); window.MenteyaLight.pointer(0, 0, 0); }
     if(loader) loader.hidden = true;
     root.classList.add('is-ready');
     root.classList.remove('is-loading');

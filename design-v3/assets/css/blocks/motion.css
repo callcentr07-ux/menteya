@@ -1,5 +1,5 @@
 /* ===== Движение: заставка и занавес между страницами, появление по словам, параллакс первого экрана, подсветка шагов
-   и манифеста по прокрутке, магнитные кнопки, наклон карточек, кольцо у курсора, бегунок вкладок цен.
+   и манифеста по прокрутке, магнитные кнопки, наклон карточек, лента состояний, сияние фона, бегунок вкладок цен.
    Всё работает только при классе has-motion на <html> — его ставит строка в <head>, если в системе не включено
    «уменьшить движение» и анимация не выключена кнопкой в подвале. Без класса остаются спокойные правила блоков.
    Скрипт — assets/js/motion.js. Движемся только transform, translate, scale, opacity и clip-path: без перерисовки раскладки ===== */
@@ -209,9 +209,37 @@ html:not(.has-motion) .progress{ display:none; }
 .has-motion .ft-col li a{ background:linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition:background-size .35s var(--ease), color .2s ease; }
 @media (hover:hover) and (pointer:fine){ .has-motion .ft-col li a:hover{ background-size:100% 1px; } }
 
-/* ---------- Мышь: магнитные кнопки, наклон карточек, подсветка ячеек, кольцо у курсора ---------- */
-.cursor{ display:none; }
+/* ---------- Сияние фона: два пятна света медленно плывут за прозрачными разделами (слой под содержимым) ---------- */
+.aurora{ display:none; }
+.has-motion .aurora{ position:fixed; inset:-30% -20%; z-index:-1; display:block; overflow:hidden; pointer-events:none; }
+.aurora i{ position:absolute; border-radius:50%; will-change:transform; }
+.aurora i:nth-child(1){ left:52%; top:8%; width:62vmax; height:62vmax; background:radial-gradient(closest-side, color-mix(in srgb, var(--accent) 9%, transparent), transparent 72%); animation:mo-aurora-1 38s ease-in-out infinite alternate; }
+.aurora i:nth-child(2){ left:-12%; top:46%; width:54vmax; height:54vmax; background:radial-gradient(closest-side, color-mix(in srgb, var(--accent-2) 6%, transparent), transparent 72%); animation:mo-aurora-2 46s ease-in-out infinite alternate; }
+@keyframes mo-aurora-1{ to{ transform:translate3d(-18vw, 14vh, 0) scale(1.15); } }
+@keyframes mo-aurora-2{ to{ transform:translate3d(16vw, -16vh, 0) scale(.9); } }
+
+/* ---------- Первый экран: мозг проступает из воды, когда занавес пошёл вверх ---------- */
+.has-motion .scene-gl{ scale:1.08; transition:opacity 1.4s ease, scale 2.2s var(--ease); }
+.has-motion.js:not(.is-ready) .scene-gl{ opacity:0; }
+.has-motion.js.is-ready .scene-gl.is-on{ opacity:1; scale:1; }
+
+/* ---------- Карта состояний: спутник медленно идёт по орбите ---------- */
+.has-motion .svc-card::after{ content:""; position:absolute; left:50%; top:50%; width:calc(var(--R) * 2.9); aspect-ratio:1; translate:-50% -50%; border-radius:50%; background:radial-gradient(circle at 50% 0, var(--accent) 0 2.5px, color-mix(in srgb, var(--accent) 35%, transparent) 3.5px, transparent 8px); pointer-events:none; animation:mo-orbit 36s linear infinite; }
+@keyframes mo-orbit{ to{ rotate:1turn; } }
+
+/* ---------- Лента состояний: строки едут навстречу друг другу, под курсором останавливаются ---------- */
+.has-motion .svc-ticker{ margin-inline:calc(var(--gut) * -1); overflow:hidden; -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.has-motion .ticker-row{ flex-wrap:nowrap; gap:0; width:max-content; animation:mo-ticker 72s linear infinite; }
+.has-motion .ticker-row li{ margin-right:10px; }   /* отступ — полем, а не gap: половина ширины строки ровно равна одному кругу */
+.has-motion .ticker-row.is-rev{ animation-direction:reverse; animation-duration:86s; }
+.has-motion .svc-ticker:hover .ticker-row{ animation-play-state:paused; }
+@keyframes mo-ticker{ to{ transform:translate3d(-50%, 0, 0); } }
+
+/* ---------- Мышь: магнитные кнопки, наклон карточек, подсветка ячеек, ряд врачей ---------- */
 @media (hover:hover) and (pointer:fine){
+  .has-motion .doc-track.is-draggable{ cursor:grab; }
+  .has-motion .doc-track.is-dragging{ cursor:grabbing; scroll-snap-type:none; user-select:none; }
+  .doc-photo img{ -webkit-user-drag:none; }
   .has-motion .is-magnetic{ transition-property:translate, background-color, color, box-shadow, transform, opacity; transition-duration:.55s, .2s, .2s, .2s, .16s, .2s; transition-timing-function:var(--ease), ease, ease, ease, var(--ease), ease; }
   .has-motion .is-magnetic.is-pulled{ transition-duration:.15s, .2s, .2s, .2s, .16s, .2s; }
   .has-motion [data-tilt]{ transition:transform .7s var(--ease); }
@@ -220,11 +248,4 @@ html:not(.has-motion) .progress{ display:none; }
   .has-motion [data-spot]{ position:relative; isolation:isolate; }
   .has-motion [data-spot]::after{ content:""; position:absolute; inset:0; z-index:-1; background:radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 11%, transparent), transparent 70%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
   .has-motion [data-spot]:hover::after{ opacity:1; }
-  /* Кольцо у курсора: отстаёт от стрелки, над ссылками растёт; смешивание «разность» — видно и на светлых кнопках */
-  .has-motion .cursor{ position:fixed; left:0; top:0; z-index:400; display:block; opacity:0; transition:opacity .3s ease; pointer-events:none; mix-blend-mode:difference; }
-  .has-motion .cursor.is-on{ opacity:1; }
-  .cursor-ring{ position:absolute; left:-18px; top:-18px; width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.75); will-change:transform; transition:scale .35s var(--ease), background-color .3s ease, border-color .3s ease; }
-  .cursor.is-link .cursor-ring{ scale:1.7; border-color:rgba(255,255,255,.95); background:rgba(255,255,255,.12); }
-  .cursor.is-down .cursor-ring{ scale:.8; }
-  .cursor.is-text .cursor-ring{ scale:.4; border-color:rgba(255,255,255,.5); }
 }
