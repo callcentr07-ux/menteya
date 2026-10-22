@@ -3,7 +3,10 @@
 Частная психиатрическая клиника, дизайн v3 «ночная вода»: стеклянный мозг на WebGL, живая карта состояний, галерея клиники, мастер «Подобрать специалиста».
 
 ## Посмотреть
-- Онлайн: `https://<логин>.github.io/<репозиторий>/design-v3/` — после включения GitHub Pages (Settings → Pages → Deploy from a branch → ветка, папка `/ (root)`).
+- Текущий дизайн (v3): https://callcentr07-ux.github.io/menteya/design-v3/
+- Первый дизайн (v1, пять страниц: главная, цены, врач, направление, заболевание): https://callcentr07-ux.github.io/menteya/design/
+- Второй дизайн (v2): https://callcentr07-ux.github.io/menteya/design-v2/
+- GitHub Pages раздаёт ветку `gh-pages`; после правок обновить её: `git push origin feature/design-v3:gh-pages`.
 - Локально: открыть `design-v3/index.html` в Chrome, Edge или Safari. Интернет нужен только для шрифтов.
 - Кнопка «Отключить анимацию» в подвале выключает всё движение.
 
