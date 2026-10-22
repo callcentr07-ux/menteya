@@ -37,7 +37,8 @@
 .drawer-nav > li > a, .drawer-nav summary, .drawer-cat, .drawer-sub > .drawer-direct{ background-image:var(--glass-fill); box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line); }
 
 /* ---------- Капсулы, кнопки, подписи, круглые кнопки: лёгкая заливка и кромка ---------- */
-.pill{ background-image:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)); box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line-2); }
+.pill, .wiz-opt span{ background-image:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)); box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line-2); }
+.wiz-doc{ background:var(--glass-fill), var(--surface); box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line); }
 .pill-solid, .pill-dk, .pill-fill{ background-image:none; box-shadow:none; }
 .label:not(.label-plain){ box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line-2); }
 .btn-line{ background-image:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)); box-shadow:var(--glass-edge), inset 0 0 0 1px var(--line-2); }

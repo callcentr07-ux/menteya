@@ -12,8 +12,39 @@
 .svc-facts .i{ color:var(--accent); }
 .svc-help{ grid-area:help; align-self:end; padding-top:24px; border-top:1px solid var(--line); }
 .svc-help-t{ font:500 1.25rem/1.25 var(--font); letter-spacing:-0.015em; }
-.svc-help-p{ max-width:44ch; margin-top:8px; color:var(--text-2); }
-.svc-help .btn-row{ align-items:center; margin-top:22px; }
+.svc-help-p{ max-width:52ch; margin-top:8px; color:var(--text-2); font-size:.9375rem; line-height:1.5; }
+.svc-help .btn-row{ align-items:center; margin-top:16px; }
+/* Мастер подбора: полоса из трёх делений, вопрос с капсулами-вариантами (радиокнопка скрыта под капсулой), кнопки; итог — маршрут и врач */
+.wiz-form{ margin-top:18px; }
+.wiz-steps{ display:flex; gap:6px; margin-bottom:16px; }
+.wiz-steps li{ flex:1; height:3px; border-radius:2px; background:var(--line-2); transition:background-color .3s ease; }
+.wiz-steps li.is-done{ background:var(--accent); }
+.wiz-steps li.is-active{ background:var(--text); }
+.wiz-q{ min-width:0; margin:0; padding:0; border:0; }
+.js .wiz-q:not(.is-active){ display:none; }   /* без скриптов видны все вопросы */
+.wiz-qt{ display:flex; align-items:baseline; gap:10px; margin-bottom:12px; padding:0; font:500 1.0625rem/1.3 var(--font); }
+.wiz-qt .mono{ font-size:.75rem; color:var(--accent); }
+.wiz-opts{ display:flex; flex-wrap:wrap; gap:8px; }
+.wiz-opt{ position:relative; }
+.wiz-opt input{ position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; }
+.wiz-opt span{ display:inline-flex; align-items:center; min-height:40px; padding:0 16px; border-radius:999px; box-shadow:inset 0 0 0 1px var(--line-2); font-size:.9375rem; font-weight:500; white-space:nowrap; transition:background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+.wiz-opt input:checked + span{ background:var(--text); color:var(--on-light); box-shadow:none; }
+.wiz-opt input:focus-visible + span{ outline:2px solid var(--accent); outline-offset:3px; }
+@media (hover:hover) and (pointer:fine){ .wiz-opt input:not(:checked):hover + span{ background:rgba(244,241,234,.08); box-shadow:inset 0 0 0 1px rgba(244,241,234,.5); } }
+.wiz-nav{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.wiz-nav .btn[disabled]{ opacity:.45; cursor:default; }
+.wiz-nav > a{ margin-left:auto; }
+.wiz-result{ display:grid; justify-items:start; gap:10px; margin-top:18px; }
+.wiz-res-t{ font:500 1.375rem/1.2 var(--font); letter-spacing:-0.02em; text-wrap:balance; }
+.wiz-res-t:focus{ outline:none; }
+.wiz-res-p{ max-width:52ch; color:var(--text-2); font-size:.9375rem; line-height:1.5; text-wrap:pretty; }
+.wiz-doc{ display:flex; align-items:center; gap:12px; width:100%; padding:12px 14px; border-radius:var(--r-sm); background:var(--surface); box-shadow:inset 0 0 0 1px var(--line); }
+.wiz-doc img{ width:48px; height:48px; flex-shrink:0; border-radius:50%; object-fit:cover; }
+.wiz-doc > span{ display:grid; gap:2px; }
+.wiz-doc b{ font-weight:500; }
+.wiz-result .btn-row{ margin-top:4px; }
+.wiz-foot{ margin-top:2px; }
+.wiz-again{ color:var(--text); font-weight:500; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
 
 /* Карта: карточка, в центре — стеклянный мозг сверху, вокруг — подписи с выносками к точкам на его контуре.
    Размеры — от ширины карты (cqi): --ar — высота к ширине (не меньше), --s — сторона холста, --R — половина длины мозга (36% холста,
@@ -88,8 +119,8 @@
 /* Узкий компьютер: левая колонка длиннее карты — подбор специалиста встаёт полосой под обеими колонками, кнопки справа */
 @media (min-width:1000px) and (max-width:1279px){
   .svc-top{ grid-template-rows:auto auto; grid-template-areas:"intro map" "help help"; }
-  .svc-help{ display:grid; grid-template-columns:minmax(0, 1fr) auto; align-items:center; column-gap:32px; }
-  .svc-help .btn-row{ grid-column:2; grid-row:1 / span 2; margin-top:0; }
+  .svc-help{ display:grid; grid-template-columns:minmax(0, 5fr) minmax(0, 7fr); column-gap:40px; align-items:start; }   /* слева заголовок и пояснение, справа вопросы */
+  .svc-help .wiz-form, .svc-help .wiz-result{ grid-column:2; grid-row:1 / span 2; margin-top:0; }
 }
 
 /* Планшет: рубрики в две колонки */

@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
 <!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
-<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792657083">
+<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792658003">
 </head>
 <body>
 
@@ -96,6 +96,8 @@
 <!-- Линия прогресса чтения и медленное сияние фона за прозрачными разделами — только при html.has-motion -->
 <div class="progress" id="progress" aria-hidden="true"></div>
 <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+<!-- Плёночное зерно на всю страницу: убирает полосы в градиентах и даёт фактуру; в движении едва заметно «кипит» -->
+<div class="grain" aria-hidden="true"></div>
 
 <a class="skip-link" href="#main">Перейти к содержанию</a>
 
@@ -527,13 +529,58 @@
         </ol>
       </div>
 
-      <div class="svc-help" data-reveal style="--i:2">
+      <!-- Мастер «Подобрать специалиста»: три вопроса → врач и формат; ведёт menteya.js (.wiz). Это маршрут, не диагноз —
+           формулировки итогов согласовать с юристом (ст. 24 ФЗ «О рекламе»). Без скриптов видны все три вопроса и кнопки записи -->
+      <div class="svc-help wiz" id="podbor" data-reveal style="--i:2">
         <p class="svc-help-t">Не&nbsp;знаете, какой специалист нужен?</p>
-        <p class="svc-help-p">Опишите ситуацию&nbsp;— администратор подберёт врача и&nbsp;удобное время. Это бесплатно и&nbsp;анонимно.</p>
-        <div class="btn-row">
-          <a class="btn-cta" href="#booking"><span class="t">Подобрать специалиста</span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></a>
-          <a class="btn btn-line btn-sm" href="https://t.me/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-tg"/></svg>Telegram</a>
-          <a class="btn btn-line btn-sm" href="https://max.ru/menteya" target="_blank" rel="noopener"><svg class="i"><use href="#i-max"/></svg>MAX</a>
+        <p class="svc-help-p">Три коротких вопроса&nbsp;— назовём врача и&nbsp;формат. Это маршрут, а&nbsp;не&nbsp;диагноз: окончательно подтвердит администратор. Анонимно, ответы не&nbsp;сохраняются.</p>
+        <form class="wiz-form" novalidate>
+          <ol class="wiz-steps" aria-hidden="true"><li class="is-active"></li><li></li><li></li></ol>
+          <fieldset class="wiz-q is-active" data-step="1">
+            <legend class="wiz-qt"><span class="mono" aria-hidden="true">01</span>Что беспокоит?</legend>
+            <div class="wiz-opts">
+              <label class="wiz-opt"><input type="radio" name="w-what" value="anxiety"><span>Тревога, панические атаки</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-what" value="mood"><span>Подавленность, апатия</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-what" value="sleep"><span>Сон</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-what" value="memory"><span>Память, поведение</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-what" value="stress"><span>Стресс, отношения</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-what" value="addiction"><span>Зависимость</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-what" value="other"><span>Другое</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="wiz-q" data-step="2">
+            <legend class="wiz-qt"><span class="mono" aria-hidden="true">02</span>Кому нужна помощь?</legend>
+            <div class="wiz-opts">
+              <label class="wiz-opt"><input type="radio" name="w-who" value="me"><span>Мне</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-who" value="adult"><span>Близкому взрослому</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-who" value="child"><span>Ребёнку или подростку</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-who" value="elderly"><span>Пожилому родственнику</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="wiz-q" data-step="3">
+            <legend class="wiz-qt"><span class="mono" aria-hidden="true">03</span>Какой формат удобнее?</legend>
+            <div class="wiz-opts">
+              <label class="wiz-opt"><input type="radio" name="w-how" value="clinic"><span>В&nbsp;клинике</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-how" value="home"><span>На&nbsp;дому</span></label>
+              <label class="wiz-opt"><input type="radio" name="w-how" value="online"><span>Онлайн</span></label>
+            </div>
+          </fieldset>
+          <div class="wiz-nav">
+            <button class="btn btn-line btn-sm wiz-back" type="button" hidden>Назад</button>
+            <button class="btn btn-fill btn-sm wiz-next" type="button" disabled>Дальше</button>
+            <a class="btn btn-line btn-sm" href="#booking">Сразу записаться</a>
+          </div>
+        </form>
+        <div class="wiz-result" hidden>
+          <p class="label">Ваш маршрут</p>
+          <p class="wiz-res-t" tabindex="-1"></p>
+          <p class="wiz-res-p"></p>
+          <div class="wiz-doc"><img src="assets/img/intro-main.jpg" width="56" height="56" alt="" loading="lazy"><span><b></b><span class="fine"></span></span></div>
+          <div class="btn-row">
+            <a class="btn-cta" href="#booking" data-service=""><span class="t">Записаться</span><span class="a"><svg class="i"><use href="#i-arrow"/></svg></span></a>
+            <a class="btn btn-line btn-sm" href="tel:+74950000000"><svg class="i"><use href="#i-phone"/></svg>Позвонить</a>
+          </div>
+          <p class="fine wiz-foot"><button class="wiz-again" type="button">Начать заново</button> · Или напишите: <a class="link" href="https://t.me/menteya" target="_blank" rel="noopener">Telegram</a>, <a class="link" href="https://max.ru/menteya" target="_blank" rel="noopener">MAX</a></p>
         </div>
       </div>
     </div>
@@ -1342,11 +1389,13 @@
 </section>
 
 <!-- ============ ЗАПИСЬ И КОНТАКТЫ ============ -->
-<!-- Раздел закрывает страницу «утром»: тёмная вода, снизу неподвижное тёплое свечение рассвета (contact.css).
+<!-- Раздел закрывает страницу «утром»: ночная вода светлеет к горизонту, у нижней кромки&nbsp;— заря и солнце за горизонтом (contact.css);
+     в полном движении солнце поднимается, пока раздел входит в экран (data-scrub, motion.js), и медленно «дышит».
      Слева пример переписки, справа форма в тёмном стекле (на телефоне форма идёт первой), ниже&nbsp;— схема проезда и контакты.
      Форма&nbsp;— те же id, классы и атрибуты, что в окне записи: их обслуживает setupBookingForm() в menteya.js
      (маска телефона, проверка имени, телефона и согласия, ловушка для ботов, «Заявка принята»). -->
-<section class="sec sec-last contact" id="contacts" aria-labelledby="contacts-title">
+<section class="sec sec-last contact" id="contacts" aria-labelledby="contacts-title" data-scrub>
+  <div class="dawn" aria-hidden="true"></div>
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <div>
@@ -1765,9 +1814,9 @@
   </div>
 </section>
 
-<script src="assets/js/menteya.js?v=1792657083" defer></script>
+<script src="assets/js/menteya.js?v=1792658003" defer></script>
 <!-- Движение: заставка, плавная прокрутка, параллакс, появление по словам. Только при html.has-motion -->
-<script src="assets/js/motion.js?v=1792657083" defer></script>
+<script src="assets/js/motion.js?v=1792658003" defer></script>
 
 </body>
 </html>

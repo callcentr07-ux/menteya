@@ -192,6 +192,10 @@
   function setVar(el, name){ return function(p){ el.style.setProperty(name, p.toFixed(4)); }; }
   document.querySelectorAll('.visit-steps[data-scrub]').forEach(function(el){ scrub(el, view(.92, .42), setVar(el, '--sp')); });
   document.querySelectorAll('.manifest[data-scrub]').forEach(function(el){ scrub(el, view(.95, .35), setVar(el, '--sp')); });
+  // Восход в блоке контактов: солнце поднимается, пока раздел входит в экран
+  document.querySelectorAll('.contact[data-scrub]').forEach(function(el){
+    scrub(el, function(r, vh){ return clamp01((vh - r.top) / (vh * .7)); }, setVar(el, '--sp'));
+  });
   document.querySelectorAll('.site-footer[data-scrub]').forEach(function(el){
     scrub(el, function(r, vh){ return clamp01((vh - r.top) / (vh * .75)); }, setVar(el, '--sp'));
   });
@@ -239,6 +243,34 @@
         window.MenteyaLight.tilt(cx, cy, p);
         window.MenteyaLight.pointer(lx, ly, lk * (1 - p));
       }
+    });
+  })();
+
+  // ---------- Живая карта состояний: навёл на состояние (или дошёл до него с клавиатуры) — на мозге сверху зажигается его область ----------
+  // Точки — на поверхности мозга в единицах модели (x — поперёк, z — ко лбу), по месту точки подписи на контуре; свечение догоняет плавно
+  (function(){
+    var map = document.querySelector('.svc-map');
+    if(!map) return;
+    var HOT = { 1:[.32, .32], 2:[.42, .02], 3:[.33, -.31], 4:[-.34, .29], 5:[-.42, -.03], 6:[-.31, -.33] };
+    var tx = 0, tz = 0, tk = 0, x = 0, z = 0, k = 0;
+    map.querySelectorAll('.svc-calls li').forEach(function(li){
+      var h = HOT[+li.getAttribute('data-n')], a = li.querySelector('a');
+      if(!h || !a) return;
+      function onn(){ tx = h[0]; tz = h[1]; tk = 1; }
+      function off(){ tk = 0; }
+      a.addEventListener('pointerenter', onn);
+      a.addEventListener('pointerleave', off);
+      a.addEventListener('focus', onn);
+      a.addEventListener('blur', off);
+    });
+    jobs.push(function(t, dt){
+      if(!window.MenteyaLight || !window.MenteyaLight.hot) return;
+      var kk = lerpK(.12, dt);
+      x += (tx - x) * kk;
+      z += (tz - z) * kk;
+      k += (tk - k) * lerpK(.1, dt);
+      if(k < .002 && tk === 0) return;
+      window.MenteyaLight.hot(x, z, k);
     });
   })();
 

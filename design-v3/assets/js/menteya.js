@@ -699,7 +699,8 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     // uMode: 0 — фон во весь холст, 1 — шар на прозрачном фоне; uShade: 0 — ровно, 1 — темнее слева (текст), 2 — темнее под линзой или мозгом;
     // uTilt — куда смотрит курсор (xy: −1…1) и доля прокрутки первого экрана (z: 0…1), пишет motion.js: мозг и свет поворачиваются вслед;
     // uPtr — курсор в координатах холста (xy) и сила свечения (z): вода подсвечивается там, где курсор
-    'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim; uniform vec3 uTilt; uniform vec3 uPtr;',
+    // uHot — «горячая» область мозга на карте состояний: x, z точки на поверхности (в единицах модели) и сила 0…1, пишет motion.js
+    'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim; uniform vec3 uTilt; uniform vec3 uPtr; uniform vec3 uHot;',
     'float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }',
     'float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f);',
     '  return mix(mix(hash(i), hash(i + vec2(1., 0.)), u.x), mix(hash(i + vec2(0., 1.)), hash(i + vec2(1., 1.)), u.x), u.y); }',
@@ -814,6 +815,10 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '  c *= (.62 + .55 * dif) * (1. - .3 * sul);',
     '  float wave = pow(.5 + .5 * sin(dot(pos, vec3(.5, .8, 2.4)) * 6. - uTime * 1.2), 10.);',   // волны света бегут по бороздам
     '  c += vec3(.5, .84, .73) * sul * (.18 + .9 * wave);',
+    // горячая область (карта состояний): мятное свечение вокруг точки uHot, сильнее в бороздах и по бегущей волне
+    '  vec2 hv = vec2(pos.x - uHot.x, pos.z - uHot.y);',
+    '  float hot = uHot.z * exp(-(dot(hv, hv) + .4 * (pos.y - .22) * (pos.y - .22)) / .028);',
+    '  c += vec3(.5, .84, .73) * hot * (.3 + .9 * sul + .7 * wave * sul);',
     '  c = mix(c, vec3(.86, .97, .93), fres * .55);',   // светлая кромка стекла
     '  c += spec * .4 * (1. - .8 * sul);',
     '  c += vec3(.95, .74, .55) * warm * .3;',   // тёплый рефлекс снизу справа
@@ -828,6 +833,10 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '  vec3 col = silk(p + uSeed + uTilt.xy * .035, uTime * .065) * uDim;',
     '  col *= 1. - .5 * shadeAt(p);',
     '  col *= 1. - .22 * dot(p * vec2(.55, 1.), p * vec2(.55, 1.));',
+    // лучи света сквозь воду из верхнего правого угла: веер по углу от источника, мерцает шумом, под текстом тусклее
+    '  vec2 lv = p - vec2(.95, .62); float la = atan(lv.y, lv.x);',
+    '  float rays = pow(.5 + .5 * sin(la * 26. + 3. * noise(vec2(la * 4., uTime * .04))), 7.) * smoothstep(1.5, .3, length(lv)) * (1. - .7 * shadeAt(p));',
+    '  col += (vec3(.5, .84, .73) * .07 + vec3(.95, .74, .55) * .04) * rays;',
     '  col += vec3(.5, .84, .73) * motes(p + uTilt.xy * .02, uTime) * .3 * (1. - .4 * shadeAt(p));',   // планктон, под текстом тусклее
     '  vec2 dl = p - uPtr.xy;',
     '  col += vec3(.45, .8, .7) * uPtr.z * (.11 * exp(-dot(dl, dl) * 16.) + .05 * exp(-dot(dl, dl) * 3.));',   // вода светится у курсора
@@ -922,7 +931,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     var loc = {};
-    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim', 'uTilt', 'uPtr'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
+    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim', 'uTilt', 'uPtr', 'uHot'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
     gl.uniform1f(loc.uDim, 1);
     return {
       gl:gl,
@@ -986,7 +995,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   document.querySelectorAll('.lens canvas').forEach(function(c, i){
     var seed = +(c.parentNode.getAttribute('data-seed') || i + 1);
     var isBrain = c.parentNode.getAttribute('data-shape') === 'brain';   // карта состояний: мозг сверху вместо шара
-    var item = { el:c, visible:false, r:null };
+    var item = { el:c, visible:false, r:null, brain:isBrain };
     // слабый телефон может отобрать контекст WebGL — тогда возвращается CSS-пятно, а у экрана шар создаётся заново
     c.addEventListener('webglcontextlost', function(e){ e.preventDefault(); item.r = null; c.classList.remove('is-on'); });
     c.addEventListener('webglcontextrestored', function(){ if(item.visible && item.wake) item.wake(); });
@@ -1040,7 +1049,8 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   // pointer: курсор в координатах холста первого экрана и сила свечения 0…1
   window.MenteyaLight = {
     tilt:function(x, y, s){ tiltNow = [x, y, s || 0]; live.forEach(function(it){ if(it.r) it.r.set('uTilt', x, y, s || 0); }); },
-    pointer:function(x, y, k){ if(hr) hr.set('uPtr', x, y, k); }
+    pointer:function(x, y, k){ if(hr) hr.set('uPtr', x, y, k); },
+    hot:function(x, z, k){ live.forEach(function(it){ if(it.brain && it.r) it.r.set('uHot', x, z, k); }); }
   };
 
   // Общий цикл: рисуем только видимое; у каждого холста свой шаг кадра (every): мозг на компьютере — 16 мс, остальное — 33.
@@ -1147,6 +1157,84 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     setTimeout(function(){ show(0); }, 300);
   }, { threshold:.35 });
   io.observe(chat);
+})();
+
+// Подбор специалиста: три вопроса → врач и формат. Это маршрут, а не диагноз: окончательно подтверждает администратор.
+// Мышью и пальцем ответ сразу ведёт дальше; с клавиатуры — кнопкой «Дальше» (стрелки по вариантам не должны листать шаги).
+// Кнопка «Записаться» в итоге передаёт услугу в окно записи через data-service. В WordPress правила маршрута — в настройках блока
+(function(){
+  var root = document.querySelector('.wiz');
+  if(!root) return;
+  var form = root.querySelector('.wiz-form'), qs = root.querySelectorAll('.wiz-q'), marks = root.querySelectorAll('.wiz-steps li');
+  var back = root.querySelector('.wiz-back'), next = root.querySelector('.wiz-next'), result = root.querySelector('.wiz-result');
+  var DOCS = {
+    sokolova:{ name:'Соколова Анна Викторовна', role:'Главный врач, психиатр, к. м. н.', img:'assets/img/intro-main.jpg' },
+    orlov:{ name:'Орлов Михаил Андреевич', role:'Психиатр, психотерапевт', img:'assets/img/doctor-orlov.jpg' },
+    volkova:{ name:'Волкова Елена Сергеевна', role:'Клинический психолог', img:'assets/img/doctor-volkova.jpg' },
+    lebedev:{ name:'Лебедев Игорь Павлович', role:'Детский психиатр', img:'assets/img/doctor-lebedev.jpg' }
+  };
+  var step = 0, viaPointer = 0;
+  function value(name){ var el = form.querySelector('input[name="' + name + '"]:checked'); return el ? el.value : ''; }
+  function show(i){
+    step = i;
+    qs.forEach(function(q, k){ q.hidden = k !== i; q.classList.toggle('is-active', k === i); });
+    marks.forEach(function(m, k){ m.classList.toggle('is-done', k < i); m.classList.toggle('is-active', k === i); });
+    back.hidden = i === 0;
+    next.disabled = !value(qs[i].querySelector('input').name);
+    next.textContent = i === qs.length - 1 ? 'Показать результат' : 'Дальше';
+  }
+  // Правила маршрута: дети — к детскому психиатру; память и пожилые — к психиатру; зависимость — к наркологу;
+  // стресс и отношения — к психологу; тревога — к психотерапевту; остальное — первичная консультация психиатра
+  function route(){
+    var what = value('w-what'), who = value('w-who'), how = value('w-how');
+    var r = { doc:'sokolova', title:'Психиатр, первичная консультация', service:'Первичная консультация психиатра',
+      text:'Первичный приём — 60 минут: врач разберётся в состоянии и предложит план. Лекарства — только когда без них не обойтись.' };
+    if(who === 'child') r = { doc:'lebedev', title:'Детский психиатр', service:'Консультация детского психиатра',
+      text:'Приём детей и подростков — очно, вместе с родителем. Врач разберётся в причинах и предложит план; при необходимости подключит психолога.' };
+    else if(what === 'memory' || who === 'elderly') r = { doc:'sokolova', title:'Психиатр для пожилых', service:'Консультация психиатра для пожилых',
+      text:'Память, настроение и поведение в пожилом возрасте — зона психиатра. Можно начать с беседы без пациента: врач подскажет, как предложить помощь близкому.' };
+    else if(what === 'addiction') r = { doc:'orlov', title:'Психиатр-нарколог', service:'Консультация психиатра-нарколога',
+      text:'С зависимостью работает психиатр-нарколог: анонимно, без постановки на учёт. Первый шаг — консультация и план.' };
+    else if(what === 'stress') r = { doc:'volkova', title:'Психолог', service:'Консультация психолога',
+      text:'Стресс, отношения и трудности в общении — работа психолога. Если понадобится врач, психолог направит к нему.' };
+    else if(what === 'anxiety') r = { doc:'orlov', title:'Психиатр-психотерапевт', service:'Первичная консультация психотерапевта',
+      text:'С тревогой и паническими атаками работают психотерапией; врач решит, нужна ли лекарственная поддержка.' };
+    else if(what === 'mood' || what === 'sleep') r = { doc:'sokolova', title:'Психиатр', service:'Первичная консультация психиатра',
+      text:(what === 'sleep' ? 'Нарушения сна часто связаны с тревогой или настроением: ' : 'Подавленность и апатия: ') + 'психиатр разберётся в причинах и предложит план, лекарства — только когда без них не обойтись.' };
+    if(how === 'home'){ r.text += ' Выезд врача на дом по Москве — круглосуточно, от 6 000 ₽.'; if(who !== 'child'){ r.service = 'Выезд психиатра на дом'; r.title += ', выезд на дом'; } }
+    else if(how === 'online') r.text += ' Первичный приём по закону проходит очно — в клинике или на дому; повторные консультации — онлайн.';
+    return r;
+  }
+  function finish(){
+    var r = route(), d = DOCS[r.doc], doc = result.querySelector('.wiz-doc');
+    result.querySelector('.wiz-res-t').textContent = r.title;
+    result.querySelector('.wiz-res-p').textContent = r.text;
+    doc.querySelector('img').src = d.img;
+    doc.querySelector('b').textContent = d.name;
+    doc.querySelector('.fine').textContent = d.role;
+    result.querySelector('a[href="#booking"]').setAttribute('data-service', 'Подбор: ' + r.service);
+    form.hidden = true;
+    result.hidden = false;
+    result.querySelector('.wiz-res-t').focus();
+  }
+  function advance(){ if(step < qs.length - 1) show(step + 1); else finish(); }
+  form.addEventListener('pointerdown', function(e){ if(e.target.closest('.wiz-opt')) viaPointer = Date.now(); });
+  form.addEventListener('change', function(e){
+    if(e.target.type !== 'radio') return;
+    next.disabled = false;
+    if(Date.now() - viaPointer < 600) setTimeout(advance, 240);   // выбрали мышью или пальцем — сразу дальше
+  });
+  next.addEventListener('click', function(){ if(!next.disabled) advance(); });
+  back.addEventListener('click', function(){ if(step > 0) show(step - 1); });
+  form.addEventListener('submit', function(e){ e.preventDefault(); if(!next.disabled) advance(); });
+  root.querySelector('.wiz-again').addEventListener('click', function(){
+    form.reset();
+    result.hidden = true;
+    form.hidden = false;
+    show(0);
+    qs[0].querySelector('input').focus();
+  });
+  show(0);
 })();
 
 // «Отключить анимацию» в подвале: класс no-motion на <html> выключает движение так же, как системная настройка
