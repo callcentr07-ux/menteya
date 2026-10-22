@@ -1,0 +1,230 @@
+/* ===== Движение: заставка и занавес между страницами, появление по словам, параллакс первого экрана, подсветка шагов
+   и манифеста по прокрутке, магнитные кнопки, наклон карточек, кольцо у курсора, бегунок вкладок цен.
+   Всё работает только при классе has-motion на <html> — его ставит строка в <head>, если в системе не включено
+   «уменьшить движение» и анимация не выключена кнопкой в подвале. Без класса остаются спокойные правила блоков.
+   Скрипт — assets/js/motion.js. Движемся только transform, translate, scale, opacity и clip-path: без перерисовки раскладки ===== */
+:root{ --ease-io:cubic-bezier(.77, 0, .175, 1); }   /* сильный разгон и торможение — для занавесов */
+
+html.is-loading{ overflow:hidden; }   /* пока идёт заставка — страница не прокручивается */
+html.has-motion{ scroll-behavior:auto; }   /* плавную прокрутку ведёт скрипт: с родной «smooth» они бы спорили */
+
+/* ---------- Текст по словам: слово — окошко с обрезкой, внутри него строка поднимается снизу ---------- */
+.w{ display:inline-block; overflow:hidden; vertical-align:top; padding-bottom:.14em; margin-bottom:-.14em; }   /* запас снизу: выносные «у», «р», «д» не срезаются */
+.wi{ display:inline-block; }
+
+/* ---------- Заставка: кольцо знака рисуется, буквы «МЕНТЕЯ» поднимаются, затем занавес уходит вверх ---------- */
+.loader{ display:none; }
+.has-motion .loader{ position:fixed; inset:0; z-index:300; display:grid; place-items:center; overflow:hidden; background:var(--bg-2); color:var(--text); }
+.has-motion .loader::before{ content:""; position:absolute; inset:0; background:radial-gradient(42% 56% at 60% 46%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 70%), radial-gradient(32% 40% at 28% 72%, color-mix(in srgb, var(--accent-2) 9%, transparent), transparent 70%); }
+.loader-in{ position:relative; display:grid; justify-items:center; gap:clamp(20px, 2.6vw, 30px); }
+.loader-mark{ width:clamp(104px, 11vw, 152px); height:auto; aspect-ratio:1; overflow:visible; }
+.loader-ring{ fill:none; stroke:var(--accent); stroke-width:1.6; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; transform:rotate(-90deg); transform-origin:50% 50%; animation:mo-draw 1.2s var(--ease-io) .1s forwards; }
+.loader-ring-2{ stroke:var(--text); stroke-width:.7; opacity:.55; animation-duration:1.1s; animation-delay:.3s; }
+.loader-m{ font:600 31px var(--mark); fill:var(--text); opacity:0; animation:mo-fade .7s ease .55s forwards; }
+.loader-word{ display:flex; gap:.1em; padding:0 0 .1em .2em; font:600 clamp(1.875rem, 2.8vw, 2.625rem)/1 var(--mark); letter-spacing:.2em; text-transform:uppercase; overflow:hidden; }   /* .2em слева — компенсация разрядки у последней буквы */
+.loader-word span{ display:inline-block; translate:0 120%; }
+.loader.is-go .loader-word span{ animation:mo-rise .9s var(--ease) forwards; animation-delay:calc(var(--k) * 55ms); }   /* буквы идут, когда шрифт готов */
+.loader-word span:nth-child(1){ --k:0; } .loader-word span:nth-child(2){ --k:1; } .loader-word span:nth-child(3){ --k:2; }
+.loader-word span:nth-child(4){ --k:3; } .loader-word span:nth-child(5){ --k:4; } .loader-word span:nth-child(6){ --k:5; }
+.loader-sub{ font-size:clamp(.875rem, 1.1vw, 1.0625rem); letter-spacing:.02em; color:var(--text-2); opacity:0; }
+.loader.is-go .loader-sub{ animation:mo-fade .6s ease .55s forwards; }
+.loader.is-done .loader-in{ opacity:0; transition:opacity .3s ease; }
+.loader.is-done{ animation:mo-curtain-up .9s var(--ease-io) .1s forwards; }
+/* Короткий занавес: при переходе между страницами и при повторном открытии в той же вкладке — без знака и букв */
+.loader.is-short .loader-in{ display:none; }
+.loader.is-short{ animation:mo-curtain-up .75s var(--ease-io) .05s forwards; }
+.loader.is-short.is-enter{ animation:mo-curtain-in .55s var(--ease-io) forwards; }   /* уход со страницы: занавес поднимается снизу */
+@keyframes mo-draw{ to{ stroke-dashoffset:0; } }
+@keyframes mo-fade{ to{ opacity:1; } }
+@keyframes mo-rise{ to{ translate:none; } }
+@keyframes mo-curtain-up{ to{ transform:translateY(-101%); } }
+@keyframes mo-curtain-in{ from{ transform:translateY(101%); } to{ transform:none; } }
+
+/* ---------- Первый экран: своё вступление вместо общего (hero.css), начинается, когда занавес пошёл вверх (html.is-ready) ---------- */
+.has-motion.js .hero-copy > *, .has-motion.js .hero-side, .has-motion.js .hero-down, .has-motion.js .site-header{ animation:none; }
+.has-motion.js:not(.is-ready) .hero-copy > *, .has-motion.js:not(.is-ready) .hero-side, .has-motion.js:not(.is-ready) .hero-down, .has-motion.js:not(.is-ready) .site-header{ opacity:0; }
+.has-motion.js.is-ready .site-header{ animation:mo-down .9s var(--ease) .25s both; }
+.has-motion.js.is-ready .hero-copy > *{ animation:mo-up .9s var(--ease) both; }
+.has-motion.js.is-ready .hero-copy > .label{ animation-delay:.1s; }
+.has-motion.js.is-ready .hero-copy > .hero-h1{ animation:none; opacity:1; }   /* заголовок идёт по словам */
+.has-motion.js.is-ready .hero-h1 .wi{ animation:mo-word 1.1s var(--ease) both; animation-delay:calc(.18s + var(--wi, 0) * 45ms); }
+.has-motion.js.is-ready .hero-copy > .hero-lead{ animation-delay:.5s; }
+.has-motion.js.is-ready .hero-copy > .btn-row{ animation-delay:.62s; }
+.has-motion.js.is-ready .hero-copy > .hero-perks{ animation-delay:.74s; }
+.has-motion.js.is-ready .hero-copy > .hero-price{ animation-delay:.84s; }
+.has-motion.js.is-ready .hero-side{ animation:mo-up-t .9s var(--ease) .95s both; }
+.has-motion.js.is-ready .hero-down{ animation:mo-fade .8s ease 1.6s both; }
+.has-motion.js.is-ready .hero-down .i{ animation:mo-bob 1.8s ease-in-out 2.4s infinite; }   /* стрелка «дальше» слегка качается */
+@keyframes mo-down{ from{ opacity:0; transform:translateY(-14px); } }
+@keyframes mo-up{ from{ opacity:0; translate:0 32px; } }
+@keyframes mo-up-sm{ from{ opacity:0; translate:0 10px; } }
+@keyframes mo-up-t{ from{ opacity:0; transform:translateY(24px) scale(.97); } }
+@keyframes mo-word{ from{ translate:0 125%; } }
+@keyframes mo-bob{ 50%{ translate:0 5px; } }
+
+/* Прокрутка первого экрана: текст уходит вверх и гаснет, сцена с мозгом едет медленнее и чуть растёт (скрипт пишет --hs: 0…1).
+   Сдвиг сцены по курсору и мозг «вслед за взглядом» — тоже из скрипта, inline-стилями */
+.has-motion .scene{ will-change:transform; }
+.has-motion .hero-copy{ transform:translate3d(0, calc(var(--hs, 0) * 16vh), 0); opacity:calc(1 - var(--hs, 0) * 1.5); }
+.has-motion .hero-side{ opacity:calc(1 - var(--hs, 0) * 1.5); transition:background-color .25s ease; }
+@media (hover:hover) and (pointer:fine){ .has-motion .hero-side:hover{ transform:none; } }   /* подъём при наведении отдан магнитному сдвигу */
+
+/* ---------- Шапка: прячется при прокрутке вниз, возвращается при прокрутке вверх ---------- */
+.has-motion .site-header{ transition:translate .5s var(--ease); }
+.has-motion .site-header.is-hidden{ translate:0 -110%; }
+
+/* Линия прогресса чтения у верхнего края */
+.progress{ position:fixed; left:0; top:0; z-index:95; width:100%; height:2px; background:var(--accent); transform:scaleX(var(--prog, 0)); transform-origin:0 50%; opacity:.85; pointer-events:none; }
+html:not(.has-motion) .progress{ display:none; }
+
+/* Меню «Услуги»: рубрики, поиск и подсказка выходят лесенкой; список рубрики — коротким подъёмом при каждом переключении */
+.has-motion .mega-top, .has-motion .mega-cat, .has-motion .mega-extra, .has-motion .mega-help{ opacity:0; translate:0 -6px; transition:opacity .3s ease, translate .45s var(--ease); transition-delay:calc(var(--k, 0) * 35ms + 40ms); }
+.has-motion .mega-cat:nth-child(1){ --k:1; } .has-motion .mega-cat:nth-child(2){ --k:2; } .has-motion .mega-cat:nth-child(3){ --k:3; }
+.has-motion .mega-cat:nth-child(4){ --k:4; } .has-motion .mega-cat:nth-child(5){ --k:5; } .has-motion .mega-cat:nth-child(6){ --k:6; }
+.has-motion .mega-extra{ --k:7; } .has-motion .mega-help{ --k:6; }
+.has-motion .mega.open .mega-top, .has-motion .mega.open .mega-cat, .has-motion .mega.open .mega-extra, .has-motion .mega.open .mega-help{ opacity:1; translate:none; }
+.has-motion .mega:not(.open) .mega-top, .has-motion .mega:not(.open) .mega-cat, .has-motion .mega:not(.open) .mega-extra, .has-motion .mega:not(.open) .mega-help{ transition-duration:.15s; transition-delay:0s; }   /* закрытие — сразу, без лесенки */
+.has-motion .mega.open .mega-cat.is-active .mega-panel{ animation:mo-up-sm .45s var(--ease) .1s both; }
+.has-motion .dropdown.open a{ animation:mo-up-sm .4s var(--ease) both; animation-delay:calc(var(--k, 0) * 30ms + 60ms); }
+.has-motion .dropdown li:nth-child(1) a{ --k:0; } .has-motion .dropdown li:nth-child(2) a{ --k:1; } .has-motion .dropdown li:nth-child(3) a{ --k:2; }
+.has-motion .dropdown li:nth-child(4) a{ --k:3; } .has-motion .dropdown li:nth-child(5) a{ --k:4; } .has-motion .dropdown li:nth-child(6) a{ --k:5; }
+
+/* ---------- Появление блоков: выше и дольше, чем в спокойном режиме; заголовки — по словам; точка метки расходится кольцом ---------- */
+.has-motion.js [data-reveal]:not(.is-in){ opacity:0; }
+.has-motion.js [data-reveal].is-in{ animation:mo-up .95s var(--ease) both; animation-delay:calc(var(--i, 0) * 80ms); }
+.has-motion.js [data-reveal] .h2 .wi{ translate:0 125%; }
+.has-motion.js [data-reveal].is-in .h2 .wi{ translate:none; animation:mo-word 1s var(--ease) both; animation-delay:calc(var(--i, 0) * 80ms + .08s + var(--wi, 0) * 40ms); }   /* translate:none — конечная точка анимации, иначе слово так и осталось бы сдвинутым */
+.has-motion.js [data-reveal].is-in .label:not(.label-plain)::before{ animation:mo-ping 1s ease-out calc(var(--i, 0) * 80ms + .4s) both; }
+@keyframes mo-ping{ from{ box-shadow:0 0 0 3px rgba(127,214,185,.22), 0 0 0 0 rgba(127,214,185,.55); } to{ box-shadow:0 0 0 3px rgba(127,214,185,.22), 0 0 0 16px rgba(127,214,185,0); } }
+
+/* Строки внутри появившегося блока — лесенкой */
+.has-motion.js .is-in .svc-facts li, .has-motion.js .is-in .pr-perks li, .has-motion.js .is-in .visit-facts li, .has-motion.js .is-in .form-next li,
+.has-motion.js .is-in .lic-req dl div, .has-motion.js .is-in .doc-cta-list li, .has-motion.js .is-in .about-stat, .has-motion.js .is-in .proof-list > li,
+.has-motion.js .is-in .cmp-col, .has-motion.js .is-in .rv-card, .has-motion.js .is-in .faq-item{ animation:mo-up-sm .8s var(--ease) both; animation-delay:calc(var(--i, 0) * 80ms + .25s + var(--k, 0) * 80ms); }
+.has-motion.js .is-in .cmp-col{ animation-name:mo-up; animation-delay:calc(var(--i, 0) * 80ms + .1s + var(--k, 0) * 110ms); }
+.has-motion.js .is-in .faq-item{ animation-delay:calc(var(--i, 0) * 80ms + .15s + var(--k, 0) * 60ms); }
+.has-motion.js .is-in .proof-list > li{ animation-delay:calc(.1s + var(--k, 0) * 70ms); }
+.has-motion.js .is-in :is(.svc-facts, .pr-perks, .visit-facts, .form-next, .lic-req dl, .doc-cta-list, .about-stats, .proof-list, .cmp, .rv-feed, .faq-list) > :nth-child(1){ --k:0; }
+.has-motion.js .is-in :is(.svc-facts, .pr-perks, .visit-facts, .form-next, .lic-req dl, .doc-cta-list, .about-stats, .proof-list, .cmp, .rv-feed, .faq-list) > :nth-child(2){ --k:1; }
+.has-motion.js .is-in :is(.svc-facts, .pr-perks, .visit-facts, .form-next, .lic-req dl, .doc-cta-list, .about-stats, .proof-list, .cmp, .rv-feed, .faq-list) > :nth-child(3){ --k:2; }
+.has-motion.js .is-in :is(.svc-facts, .pr-perks, .visit-facts, .form-next, .lic-req dl, .doc-cta-list, .about-stats, .proof-list, .cmp, .rv-feed, .faq-list) > :nth-child(4){ --k:3; }
+.has-motion.js .is-in :is(.svc-facts, .pr-perks, .visit-facts, .form-next, .lic-req dl, .doc-cta-list, .about-stats, .proof-list, .cmp, .rv-feed, .faq-list) > :nth-child(5){ --k:4; }
+.has-motion.js .is-in :is(.svc-facts, .pr-perks, .visit-facts, .form-next, .lic-req dl, .doc-cta-list, .about-stats, .proof-list, .cmp, .rv-feed, .faq-list) > :nth-child(6){ --k:5; }
+.has-motion.js .is-in :is(.faq-list) > :nth-child(7){ --k:6; }
+.has-motion.js .is-in :is(.faq-list) > :nth-child(8){ --k:7; }
+/* Списки, у которых лесенкой идут дети, сами только проявляются — без второго сдвига поверх детского */
+.has-motion.js :is(.proof-list, .pr-cmp, .rv-feed, .faq-list, .about-stats)[data-reveal].is-in{ animation-name:mo-fade-in; }
+@keyframes mo-fade-in{ from{ opacity:0; } }
+/* Строки прайса: лесенкой и при первом появлении, и при каждом переключении вкладки (панель показывается заново — анимация идёт снова) */
+.has-motion.js .pr-body[data-reveal].is-in .price-list .price-row{ animation:mo-up .8s var(--ease) both; animation-delay:calc(var(--i, 0) * 60ms + .1s); }
+
+/* ---------- Полоса рейтингов: цифры досчитываются скриптом, звезда выпрыгивает ---------- */
+.has-motion.js .proof-list[data-reveal] .proof-score .i{ scale:0; transition:scale .6s cubic-bezier(.2, 1.4, .4, 1) calc(.9s + var(--k, 0) * 70ms); }
+.has-motion.js .proof-list[data-reveal].is-in .proof-score .i{ scale:1; }
+
+/* ---------- Карта состояний: пунктиры дорисовываются к точкам, точки по очереди «подмигивают» ---------- */
+.svc-calls li:nth-child(1){ --n:0; } .svc-calls li:nth-child(2){ --n:1; } .svc-calls li:nth-child(3){ --n:2; }
+.svc-calls li:nth-child(4){ --n:3; } .svc-calls li:nth-child(5){ --n:4; } .svc-calls li:nth-child(6){ --n:5; }
+.has-motion.js .svc-map[data-reveal] .svc-calls a::after{ transform:scaleX(0); transition:transform .9s var(--ease) calc(.4s + var(--n, 0) * 90ms), opacity .2s ease; }
+.has-motion.js .svc-map[data-reveal] .svc-calls .is-l a::after{ transform-origin:0 50%; }
+.has-motion.js .svc-map[data-reveal] .svc-calls .is-r a::after{ transform-origin:100% 50%; }
+.has-motion.js .svc-map[data-reveal].is-in .svc-calls a::after{ transform:none; }
+.has-motion.js .svc-map[data-reveal] .svc-calls li::before{ scale:0; transition:scale .5s cubic-bezier(.2, 1.4, .4, 1) calc(1.1s + var(--n, 0) * 90ms); }
+.has-motion.js .svc-map[data-reveal].is-in .svc-calls li::before{ scale:1; animation:mo-dot 7.2s ease-out infinite; animation-delay:calc(2s + var(--n, 0) * 1.2s); }
+@keyframes mo-dot{ 0%{ box-shadow:0 0 0 2px var(--bg-2), 0 0 0 0 rgba(127,214,185,.6); } 14%, 100%{ box-shadow:0 0 0 2px var(--bg-2), 0 0 0 18px rgba(127,214,185,0); } }
+
+/* ---------- Первый приём: линии шагов заполняются по мере прокрутки, номер шага зажигается мятой (--sp: 0…1 пишет скрипт) ---------- */
+.has-motion.js .visit-steps[data-scrub]{ --sp:0; }
+.has-motion.js .visit-steps[data-scrub] .visit-line::after{ transition:none; transform:scaleX(calc(var(--p, 1) * clamp(0, (var(--sp) - (var(--i, 1) - 1) * .2) / .24, 1))); }
+.has-motion.js .visit-steps[data-scrub] .visit-n{ --done:clamp(0, (var(--sp) - (var(--i, 1) - 1) * .2 - .2) * 12, 1); background:color-mix(in srgb, var(--accent) calc(var(--done) * 100%), transparent); color:color-mix(in srgb, var(--on-light) calc(var(--done) * 100%), var(--text-2)); box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--accent) calc(var(--done) * 100%), var(--line-2)); }
+
+/* ---------- Манифест «О клинике»: слова проявляются по мере прокрутки (--k — доля слова в тексте, ставит скрипт) ---------- */
+.has-motion.js .manifest[data-scrub]{ --sp:0; }
+.has-motion.js .manifest[data-scrub] .w{ overflow:visible; padding:0; margin:0; }
+.has-motion.js .manifest[data-scrub] .wi{ opacity:clamp(.16, calc(.16 + (var(--sp) * 1.3 - var(--k, 0)) * 3.5), 1); }
+
+/* ---------- Фото: открываются шторкой снизу, кадр чуть отъезжает; выноски выпрыгивают ---------- */
+.has-motion.js .about-photo[data-reveal]{ clip-path:inset(0 0 100% 0 round var(--r)); transition:clip-path 1.2s var(--ease) .1s; }
+.has-motion.js .about-photo[data-reveal].is-in{ animation:none; clip-path:inset(0 round var(--r)); }
+.has-motion.js .about-photo[data-reveal] img{ scale:1.18; transition:scale 1.5s var(--ease) .1s; }
+.has-motion.js .about-photo[data-reveal].is-in img{ scale:1; }
+.has-motion.js .about-photo[data-reveal] .about-pin{ opacity:0; scale:.5; transition:opacity .4s ease, scale .6s cubic-bezier(.2, 1.4, .4, 1); transition-delay:calc(1s + var(--k, 0) * 160ms); }
+.has-motion.js .about-photo[data-reveal].is-in .about-pin{ opacity:1; scale:1; }
+.about-pins li:nth-child(1){ --k:0; } .about-pins li:nth-child(2){ --k:1; }
+.has-motion.js .doc-card[data-reveal] .doc-photo{ clip-path:inset(100% 0 0 0); transition:clip-path 1.1s var(--ease) calc(var(--i, 0) * 80ms + .1s); }
+.has-motion.js .doc-card[data-reveal].is-in .doc-photo{ clip-path:inset(0); }
+.has-motion.js .doc-card[data-reveal] .doc-photo img{ scale:1.15; transition:scale 1.4s var(--ease) calc(var(--i, 0) * 80ms + .1s); }
+.has-motion.js .doc-card[data-reveal].is-in .doc-photo img{ scale:1; }
+@media (hover:hover) and (pointer:fine){ .has-motion.js .doc-card[data-reveal].is-in:hover .doc-photo img{ scale:1.05; transition-duration:.6s; transition-delay:0s; } }
+
+/* ---------- Отзывы: звёзды наливаются (--stars — зарегистрированное число, поэтому градиент плавный) ---------- */
+@property --stars{ syntax:"<number>"; inherits:false; initial-value:0; }
+.has-motion.js .rv-stars{ --stars:0; transition:--stars 1.4s var(--ease) .3s; }
+.has-motion.js .is-in .rv-stars{ --stars:var(--rv, 5); }
+
+/* ---------- Лицензия: лист поднимается, печать «ставится» с размахом ---------- */
+.has-motion.js .lic-frame[data-reveal] .lic-sheet{ opacity:0; translate:0 18px; transition:opacity .6s ease .3s, translate .9s var(--ease) .3s, scale .3s var(--ease); }
+.has-motion.js .lic-frame[data-reveal].is-in .lic-sheet{ opacity:1; translate:none; }
+.has-motion.js .lic-frame[data-reveal] .lic-sheet::after{ opacity:0; scale:1.9; rotate:-16deg; transition:opacity .3s ease 1s, scale .5s cubic-bezier(.2, 1.4, .4, 1) 1s, rotate .5s ease 1s; }
+.has-motion.js .lic-frame[data-reveal].is-in .lic-sheet::after{ opacity:.75; scale:1; rotate:-6deg; }
+
+/* ---------- Вопросы: ответ раскрывается по высоте (сетка 0fr → 1fr), вертикальная черта плюса уходит поворотом ---------- */
+/* Нижний отступ — на обёртке и только у открытого ответа: внутри строки 0fr отступ не сжался бы и оставил бы пустоту */
+.has-motion.js .faq-item .faq-a, .has-motion.js .faq-item:not(.is-open) .faq-a{ display:grid; grid-template-rows:0fr; opacity:0; padding-bottom:0; transition:grid-template-rows .5s var(--ease), padding-bottom .5s var(--ease), opacity .35s ease; }
+.has-motion.js .faq-item .faq-a > p{ min-height:0; overflow:hidden; }
+.has-motion.js .faq-item.is-open .faq-a{ grid-template-rows:1fr; opacity:1; padding-bottom:26px; animation:none; }
+.has-motion .faq-toggle::after{ transition:opacity .25s ease, rotate .4s var(--ease); }
+.has-motion .faq-item.is-open .faq-toggle::after{ rotate:0deg; }
+@media (max-width:699px){ .has-motion.js .faq-item.is-open .faq-a{ padding-bottom:22px; } }
+
+/* ---------- Вкладки прайса: светлый бегунок переезжает к выбранной вкладке ---------- */
+.has-motion .pr-tabs{ position:relative; isolation:isolate; }
+.has-motion .pr-tabs::before{ content:""; position:absolute; left:0; top:0; z-index:-1; width:var(--tw, 0px); height:var(--th, 0px); translate:var(--tx, 0px) var(--ty, 0px); border-radius:999px; background:var(--text); }
+.has-motion .pr-tabs.has-ind::before{ transition:translate .5s var(--ease), width .5s var(--ease), height .5s var(--ease); }
+.has-motion .pr-tab[aria-selected="true"]{ background:transparent; }
+
+/* ---------- Схема проезда: улицы прорисовываются, метка клиники опускается на место ---------- */
+.has-motion.js .cmap[data-reveal] :is(.m-road, .m-road-s) path, .has-motion.js .cmap[data-reveal] .m-shore{ stroke-dasharray:1; stroke-dashoffset:1; transition:stroke-dashoffset 1.6s var(--ease-io) .3s; }
+.has-motion.js .cmap[data-reveal].is-in :is(.m-road, .m-road-s) path, .has-motion.js .cmap[data-reveal].is-in .m-shore{ stroke-dashoffset:0; }
+.has-motion.js .cmap[data-reveal] :is(.m-house, .m-park, .m-water){ opacity:0; transition:opacity .9s ease .8s; }
+.has-motion.js .cmap[data-reveal].is-in .m-house{ opacity:1; }
+.has-motion.js .cmap[data-reveal].is-in :is(.m-park, .m-water){ opacity:.07; }
+.has-motion.js .cmap[data-reveal] .cmap-pin{ opacity:0; translate:-50% calc(-100% - 44px); transition:opacity .4s ease 1.3s, translate .7s cubic-bezier(.2, 1.3, .4, 1) 1.3s; }
+.has-motion.js .cmap[data-reveal].is-in .cmap-pin{ opacity:1; translate:-50% calc(-100% - 16px); }
+
+/* ---------- «Заявка принята»: кружок выпрыгивает, галочка дорисовывается ---------- */
+.has-motion.js .form-success .ok{ animation:mo-pop .6s cubic-bezier(.2, 1.4, .4, 1) .1s both; }
+.has-motion.js .form-success .ok .i{ stroke-dasharray:24; stroke-dashoffset:24; animation:mo-check .5s var(--ease) .45s forwards; }
+@keyframes mo-pop{ from{ scale:.5; opacity:0; } }
+@keyframes mo-check{ to{ stroke-dashoffset:0; } }
+
+/* ---------- Подвал: содержимое приподнимается навстречу (--sp пишет скрипт), крупное слово «МЕНТЕЯ» собирается из букв ---------- */
+.has-motion .site-footer[data-scrub] .ft-top{ transform:translate3d(0, calc((1 - var(--sp, 1)) * 90px), 0); }
+.ft-word{ margin:clamp(40px, 5vw, 72px) 0 0; font:600 clamp(3.25rem, 15.2vw, 15rem)/1 var(--mark); letter-spacing:.14em; text-transform:uppercase; text-align:center; white-space:nowrap; color:transparent; -webkit-text-stroke:1px color-mix(in srgb, var(--text) 32%, transparent); user-select:none; }
+.ft-word .w{ padding:0; margin:0; }
+.has-motion.js .ft-word[data-reveal]{ opacity:1; }
+.has-motion.js .ft-word[data-reveal].is-in{ animation:none; }
+.has-motion.js .ft-word[data-reveal] .wi{ translate:0 110%; }
+.has-motion.js .ft-word[data-reveal].is-in .wi{ translate:none; animation:mo-word 1.1s var(--ease) both; animation-delay:calc(var(--wi, 0) * 70ms); }
+.has-motion .ft-col li a{ background:linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition:background-size .35s var(--ease), color .2s ease; }
+@media (hover:hover) and (pointer:fine){ .has-motion .ft-col li a:hover{ background-size:100% 1px; } }
+
+/* ---------- Мышь: магнитные кнопки, наклон карточек, подсветка ячеек, кольцо у курсора ---------- */
+.cursor{ display:none; }
+@media (hover:hover) and (pointer:fine){
+  .has-motion .is-magnetic{ transition-property:translate, background-color, color, box-shadow, transform, opacity; transition-duration:.55s, .2s, .2s, .2s, .16s, .2s; transition-timing-function:var(--ease), ease, ease, ease, var(--ease), ease; }
+  .has-motion .is-magnetic.is-pulled{ transition-duration:.15s, .2s, .2s, .2s, .16s, .2s; }
+  .has-motion [data-tilt]{ transition:transform .7s var(--ease); }
+  .has-motion [data-tilt].is-tilting{ transition:transform .12s linear; }
+  /* Пятно света под курсором — под текстом ячейки */
+  .has-motion [data-spot]{ position:relative; isolation:isolate; }
+  .has-motion [data-spot]::after{ content:""; position:absolute; inset:0; z-index:-1; background:radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 11%, transparent), transparent 70%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
+  .has-motion [data-spot]:hover::after{ opacity:1; }
+  /* Кольцо у курсора: отстаёт от стрелки, над ссылками растёт; смешивание «разность» — видно и на светлых кнопках */
+  .has-motion .cursor{ position:fixed; left:0; top:0; z-index:400; display:block; opacity:0; transition:opacity .3s ease; pointer-events:none; mix-blend-mode:difference; }
+  .has-motion .cursor.is-on{ opacity:1; }
+  .cursor-ring{ position:absolute; left:-18px; top:-18px; width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.75); will-change:transform; transition:scale .35s var(--ease), background-color .3s ease, border-color .3s ease; }
+  .cursor.is-link .cursor-ring{ scale:1.7; border-color:rgba(255,255,255,.95); background:rgba(255,255,255,.12); }
+  .cursor.is-down .cursor-ring{ scale:.8; }
+  .cursor.is-text .cursor-ring{ scale:.4; border-color:rgba(255,255,255,.5); }
+}

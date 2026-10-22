@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f262c">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<!-- js — включены скрипты; no-motion — посетитель выключил анимацию кнопкой в подвале (ставим до первой отрисовки) -->
-<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('menteya-motion')==='off')document.documentElement.classList.add('no-motion')}catch(e){}</script>
+<!-- js — включены скрипты; no-motion — посетитель выключил анимацию кнопкой в подвале; has-motion — полное движение (motion.js).
+     Ставим до первой отрисовки. is-loading держит прокрутку на время заставки; страховка через 3,2 с показывает страницу, даже если скрипт не загрузился -->
+<script>(function(c){c.add('js');try{if(localStorage.getItem('menteya-motion')==='off')c.add('no-motion');else if(!matchMedia('(prefers-reduced-motion: reduce)').matches){c.add('has-motion','is-loading');setTimeout(function(){if(!c.contains('is-ready')){c.add('is-ready');c.remove('is-loading');var l=document.getElementById('loader');if(l)l.hidden=true}},3200)}}catch(e){}})(document.documentElement.classList)</script>
 <title>{{title}}</title>
 <meta name="description" content="{{description}}">
 <link rel="canonical" href="{{url}}">
@@ -29,6 +30,22 @@
 
 <!-- @include sprite.html -->
 
+<!-- Заставка и занавес между страницами (motion.css / motion.js): видны только при html.has-motion -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-in">
+    <svg class="loader-mark" viewBox="0 0 64 64" focusable="false">
+      <circle class="loader-ring" cx="32" cy="32" r="28" pathLength="1"/>
+      <circle class="loader-ring loader-ring-2" cx="32" cy="32" r="24.2" pathLength="1"/>
+      <text class="loader-m" x="32" y="43.2" text-anchor="middle">М</text>
+    </svg>
+    <p class="loader-word"><span>М</span><span>Е</span><span>Н</span><span>Т</span><span>Е</span><span>Я</span></p>
+    <p class="loader-sub">психиатрическая клиника</p>
+  </div>
+</div>
+<!-- Линия прогресса чтения и кольцо у курсора — только при html.has-motion (кольцо — только с мышью) -->
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><span class="cursor-ring"></span></div>
+
 <!-- @include header.html -->
 
 <main id="main">
@@ -46,6 +63,8 @@
 <!-- @include cookie.html -->
 
 <script src="assets/js/menteya.js" defer></script>
+<!-- Движение: заставка, плавная прокрутка, параллакс, появление по словам. Только при html.has-motion -->
+<script src="assets/js/motion.js" defer></script>
 
 </body>
 </html>

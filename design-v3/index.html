@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f262c">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<!-- js — включены скрипты; no-motion — посетитель выключил анимацию кнопкой в подвале (ставим до первой отрисовки) -->
-<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('menteya-motion')==='off')document.documentElement.classList.add('no-motion')}catch(e){}</script>
+<!-- js — включены скрипты; no-motion — посетитель выключил анимацию кнопкой в подвале; has-motion — полное движение (motion.js).
+     Ставим до первой отрисовки. is-loading держит прокрутку на время заставки; страховка через 3,2 с показывает страницу, даже если скрипт не загрузился -->
+<script>(function(c){c.add('js');try{if(localStorage.getItem('menteya-motion')==='off')c.add('no-motion');else if(!matchMedia('(prefers-reduced-motion: reduce)').matches){c.add('has-motion','is-loading');setTimeout(function(){if(!c.contains('is-ready')){c.add('is-ready');c.remove('is-loading');var l=document.getElementById('loader');if(l)l.hidden=true}},3200)}}catch(e){}})(document.documentElement.classList)</script>
 <title>Частная психиатрическая клиника в Москве — «Ментея»</title>
 <meta name="description" content="Клиника психиатрии и психотерапии «Ментея» в Москве: психиатр, психотерапевт, психолог. Анонимно, без учёта. Приём в клинике, на дому, повторно — онлайн.">
 <link rel="canonical" href="https://menteya.ru/">
@@ -23,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
 <!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
-<link rel="stylesheet" href="assets/css/menteya.min.css">
+<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792654233">
 </head>
 <body>
 
@@ -79,6 +80,22 @@
   </symbol>
   <symbol id="i-vk" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M3.5 7h2.9c.1 3 1.4 4.6 2.6 4.9V7h2.7v2.7c1.2-.1 2.4-1.5 2.8-2.7h2.7c-.4 1.7-1.7 3-2.6 3.6.9.4 2.4 1.6 3 3.6h-3c-.4-1.3-1.5-2.3-2.9-2.4V14h-.3C6.6 14 3.6 11.3 3.5 7Z"/></symbol>
 </svg>
+
+<!-- Заставка и занавес между страницами (motion.css / motion.js): видны только при html.has-motion -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-in">
+    <svg class="loader-mark" viewBox="0 0 64 64" focusable="false">
+      <circle class="loader-ring" cx="32" cy="32" r="28" pathLength="1"/>
+      <circle class="loader-ring loader-ring-2" cx="32" cy="32" r="24.2" pathLength="1"/>
+      <text class="loader-m" x="32" y="43.2" text-anchor="middle">М</text>
+    </svg>
+    <p class="loader-word"><span>М</span><span>Е</span><span>Н</span><span>Т</span><span>Е</span><span>Я</span></p>
+    <p class="loader-sub">психиатрическая клиника</p>
+  </div>
+</div>
+<!-- Линия прогресса чтения и кольцо у курсора — только при html.has-motion (кольцо — только с мышью) -->
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><span class="cursor-ring"></span></div>
 
 <a class="skip-link" href="#main">Перейти к содержанию</a>
 
@@ -438,7 +455,7 @@
     <!-- Логотипы: от каждого файла видно только слово&nbsp;— рамка viewBox вырезает его без значка (числа&nbsp;— пиксели исходной картинки).
          Размер подобран так, чтобы строчные буквы у всех были одной высоты (~10,5px), а низ рамки&nbsp;— на одной линии под строкой:
          полоса ровная по весу. Цвет&nbsp;— один светлый, его задаёт фильтр в proof.css -->
-    <ul class="proof-list" role="list">
+    <ul class="proof-list" role="list" data-reveal>
       <li><a class="proof-item" href="#reviews" aria-label="Яндекс Карты: 4,5 из&nbsp;5, 212 отзывов">
         <span class="proof-logo"><svg width="65.5" height="20.6" viewBox="2 1 156 49" aria-hidden="true"><image href="assets/img/platform-yandex.png" width="160" height="45"/></svg></span>
         <span class="proof-score"><b>4,5</b><svg class="i"><use href="#i-star"/></svg></span>
@@ -620,8 +637,9 @@
       </div>
 
       <div class="visit-main">
-        <!-- Линия у каждого шага заполняется один раз, когда шаг появился (класс is-in от data-reveal); --p&nbsp;— доля пути: 1/4, 2/4… -->
-        <ol class="visit-steps" role="list">
+        <!-- Линия у каждого шага заполняется один раз, когда шаг появился (класс is-in от data-reveal);
+             в полном движении (data-scrub, motion.js)&nbsp;— по мере прокрутки, и номер шага зажигается мятой. --p&nbsp;— доля пути: 1/4, 2/4… -->
+        <ol class="visit-steps" role="list" data-scrub>
           <li class="visit-step" data-reveal style="--i:1; --p:.25">
             <div class="visit-step-top" aria-hidden="true"><span class="visit-n">01 / 04</span><span class="visit-line"></span></div>
             <h3 class="h3">Заявка</h3>
@@ -654,6 +672,7 @@
 
 <!-- ============ ВРАЧИ ============ -->
 <!-- Ряд карточек в рамке (Collider «Our Beers»): стрелки листают ряд на одну карточку, на телефоне&nbsp;— лента с защёлкой.
+     Каждая карточка появляется сама (data-reveal, --i&nbsp;— очередь); в полном движении фото открывается шторкой (motion.css).
      Окно записи берёт имя врача из .doc-card .doc-name&nbsp;— классы не менять.
      Фото&nbsp;— заглушки до съёмки; стаж, цены и капсулы&nbsp;— из прошлого дизайна, заменить на реальные -->
 <section class="sec" id="doctors" aria-labelledby="doctors-title">
@@ -670,8 +689,8 @@
       </div>
     </div>
 
-    <div class="frame doc-track" id="doctorsTrack" data-reveal style="--i:1">
-      <article class="doc-card">
+    <div class="frame doc-track" id="doctorsTrack">
+      <article class="doc-card" data-reveal style="--i:0">
         <div class="doc-photo">
           <img src="assets/img/intro-main.jpg" width="700" height="700" alt="Соколова Анна Викторовна, главный врач, психиатр" loading="lazy">
           <p class="doc-caps"><span class="pill">Главный врач</span><span class="pill">Стаж 18&nbsp;лет</span></p>
@@ -686,7 +705,7 @@
         </div>
       </article>
 
-      <article class="doc-card">
+      <article class="doc-card" data-reveal style="--i:1">
         <div class="doc-photo">
           <img src="assets/img/doctor-orlov.jpg" width="700" height="700" alt="Орлов Михаил Андреевич, психиатр-психотерапевт" loading="lazy">
           <p class="doc-caps"><span class="pill">Стаж 14&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
@@ -701,7 +720,7 @@
         </div>
       </article>
 
-      <article class="doc-card">
+      <article class="doc-card" data-reveal style="--i:2">
         <div class="doc-photo">
           <img src="assets/img/doctor-volkova.jpg" width="700" height="700" alt="Волкова Елена Сергеевна, клинический психолог" loading="lazy">
           <p class="doc-caps"><span class="pill">Стаж 11&nbsp;лет</span></p>
@@ -716,7 +735,7 @@
         </div>
       </article>
 
-      <article class="doc-card">
+      <article class="doc-card" data-reveal style="--i:3">
         <div class="doc-photo">
           <img src="assets/img/doctor-lebedev.jpg" width="700" height="700" alt="Лебедев Игорь Павлович, детский психиатр" loading="lazy">
           <p class="doc-caps"><span class="pill">Стаж 16&nbsp;лет</span><span class="pill">Дети и&nbsp;подростки</span></p>
@@ -731,7 +750,7 @@
         </div>
       </article>
 
-      <article class="doc-card">
+      <article class="doc-card" data-reveal style="--i:4">
         <div class="doc-photo">
           <img src="assets/img/doctor-belov.jpg" width="700" height="700" alt="Белов Сергей Николаевич, психотерапевт" loading="lazy">
           <p class="doc-caps"><span class="pill">Стаж 9&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
@@ -747,7 +766,7 @@
       </article>
 
       <!-- Последняя ячейка ряда&nbsp;— не врач, а подбор: класс не .doc-card, чтобы окно записи не искало имя -->
-      <div class="doc-cta">
+      <div class="doc-cta" data-reveal style="--i:5">
         <p class="label">Подбор врача</p>
         <h3 class="h3">Не&nbsp;знаете, какой специалист нужен?</h3>
         <p>Опишите ситуацию&nbsp;— администратор подберёт врача и&nbsp;удобное время.</p>
@@ -924,7 +943,7 @@
            С реальными данными пересчитать так же: простое среднее по площадкам завышает итог (ст. 5 ФЗ «О рекламе») -->
       <div class="glass-dk rv-total">
         <b class="num">4,7</b>
-        <p><span class="rv-stars" style="--r:4.7" aria-hidden="true"></span><span class="fine">средняя оценка<br>504&nbsp;отзыва на&nbsp;6&nbsp;площадках</span></p>
+        <p><span class="rv-stars" style="--rv:4.7" aria-hidden="true"></span><span class="fine">средняя оценка<br>504&nbsp;отзыва на&nbsp;6&nbsp;площадках</span></p>
       </div>
     </div>
 
@@ -933,7 +952,7 @@
       <li class="rv-col" data-reveal style="--i:0">
         <p class="rv-tag">Яндекс Карты</p>
         <div class="rv-foot">
-          <span class="rv-stars" style="--r:4.5" aria-hidden="true"></span>
+          <span class="rv-stars" style="--rv:4.5" aria-hidden="true"></span>
           <p class="rv-score"><b class="num">4,5</b><span>из&nbsp;5</span></p>
           <p class="rv-count">212&nbsp;отзывов</p>
           <a class="go rv-go" href="https://yandex.ru/maps/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: Яндекс Карты, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
@@ -942,7 +961,7 @@
       <li class="rv-col" data-reveal style="--i:1">
         <p class="rv-tag">ПроДокторов</p>
         <div class="rv-foot">
-          <span class="rv-stars" style="--r:4.9" aria-hidden="true"></span>
+          <span class="rv-stars" style="--rv:4.9" aria-hidden="true"></span>
           <p class="rv-score"><b class="num">4,9</b><span>из&nbsp;5</span></p>
           <p class="rv-count">128&nbsp;отзывов</p>
           <a class="go rv-go" href="https://prodoctorov.ru/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: ПроДокторов, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
@@ -951,7 +970,7 @@
       <li class="rv-col" data-reveal style="--i:2">
         <p class="rv-tag">НаПоправку</p>
         <div class="rv-foot">
-          <span class="rv-stars" style="--r:4.8" aria-hidden="true"></span>
+          <span class="rv-stars" style="--rv:4.8" aria-hidden="true"></span>
           <p class="rv-score"><b class="num">4,8</b><span>из&nbsp;5</span></p>
           <p class="rv-count">64&nbsp;отзыва</p>
           <a class="go rv-go" href="https://napopravku.ru/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: НаПоправку, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
@@ -960,7 +979,7 @@
       <li class="rv-col" data-reveal style="--i:3">
         <p class="rv-tag">Google</p>
         <div class="rv-foot">
-          <span class="rv-stars" style="--r:4.7" aria-hidden="true"></span>
+          <span class="rv-stars" style="--rv:4.7" aria-hidden="true"></span>
           <p class="rv-score"><b class="num">4,7</b><span>из&nbsp;5</span></p>
           <p class="rv-count">45&nbsp;отзывов</p>
           <a class="go rv-go" href="https://www.google.com/maps/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: Google Карты, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
@@ -969,7 +988,7 @@
       <li class="rv-col" data-reveal style="--i:4">
         <p class="rv-tag">2ГИС</p>
         <div class="rv-foot">
-          <span class="rv-stars" style="--r:5" aria-hidden="true"></span>
+          <span class="rv-stars" style="--rv:5" aria-hidden="true"></span>
           <p class="rv-score"><b class="num">5,0</b><span>из&nbsp;5</span></p>
           <p class="rv-count">37&nbsp;отзывов</p>
           <a class="go rv-go" href="https://2gis.ru/moscow" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: 2ГИС, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
@@ -978,7 +997,7 @@
       <li class="rv-col" data-reveal style="--i:5">
         <p class="rv-tag">Yell.ru</p>
         <div class="rv-foot">
-          <span class="rv-stars" style="--r:5" aria-hidden="true"></span>
+          <span class="rv-stars" style="--rv:5" aria-hidden="true"></span>
           <p class="rv-score"><b class="num">5,0</b><span>из&nbsp;5</span></p>
           <p class="rv-count">18&nbsp;отзывов</p>
           <a class="go rv-go" href="https://www.yell.ru/" target="_blank" rel="noopener"><span class="rv-go-t">Читать на&nbsp;площадке</span><span class="visually-hidden">: Yell.ru, откроется в&nbsp;новой вкладке</span><svg class="i"><use href="#i-arrow"/></svg></a>
@@ -1021,7 +1040,7 @@
         <h2 class="h2" id="about-title">Атмосфера доверия</h2>
         <p class="lead">«Ментея»&nbsp;— команда психиатров, психотерапевтов и&nbsp;клинических психологов.</p>
       </div>
-      <p class="manifest">Мы лечим не&nbsp;диагноз, а&nbsp;человека: <span class="muted">смотрим на&nbsp;сон, тело, отношения и&nbsp;историю.</span></p>
+      <p class="manifest" data-scrub>Мы лечим не&nbsp;диагноз, а&nbsp;человека: <span class="muted">смотрим на&nbsp;сон, тело, отношения и&nbsp;историю.</span></p>
     </div>
 
     <div class="about-split">
@@ -1055,9 +1074,9 @@
     </div>
 
     <!-- Цифры&nbsp;— из прошлого дизайна, заменить на реальные (с источником). Нет подтверждения&nbsp;— убрать ячейку (закон о рекламе медуслуг).
-         Без накрутки счётчиков: цифры стоят как есть -->
+         Число пациентов досчитывается один раз при появлении (data-count, menteya.js); при «уменьшить движение» стоит как есть -->
     <ul class="about-stats" data-reveal style="--i:3">
-      <li class="about-stat"><span class="label label-plain">Пациенты</span><b class="num">12&nbsp;400+</b><span class="fine">пациентов обратились в&nbsp;клинику</span></li>
+      <li class="about-stat"><span class="label label-plain">Пациенты</span><b class="num" data-count="12400" data-suffix="+">12&nbsp;400+</b><span class="fine">пациентов обратились в&nbsp;клинику</span></li>
       <li class="about-stat"><span class="label label-plain">Стаж врачей</span><b class="num"><small>от&nbsp;</small>9<small>&nbsp;лет</small></b><span class="fine">у&nbsp;каждого специалиста команды</span></li>
       <li class="about-stat"><span class="label label-plain">Приём</span><b class="num">9–21</b><span class="fine">ежедневно, с&nbsp;9:00 до&nbsp;21:00 в&nbsp;клинике</span></li>
       <li class="about-stat"><span class="label label-plain">Выезд на&nbsp;дом</span><b class="num">24/7</b><span class="fine">психиатр на&nbsp;дом по&nbsp;Москве, от&nbsp;6&nbsp;000&nbsp;₽</span></li>
@@ -1389,6 +1408,7 @@
 
     <div class="contact-bottom">
       <!-- Карта&nbsp;— неподвижная тёмная схема улиц линиями, нарисована кодом: не грузит чужие скрипты и cookie.
+           pathLength="1" у улиц&nbsp;— чтобы в полном движении они прорисовывались (motion.css), на вид не влияет.
            Заглушка: заменить ссылку на карточку организации в Яндекс Картах (yandex.ru/maps/org/…), схему&nbsp;— по реальным улицам -->
       <a class="cmap" href="https://yandex.ru/maps/?text=Москва%2C%20ул.%20Примерная%2C%201" target="_blank" rel="noopener" aria-label="Открыть адрес клиники в Яндекс Картах (в новой вкладке)" data-reveal>
         <svg class="cmap-art" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -1402,12 +1422,12 @@
             <rect x="672" y="300" width="80" height="34"/><rect x="210" y="40" width="70" height="40"/>
           </g>
           <path class="m-water" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
-          <path class="m-shore" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
+          <path class="m-shore" pathLength="1" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
           <g class="m-road-s">
-            <path d="M-20 150 820 100"/><path d="M330-20 310 500"/><path d="M640-20 620 500"/><path d="M200 392 820 352"/><path d="M40-20 20 300"/>
+            <path pathLength="1" d="M-20 150 820 100"/><path pathLength="1" d="M330-20 310 500"/><path pathLength="1" d="M640-20 620 500"/><path pathLength="1" d="M200 392 820 352"/><path pathLength="1" d="M40-20 20 300"/>
           </g>
           <g class="m-road">
-            <path d="M150-20C110 120 120 300 230 500"/><path d="M500-20 470 500"/><path d="M-20 300 820 236"/>
+            <path pathLength="1" d="M150-20C110 120 120 300 230 500"/><path pathLength="1" d="M500-20 470 500"/><path pathLength="1" d="M-20 300 820 236"/>
           </g>
           <text class="m-name" x="610" y="256" transform="rotate(-4.4 610 256)">ул. Примерная</text>
         </svg>
@@ -1498,7 +1518,7 @@
 <!-- Подвал в стилистике первого экрана: «ночная вода» с неподвижным светом и стеклянной линзой справа, знак «Рассвет»,
      ссылки, контакты стеклом поверх линзы, ниже&nbsp;— предупреждение, реквизиты и документы.
      В WordPress&nbsp;— часть шаблона footer; колонки ссылок&nbsp;— меню «Подвал». -->
-<footer class="site-footer">
+<footer class="site-footer" data-scrub>
   <!-- Фон: кадр света с линзой рисует один раз модуль «Свет» в menteya.js (data-silk="lens", стили&nbsp;— sections.css и footer.css).
        Отдельным слоем, а не на самом подвале: размер линзы зависит от высоты блока, а слой на каждой ширине своей высоты -->
   <div class="ft-silk" data-silk="lens" aria-hidden="true"></div>
@@ -1588,6 +1608,9 @@
       </nav>
       <p class="ft-note">Сайт носит информационный характер и&nbsp;не&nbsp;является публичной офертой.</p>
     </div>
+
+    <!-- Крупное контурное слово-знак; в полном движении буквы поднимаются по очереди (motion.js разбивает на буквы) -->
+    <p class="ft-word" aria-hidden="true" data-reveal>Ментея</p>
 
     <div class="ft-bottom">
       <span>© 2026 Клиника «Ментея»</span>
@@ -1684,7 +1707,9 @@
   </div>
 </section>
 
-<script src="assets/js/menteya.js" defer></script>
+<script src="assets/js/menteya.js?v=1792654233" defer></script>
+<!-- Движение: заставка, плавная прокрутка, параллакс, появление по словам. Только при html.has-motion -->
+<script src="assets/js/motion.js?v=1792654233" defer></script>
 
 </body>
 </html>

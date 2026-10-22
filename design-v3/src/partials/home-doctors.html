@@ -1,5 +1,6 @@
 <!-- ============ ВРАЧИ ============ -->
 <!-- Ряд карточек в рамке (Collider «Our Beers»): стрелки листают ряд на одну карточку, на телефоне — лента с защёлкой.
+     Каждая карточка появляется сама (data-reveal, --i — очередь); в полном движении фото открывается шторкой (motion.css).
      Окно записи берёт имя врача из .doc-card .doc-name — классы не менять.
      Фото — заглушки до съёмки; стаж, цены и капсулы — из прошлого дизайна, заменить на реальные -->
 <section class="sec" id="doctors" aria-labelledby="doctors-title">
@@ -16,8 +17,8 @@
       </div>
     </div>
 
-    <div class="frame doc-track" id="doctorsTrack" data-reveal style="--i:1">
-      <article class="doc-card">
+    <div class="frame doc-track" id="doctorsTrack">
+      <article class="doc-card" data-reveal style="--i:0">
         <div class="doc-photo">
           <img src="assets/img/intro-main.jpg" width="700" height="700" alt="Соколова Анна Викторовна, главный врач, психиатр" loading="lazy">
           <p class="doc-caps"><span class="pill">Главный врач</span><span class="pill">Стаж 18&nbsp;лет</span></p>
@@ -32,7 +33,7 @@
         </div>
       </article>
 
-      <article class="doc-card">
+      <article class="doc-card" data-reveal style="--i:1">
         <div class="doc-photo">
           <img src="assets/img/doctor-orlov.jpg" width="700" height="700" alt="Орлов Михаил Андреевич, психиатр-психотерапевт" loading="lazy">
           <p class="doc-caps"><span class="pill">Стаж 14&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
@@ -47,7 +48,7 @@
         </div>
       </article>
 
-      <article class="doc-card">
+      <article class="doc-card" data-reveal style="--i:2">
         <div class="doc-photo">
           <img src="assets/img/doctor-volkova.jpg" width="700" height="700" alt="Волкова Елена Сергеевна, клинический психолог" loading="lazy">
           <p class="doc-caps"><span class="pill">Стаж 11&nbsp;лет</span></p>
@@ -62,7 +63,7 @@
         </div>
       </article>
 
-      <article class="doc-card">
+      <article class="doc-card" data-reveal style="--i:3">
         <div class="doc-photo">
           <img src="assets/img/doctor-lebedev.jpg" width="700" height="700" alt="Лебедев Игорь Павлович, детский психиатр" loading="lazy">
           <p class="doc-caps"><span class="pill">Стаж 16&nbsp;лет</span><span class="pill">Дети и&nbsp;подростки</span></p>
@@ -77,7 +78,7 @@
         </div>
       </article>
 
-      <article class="doc-card">
+      <article class="doc-card" data-reveal style="--i:4">
         <div class="doc-photo">
           <img src="assets/img/doctor-belov.jpg" width="700" height="700" alt="Белов Сергей Николаевич, психотерапевт" loading="lazy">
           <p class="doc-caps"><span class="pill">Стаж 9&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
@@ -93,7 +94,7 @@
       </article>
 
       <!-- Последняя ячейка ряда — не врач, а подбор: класс не .doc-card, чтобы окно записи не искало имя -->
-      <div class="doc-cta">
+      <div class="doc-cta" data-reveal style="--i:5">
         <p class="label">Подбор врача</p>
         <h3 class="h3">Не&nbsp;знаете, какой специалист нужен?</h3>
         <p>Опишите ситуацию&nbsp;— администратор подберёт врача и&nbsp;удобное время.</p>

@@ -24,8 +24,8 @@
 /* ---------- Отзывы: линза и итог в шапке раздела ---------- */
 .rv-lens{ top:calc(var(--sec) * .25); }   /* шар на уровне шапки: за стеклянной карточкой среднего балла, выше колонок */
 /* Свечение шара гаснет к краю холста: без маски у холста виден прямоугольный край (шар — 72% радиуса, дальше только свечение) */
-/* Звёзды: одна звезда-маска повторяется пять раз, заливка — по оценке (--r из 5) */
-.rv-stars{ --r:5; --star:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 16'%3E%3Cpath d='M8 0l2.4 4.9 5.4.8-3.9 3.8.9 5.4L8 12.4 3.2 14.9l.9-5.4L.2 5.7l5.4-.8z'/%3E%3C/svg%3E"); display:inline-block; flex-shrink:0; width:88px; height:16px; background:linear-gradient(90deg, var(--accent) calc(var(--r) / 5 * 100%), var(--line-2) 0); -webkit-mask:var(--star) 0 0/18px 16px repeat-x; mask:var(--star) 0 0/18px 16px repeat-x; }
+/* Звёзды: одна звезда-маска повторяется пять раз, заливка — по оценке (--rv из 5; в полном движении --stars наливается от нуля, motion.css) */
+.rv-stars{ --stars:var(--rv, 5); --star:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 16'%3E%3Cpath d='M8 0l2.4 4.9 5.4.8-3.9 3.8.9 5.4L8 12.4 3.2 14.9l.9-5.4L.2 5.7l5.4-.8z'/%3E%3C/svg%3E"); display:inline-block; flex-shrink:0; width:88px; height:16px; background:linear-gradient(90deg, var(--accent) calc(var(--stars) / 5 * 100%), var(--line-2) 0); -webkit-mask:var(--star) 0 0/18px 16px repeat-x; mask:var(--star) 0 0/18px 16px repeat-x; }
 /* Средний балл — стеклянная карточка поверх линзы, как карточка «Выезд на дом» на первом экране */
 .rv-total{ display:flex; align-items:center; gap:18px; padding:20px 24px; }
 .rv-total p{ display:grid; gap:8px; }

@@ -684,7 +684,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
 //    (полушария, височные доли, мозжечок, ствол), извилины — изогнутый гироид; по бороздам бегут волны мятного света;
 //  • линза — шары у краёв разделов (.lens canvas, стили — sections.css) и неподвижный фон разделов и подвала:
 //    кадр рисуется один раз и кладётся картинкой в --silk ([data-silk]).
-// Камера стоит, к прокрутке ничего не привязано. Не больше 30 кадров в секунду, рисуется только то, что у экрана;
+// Камера стоит; сдвиг сцены за прокруткой и курсором делает motion.js (CSS-трансформация холста и uTilt). Не больше 30 кадров в секунду, рисуется только то, что у экрана;
 // если видеокарта не успевает, первый экран сам переходит на меньшее разрешение.
 // «Уменьшить движение» в системе или кнопка в подвале — неподвижный кадр. Без WebGL остаются CSS-градиенты
 (function(){
@@ -695,8 +695,9 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '#else',
     'precision mediump float;',
     '#endif',
-    // uMode: 0 — фон во весь холст, 1 — шар на прозрачном фоне; uShade: 0 — ровно, 1 — темнее слева (текст), 2 — темнее под линзой или мозгом
-    'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim;',
+    // uMode: 0 — фон во весь холст, 1 — шар на прозрачном фоне; uShade: 0 — ровно, 1 — темнее слева (текст), 2 — темнее под линзой или мозгом;
+    // uTilt — куда смотрит курсор (−1…1), пишет motion.js: мозг и свет чуть поворачиваются вслед
+    'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim; uniform vec2 uTilt;',
     'float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }',
     'float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f);',
     '  return mix(mix(hash(i), hash(i + vec2(1., 0.)), u.x), mix(hash(i + vec2(0., 1.)), hash(i + vec2(1., 1.)), u.x), u.y); }',
@@ -807,15 +808,15 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '}',
     'void main(){',
     '  vec2 p = (gl_FragCoord.xy - .5 * uRes) / uRes.y;',
-    '  vec3 col = silk(p + uSeed, uTime * .065) * uDim;',
+    '  vec3 col = silk(p + uSeed + uTilt * .035, uTime * .065) * uDim;',
     '  col *= 1. - .5 * shadeAt(p);',
     '  col *= 1. - .22 * dot(p * vec2(.55, 1.), p * vec2(.55, 1.));',
-    // мозг медленно покачивается и чуть всплывает; поворот модели в камеру — сначала вокруг вертикали, потом наклон
-    '  float yaw = -1.13 + .21 * sin(uTime * .16), pitch = .34 + .05 * sin(uTime * .11 + 1.);',
+    // мозг медленно покачивается и чуть всплывает; поворот модели в камеру — сначала вокруг вертикали, потом наклон; курсор (uTilt) доворачивает его вслед за взглядом
+    '  float yaw = -1.13 + .21 * sin(uTime * .16) + uTilt.x * .22, pitch = .34 + .05 * sin(uTime * .11 + 1.) - uTilt.y * .14;',
     '  float cy = cos(yaw), sy = sin(yaw), cp = cos(pitch), sp = sin(pitch);',
     '  mat3 rot = mat3(1., 0., 0., 0., cp, sp, 0., -sp, cp) * mat3(cy, 0., -sy, 0., 1., 0., sy, 0., cy);',
     '  float k = .4 / uLens.z;',
-    '  vec2 m = (p - uLens.xy) * k;',
+    '  vec2 m = (p - uLens.xy + uTilt * vec2(.025, -.018)) * k;',   // мозг сдвигается чуть меньше фона — глубина
     '  m.y += .012 * sin(uTime * .35);',
     '  vec3 rdc = normalize(vec3(m, -3.5));',
     '  vec3 ro = vec3(0., 0., 3.5) * rot, rd = rdc * rot;',   // луч — в пространство модели (v * M — обратный поворот)
@@ -865,7 +866,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     var loc = {};
-    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
+    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim', 'uTilt'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
     gl.uniform1f(loc.uDim, 1);
     return {
       gl:gl,
@@ -914,6 +915,8 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     };
     heroResize();
     heroCanvas.classList.add('is-on');
+    // Взгляд за курсором: motion.js передаёт сюда положение курсора (−1…1); мозг и свет чуть доворачиваются
+    window.MenteyaLight = { tilt:function(x, y){ hr.set('uTilt', x, y); } };
     heroCanvas.addEventListener('webglcontextlost', function(e){ e.preventDefault(); heroCanvas.classList.remove('is-on'); });   // остаётся CSS-градиент
     watch({ r:hr, el:heroCanvas, visible:true, resize:heroResize, slow:function(){
       if(heroQ <= .5) return;

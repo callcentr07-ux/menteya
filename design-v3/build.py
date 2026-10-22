@@ -23,7 +23,7 @@ SCRIPT = re.compile(r"(<script\b.*?</script>)", re.S)
 # Стили по частям — в порядке подключения; в WordPress каждый файл — стили своего блока
 CSS_FILES = ["core.css", "blocks/sections.css", "blocks/header.css", "blocks/hero.css",
              "blocks/proof.css", "blocks/services.css", "blocks/visit.css", "blocks/people.css",
-             "blocks/pricing.css", "blocks/contact.css", "blocks/footer.css", "blocks/overlays.css"]
+             "blocks/pricing.css", "blocks/contact.css", "blocks/footer.css", "blocks/overlays.css", "blocks/motion.css"]
 COMMENT = re.compile(r"/\*.*?\*/", re.S)
 STRING = re.compile(r"""("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')""")
 
@@ -73,10 +73,16 @@ def build_page(path):
                   .replace("{{url}}", meta["url"])
                   .replace("{{content}}", content))
     page = expand(page)
+    # Метка версии у стилей и скриптов: после пересборки браузер не возьмёт старые файлы из кеша.
+    # В WordPress то же делает wp_enqueue_style/script параметром версии
+    for asset in ("assets/css/menteya.min.css", "assets/js/menteya.js", "assets/js/motion.js"):
+        page = page.replace(asset + '"', asset + '?v=' + STAMP + '"')
     (ROOT / path.name).write_text(page, encoding="utf-8")
     return path.name
 
 
 if __name__ == "__main__":
+    css_kb = bundle_css()
+    STAMP = str(max(int(f.stat().st_mtime) for f in [CSS_DIR / "menteya.min.css", *(ROOT / "assets" / "js").glob("*.js")]))
     built = [build_page(p) for p in sorted((SRC / "pages").glob("*.html"))]
-    print("built:", ", ".join(built), "| css:", bundle_css(), "KB")
+    print("built:", ", ".join(built), "| css:", css_kb, "KB | v=" + STAMP)

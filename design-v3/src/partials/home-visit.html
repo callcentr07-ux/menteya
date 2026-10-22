@@ -17,8 +17,9 @@
       </div>
 
       <div class="visit-main">
-        <!-- Линия у каждого шага заполняется один раз, когда шаг появился (класс is-in от data-reveal); --p — доля пути: 1/4, 2/4… -->
-        <ol class="visit-steps" role="list">
+        <!-- Линия у каждого шага заполняется один раз, когда шаг появился (класс is-in от data-reveal);
+             в полном движении (data-scrub, motion.js) — по мере прокрутки, и номер шага зажигается мятой. --p — доля пути: 1/4, 2/4… -->
+        <ol class="visit-steps" role="list" data-scrub>
           <li class="visit-step" data-reveal style="--i:1; --p:.25">
             <div class="visit-step-top" aria-hidden="true"><span class="visit-n">01 / 04</span><span class="visit-line"></span></div>
             <h3 class="h3">Заявка</h3>

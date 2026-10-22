@@ -123,6 +123,7 @@
 
     <div class="contact-bottom">
       <!-- Карта — неподвижная тёмная схема улиц линиями, нарисована кодом: не грузит чужие скрипты и cookie.
+           pathLength="1" у улиц — чтобы в полном движении они прорисовывались (motion.css), на вид не влияет.
            Заглушка: заменить ссылку на карточку организации в Яндекс Картах (yandex.ru/maps/org/…), схему — по реальным улицам -->
       <a class="cmap" href="https://yandex.ru/maps/?text=Москва%2C%20ул.%20Примерная%2C%201" target="_blank" rel="noopener" aria-label="Открыть адрес клиники в Яндекс Картах (в новой вкладке)" data-reveal>
         <svg class="cmap-art" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -136,12 +137,12 @@
             <rect x="672" y="300" width="80" height="34"/><rect x="210" y="40" width="70" height="40"/>
           </g>
           <path class="m-water" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
-          <path class="m-shore" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
+          <path class="m-shore" pathLength="1" d="M-40 446C140 396 260 486 420 456S680 396 840 436"/>
           <g class="m-road-s">
-            <path d="M-20 150 820 100"/><path d="M330-20 310 500"/><path d="M640-20 620 500"/><path d="M200 392 820 352"/><path d="M40-20 20 300"/>
+            <path pathLength="1" d="M-20 150 820 100"/><path pathLength="1" d="M330-20 310 500"/><path pathLength="1" d="M640-20 620 500"/><path pathLength="1" d="M200 392 820 352"/><path pathLength="1" d="M40-20 20 300"/>
           </g>
           <g class="m-road">
-            <path d="M150-20C110 120 120 300 230 500"/><path d="M500-20 470 500"/><path d="M-20 300 820 236"/>
+            <path pathLength="1" d="M150-20C110 120 120 300 230 500"/><path pathLength="1" d="M500-20 470 500"/><path pathLength="1" d="M-20 300 820 236"/>
           </g>
           <text class="m-name" x="610" y="256" transform="rotate(-4.4 610 256)">ул. Примерная</text>
         </svg>
