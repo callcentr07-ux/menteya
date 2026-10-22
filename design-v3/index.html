@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
 <!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
-<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792658367">
+<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792658948">
 </head>
 <body>
 
@@ -518,15 +518,20 @@
         <div class="svc-card">
           <p class="label svc-card-label" id="svc-map-title">Карта состояний</p>
           <div class="lens svc-lens" data-seed="5" data-shape="brain" aria-hidden="true"><canvas></canvas></div>
+          <!-- Области мозга для состояния под курсором&nbsp;— заполняет motion.js из data-zone подписи -->
+          <p class="label svc-zone" aria-live="polite"><span></span></p>
         </div>
         <ol class="svc-calls" aria-labelledby="svc-map-title">
-          <li class="is-l" data-n="1"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">1</span><span class="svc-call-t">Тревога и<br> панические атаки</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-l" data-n="2"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">2</span><span class="svc-call-t">Депрессия</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-l" data-n="3"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">3</span><span class="svc-call-t">Бессонница</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-r" data-n="4"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">4</span><span class="svc-call-t">Стресс и<br> выгорание</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-r" data-n="5"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">5</span><span class="svc-call-t">Память<br> у&nbsp;пожилых</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-r" data-n="6"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">6</span><span class="svc-call-t">Дети и<br> подростки</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <!-- data-zone&nbsp;— какие области мозга связаны с состоянием (упрощённо, научно-популярно): на компьютере показывается в плашке под мозгом
+               при наведении, на телефоне&nbsp;— второй строкой в списке -->
+          <li class="is-l" data-n="1" data-zone="Миндалевидное тело и префронтальная кора"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">1</span><span class="svc-call-b"><span class="svc-call-t">Тревога и<br> панические атаки</span><span class="svc-call-z">Миндалевидное тело и&nbsp;префронтальная кора</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-l" data-n="2" data-zone="Префронтальная кора и лимбическая система"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">2</span><span class="svc-call-b"><span class="svc-call-t">Депрессия</span><span class="svc-call-z">Префронтальная кора и&nbsp;лимбическая система</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-l" data-n="3" data-zone="Гипоталамус и ствол мозга&nbsp;— центры сна"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">3</span><span class="svc-call-b"><span class="svc-call-t">Бессонница</span><span class="svc-call-z">Гипоталамус и&nbsp;ствол мозга&nbsp;— центры сна</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="4" data-zone="Префронтальная кора и гипоталамус&nbsp;— ось стресса"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">4</span><span class="svc-call-b"><span class="svc-call-t">Стресс и<br> выгорание</span><span class="svc-call-z">Префронтальная кора и&nbsp;гипоталамус&nbsp;— ось стресса</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="5" data-zone="Гиппокамп и теменная кора"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">5</span><span class="svc-call-b"><span class="svc-call-t">Память<br> у&nbsp;пожилых</span><span class="svc-call-z">Гиппокамп и&nbsp;теменная кора</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="6" data-zone="Лобные доли&nbsp;— созревают до 25 лет"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">6</span><span class="svc-call-b"><span class="svc-call-t">Дети и<br> подростки</span><span class="svc-call-z">Лобные доли&nbsp;— созревают до&nbsp;25&nbsp;лет</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
         </ol>
+        <p class="fine svc-note">Схема упрощена: за&nbsp;состояние отвечает не&nbsp;одна область мозга.</p>
       </div>
 
       <!-- Мастер «Подобрать специалиста»: три вопроса → врач и формат; ведёт menteya.js (.wiz). Это маршрут, не диагноз —
@@ -1127,7 +1132,7 @@
     <div class="about-split">
       <!-- Галерея фото клиники: листается стрелками, миниатюрами и свайпом, сама сменяет кадр раз в 7 с (полоса под миниатюрой),
            при наведении и вне экрана стоит&nbsp;— ведёт menteya.js (.gallery: .gallery-slide, .gallery-thumb с .bar и data-caption, .gallery-btn, .gallery-caption).
-           Фото&nbsp;— заглушки до съёмки: заменить на снимки клиники. Выноски&nbsp;— только у первого кадра и только правдивые факты;
+           Фото&nbsp;— заглушки до съёмки: заменить на снимки клиники (кадры 4 и 5&nbsp;— вырезки из кадров 2 и 3). Выноски&nbsp;— только у первого кадра и только правдивые факты;
            новое фото&nbsp;— сдвинуть точки (--x, --y в процентах кадра) -->
       <div class="about-photo gallery" data-reveal style="--i:1" role="group" aria-label="Фото клиники">
         <div class="gallery-stage">
@@ -1146,6 +1151,12 @@
           <figure class="gallery-slide">
             <img src="assets/img/about-3.jpg" width="900" height="506" alt="Кабинет врача: стол, два кресла для беседы, окно" loading="lazy">
           </figure>
+          <figure class="gallery-slide">
+            <img src="assets/img/about-4.jpg" width="900" height="506" alt="Зона ожидания: мягкие кресла у матового стекла" loading="lazy">
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/img/about-5.jpg" width="900" height="506" alt="Уголок для беседы в кабинете: два кресла и столик у окна" loading="lazy">
+          </figure>
           <p class="label about-cap gallery-caption"><span>Коридор и&nbsp;зона ожидания</span></p>
         </div>
         <div class="gallery-bar">
@@ -1153,6 +1164,8 @@
             <button class="gallery-thumb is-active" type="button" data-caption="Коридор и зона ожидания" aria-current="true" aria-label="Кадр 1: коридор и зона ожидания"><img src="assets/img/about-2.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
             <button class="gallery-thumb" type="button" data-caption="Стойка администратора" aria-label="Кадр 2: стойка администратора"><img src="assets/img/intro-inset.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
             <button class="gallery-thumb" type="button" data-caption="Кабинет врача" aria-label="Кадр 3: кабинет врача"><img src="assets/img/about-3.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Зона ожидания" aria-label="Кадр 4: зона ожидания"><img src="assets/img/about-4.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Уголок для беседы" aria-label="Кадр 5: уголок для беседы в кабинете"><img src="assets/img/about-5.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
           </div>
           <div class="gallery-nav">
             <button class="gallery-btn prev" type="button" aria-label="Предыдущий кадр"><svg class="i"><use href="#i-arrow"/></svg></button>
@@ -1813,9 +1826,9 @@
   </div>
 </section>
 
-<script src="assets/js/menteya.js?v=1792658367" defer></script>
+<script src="assets/js/menteya.js?v=1792658948" defer></script>
 <!-- Движение: заставка, плавная прокрутка, параллакс, появление по словам. Только при html.has-motion -->
-<script src="assets/js/motion.js?v=1792658367" defer></script>
+<script src="assets/js/motion.js?v=1792658948" defer></script>
 
 </body>
 </html>

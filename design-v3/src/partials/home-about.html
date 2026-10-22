@@ -14,7 +14,7 @@
     <div class="about-split">
       <!-- Галерея фото клиники: листается стрелками, миниатюрами и свайпом, сама сменяет кадр раз в 7 с (полоса под миниатюрой),
            при наведении и вне экрана стоит — ведёт menteya.js (.gallery: .gallery-slide, .gallery-thumb с .bar и data-caption, .gallery-btn, .gallery-caption).
-           Фото — заглушки до съёмки: заменить на снимки клиники. Выноски — только у первого кадра и только правдивые факты;
+           Фото — заглушки до съёмки: заменить на снимки клиники (кадры 4 и 5 — вырезки из кадров 2 и 3). Выноски — только у первого кадра и только правдивые факты;
            новое фото — сдвинуть точки (--x, --y в процентах кадра) -->
       <div class="about-photo gallery" data-reveal style="--i:1" role="group" aria-label="Фото клиники">
         <div class="gallery-stage">
@@ -33,6 +33,12 @@
           <figure class="gallery-slide">
             <img src="assets/img/about-3.jpg" width="900" height="506" alt="Кабинет врача: стол, два кресла для беседы, окно" loading="lazy">
           </figure>
+          <figure class="gallery-slide">
+            <img src="assets/img/about-4.jpg" width="900" height="506" alt="Зона ожидания: мягкие кресла у матового стекла" loading="lazy">
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/img/about-5.jpg" width="900" height="506" alt="Уголок для беседы в кабинете: два кресла и столик у окна" loading="lazy">
+          </figure>
           <p class="label about-cap gallery-caption"><span>Коридор и&nbsp;зона ожидания</span></p>
         </div>
         <div class="gallery-bar">
@@ -40,6 +46,8 @@
             <button class="gallery-thumb is-active" type="button" data-caption="Коридор и зона ожидания" aria-current="true" aria-label="Кадр 1: коридор и зона ожидания"><img src="assets/img/about-2.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
             <button class="gallery-thumb" type="button" data-caption="Стойка администратора" aria-label="Кадр 2: стойка администратора"><img src="assets/img/intro-inset.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
             <button class="gallery-thumb" type="button" data-caption="Кабинет врача" aria-label="Кадр 3: кабинет врача"><img src="assets/img/about-3.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Зона ожидания" aria-label="Кадр 4: зона ожидания"><img src="assets/img/about-4.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Уголок для беседы" aria-label="Кадр 5: уголок для беседы в кабинете"><img src="assets/img/about-5.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
           </div>
           <div class="gallery-nav">
             <button class="gallery-btn prev" type="button" aria-label="Предыдущий кадр"><svg class="i"><use href="#i-arrow"/></svg></button>

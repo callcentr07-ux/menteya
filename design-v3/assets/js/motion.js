@@ -242,18 +242,33 @@
     });
   })();
 
-  // ---------- Живая карта состояний: навёл на состояние (или дошёл до него с клавиатуры) — на мозге сверху зажигается его область ----------
-  // Точки — на поверхности мозга в единицах модели (x — поперёк, z — ко лбу), по месту точки подписи на контуре; свечение догоняет плавно
+  // ---------- Живая карта состояний: навёл на состояние (или дошёл до него с клавиатуры) — на мозге сверху светятся его области ----------
+  // У состояния до трёх областей: центр в единицах модели (x — поперёк, y — вверх, z — ко лбу) и радиус. Глубинные структуры
+  // (миндалевидное тело, гиппокамп, гипоталамус) лежат под корой — свет проступает сквозь стекло над ними. Подпись областей —
+  // в плашке под мозгом из data-zone. Схема упрощённая, не атлас: за состояние отвечает не одна область
   (function(){
     var map = document.querySelector('.svc-map');
     if(!map) return;
-    var HOT = { 1:[.32, .32], 2:[.42, .02], 3:[.33, -.31], 4:[-.34, .29], 5:[-.42, -.03], 6:[-.31, -.33] };
-    var tx = 0, tz = 0, tk = 0, x = 0, z = 0, k = 0;
+    var zone = map.querySelector('.svc-zone'), zoneText = zone && zone.querySelector('span');
+    var PF = [0, .18, .42, .22], NONE = [0, 0, 0, 0];
+    var HOT = {
+      1:[[-.2, -.08, .12, .12], [.2, -.08, .12, .12], PF],                     // миндалевидное тело слева и справа, префронтальная кора
+      2:[[-.22, .17, .33, .2], [.22, .17, .33, .16], [0, -.08, 0, .14]],       // префронтальная кора, лимбическая система в глубине
+      3:[[0, -.08, .05, .12], [0, -.25, -.08, .14], NONE],                     // гипоталамус и ствол мозга — центры сна
+      4:[PF, [0, -.08, .05, .11], [-.2, -.08, .12, .1]],                        // префронтальная кора, гипоталамус, миндалевидное тело
+      5:[[-.22, -.1, -.05, .15], [.22, -.1, -.05, .15], [0, .24, -.22, .18]],   // гиппокамп слева и справа, теменная кора
+      6:[[0, .18, .42, .28], [-.3, .1, .2, .14], [.3, .1, .2, .14]]            // лобные доли целиком
+    };
+    var cur = new Float32Array(12), tgt = new Float32Array(12), k = 0, tk = 0;
+    function flat(n){ var out = new Float32Array(12); HOT[n].forEach(function(s, i){ out.set(s, i * 4); }); return out; }
     map.querySelectorAll('.svc-calls li').forEach(function(li){
-      var h = HOT[+li.getAttribute('data-n')], a = li.querySelector('a');
-      if(!h || !a) return;
-      function onn(){ tx = h[0]; tz = h[1]; tk = 1; }
-      function off(){ tk = 0; }
+      var n = +li.getAttribute('data-n'), a = li.querySelector('a');
+      if(!HOT[n] || !a) return;
+      function onn(){
+        tgt = flat(n); tk = 1;
+        if(zone){ zoneText.textContent = li.getAttribute('data-zone') || ''; zone.classList.add('is-on'); }
+      }
+      function off(){ tk = 0; if(zone) zone.classList.remove('is-on'); }
       a.addEventListener('pointerenter', onn);
       a.addEventListener('pointerleave', off);
       a.addEventListener('focus', onn);
@@ -261,12 +276,11 @@
     });
     jobs.push(function(t, dt){
       if(!window.MenteyaLight || !window.MenteyaLight.hot) return;
-      var kk = lerpK(.12, dt);
-      x += (tx - x) * kk;
-      z += (tz - z) * kk;
+      var kk = lerpK(.12, dt), i;
+      for(i = 0; i < 12; i++) cur[i] += (tgt[i] - cur[i]) * kk;   // области перетекают из одной в другую
       k += (tk - k) * lerpK(.1, dt);
       if(k < .002 && tk === 0) return;
-      window.MenteyaLight.hot(x, z, k);
+      window.MenteyaLight.hot(cur, k);
     });
   })();
 

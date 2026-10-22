@@ -699,8 +699,8 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     // uMode: 0 — фон во весь холст, 1 — шар на прозрачном фоне; uShade: 0 — ровно, 1 — темнее слева (текст), 2 — темнее под линзой или мозгом;
     // uTilt — куда смотрит курсор (xy: −1…1) и доля прокрутки первого экрана (z: 0…1), пишет motion.js: мозг и свет поворачиваются вслед;
     // uPtr — курсор в координатах холста (xy) и сила свечения (z): вода подсвечивается там, где курсор
-    // uHot — «горячая» область мозга на карте состояний: x, z точки на поверхности (в единицах модели) и сила 0…1, пишет motion.js
-    'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim; uniform vec3 uTilt; uniform vec3 uPtr; uniform vec3 uHot;',
+    // uHot — до трёх «горячих» областей мозга на карте состояний: центр (x, y, z в единицах модели) и радиус; uHotK — сила 0…1. Пишет motion.js
+    'uniform vec2 uRes; uniform float uTime; uniform vec3 uLens; uniform float uShade; uniform float uMode; uniform vec2 uSeed; uniform float uDim; uniform vec3 uTilt; uniform vec3 uPtr; uniform vec4 uHot[3]; uniform float uHotK;',
     'float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }',
     'float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f);',
     '  return mix(mix(hash(i), hash(i + vec2(1., 0.)), u.x), mix(hash(i + vec2(0., 1.)), hash(i + vec2(1., 1.)), u.x), u.y); }',
@@ -816,9 +816,12 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     '  float wave = pow(.5 + .5 * sin(dot(pos, vec3(.5, .8, 2.4)) * 6. - uTime * 1.2), 10.);',   // волны света бегут по бороздам
     '  c += vec3(.5, .84, .73) * sul * (.18 + .9 * wave);',
     // горячая область (карта состояний): мятное свечение вокруг точки uHot, сильнее в бороздах и по бегущей волне
-    '  vec2 hv = vec2(pos.x - uHot.x, pos.z - uHot.y);',
-    '  float hot = uHot.z * exp(-(dot(hv, hv) + .4 * (pos.y - .22) * (pos.y - .22)) / .028);',
-    '  c += vec3(.5, .84, .73) * hot * (.3 + .9 * sul + .7 * wave * sul);',
+    // горячие области: по горизонтали — радиус области, по вертикали мягче, поэтому глубинные структуры просвечивают сквозь кору над ними
+    '  float hot = 0.;',
+    '  for(int i = 0; i < 3; i++){ vec3 hv = pos - uHot[i].xyz; float r = max(uHot[i].w, .01); hot += exp(-(hv.x * hv.x + hv.z * hv.z + .2 * hv.y * hv.y) / (r * r)); }',
+    '  hot = min(hot, 1.) * uHotK;',
+    '  c *= 1. - .22 * uHotK * (1. - hot);',   // остальной мозг чуть темнеет — область читается
+    '  c += vec3(.5, .84, .73) * hot * (.4 + .8 * sul + .6 * wave * sul);',
     '  c = mix(c, vec3(.86, .97, .93), fres * .55);',   // светлая кромка стекла
     '  c += spec * .4 * (1. - .8 * sul);',
     '  c += vec3(.95, .74, .55) * warm * .3;',   // тёплый рефлекс снизу справа
@@ -931,7 +934,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     var loc = {};
-    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim', 'uTilt', 'uPtr', 'uHot'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
+    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim', 'uTilt', 'uPtr', 'uHot', 'uHotK'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
     gl.uniform1f(loc.uDim, 1);
     return {
       gl:gl,
@@ -942,6 +945,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
         gl.uniform2f(loc.uRes, w, h);
       },
       set:function(n, a, b, c){ var l = loc[n]; if(c !== undefined) gl.uniform3f(l, a, b, c); else if(b !== undefined) gl.uniform2f(l, a, b); else gl.uniform1f(l, a); },
+      setv:function(n, arr){ gl.uniform4fv(loc[n], arr); },   // массив vec4 — горячие области
       draw:function(sec){ gl.uniform1f(loc.uTime, sec); gl.drawArrays(gl.TRIANGLES, 0, 3); }
     };
   }
@@ -1050,7 +1054,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   window.MenteyaLight = {
     tilt:function(x, y, s){ tiltNow = [x, y, s || 0]; live.forEach(function(it){ if(it.r) it.r.set('uTilt', x, y, s || 0); }); },
     pointer:function(x, y, k){ if(hr) hr.set('uPtr', x, y, k); },
-    hot:function(x, z, k){ live.forEach(function(it){ if(it.brain && it.r) it.r.set('uHot', x, z, k); }); }
+    hot:function(arr, k){ live.forEach(function(it){ if(it.brain && it.r){ it.r.setv('uHot', arr); it.r.set('uHotK', k); } }); }
   };
 
   // Общий цикл: рисуем только видимое; у каждого холста свой шаг кадра (every): мозг на компьютере — 16 мс, остальное — 33.

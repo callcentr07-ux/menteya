@@ -203,7 +203,7 @@ html:not(.has-motion) .progress{ display:none; }
 
 /* ---------- Подвал: содержимое приподнимается навстречу (--sp пишет скрипт), крупное слово «МЕНТЕЯ» собирается из букв ---------- */
 .has-motion .site-footer[data-scrub] .ft-top{ transform:translate3d(0, calc((1 - var(--sp, 1)) * 90px), 0); }
-.ft-word{ margin:clamp(40px, 5vw, 72px) 0 0; font:600 clamp(3.25rem, 15.2vw, 15rem)/1 var(--mark); letter-spacing:.14em; text-transform:uppercase; text-align:center; white-space:nowrap; color:transparent; -webkit-text-stroke:1px color-mix(in srgb, var(--text) 32%, transparent); user-select:none; }
+.ft-word{ margin:14px 0 0; font:600 clamp(3.25rem, 15.2vw, 15rem)/1 var(--mark); letter-spacing:.14em; text-transform:uppercase; text-align:center; white-space:nowrap; color:transparent; -webkit-text-stroke:1px color-mix(in srgb, var(--text) 32%, transparent); user-select:none; }
 .ft-word .w{ padding:0; margin:0; }
 .has-motion.js .ft-word[data-reveal]{ opacity:1; }
 .has-motion.js .ft-word[data-reveal].is-in{ animation:none; }

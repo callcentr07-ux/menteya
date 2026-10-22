@@ -18,7 +18,7 @@
 .book{ box-shadow:var(--glass-edge), 0 40px 80px -40px var(--bg-2); }   /* у формы своя глубокая тень — оставляем */
 
 /* ---------- Ячейки сеток в рамке и реквизитов — плитки стекла ---------- */
-.frame > *, .sec-dark .frame > *, .ft-req > div{ background-image:var(--glass-fill); }
+.frame > *, .sec-dark .frame > *{ background-image:var(--glass-fill); }
 .svc-cell:hover, .doc-card:hover{ background-image:var(--glass-fill-2); }
 
 /* ---------- Карточки на поверхности: заливка, кромка, тень ---------- */

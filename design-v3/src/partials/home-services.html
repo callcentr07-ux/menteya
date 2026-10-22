@@ -24,15 +24,20 @@
         <div class="svc-card">
           <p class="label svc-card-label" id="svc-map-title">Карта состояний</p>
           <div class="lens svc-lens" data-seed="5" data-shape="brain" aria-hidden="true"><canvas></canvas></div>
+          <!-- Области мозга для состояния под курсором — заполняет motion.js из data-zone подписи -->
+          <p class="label svc-zone" aria-live="polite"><span></span></p>
         </div>
         <ol class="svc-calls" aria-labelledby="svc-map-title">
-          <li class="is-l" data-n="1"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">1</span><span class="svc-call-t">Тревога и<br> панические атаки</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-l" data-n="2"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">2</span><span class="svc-call-t">Депрессия</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-l" data-n="3"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">3</span><span class="svc-call-t">Бессонница</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-r" data-n="4"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">4</span><span class="svc-call-t">Стресс и<br> выгорание</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-r" data-n="5"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">5</span><span class="svc-call-t">Память<br> у&nbsp;пожилых</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          <li class="is-r" data-n="6"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">6</span><span class="svc-call-t">Дети и<br> подростки</span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <!-- data-zone — какие области мозга связаны с состоянием (упрощённо, научно-популярно): на компьютере показывается в плашке под мозгом
+               при наведении, на телефоне — второй строкой в списке -->
+          <li class="is-l" data-n="1" data-zone="Миндалевидное тело и префронтальная кора"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">1</span><span class="svc-call-b"><span class="svc-call-t">Тревога и<br> панические атаки</span><span class="svc-call-z">Миндалевидное тело и&nbsp;префронтальная кора</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-l" data-n="2" data-zone="Префронтальная кора и лимбическая система"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">2</span><span class="svc-call-b"><span class="svc-call-t">Депрессия</span><span class="svc-call-z">Префронтальная кора и&nbsp;лимбическая система</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-l" data-n="3" data-zone="Гипоталамус и ствол мозга — центры сна"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">3</span><span class="svc-call-b"><span class="svc-call-t">Бессонница</span><span class="svc-call-z">Гипоталамус и&nbsp;ствол мозга&nbsp;— центры сна</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="4" data-zone="Префронтальная кора и гипоталамус — ось стресса"><a href="zabolevanie.html"><span class="svc-call-n" aria-hidden="true">4</span><span class="svc-call-b"><span class="svc-call-t">Стресс и<br> выгорание</span><span class="svc-call-z">Префронтальная кора и&nbsp;гипоталамус&nbsp;— ось стресса</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="5" data-zone="Гиппокамп и теменная кора"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">5</span><span class="svc-call-b"><span class="svc-call-t">Память<br> у&nbsp;пожилых</span><span class="svc-call-z">Гиппокамп и&nbsp;теменная кора</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li class="is-r" data-n="6" data-zone="Лобные доли — созревают до 25 лет"><a href="napravlenie.html"><span class="svc-call-n" aria-hidden="true">6</span><span class="svc-call-b"><span class="svc-call-t">Дети и<br> подростки</span><span class="svc-call-z">Лобные доли&nbsp;— созревают до&nbsp;25&nbsp;лет</span></span><svg class="i svc-call-go" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
         </ol>
+        <p class="fine svc-note">Схема упрощена: за&nbsp;состояние отвечает не&nbsp;одна область мозга.</p>
       </div>
 
       <!-- Мастер «Подобрать специалиста»: три вопроса → врач и формат; ведёт menteya.js (.wiz). Это маршрут, не диагноз —
