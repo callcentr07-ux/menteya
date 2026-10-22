@@ -1054,7 +1054,8 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   window.MenteyaLight = {
     tilt:function(x, y, s){ tiltNow = [x, y, s || 0]; live.forEach(function(it){ if(it.r) it.r.set('uTilt', x, y, s || 0); }); },
     pointer:function(x, y, k){ if(hr) hr.set('uPtr', x, y, k); },
-    hot:function(arr, k){ live.forEach(function(it){ if(it.brain && it.r){ it.r.setv('uHot', arr); it.r.set('uHotK', k); } }); }
+    hot:function(arr, k){ live.forEach(function(it){ if(it.brain && it.r){ it.r.setv('uHot', arr); it.r.set('uHotK', k); } }); },
+    shaders:{ vs:VS, brain:BRAIN, map:MAP, lens:LENS }   // исходники — для замеров сборки (tools/shader-compile.mjs)
   };
 
   // Общий цикл: рисуем только видимое; у каждого холста свой шаг кадра (every): мозг на компьютере — 16 мс, остальное — 33.
