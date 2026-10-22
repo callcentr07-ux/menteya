@@ -685,7 +685,8 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
 //  • карта состояний — тот же мозг, но вид сверху (лоб — вверх экрана) на прозрачном фоне (.svc-lens[data-shape="brain"]);
 //  • линза — шары у краёв разделов (.lens canvas, стили — sections.css) и неподвижный фон разделов и подвала:
 //    кадр рисуется один раз и кладётся картинкой в --silk ([data-silk]).
-// Камера стоит; сдвиг сцены за прокруткой и курсором делает motion.js (CSS-трансформация холста и uTilt). Не больше 30 кадров в секунду, рисуется только то, что у экрана;
+// Камера стоит; сдвиг сцены за прокруткой и курсором делает motion.js (CSS-трансформация холста и uTilt). Шейдеры собираются в фоне,
+// холсты проявляются по готовности. Не больше 30 кадров в секунду, рисуется только то, что у экрана;
 // если видеокарта не успевает, первый экран сам переходит на меньшее разрешение.
 // «Уменьшить движение» в системе или кнопка в подвале — неподвижный кадр. Без WebGL остаются CSS-градиенты
 (function(){
@@ -916,38 +917,58 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   function calm(){ return still.matches || root.classList.contains('no-motion'); }
   var start = performance.now() - 40000;   // не с нулевого кадра — узор уже «раскручен»
 
-  // Программа на холсте; null — если WebGL нет или шейдер не собрался
+  // Программа на холсте. Собирается в фоне (расширение KHR_parallel_shader_compile — есть в Chrome, Edge и Яндекс Браузере):
+  // страница её не ждёт. Пока программа не готова, size/set/setv запоминаются и применяются потом, draw ничего не рисует
+  // и возвращает false. Без расширения собирается сразу, как раньше (на холодной машине это замирание на 1–4 с).
+  // null — если WebGL нет; r.failed — шейдер не собрался (остаётся CSS-градиент)
   function renderer(canvas, alpha, src){
     var gl = canvas.getContext('webgl', { alpha:alpha, premultipliedAlpha:true, antialias:false, depth:false, stencil:false, preserveDrawingBuffer:false, powerPreference:'low-power' });
     if(!gl) return null;
-    function shader(type, s){ var o = gl.createShader(type); gl.shaderSource(o, s); gl.compileShader(o); return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null; }
+    var par = gl.getExtension('KHR_parallel_shader_compile');
+    function shader(type, s){ var o = gl.createShader(type); gl.shaderSource(o, s); gl.compileShader(o); return o; }
     var vs = shader(gl.VERTEX_SHADER, VS), fs = shader(gl.FRAGMENT_SHADER, src);
-    if(!vs || !fs) return null;
     var prog = gl.createProgram();
     gl.attachShader(prog, vs); gl.attachShader(prog, fs);
     gl.bindAttribLocation(prog, 0, 'a');
-    gl.linkProgram(prog);
-    if(!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
-    gl.useProgram(prog);
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);   // один треугольник на весь холст
-    gl.enableVertexAttribArray(0);
-    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-    var loc = {};
-    ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim', 'uTilt', 'uPtr', 'uHot', 'uHotK'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
-    gl.uniform1f(loc.uDim, 1);
-    return {
-      gl:gl,
-      size:function(w, h){
-        w = Math.max(1, Math.round(w)); h = Math.max(1, Math.round(h));
-        if(canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
-        gl.viewport(0, 0, w, h);
-        gl.uniform2f(loc.uRes, w, h);
-      },
-      set:function(n, a, b, c){ var l = loc[n]; if(c !== undefined) gl.uniform3f(l, a, b, c); else if(b !== undefined) gl.uniform2f(l, a, b); else gl.uniform1f(l, a); },
-      setv:function(n, arr){ gl.uniform4fv(loc[n], arr); },   // массив vec4 — горячие области
-      draw:function(sec){ gl.uniform1f(loc.uTime, sec); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+    gl.linkProgram(prog);   // статус не спрашиваем — вопрос заблокировал бы страницу до конца сборки
+    var loc = {}, pend = {}, pendv = {}, W = 0, H = 0;
+    var r = { gl:gl, ready:false, failed:false };
+    function finish(){
+      if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){ r.failed = true; return false; }
+      gl.useProgram(prog);
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);   // один треугольник на весь холст
+      gl.enableVertexAttribArray(0);
+      gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+      ['uRes', 'uTime', 'uLens', 'uShade', 'uMode', 'uSeed', 'uDim', 'uTilt', 'uPtr', 'uHot', 'uHotK'].forEach(function(n){ loc[n] = gl.getUniformLocation(prog, n); });
+      gl.uniform1f(loc.uDim, 1);
+      r.ready = true;
+      if(W){ gl.viewport(0, 0, W, H); gl.uniform2f(loc.uRes, W, H); }
+      Object.keys(pend).forEach(function(n){ var v = pend[n]; r.set(n, v[0], v[1], v[2]); });   // настройки, накопленные за время сборки
+      Object.keys(pendv).forEach(function(n){ r.setv(n, pendv[n]); });
+      pend = {}; pendv = {};
+      return true;
+    }
+    // Готова ли программа: спрашиваем у расширения; без расширения первый же вопрос ждёт сборку целиком
+    r.poll = function(){
+      if(r.ready || r.failed) return r.ready;
+      if(par && !gl.getProgramParameter(prog, par.COMPLETION_STATUS_KHR)) return false;
+      return finish();
     };
+    r.size = function(w, h){
+      W = Math.max(1, Math.round(w)); H = Math.max(1, Math.round(h));
+      if(canvas.width !== W || canvas.height !== H){ canvas.width = W; canvas.height = H; }
+      if(r.ready){ gl.viewport(0, 0, W, H); gl.uniform2f(loc.uRes, W, H); }
+    };
+    r.set = function(n, a, b, c){
+      if(!r.ready){ pend[n] = [a, b, c]; return; }
+      var l = loc[n];
+      if(c !== undefined) gl.uniform3f(l, a, b, c); else if(b !== undefined) gl.uniform2f(l, a, b); else gl.uniform1f(l, a);
+    };
+    r.setv = function(n, arr){ if(!r.ready){ pendv[n] = new Float32Array(arr); return; } gl.uniform4fv(loc[n], arr); };   // массив vec4 — горячие области
+    r.draw = function(sec){ if(!r.ready && !r.poll()) return false; gl.uniform1f(loc.uTime, sec); gl.drawArrays(gl.TRIANGLES, 0, 3); return true; };
+    if(!par) r.poll();
+    return r;
   }
   function now(){ return (performance.now() - start) / 1000; }
 
@@ -985,7 +1006,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
       hr.draw(now());
     };
     heroResize();
-    heroCanvas.classList.add('is-on');
+    // is-on холст получит в цикле, когда программа соберётся и нарисует первый кадр; до этого виден CSS-градиент
     heroCanvas.addEventListener('webglcontextlost', function(e){ e.preventDefault(); heroCanvas.classList.remove('is-on'); });   // остаётся CSS-градиент
     // Компьютер с мышью — до 60 кадров в секунду: мозг идёт за курсором плавно; телефон и планшет — 30
     watch({ r:hr, el:heroCanvas, visible:true, every:heroFast ? 16 : 33, resize:heroResize, slow:function(){
@@ -1001,7 +1022,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     var isBrain = c.parentNode.getAttribute('data-shape') === 'brain';   // карта состояний: мозг сверху вместо шара
     var item = { el:c, visible:false, r:null, brain:isBrain };
     // слабый телефон может отобрать контекст WebGL — тогда возвращается CSS-пятно, а у экрана шар создаётся заново
-    c.addEventListener('webglcontextlost', function(e){ e.preventDefault(); item.r = null; c.classList.remove('is-on'); });
+    c.addEventListener('webglcontextlost', function(e){ e.preventDefault(); item.r = null; item.on = false; c.classList.remove('is-on'); });
     c.addEventListener('webglcontextrestored', function(){ if(item.visible && item.wake) item.wake(); });
     item.resize = function(){
       if(!item.r) return;
@@ -1017,10 +1038,14 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
       item.r.set('uSeed', seed * 3.7, seed * 1.9);
       item.r.set('uLens', 0, 0, isBrain ? .29 : .36);   // шар — 72% стороны холста; мозг — длиной 72% высоты
       item.r.set('uTilt', tiltNow[0], tiltNow[1], tiltNow[2]);
-      item.resize();
-      c.classList.add('is-on');
+      item.resize();   // is-on — в цикле, по первому кадру
     };
     watch(item, '200px 0px');
+    // Контексты и программы линз создаём заранее, в простое после загрузки, по одной (создание контекста — десятки миллисекунд):
+    // к моменту, когда линза или карта подъедет к экрану, всё уже готово, и прокрутка не дёргается
+    (window.requestIdleCallback || function(f){ setTimeout(f, 1200); })(function(){
+      setTimeout(function(){ if(!item.r && item.wake) item.wake(); }, (isBrain ? 0 : 400) + i * 300);   // карта — первой
+    }, { timeout:2500 });
   });
 
   // 3. Неподвижный шёлк: один временный контекст рисует кадры по очереди и отдаёт их картинками, потом освобождается
@@ -1031,13 +1056,17 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
     if(!fr) return;
     fr.set('uMode', 0); fr.set('uShade', 0); fr.set('uDim', .8);
     (function next(i){
+      if(!fr.ready && !fr.poll()){   // программа ещё собирается в фоне — заглянем позже
+        if(!fr.failed) setTimeout(function(){ next(i); }, 80);
+        return;
+      }
       if(i >= flats.length){
         var lose = fr.gl.getExtension('WEBGL_lose_context');
         if(lose) lose.loseContext();
         return;
       }
       var el = flats[i], W = Math.min(el.clientWidth, 1600) || 1200, H = Math.max(Math.min(el.clientHeight * W / (el.clientWidth || W), 1000), 300);
-      fr.size(W * .7, H * .7);
+      fr.size(W * .5, H * .5);   // кадр мягкий — половины разрешения хватает, а растр вдвое дешевле
       fr.set('uSeed', 11.3 + i * 4.1, 3.7 + i * 2.3);
       if(el.getAttribute('data-silk') === 'lens') fr.set('uLens', W / H * .5 - .32, .02, .26);
       else fr.set('uLens', 0, 0, 0);
@@ -1045,7 +1074,7 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
       off.toBlob(function(blob){
         if(blob) el.style.setProperty('--silk', 'url("' + URL.createObjectURL(blob) + '")');
         next(i + 1);
-      }, 'image/webp', .9);
+      }, 'image/webp', .84);
     })(0);
   }, 700);
 
@@ -1063,7 +1092,13 @@ document.querySelectorAll('.read-more[aria-controls]').forEach(function(btn){
   var last = 0, lag = 0;
   function loop(t){
     requestAnimationFrame(loop);
-    if(document.hidden || calm()){ last = 0; return; }
+    if(document.hidden){ last = 0; return; }
+    // Программа собралась в фоне — первый кадр и показ холста; и в спокойном режиме тоже: неподвижный кадр лучше пустого места
+    live.forEach(function(it){
+      if(!it.r || it.on || it.r.failed) return;
+      if(it.r.draw(now())){ it.on = true; it.el.classList.add('is-on'); }
+    });
+    if(calm()){ last = 0; return; }
     if(last){
       var gap = t - last;
       if(gap > (heroFast ? 45 : 60) && gap < 250) lag++; else if(lag) lag--;   // паузы дольше четверти секунды — не видеокарта, а фоновая вкладка или занятый поток

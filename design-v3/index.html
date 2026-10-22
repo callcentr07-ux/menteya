@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
 <!-- Все стили одним сжатым файлом; собирает build.py из assets/css/core.css и assets/css/blocks/*.css -->
-<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792662164">
+<link rel="stylesheet" href="assets/css/menteya.min.css?v=1792673391">
 </head>
 <body>
 
@@ -778,7 +778,7 @@
     <div class="frame doc-track" id="doctorsTrack">
       <article class="doc-card" data-reveal style="--i:0">
         <div class="doc-photo">
-          <img src="assets/img/intro-main.jpg" width="700" height="700" alt="Соколова Анна Викторовна, главный врач, психиатр" loading="lazy">
+          <img src="assets/img/intro-main.jpg" width="700" height="700" alt="Соколова Анна Викторовна, главный врач, психиатр" loading="lazy" decoding="async">
           <p class="doc-caps"><span class="pill">Главный врач</span><span class="pill">Стаж 18&nbsp;лет</span></p>
         </div>
         <div class="doc-body">
@@ -793,7 +793,7 @@
 
       <article class="doc-card" data-reveal style="--i:1">
         <div class="doc-photo">
-          <img src="assets/img/doctor-orlov.jpg" width="700" height="700" alt="Орлов Михаил Андреевич, психиатр-психотерапевт" loading="lazy">
+          <img src="assets/img/doctor-orlov.jpg" width="700" height="700" alt="Орлов Михаил Андреевич, психиатр-психотерапевт" loading="lazy" decoding="async">
           <p class="doc-caps"><span class="pill">Стаж 14&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
         </div>
         <div class="doc-body">
@@ -808,7 +808,7 @@
 
       <article class="doc-card" data-reveal style="--i:2">
         <div class="doc-photo">
-          <img src="assets/img/doctor-volkova.jpg" width="700" height="700" alt="Волкова Елена Сергеевна, клинический психолог" loading="lazy">
+          <img src="assets/img/doctor-volkova.jpg" width="700" height="700" alt="Волкова Елена Сергеевна, клинический психолог" loading="lazy" decoding="async">
           <p class="doc-caps"><span class="pill">Стаж 11&nbsp;лет</span></p>
         </div>
         <div class="doc-body">
@@ -823,7 +823,7 @@
 
       <article class="doc-card" data-reveal style="--i:3">
         <div class="doc-photo">
-          <img src="assets/img/doctor-lebedev.jpg" width="700" height="700" alt="Лебедев Игорь Павлович, детский психиатр" loading="lazy">
+          <img src="assets/img/doctor-lebedev.jpg" width="700" height="700" alt="Лебедев Игорь Павлович, детский психиатр" loading="lazy" decoding="async">
           <p class="doc-caps"><span class="pill">Стаж 16&nbsp;лет</span><span class="pill">Дети и&nbsp;подростки</span></p>
         </div>
         <div class="doc-body">
@@ -838,7 +838,7 @@
 
       <article class="doc-card" data-reveal style="--i:4">
         <div class="doc-photo">
-          <img src="assets/img/doctor-belov.jpg" width="700" height="700" alt="Белов Сергей Николаевич, психотерапевт" loading="lazy">
+          <img src="assets/img/doctor-belov.jpg" width="700" height="700" alt="Белов Сергей Николаевич, психотерапевт" loading="lazy" decoding="async">
           <p class="doc-caps"><span class="pill">Стаж 9&nbsp;лет</span><span class="pill">Онлайн&nbsp;— повторно</span></p>
         </div>
         <div class="doc-body">
@@ -1132,12 +1132,13 @@
     <div class="about-split">
       <!-- Галерея фото клиники: листается стрелками, миниатюрами и свайпом, сама сменяет кадр раз в 7 с (полоса под миниатюрой),
            при наведении и вне экрана стоит&nbsp;— ведёт menteya.js (.gallery: .gallery-slide, .gallery-thumb с .bar и data-caption, .gallery-btn, .gallery-caption).
-           Фото&nbsp;— заглушки до съёмки: заменить на снимки клиники (кадры 4 и 5&nbsp;— вырезки из кадров 2 и 3). Выноски&nbsp;— только у первого кадра и только правдивые факты;
+           Фото&nbsp;— заглушки до съёмки: заменить на снимки клиники (кадры 4 и 5&nbsp;— вырезки из кадров 2 и 3). Миниатюры&nbsp;— отдельные маленькие файлы thumb-*.jpg
+           (180×101): большие фото не должны декодироваться ради миниатюр. Выноски&nbsp;— только у первого кадра и только правдивые факты;
            новое фото&nbsp;— сдвинуть точки (--x, --y в процентах кадра) -->
       <div class="about-photo gallery" data-reveal style="--i:1" role="group" aria-label="Фото клиники">
         <div class="gallery-stage">
           <figure class="gallery-slide is-active">
-            <img src="assets/img/about-2.jpg" width="900" height="506" alt="Коридор клиники: кресла в зоне ожидания и двери кабинетов" loading="lazy">
+            <img src="assets/img/about-2.jpg" width="900" height="506" alt="Коридор клиники: кресла в зоне ожидания и двери кабинетов" loading="lazy" decoding="async">
             <div class="about-pins">
               <ul>
                 <li class="about-pin pin-down-sm" style="--x:19%; --y:61%"><span>Зона ожидания без очередей</span></li>
@@ -1146,26 +1147,26 @@
             </div>
           </figure>
           <figure class="gallery-slide">
-            <img src="assets/img/intro-inset.jpg" width="900" height="506" alt="Стойка администратора и кресла зоны ожидания" loading="lazy">
+            <img src="assets/img/intro-inset.jpg" width="900" height="506" alt="Стойка администратора и кресла зоны ожидания" loading="lazy" decoding="async">
           </figure>
           <figure class="gallery-slide">
-            <img src="assets/img/about-3.jpg" width="900" height="506" alt="Кабинет врача: стол, два кресла для беседы, окно" loading="lazy">
+            <img src="assets/img/about-3.jpg" width="900" height="506" alt="Кабинет врача: стол, два кресла для беседы, окно" loading="lazy" decoding="async">
           </figure>
           <figure class="gallery-slide">
-            <img src="assets/img/about-4.jpg" width="900" height="506" alt="Зона ожидания: мягкие кресла у матового стекла" loading="lazy">
+            <img src="assets/img/about-4.jpg" width="900" height="506" alt="Зона ожидания: мягкие кресла у матового стекла" loading="lazy" decoding="async">
           </figure>
           <figure class="gallery-slide">
-            <img src="assets/img/about-5.jpg" width="900" height="506" alt="Уголок для беседы в кабинете: два кресла и столик у окна" loading="lazy">
+            <img src="assets/img/about-5.jpg" width="900" height="506" alt="Уголок для беседы в кабинете: два кресла и столик у окна" loading="lazy" decoding="async">
           </figure>
           <p class="label about-cap gallery-caption"><span>Коридор и&nbsp;зона ожидания</span></p>
         </div>
         <div class="gallery-bar">
           <div class="gallery-thumbs" role="group" aria-label="Кадры">
-            <button class="gallery-thumb is-active" type="button" data-caption="Коридор и зона ожидания" aria-current="true" aria-label="Кадр 1: коридор и зона ожидания"><img src="assets/img/about-2.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
-            <button class="gallery-thumb" type="button" data-caption="Стойка администратора" aria-label="Кадр 2: стойка администратора"><img src="assets/img/intro-inset.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
-            <button class="gallery-thumb" type="button" data-caption="Кабинет врача" aria-label="Кадр 3: кабинет врача"><img src="assets/img/about-3.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
-            <button class="gallery-thumb" type="button" data-caption="Зона ожидания" aria-label="Кадр 4: зона ожидания"><img src="assets/img/about-4.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
-            <button class="gallery-thumb" type="button" data-caption="Уголок для беседы" aria-label="Кадр 5: уголок для беседы в кабинете"><img src="assets/img/about-5.jpg" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb is-active" type="button" data-caption="Коридор и зона ожидания" aria-current="true" aria-label="Кадр 1: коридор и зона ожидания"><img src="assets/img/thumb-about-2.jpg" width="180" height="101" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Стойка администратора" aria-label="Кадр 2: стойка администратора"><img src="assets/img/thumb-intro-inset.jpg" width="180" height="101" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Кабинет врача" aria-label="Кадр 3: кабинет врача"><img src="assets/img/thumb-about-3.jpg" width="180" height="101" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Зона ожидания" aria-label="Кадр 4: зона ожидания"><img src="assets/img/thumb-about-4.jpg" width="180" height="101" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
+            <button class="gallery-thumb" type="button" data-caption="Уголок для беседы" aria-label="Кадр 5: уголок для беседы в кабинете"><img src="assets/img/thumb-about-5.jpg" width="180" height="101" alt="" loading="lazy"><span class="bar" aria-hidden="true"></span></button>
           </div>
           <div class="gallery-nav">
             <button class="gallery-btn prev" type="button" aria-label="Предыдущий кадр"><svg class="i"><use href="#i-arrow"/></svg></button>
@@ -1183,7 +1184,7 @@
             <p class="about-text muted">Мы открыли клинику, чтобы обращение к&nbsp;психиатру перестало быть поводом для тревоги: здесь нет очередей, осуждающих взглядов и&nbsp;казённых кабинетов. Совмещаем лекарства и&nbsp;психотерапию, объясняем, что и&nbsp;зачем назначаем.</p>
           </blockquote>
           <figcaption class="about-sign">
-            <img src="assets/img/intro-main.jpg" width="700" height="700" alt="" loading="lazy">
+            <img src="assets/img/intro-main.jpg" width="700" height="700" alt="" loading="lazy" decoding="async">
             <span><a href="vrach.html">Соколова Анна Викторовна</a><span class="fine">Главный врач, психиатр, к.&nbsp;м.&nbsp;н.</span></span>
           </figcaption>
         </figure>
@@ -1826,9 +1827,9 @@
   </div>
 </section>
 
-<script src="assets/js/menteya.js?v=1792662164" defer></script>
+<script src="assets/js/menteya.js?v=1792673391" defer></script>
 <!-- Движение: заставка, плавная прокрутка, параллакс, появление по словам. Только при html.has-motion -->
-<script src="assets/js/motion.js?v=1792662164" defer></script>
+<script src="assets/js/motion.js?v=1792673391" defer></script>
 
 </body>
 </html>
